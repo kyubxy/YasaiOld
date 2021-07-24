@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ws+ZQ5Tjh52PeVHVpa0RhzevOmW5LO7oMGiYHcQMMQquSFI3R4TzU27i1IQ1CYeaJX7v/QTeCIHkVyiVbs/K0w==",
+  "success": true,
+  "projectFilePath": "/home/justin/Documents/notschool/cs/Yasai/Yasai/Yasai.csproj",
+  "expectedPackageFiles": [
+    "/home/justin/.nuget/packages/microsoft.aspnetcore.app.ref/5.0.0/microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
