@@ -37,6 +37,12 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "ppy.SDL2-CS": {
+              "target": "Package",
+              "version": "[1.0.82, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

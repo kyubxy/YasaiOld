@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ws+ZQ5Tjh52PeVHVpa0RhzevOmW5LO7oMGiYHcQMMQquSFI3R4TzU27i1IQ1CYeaJX7v/QTeCIHkVyiVbs/K0w==",
+  "dgSpecHash": "GfGVKBxjinrhwRSAz6oKYhLDLGpiLetPGZxncTobpTKMJCEJbrtJGByhVTvewSTAuhwN2VZ7I65nQOQkwBbV1g==",
   "success": true,
   "projectFilePath": "/home/justin/Documents/notschool/cs/Yasai/Yasai/Yasai.csproj",
   "expectedPackageFiles": [
+    "/home/justin/.nuget/packages/ppy.sdl2-cs/1.0.82/ppy.sdl2-cs.1.0.82.nupkg.sha512",
     "/home/justin/.nuget/packages/microsoft.aspnetcore.app.ref/5.0.0/microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512"
   ],
   "logs": []

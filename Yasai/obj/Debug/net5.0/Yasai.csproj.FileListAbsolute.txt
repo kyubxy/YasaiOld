@@ -1,0 +1,13 @@
+/home/justin/Documents/notschool/cs/Yasai/Yasai/bin/Debug/net5.0/Yasai.deps.json
+/home/justin/Documents/notschool/cs/Yasai/Yasai/bin/Debug/net5.0/Yasai.dll
+/home/justin/Documents/notschool/cs/Yasai/Yasai/bin/Debug/net5.0/ref/Yasai.dll
+/home/justin/Documents/notschool/cs/Yasai/Yasai/bin/Debug/net5.0/Yasai.pdb
+/home/justin/Documents/notschool/cs/Yasai/Yasai/obj/Debug/net5.0/Yasai.csprojAssemblyReference.cache
+/home/justin/Documents/notschool/cs/Yasai/Yasai/obj/Debug/net5.0/Yasai.GeneratedMSBuildEditorConfig.editorconfig
+/home/justin/Documents/notschool/cs/Yasai/Yasai/obj/Debug/net5.0/Yasai.AssemblyInfoInputs.cache
+/home/justin/Documents/notschool/cs/Yasai/Yasai/obj/Debug/net5.0/Yasai.AssemblyInfo.cs
+/home/justin/Documents/notschool/cs/Yasai/Yasai/obj/Debug/net5.0/Yasai.csproj.CoreCompileInputs.cache
+/home/justin/Documents/notschool/cs/Yasai/Yasai/obj/Debug/net5.0/Yasai.dll
+/home/justin/Documents/notschool/cs/Yasai/Yasai/obj/Debug/net5.0/ref/Yasai.dll
+/home/justin/Documents/notschool/cs/Yasai/Yasai/obj/Debug/net5.0/Yasai.pdb
+/home/justin/Documents/notschool/cs/Yasai/Yasai/bin/Debug/net5.0/Yasai.dll.config

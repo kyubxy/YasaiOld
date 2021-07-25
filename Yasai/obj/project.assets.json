@@ -1,11 +1,72 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {}
+    "net5.0": {
+      "ppy.SDL2-CS/1.0.82": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/SDL2-CS.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SDL2-CS.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/netstandard2.0/app.config": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/linux-x64/native/libSDL2.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/linux-x86/native/libSDL2.so": {
+            "assetType": "native",
+            "rid": "linux-x86"
+          },
+          "runtimes/osx-x64/native/libSDL2.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          },
+          "runtimes/win-x64/native/SDL2.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/SDL2.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "ppy.SDL2-CS/1.0.82": {
+      "sha512": "bFqADOpmHENMqs/tysmxhnD3vS+Ka0xDRQJIv4V04Ym5l/brB9opdxNC/NXcmJN2yiTSkkuYZgJ8bxA4ts4jHw==",
+      "type": "package",
+      "path": "ppy.sdl2-cs/1.0.82",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "content/app.config",
+        "contentFiles/any/netstandard2.0/app.config",
+        "lib/netstandard2.0/SDL2-CS.dll",
+        "ppy.sdl2-cs.1.0.82.nupkg.sha512",
+        "ppy.sdl2-cs.nuspec",
+        "runtimes/linux-x64/native/libSDL2.so",
+        "runtimes/linux-x86/native/libSDL2.so",
+        "runtimes/osx-x64/native/libSDL2.dylib",
+        "runtimes/win-x64/native/SDL2.dll",
+        "runtimes/win-x86/native/SDL2.dll"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net5.0": []
+    "net5.0": [
+      "ppy.SDL2-CS >= 1.0.82"
+    ]
   },
   "packageFolders": {
     "/home/justin/.nuget/packages/": {}
@@ -43,6 +104,12 @@
     "frameworks": {
       "net5.0": {
         "targetAlias": "net5.0",
+        "dependencies": {
+          "ppy.SDL2-CS": {
+            "target": "Package",
+            "version": "[1.0.82, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",

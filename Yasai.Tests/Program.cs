@@ -6,7 +6,8 @@ namespace Yasai.Tests
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            using (Root root = new Root ())
+                root.Run();
         }
     }
 }
