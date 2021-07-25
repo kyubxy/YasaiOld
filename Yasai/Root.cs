@@ -41,7 +41,6 @@ namespace Yasai
             if (Renderer == IntPtr.Zero)
                 Console.WriteLine($"error on renderer creation: {SDL.SDL_GetError()}");
 
-
             while (!quit)
             {
                 while (SDL.SDL_PollEvent(out e)!=0)

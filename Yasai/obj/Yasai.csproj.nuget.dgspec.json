@@ -38,6 +38,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "opentk": {
+              "target": "Package",
+              "version": "[4.6.4, )"
+            },
             "ppy.SDL2-CS": {
               "target": "Package",
               "version": "[1.0.82, )"

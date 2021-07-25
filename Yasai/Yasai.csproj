@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="opentk" Version="4.6.4" />
     <PackageReference Include="ppy.SDL2-CS" Version="1.0.82" />
   </ItemGroup>
 
