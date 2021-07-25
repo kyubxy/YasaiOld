@@ -6,7 +6,7 @@ namespace Yasai.Tests
     {
         static void Main(string[] args)
         {
-            using (Root root = new Root ())
+            using (Root root = new Root ("Yasai tests"))
                 root.Run();
         }
     }

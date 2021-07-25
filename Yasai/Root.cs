@@ -8,13 +8,22 @@ namespace Yasai
     {
         public IntPtr Window;
         public IntPtr Renderer;
+        public string WindowTitle = "Yasai";
         bool quit = false;
         SDL.SDL_Event e; 
 
         public bool Active 
         {
             get => true;
-            set => throw new Exception ("Use the appropriate function to kill this process"); }
+            set => throw new Exception ("Use the appropriate function to kill this process"); 
+        }
+
+        public Root (string windowname)
+            : this ()
+        {
+            WindowTitle = windowname;
+        }
+
         public Root ()
         {
             // initialise
@@ -24,7 +33,7 @@ namespace Yasai
 
         public void Run()
         { 
-            Window = SDL.SDL_CreateWindow("Yasai", 50, 50, 1366, 768, SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
+            Window = SDL.SDL_CreateWindow(WindowTitle, 50, 50, 1366, 768, SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
             if (Window == IntPtr.Zero)
                 Console.WriteLine($"error on window creation: {SDL.SDL_GetError()}");
 
