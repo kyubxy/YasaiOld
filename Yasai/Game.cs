@@ -1,6 +1,7 @@
 using System;
 using SDL2;
 using Yasai.Graphics.Layout;
+using Yasai.Graphics.YasaiSDL;
 
 
 namespace Yasai
@@ -10,15 +11,20 @@ namespace Yasai
     /// </summary>
     public class Game : IDisposable
     {
-        public IntPtr Window; 
-        public IntPtr Renderer;
-        bool quit = false;
+        public Window window { get; private set; }
+        public Renderer renderer { get; private set; } 
+        private bool quit; 
         SDL.SDL_Event e;
         
         private string title = "Yasai";
 
+        public ScreenManager ScreenMgr;
+        public Screen Children;
+
         public Game()
         {
+            ScreenMgr = new ScreenManager(Children = new Screen());
+            
             // initialise
             if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) != 0)
                 Console.WriteLine($"error on startup: {SDL.SDL_GetError()}");
@@ -26,14 +32,9 @@ namespace Yasai
 
         public void Run()
         {
-            Window = SDL.SDL_CreateWindow(title, 50, 50, 1366, 768, SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
-            if (Window == IntPtr.Zero)
-                Console.WriteLine($"error on window creation: {SDL.SDL_GetError()}");
-
-            Renderer = SDL.SDL_CreateRenderer(Window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
-            if (Renderer == IntPtr.Zero)
-                Console.WriteLine($"error on renderer creation: {SDL.SDL_GetError()}");
-
+            window = new Window(title);
+            renderer = new Renderer(window);
+           
             while (!quit)
             {
                 while (SDL.SDL_PollEvent(out e) != 0)
@@ -47,23 +48,28 @@ namespace Yasai
                 }
 
                 Update();
-                SDL.SDL_RenderClear(Renderer);
-                Draw(Renderer);
-                SDL.SDL_RenderPresent(Renderer);
-                SDL.SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
+                SDL.SDL_RenderClear(renderer.GetPtr());
+                Draw(renderer.GetPtr());
+                SDL.SDL_RenderPresent(renderer.GetPtr());
+                SDL.SDL_SetRenderDrawColor(renderer.GetPtr(), 0, 0, 0, 255);
             }
         }
 
         public virtual void Update()
         {
+            ScreenMgr.Update();
         }
 
-        public virtual void Draw(IntPtr renderer)
+        // it's probably more efficient to pass around pointers than actual objects
+        // can change this later though if need be
+        public virtual void Draw(IntPtr ren)
         {
+            ScreenMgr.Draw(ren);
         }
 
         public void Dispose()
         {
+            ScreenMgr.Dispose();
             SDL.SDL_Quit();
         }
     }

@@ -1,75 +1,77 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Yasai.Resources;
 
 namespace Yasai.Graphics.Layout
 {
-    public class Group : ISpriteBase, ICollection<ISpriteBase>
+    public class Group : Drawable, ICollection<IDrawable>
     {
-        public bool Visible { get; set; }
-        public bool Enabled { get; set; }
-        public bool Loaded { get; protected set; }
-
-        public List<ISpriteBase> Children;
+        private List<IDrawable> _children;
+        private ContentStore _contentStore;
         
-        public Group()
+        public Group(List<IDrawable> children)
         {
-            
+            _children = children;
         }
 
-
-        public void Load()
+        public Group()
         {
-            foreach (ISpriteBase s in Children)
-                s.Load();
+            _children = new List<IDrawable>();
+        }
+
+        public override void Load(ContentStore cs)
+        {
+            foreach (IDrawable s in _children)
+                s.Load(cs);
 
             Loaded = true;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             Clear();
         }
 
-        public void Add(ISpriteBase item)
+        public void Add(IDrawable item)
         {
             if (item == null)
                 return;
 
             if (Loaded && !item.Loaded)
-                item.Load();
+                item.Load(_contentStore);
             
-            Children.Add(item);
+            _children.Add(item);
         }
 
         public void Clear()
         {
-            foreach (ISpriteBase s in Children)
+            foreach (IDrawable s in _children)
                 s.Dispose();
             
-            Children.Clear();
+            _children.Clear();
         }
 
-        public bool Remove(ISpriteBase item)
+        public bool Remove(IDrawable item)
         {
             item?.Dispose();
-            return Children.Remove(item);
+            return _children.Remove(item);
         }
 
-        public void Update()
+        public override void Update()
         {
             
         }
 
-        public void Draw()
+        public override void Draw(IntPtr renderer)
         {
             
         }
 
         # region rest of ICollection implemetnation
-        public IEnumerator<ISpriteBase> GetEnumerator()
+        public IEnumerator<IDrawable> GetEnumerator()
         {
-            return Children.GetEnumerator();
+            return _children.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -77,17 +79,17 @@ namespace Yasai.Graphics.Layout
             return GetEnumerator();
         }
 
-        public bool Contains(ISpriteBase item)
+        public bool Contains(IDrawable item)
         {
-            return Children.Contains(item);
+            return _children.Contains(item);
         }
 
-        public void CopyTo(ISpriteBase[] array, int arrayIndex)
+        public void CopyTo(IDrawable[] array, int arrayIndex)
         {
-            Children.CopyTo(array, arrayIndex);
+            _children.CopyTo(array, arrayIndex);
         }
 
-        public int Count => Children.Count;
+        public int Count => _children.Count;
         public bool IsReadOnly => false;
         
         #endregion

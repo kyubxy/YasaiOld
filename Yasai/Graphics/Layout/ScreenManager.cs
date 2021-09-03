@@ -1,9 +1,13 @@
+using System;
+using Yasai.Resources;
+
 namespace Yasai.Graphics.Layout
 {
-    public class ScreenManager : ISpriteBase
+    public class ScreenManager : Drawable
     {
-        public bool Enabled { get; set; }
         private Screen currentScreen;
+
+        private ContentStore _contentStore;
 
         public ScreenManager(Screen s)
         {
@@ -14,33 +18,32 @@ namespace Yasai.Graphics.Layout
         {
             Loaded = false;
             currentScreen.Dispose();
-            s.Load();
+            s.Load(_contentStore);
             currentScreen = s;
             Loaded = true;
         }
         
-        public void Update()
+        public override void Update()
         {
             if (Enabled)
                 currentScreen.Update();
         }
 
-        public bool Visible { get; set; }
-        public void Draw()
+        public override void Draw(IntPtr renderer)
         {
             if (Visible)
-                currentScreen.Draw();
+                currentScreen.Draw(renderer);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             currentScreen.Dispose();
         }
 
-        public bool Loaded { get; private set; }
-        public void Load()
+        public override void Load(ContentStore cs)
         {
-            currentScreen.Load();
+            _contentStore = cs;
+            currentScreen.Load(cs);
             Loaded = true;
         }
     }
