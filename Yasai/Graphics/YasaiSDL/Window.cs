@@ -7,6 +7,7 @@ namespace Yasai.Graphics.YasaiSDL
     {
         private IntPtr window;
 
+        // TODO: window properties
         public Window(string title)
         {
             window = SDL.SDL_CreateWindow(title, 50, 50, 1366, 768, SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);

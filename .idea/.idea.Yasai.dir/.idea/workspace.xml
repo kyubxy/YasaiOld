@@ -6,29 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="4f57d270-5a7a-4b50-ae2b-ae84aa5cc964" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Yasai.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Yasai.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/TestGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/TestGame.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/bin/Debug/net5.0/Yasai.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/bin/Debug/net5.0/Yasai.Tests.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/bin/Debug/net5.0/Yasai.Tests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/bin/Debug/net5.0/Yasai.Tests.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/bin/Debug/net5.0/Yasai.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/bin/Debug/net5.0/Yasai.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/bin/Debug/net5.0/Yasai.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/bin/Debug/net5.0/Yasai.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/bin/Debug/net5.0/ref/Yasai.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/bin/Debug/net5.0/ref/Yasai.Tests.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/obj/Debug/net5.0/Yasai.Tests.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/obj/Debug/net5.0/Yasai.Tests.csprojAssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/obj/Debug/net5.0/Yasai.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/obj/Debug/net5.0/Yasai.Tests.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/obj/Debug/net5.0/Yasai.Tests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/obj/Debug/net5.0/Yasai.Tests.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai.Tests/obj/Debug/net5.0/ref/Yasai.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai.Tests/obj/Debug/net5.0/ref/Yasai.Tests.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Game.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Yasai/Graphics/Drawable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Graphics/Drawable.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Yasai/Graphics/IDrawable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Graphics/IDrawable.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Yasai/Graphics/Imaging/Sprite.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Graphics/Imaging/Sprite.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai/Graphics/Layout/ScreenManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Graphics/Layout/ScreenManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Yasai/Graphics/Imaging/Text/SpriteText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Graphics/Imaging/Text/SpriteText.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Yasai/Graphics/Layout/Group.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Graphics/Layout/Group.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Yasai/Graphics/YasaiSDL/Renderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Graphics/YasaiSDL/Renderer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Yasai/Graphics/YasaiSDL/Window.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Graphics/YasaiSDL/Window.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Yasai/Resources/ContentStore.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Resources/ContentStore.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai/bin/Debug/net5.0/Yasai.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/bin/Debug/net5.0/Yasai.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai/bin/Debug/net5.0/Yasai.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/bin/Debug/net5.0/Yasai.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai/bin/Debug/net5.0/ref/Yasai.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/bin/Debug/net5.0/ref/Yasai.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai/obj/Debug/net5.0/Yasai.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/obj/Debug/net5.0/Yasai.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai/obj/Debug/net5.0/Yasai.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/obj/Debug/net5.0/Yasai.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai/obj/Debug/net5.0/Yasai.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/obj/Debug/net5.0/Yasai.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Yasai/obj/Debug/net5.0/ref/Yasai.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/obj/Debug/net5.0/ref/Yasai.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Yasai/Resources/ILoad.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Resources/ILoad.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Yasai/Resources/Loaders/ImageLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Yasai/Resources/Loaders/ImageLoader.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,28 +36,30 @@
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/Yasai/Graphics/ITransforms.cs" />
-      <option value="$PROJECT_DIR$/Yasai/Graphics/Imaging/Text/SpriteText.cs" />
       <option value="$PROJECT_DIR$/Yasai/Root.cs" />
       <option value="$PROJECT_DIR$/Yasai/Graphics/SDL/Renderer.cs" />
       <option value="$PROJECT_DIR$/Yasai/Graphics/SDL/Window.cs" />
-      <option value="$PROJECT_DIR$/Yasai/Graphics/YasaiSDL/Renderer.cs" />
-      <option value="$PROJECT_DIR$/Yasai/Graphics/YasaiSDL/Window.cs" />
       <option value="$PROJECT_DIR$/Yasai/Resources/Texture.cs" />
       <option value="$PROJECT_DIR$/Yasai/Resources/IResource.cs" />
       <option value="$PROJECT_DIR$/Yasai/Graphics/ISpriteBase.cs" />
       <option value="$PROJECT_DIR$/Yasai/Graphics/IPoint.cs" />
       <option value="$PROJECT_DIR$/Yasai/Graphics/Imaging/Texture.cs" />
-      <option value="$PROJECT_DIR$/Yasai/Graphics/Drawable.cs" />
-      <option value="$PROJECT_DIR$/Yasai/Graphics/Layout/Group.cs" />
       <option value="$PROJECT_DIR$/Yasai/Graphics/Layout/Screen.cs" />
       <option value="$PROJECT_DIR$/Yasai/ILoad.cs" />
-      <option value="$PROJECT_DIR$/Yasai/Graphics/IDrawable.cs" />
       <option value="$PROJECT_DIR$/Yasai/Graphics/Layout/ScreenManager.cs" />
       <option value="$PROJECT_DIR$/Yasai.Tests/TestGame.cs" />
       <option value="$PROJECT_DIR$/Yasai.Tests/Program.cs" />
+      <option value="$PROJECT_DIR$/Yasai/Graphics/Imaging/Text/SpriteText.cs" />
+      <option value="$PROJECT_DIR$/Yasai/Graphics/Drawable.cs" />
       <option value="$PROJECT_DIR$/Yasai/Graphics/Imaging/Sprite.cs" />
-      <option value="$PROJECT_DIR$/Yasai/Game.cs" />
+      <option value="$PROJECT_DIR$/Yasai/Graphics/Layout/Group.cs" />
+      <option value="$PROJECT_DIR$/Yasai/Graphics/IDrawable.cs" />
+      <option value="$PROJECT_DIR$/Yasai/Resources/Loaders/ImageLoader.cs" />
       <option value="$PROJECT_DIR$/Yasai/Resources/ContentStore.cs" />
+      <option value="$PROJECT_DIR$/Yasai/Resources/ILoad.cs" />
+      <option value="$PROJECT_DIR$/Yasai/Game.cs" />
+      <option value="$PROJECT_DIR$/Yasai/Graphics/YasaiSDL/Window.cs" />
+      <option value="$PROJECT_DIR$/Yasai/Graphics/YasaiSDL/Renderer.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1xdS0UV5twjZLZsD75bnPr8TRgw" />
@@ -120,7 +109,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1630683258012</updated>
-      <workItem from="1630683258816" duration="6082000" />
+      <workItem from="1630683258816" duration="6962000" />
     </task>
     <servers />
   </component>

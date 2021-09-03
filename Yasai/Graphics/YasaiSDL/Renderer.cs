@@ -6,6 +6,8 @@ namespace Yasai.Graphics.YasaiSDL
     public class Renderer
     {
         private IntPtr renderer;
+        
+        // TODO: move render functions to this class
 
         public Renderer(Window window)
         {

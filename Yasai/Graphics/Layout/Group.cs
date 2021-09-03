@@ -60,12 +60,20 @@ namespace Yasai.Graphics.Layout
 
         public override void Update()
         {
-            
+            if (Enabled)
+            {
+                foreach (IDrawable s in _children)
+                    s.Update();
+            }
         }
 
         public override void Draw(IntPtr renderer)
         {
-            
+            if (Visible)
+            {
+                foreach (IDrawable s in _children)
+                    s.Draw(renderer);
+            }
         }
 
         # region rest of ICollection implemetnation

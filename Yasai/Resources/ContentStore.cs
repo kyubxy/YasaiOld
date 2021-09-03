@@ -22,6 +22,7 @@ namespace Yasai.Resources
 
         public T GetResource<T>(string res)
         {
+            // TODO: get loaded resources from dictionary
             throw new NotImplementedException();
         }
 
@@ -31,6 +32,7 @@ namespace Yasai.Resources
         /// <param name="path"></param>
         public void LoadResource(string path)
         {
+            // TODO: load resource from file 
         }
 
         /// <summary>
@@ -39,6 +41,7 @@ namespace Yasai.Resources
         /// <param name="group"></param>
         public void LoadResources(string group)
         {
+            // TODO: load resources from files
         }
 
         /// <summary>
@@ -48,6 +51,7 @@ namespace Yasai.Resources
         /// </summary>
         public void LoadAll()
         {
+            // TODO: load all the resources in a folder
         }
     }
 }

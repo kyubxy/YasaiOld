@@ -9,6 +9,7 @@ namespace Yasai.Graphics.Imaging
     {
         // TODO: animation support
         public Texture CurrentTexture;
+        
         //public List<Texture> Costumes;
         
         private readonly string path;
@@ -43,7 +44,8 @@ namespace Yasai.Graphics.Imaging
                 destRect.w = (int) Size.X;
                 destRect.h = (int) Size.Y;
 
-                SDL.SDL_RenderCopy(renderer, CurrentTexture.Handle, IntPtr.Zero, ref destRect);
+                if (Visible)
+                    SDL.SDL_RenderCopy(renderer, CurrentTexture.Handle, IntPtr.Zero, ref destRect);
             }
         }
 
@@ -53,7 +55,7 @@ namespace Yasai.Graphics.Imaging
         }
         
         
-        // TODO:
+        // TODO: animations (later)
         public void NextCostume()
         { }
 

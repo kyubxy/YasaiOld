@@ -8,6 +8,7 @@ namespace Yasai.Resources.Loaders
         public string[] FileTypes => new string[] {"png", "jpg", "jpeg", "PNG", "JPEG"};
         public Texture GetResource(string path)
         {
+            // TODO: texture GetResource
             throw new NotImplementedException();
         }
     }

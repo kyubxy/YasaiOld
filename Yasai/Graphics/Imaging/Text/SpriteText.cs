@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using Yasai.Graphics.Layout;
+using Yasai.Resources;
 
 namespace Yasai.Graphics.Imaging.Text
 {
+    // TODO: SpriteText
     public class SpriteText : Group
     {
         private string text;
         public string Text { get; set; }
 
-        private Dictionary<char, Sprite> glyphs;
+        private ContentStore glyphs;
         
         public SpriteText()
         {
