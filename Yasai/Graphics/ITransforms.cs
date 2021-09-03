@@ -4,6 +4,6 @@ namespace Yasai.Graphics
 {
     public interface ITransforms
     {
-        public Vector2 Position;
+        public Vector2 Position { get; set; }
     }
 }

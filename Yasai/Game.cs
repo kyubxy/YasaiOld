@@ -1,39 +1,32 @@
-// TODO: move away from print debugging
 using System;
 using SDL2;
+using Yasai.Graphics.Layout;
+
 
 namespace Yasai
 {
-    public class Root : IDisposable, IUpdate
+    /// <summary>
+    /// main game instance, globally available information lives here
+    /// </summary>
+    public class Game : IDisposable
     {
-        public IntPtr Window;
+        public IntPtr Window; 
         public IntPtr Renderer;
-        public string WindowTitle = "Yasai";
         bool quit = false;
-        SDL.SDL_Event e; 
+        SDL.SDL_Event e;
+        
+        private string title = "Yasai";
 
-        public bool Active 
-        {
-            get => true;
-            set => throw new Exception ("Use the appropriate function to kill this process"); 
-        }
-
-        public Root (string windowname)
-            : this ()
-        {
-            WindowTitle = windowname;
-        }
-
-        public Root ()
+        public Game()
         {
             // initialise
             if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) != 0)
-                throw new Exception ($"error on startup: {SDL.SDL_GetError()}");
+                Console.WriteLine($"error on startup: {SDL.SDL_GetError()}");
         }
 
         public void Run()
-        { 
-            Window = SDL.SDL_CreateWindow(WindowTitle, 50, 50, 1366, 768, SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
+        {
+            Window = SDL.SDL_CreateWindow(title, 50, 50, 1366, 768, SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
             if (Window == IntPtr.Zero)
                 Console.WriteLine($"error on window creation: {SDL.SDL_GetError()}");
 
@@ -43,7 +36,7 @@ namespace Yasai
 
             while (!quit)
             {
-                while (SDL.SDL_PollEvent(out e)!=0)
+                while (SDL.SDL_PollEvent(out e) != 0)
                 {
                     switch (e.type)
                     {
@@ -57,12 +50,12 @@ namespace Yasai
                 SDL.SDL_RenderClear(Renderer);
                 Draw(Renderer);
                 SDL.SDL_RenderPresent(Renderer);
-                SDL.SDL_SetRenderDrawColor (Renderer, 0,0,0,255);
-           }
+                SDL.SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
+            }
         }
 
         public virtual void Update()
-        { 
+        {
         }
 
         public virtual void Draw(IntPtr renderer)
