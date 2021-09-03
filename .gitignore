@@ -1,8 +1,10 @@
 Yasai/bin
 Yasai/obj
-
 Yasai.Tests/bin/
 Yasai.Tests/obj/
+bin/
+obj/
 
 .vscode/
 .idea/
+
