@@ -5,17 +5,20 @@ namespace Yasai.Resources
 {
     public class ContentStore
     {
-        private string root;
+        public string Root { get; set; }
 
-        private const string MANAGER = "manager.txt";
+        private string MANAGER = "manager.txt";
 
         private Dictionary<string, object> resources;
         
         public ContentStore(string root)
         {
-            this.root = root;
+            this.Root = root;
             resources = new Dictionary<string, object>();
         }
+        
+        public ContentStore() : this ("Assets") 
+        { }
 
         public T GetResource<T>(string res)
         {
@@ -28,7 +31,6 @@ namespace Yasai.Resources
         /// <param name="path"></param>
         public void LoadResource(string path)
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -37,7 +39,15 @@ namespace Yasai.Resources
         /// <param name="group"></param>
         public void LoadResources(string group)
         {
-            
+        }
+
+        /// <summary>
+        /// Loads *all* of the resources in the root.
+        /// Use this only for smaller projects, otherwise, avoid this at all costs and use functions like
+        /// <see cref="LoadResources"/> to load in larger amounts of assets at once or <see cref="LoadResource"/>
+        /// </summary>
+        public void LoadAll()
+        {
         }
     }
 }

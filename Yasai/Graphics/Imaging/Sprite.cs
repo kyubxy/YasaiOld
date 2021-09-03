@@ -26,6 +26,9 @@ namespace Yasai.Graphics.Imaging
         
         public override void Load(ContentStore cs)
         {
+            if (cs == null)
+                throw new NullReferenceException("the content store was null");
+            
             if (!Loaded)
                 CurrentTexture = cs.GetResource<Texture>(path);
         }

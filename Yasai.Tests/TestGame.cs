@@ -1,3 +1,4 @@
+using OpenTK.Mathematics;
 using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Layout;
 
@@ -7,15 +8,11 @@ namespace Yasai.Tests
     {
         public TestGame()
         {
-            ScreenMgr.PushScreen(new TestScr());
-        }
-    }
-
-    public class TestScr : Screen
-    {
-        public TestScr()
-        {
-            Add(new Sprite());
+            Children.Add(new Sprite ("ino.png")
+            {
+                Position = Vector2.One,
+                Size = new Vector2 (20)
+            });
         }
     }
 }

@@ -1,7 +1,9 @@
 using System;
+using System.Resources;
 using SDL2;
 using Yasai.Graphics.Layout;
 using Yasai.Graphics.YasaiSDL;
+using Yasai.Resources;
 
 
 namespace Yasai
@@ -11,8 +13,8 @@ namespace Yasai
     /// </summary>
     public class Game : IDisposable
     {
-        public Window window { get; private set; }
-        public Renderer renderer { get; private set; } 
+        public Window Window { get; private set; }
+        public Renderer Renderer { get; private set; } 
         private bool quit; 
         SDL.SDL_Event e;
         
@@ -20,6 +22,7 @@ namespace Yasai
 
         public ScreenManager ScreenMgr;
         public Screen Children;
+        public ContentStore Content;
 
         public Game()
         {
@@ -28,13 +31,16 @@ namespace Yasai
             // initialise
             if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) != 0)
                 Console.WriteLine($"error on startup: {SDL.SDL_GetError()}");
+
+            Content = new ContentStore();
         }
 
         public void Run()
         {
-            window = new Window(title);
-            renderer = new Renderer(window);
+            Window = new Window(title);
+            Renderer = new Renderer(Window);
            
+            Load();
             while (!quit)
             {
                 while (SDL.SDL_PollEvent(out e) != 0)
@@ -48,11 +54,16 @@ namespace Yasai
                 }
 
                 Update();
-                SDL.SDL_RenderClear(renderer.GetPtr());
-                Draw(renderer.GetPtr());
-                SDL.SDL_RenderPresent(renderer.GetPtr());
-                SDL.SDL_SetRenderDrawColor(renderer.GetPtr(), 0, 0, 0, 255);
+                SDL.SDL_RenderClear(Renderer.GetPtr());
+                Draw(Renderer.GetPtr());
+                SDL.SDL_RenderPresent(Renderer.GetPtr());
+                SDL.SDL_SetRenderDrawColor(Renderer.GetPtr(), 0, 0, 0, 255);
             }
+        }
+
+        public virtual void Load()
+        {
+            ScreenMgr.Load(Content);
         }
 
         public virtual void Update()

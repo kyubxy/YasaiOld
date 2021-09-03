@@ -9,11 +9,16 @@ namespace Yasai.Graphics.Layout
 
         private ContentStore _contentStore;
 
-        public ScreenManager(Screen s)
-        {
-            currentScreen = s;
-        }
+        public ScreenManager(Screen s) => currentScreen = s;
+        public ScreenManager() => currentScreen = new Screen();
 
+        public override void Load(ContentStore cs)
+        {
+            _contentStore = cs;
+            currentScreen.Load(cs);
+            Loaded = true;
+        }
+        
         public void PushScreen(Screen s)
         {
             Loaded = false;
@@ -38,13 +43,6 @@ namespace Yasai.Graphics.Layout
         public override void Dispose()
         {
             currentScreen.Dispose();
-        }
-
-        public override void Load(ContentStore cs)
-        {
-            _contentStore = cs;
-            currentScreen.Load(cs);
-            Loaded = true;
         }
     }
 }
