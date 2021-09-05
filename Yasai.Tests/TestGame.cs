@@ -1,6 +1,5 @@
 using OpenTK.Mathematics;
 using Yasai.Graphics.Imaging;
-using Yasai.Graphics.Layout;
 
 namespace Yasai.Tests
 {
