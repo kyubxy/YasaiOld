@@ -1,10 +1,12 @@
 using System;
+using SDL2;
 using Yasai.Resources;
 
 namespace Yasai.Graphics.Imaging
 {
     public class Texture : IResource
     {
-        public IntPtr Handle { get; }
+        // texture -> Draw this!!
+        public IntPtr Handle { get; set; }
     }
 }

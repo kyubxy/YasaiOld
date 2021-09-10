@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Yasai.Resources.Loaders;
 
 namespace Yasai.Resources
 {
@@ -9,30 +12,57 @@ namespace Yasai.Resources
 
         private string MANAGER = "manager.txt";
 
-        private Dictionary<string, object> resources;
+        private Dictionary<string, IResource> resources;
+
+        protected List<ILoader> Loaders;
+
+        private Game game;
         
         public ContentStore(string root)
         {
-            this.Root = root;
-            resources = new Dictionary<string, object>();
+            Root = root;
+            resources = new Dictionary<string, IResource>();
+            
+            // add the loaders
+            Loaders = new List<ILoader>();
+            Loaders.Add(new ImageLoader());
         }
-        
-        public ContentStore() : this ("Assets") 
-        { }
 
+        public ContentStore(Game game) : this("Assets") 
+            => this.game = game;
+
+        /// <summary>
+        /// get a *preloaded* resource from the internal dictionary
+        /// </summary>
+        /// <param name="res">the resource key to look for</param>
+        /// <typeparam name="T">the expected resource type</typeparam>
+        /// <returns>the resource</returns>
+        /// <exception cref="DirectoryNotFoundException">thrown if the key was not present in the dictionary</exception>
         public T GetResource<T>(string res)
         {
-            // TODO: get loaded resources from dictionary
-            throw new NotImplementedException();
+            if (!resources.ContainsKey(res))
+            {
+                throw new DirectoryNotFoundException($"{res} was not loaded into the dictionary. " + 
+                                                     $"Ensure you preload it with LoadResource or some similar function");
+            }
+
+            return (T)resources[res];
         }
 
         /// <summary>
         /// Loads a single resource from the path
         /// </summary>
         /// <param name="path"></param>
-        public void LoadResource(string path)
+        public void LoadResource(string path, string _key = null)
         {
-            // TODO: load resource from file 
+            string key = _key == null ? Path.GetFileNameWithoutExtension(path) : _key;
+            ILoader loader = Loaders.Find(x => x.FileTypes.Contains(Path.GetExtension(path)));
+
+            // can't find any loaders
+            if (loader == null)
+                throw new NotSupportedException($"cannot load file of type {Path.GetExtension(path)}");
+
+            resources[key] = loader.GetResource(game, Path.Combine(Directory.GetCurrentDirectory(), Root, path));
         }
 
         /// <summary>
@@ -42,6 +72,7 @@ namespace Yasai.Resources
         public void LoadResources(string group)
         {
             // TODO: load resources from files
+            throw new NotImplementedException();
         }
 
         /// <summary>

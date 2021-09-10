@@ -15,6 +15,7 @@ namespace Yasai
     {
         public Window Window { get; private set; }
         public Renderer Renderer { get; private set; } 
+        
         private bool quit; 
         SDL.SDL_Event e;
         
@@ -31,14 +32,14 @@ namespace Yasai
             // initialise
             if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) != 0)
                 Console.WriteLine($"error on startup: {SDL.SDL_GetError()}");
-
-            Content = new ContentStore();
+            
         }
 
         public void Run()
         {
             Window = new Window(title);
             Renderer = new Renderer(Window);
+            Content = new ContentStore(this);
            
             Load();
             while (!quit)

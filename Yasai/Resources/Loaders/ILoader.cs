@@ -1,8 +1,8 @@
 namespace Yasai.Resources.Loaders
 {
-    public interface ILoader<T>
+    public interface ILoader
     {
         string[] FileTypes { get; }
-        T GetResource(string path);
+        IResource GetResource(Game game, string path);
     }
 }

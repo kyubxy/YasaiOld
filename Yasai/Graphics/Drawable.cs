@@ -12,8 +12,8 @@ namespace Yasai.Graphics
         public Vector2 Position { get; set; }
         public Vector2 Size { get; set; }
         public float Rotation { get; set; }
-        public bool Visible { get; set; }
-        public bool Enabled { get; set; }
+        public bool Visible { get; set; } = true;
+        public bool Enabled { get; set; } = true;
         public bool Loaded { get; protected set; }
         public virtual void Load(ContentStore cs)
         {
