@@ -21,18 +21,17 @@ namespace Yasai
         
         private string title = "Yasai";
 
-        public ScreenManager ScreenMgr;
-        public Screen Children;
-        public ContentStore Content;
+        protected ScreenManager ScreenMgr;
+        protected Screen Children;
+        protected ContentStore Content;
 
         public Game()
         {
-            ScreenMgr = new ScreenManager(Children = new Screen());
-            
             // initialise
             if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) != 0)
                 Console.WriteLine($"error on startup: {SDL.SDL_GetError()}");
             
+            ScreenMgr = new ScreenManager(Children = new Screen());
         }
 
         public void Run()

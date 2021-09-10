@@ -8,7 +8,7 @@ namespace Yasai.Graphics.Imaging
     public class Sprite : Drawable
     {
         // TODO: animation support
-        public Texture CurrentTexture;
+        public Texture CurrentTexture { get; private set; }
         
         //public List<Texture> Costumes;
         

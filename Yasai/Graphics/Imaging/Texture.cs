@@ -8,5 +8,10 @@ namespace Yasai.Graphics.Imaging
     {
         // texture -> Draw this!!
         public IntPtr Handle { get; set; }
+
+        public void Dispose()
+        {
+            SDL.SDL_DestroyTexture(Handle);
+        }
     }
 }

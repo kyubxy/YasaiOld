@@ -8,7 +8,7 @@ namespace Yasai.Resources
 {
     public class ContentStore
     {
-        public string Root { get; set; }
+        public string Root { get; }
 
         private string MANAGER = "manager.txt";
 
@@ -55,6 +55,7 @@ namespace Yasai.Resources
         /// <param name="path"></param>
         public void LoadResource(string path, string _key = null)
         {
+            // TODO: prevent double loading, maybe store the path somewhere
             string key = _key == null ? Path.GetFileNameWithoutExtension(path) : _key;
             ILoader loader = Loaders.Find(x => x.FileTypes.Contains(Path.GetExtension(path)));
 
