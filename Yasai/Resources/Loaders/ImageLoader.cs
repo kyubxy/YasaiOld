@@ -5,9 +5,9 @@ using Yasai.Graphics.Imaging;
 
 namespace Yasai.Resources.Loaders
 {
-    public class ImageLoader : ILoader 
+    public class ImageLoader : ILoader
     {
-        public string[] FileTypes => new string[] {".png", ".jpg", ".jpeg", ".PNG", ".JPEG"};
+        public string[] FileTypes => new string[] {".png", ".jpg", ".jpeg", ".webp"};
 
         public ImageLoader()
         {
@@ -17,9 +17,6 @@ namespace Yasai.Resources.Loaders
         public IResource GetResource(Game game, string path)
         {
             Texture final = new Texture();
-
-            if (!File.Exists(path))
-                throw new FileNotFoundException();
 
             IntPtr surface = SDL_image.IMG_Load(path);
 

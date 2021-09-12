@@ -57,7 +57,7 @@ namespace Yasai.Resources
         {
             // TODO: prevent double loading, maybe store the path somewhere
             string key = _key == null ? Path.GetFileNameWithoutExtension(path) : _key;
-            ILoader loader = Loaders.Find(x => x.FileTypes.Contains(Path.GetExtension(path)));
+            ILoader loader = Loaders.Find(x => x.FileTypes.Contains(Path.GetExtension(path).ToLower()));
 
             // can't find any loaders
             if (loader == null)

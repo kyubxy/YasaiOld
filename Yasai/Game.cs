@@ -1,8 +1,8 @@
 using System;
-using System.Resources;
 using SDL2;
 using Yasai.Graphics.Layout;
 using Yasai.Graphics.YasaiSDL;
+using Yasai.Input;
 using Yasai.Resources;
 
 
@@ -17,7 +17,6 @@ namespace Yasai
         public Renderer Renderer { get; private set; } 
         
         private bool quit; 
-        SDL.SDL_Event e;
         
         private string title = "Yasai";
 
@@ -42,19 +41,16 @@ namespace Yasai
            
             ScreenMgr.Load(Content);
             Load();
+            
             while (!quit)
             {
-                while (SDL.SDL_PollEvent(out e) != 0)
+                while (SDL.SDL_PollEvent(out var e) != 0)
                 {
-                    switch (e.type)
-                    {
-                        case (SDL.SDL_EventType.SDL_QUIT):
-                            quit = true;
-                            break;
-                    }
+                    OnEvent(e);
                 }
 
                 Update();
+                
                 SDL.SDL_RenderClear(Renderer.GetPtr());
                 Draw(Renderer.GetPtr());
                 SDL.SDL_RenderPresent(Renderer.GetPtr());
@@ -62,18 +58,48 @@ namespace Yasai
             }
         }
 
-        public virtual void Load()
+        protected virtual void OnEvent(SDL.SDL_Event ev)
+        {
+            switch (ev.type) 
+            {
+                // program exit
+                case (SDL.SDL_EventType.SDL_QUIT):
+                    quit = true;
+                    break;
+                
+                // TODO method based input:
+                case (SDL.SDL_EventType.SDL_KEYUP):
+                    break;
+                
+                case (SDL.SDL_EventType.SDL_KEYDOWN):
+                    break;
+                
+                case (SDL.SDL_EventType.SDL_MOUSEBUTTONUP):
+                    break;
+                
+                case (SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN):
+                    break;
+                
+                case (SDL.SDL_EventType.SDL_MOUSEWHEEL):
+                    break;
+                
+                case (SDL.SDL_EventType.SDL_MOUSEMOTION):
+                    break;
+            }
+        }
+
+        protected virtual void Load()
         {
         }
 
-        public virtual void Update()
+        protected virtual void Update()
         {
             ScreenMgr.Update();
         }
 
         // it's probably more efficient to pass around pointers than actual objects
         // can change this later though if need be
-        public virtual void Draw(IntPtr ren)
+        protected virtual void Draw(IntPtr ren)
         {
             ScreenMgr.Draw(ren);
         }
