@@ -40,7 +40,7 @@ namespace Yasai.Graphics.Layout
 
         public override void Draw(IntPtr renderer)
         {
-            if (Visible)
+            if (Enabled && Visible)
                 currentScreen.Draw(renderer);
         }
 

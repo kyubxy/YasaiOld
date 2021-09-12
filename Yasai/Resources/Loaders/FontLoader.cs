@@ -9,7 +9,7 @@ namespace Yasai.Resources.Loaders
         public string[] FileTypes => new string[] {".ttf", ".otf"};
         public IResource GetResource(Game game, string path)
         {
-            SpriteFont final = new SpriteFont();
+            SpriteFont final = new SpriteFont(game, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890? ".ToCharArray());
             
             // TODO: support multiple sizes
             final.Handle = SDL_ttf.TTF_OpenFont(path, 32);

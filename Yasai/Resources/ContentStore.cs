@@ -26,6 +26,7 @@ namespace Yasai.Resources
             // add the loaders
             Loaders = new List<ILoader>();
             Loaders.Add(new ImageLoader());
+            Loaders.Add(new FontLoader());
         }
 
         public ContentStore(Game game) : this("Assets") 

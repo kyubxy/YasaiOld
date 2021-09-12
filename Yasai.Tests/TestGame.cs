@@ -6,7 +6,7 @@ namespace Yasai.Tests
     {
         public TestGame()
         {
-            ScreenMgr.PushScreen(new DrawablePropertyTest());
+            ScreenMgr.PushScreen(new TextTest());
         }
     }
 }

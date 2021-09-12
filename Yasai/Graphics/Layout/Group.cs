@@ -12,10 +12,6 @@ namespace Yasai.Graphics.Layout
         private List<IDrawable> _children;
         private ContentStore _contentStore;
 
-        public override Vector2 Position => throw new NotImplementedException();
-        public override Vector2 Size => throw new NotImplementedException();
-        public override float Rotation => throw new NotImplementedException();
-
         public override bool Loaded => _children.All(x => x.Loaded) && _contentStore != null;
 
         public Group(List<IDrawable> children)

@@ -8,6 +8,7 @@ namespace Yasai.Graphics.Imaging
     public class Texture : IResource
     {
         // texture -> Draw this!!
+        // please dont use set :vvvv
         public IntPtr Handle { get; set; }
 
         public Vector2 Size
@@ -22,6 +23,10 @@ namespace Yasai.Graphics.Imaging
                 return new Vector2(w, h);
             }
         }
+
+        public Texture(IntPtr ptr) => Handle = ptr;
+        
+        public Texture () {}
 
         public void Dispose()
         {

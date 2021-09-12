@@ -29,6 +29,8 @@ namespace Yasai
             // initialise
             if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) != 0)
                 Console.WriteLine($"error on startup: {SDL.SDL_GetError()}");
+
+            SDL_ttf.TTF_Init();
             
             ScreenMgr = new ScreenManager(Children = new Screen());
         }
