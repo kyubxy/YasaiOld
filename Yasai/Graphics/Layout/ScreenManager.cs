@@ -3,7 +3,6 @@ using Yasai.Resources;
 
 namespace Yasai.Graphics.Layout
 {
-    // bruh
     public class ScreenManager : Drawable
     {
         private Screen currentScreen;
