@@ -10,22 +10,26 @@ namespace Yasai.Graphics.Layout
         private ContentStore _contentStore;
 
         public ScreenManager(Screen s) => currentScreen = s;
-        public ScreenManager() => currentScreen = new Screen();
+        public ScreenManager () => currentScreen = new Screen();
+
+        public override bool Loaded => _contentStore != null;
 
         public override void Load(ContentStore cs)
         {
+            // load in the declarative style
             _contentStore = cs;
             currentScreen.Load(cs);
-            Loaded = true;
         }
         
         public void PushScreen(Screen s)
         {
-            Loaded = false;
             currentScreen.Dispose();
-            s.Load(_contentStore);
+            
+            // load in the imperative style
+            if (Loaded)
+                s.Load(_contentStore);
+            
             currentScreen = s;
-            Loaded = true;
         }
         
         public override void Update()

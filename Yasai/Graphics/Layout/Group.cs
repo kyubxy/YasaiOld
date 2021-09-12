@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using OpenTK.Mathematics;
 using Yasai.Resources;
 
 namespace Yasai.Graphics.Layout
@@ -9,7 +11,13 @@ namespace Yasai.Graphics.Layout
     {
         private List<IDrawable> _children;
         private ContentStore _contentStore;
-        
+
+        public override Vector2 Position => throw new NotImplementedException();
+        public override Vector2 Size => throw new NotImplementedException();
+        public override float Rotation => throw new NotImplementedException();
+
+        public override bool Loaded => _children.All(x => x.Loaded) && _contentStore != null;
+
         public Group(List<IDrawable> children)
         {
             _children = children;
@@ -24,8 +32,6 @@ namespace Yasai.Graphics.Layout
         {
             foreach (IDrawable s in _children)
                 s.Load(cs);
-
-            Loaded = true;
         }
 
         public override void Dispose()
@@ -69,7 +75,7 @@ namespace Yasai.Graphics.Layout
 
         public override void Draw(IntPtr renderer)
         {
-            if (Visible)
+            if (Visible && Enabled)
             {
                 foreach (IDrawable s in _children)
                     s.Draw(renderer);

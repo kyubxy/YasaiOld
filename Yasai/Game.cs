@@ -40,6 +40,7 @@ namespace Yasai
             Renderer = new Renderer(Window);
             Content = new ContentStore(this);
            
+            ScreenMgr.Load(Content);
             Load();
             while (!quit)
             {
@@ -63,7 +64,6 @@ namespace Yasai
 
         public virtual void Load()
         {
-            ScreenMgr.Load(Content);
         }
 
         public virtual void Update()
