@@ -73,6 +73,9 @@ namespace Yasai.Graphics.Imaging
         public Sprite(Texture tex)
         {
             CurrentTexture = tex;
+            if (SDL.SDL_QueryTexture(CurrentTexture.Handle, out _, out _, out _, out _) != 0)
+                throw new Exception(SDL.SDL_GetError());
+            
             Size = Size == Vector2.Zero ? CurrentTexture.Size : Size;
             Origin = new Vector2(Size.X / 2, Size.Y / 2);
         }
@@ -127,8 +130,12 @@ namespace Yasai.Graphics.Imaging
         {
             base.Dispose();
             
+            // TODO: implement a copy constructor
+            // https://stackoverflow.com/questions/25738096/c-sdl2-error-when-trying-to-render-sdl-texture-invalid-texture
+            /*
             if (Loaded)
                 SDL.SDL_DestroyTexture(CurrentTexture.Handle);
+                */
         }
         
         

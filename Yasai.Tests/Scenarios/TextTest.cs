@@ -18,17 +18,15 @@ namespace Yasai.Tests.Scenarios
 
         public override void Load(ContentStore cs)
         {
-            cs.LoadResource("tahoma.ttf", args: new FontArgs(20));
+            cs.LoadResource("tahoma.ttf", args: new FontArgs(90));
             base.Load(cs);
         }
 
         private int i = 0;
         public override void Update()
         {
-            i++;
-            s.Text = i.ToString();
-            
             base.Update();
+            s.Text = "11";
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Yasai.Graphics.Text
     {
         public IntPtr Handle { get; set; }
 
-        private Dictionary<char, IntPtr> glyphs = new Dictionary<char, IntPtr>();
+        private Dictionary<char, Sprite> glyphs = new Dictionary<char, Sprite>();
 
         private char[] characterSet;
 
@@ -32,9 +32,11 @@ namespace Yasai.Graphics.Text
         {
             foreach (char c in characterSet)
             {
-                glyphs[c] = SDL.SDL_CreateTextureFromSurface(game.Renderer.GetPtr(),
+                Texture tex = new Texture();
+                tex.Handle = SDL.SDL_CreateTextureFromSurface(game.Renderer.GetPtr(), 
                     SDL_ttf.TTF_RenderGlyph_Blended(Handle, c, Color4.White.ToSdlColor()));
                 
+                glyphs[c] = new Sprite(tex);
             }
         }
 
@@ -45,17 +47,16 @@ namespace Yasai.Graphics.Text
         /// <returns></returns>
         public Sprite GetGlyph(char c)
         {
-            Texture tex = characterSet.Contains(c) ? new Texture(glyphs[c]) : new Texture (glyphs['?']);
-            return new Sprite(tex);
+            return characterSet.Contains(c) ? glyphs[c] : glyphs['?'];
         }
 
         public void Dispose()
         {
             SDL_ttf.TTF_CloseFont(Handle);
 
-            foreach (IntPtr s in glyphs.Values)
+            foreach (Sprite s in glyphs.Values)
             {
-                SDL.SDL_DestroyTexture(s); 
+                s.Dispose();
             }
         }
     }

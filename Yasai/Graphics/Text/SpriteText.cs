@@ -60,13 +60,14 @@ namespace Yasai.Graphics.Text
         private void updateText()
         {
             char[] chars = Text.ToCharArray();
-
+            
             // TODO: only change the changed characters
             Clear();
 
             float accX = 0;
             for (int i = 0; i < chars.Length; i++)
             {
+                // TODO: COPY THE SPRITES GOT DAMN
                 Sprite g = Font.GetGlyph(chars[i]);
                 g.Position = new Vector2 (Position.X + accX, Position.Y);
                 accX += g.Size.X;
