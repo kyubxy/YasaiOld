@@ -29,7 +29,6 @@ namespace Yasai.Tests.Scenarios
             Add(new Sprite("ino")
             {
                 Position = new Vector2(0,400),
-                Size = new Vector2(100, 100),
                 Alpha = 0.5f
             });           
             

@@ -50,7 +50,6 @@ namespace Yasai.Graphics.Text
         {
             if (!Loaded) 
                 Font = cs.GetResource<SpriteFont>(_fontLoc);
-            
             Font.LoadGlyphs();
             
             base.Load(cs);
@@ -64,12 +63,13 @@ namespace Yasai.Graphics.Text
 
             // TODO: only change the changed characters
             Clear();
-            
+
+            float accX = 0;
             for (int i = 0; i < chars.Length; i++)
             {
                 Sprite g = Font.GetGlyph(chars[i]);
-                g.Position = new Vector2 (Position.X + i * 90, Position.Y);
-                g.Size = new Vector2(30, 50);
+                g.Position = new Vector2 (Position.X + accX, Position.Y);
+                accX += g.Size.X;
                 Add(g);
             }
         }

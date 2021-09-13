@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using OpenTK.Mathematics;
 using SDL2;
@@ -26,17 +25,6 @@ namespace Yasai.Graphics.Text
             this.game = game;
         }
 
-        public SpriteFont(Game game, int startIndex, int endIndex)
-        {
-            characterSet = new char [endIndex - startIndex];
-            for (int i = startIndex; i < endIndex; i++)
-            {
-                characterSet[i] = (char) i;
-            }
-
-            this.game = game;
-        }
-
         /// <summary>
         /// Renders all characters in the character set 
         /// </summary>
@@ -44,9 +32,9 @@ namespace Yasai.Graphics.Text
         {
             foreach (char c in characterSet)
             {
-                IntPtr surf;
                 glyphs[c] = SDL.SDL_CreateTextureFromSurface(game.Renderer.GetPtr(),
-                    SDL_ttf.TTF_RenderGlyph_Solid(Handle, c, Color4.White.ToSdlColor()));
+                    SDL_ttf.TTF_RenderGlyph_Blended(Handle, c, Color4.White.ToSdlColor()));
+                
             }
         }
 

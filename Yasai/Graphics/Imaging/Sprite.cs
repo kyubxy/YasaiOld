@@ -21,7 +21,7 @@ namespace Yasai.Graphics.Imaging
         
         private readonly string path;
 
-        private Vector2 size;
+        private Vector2 size = Vector2.Zero; 
         public override Vector2 Size
         {
             get => size;
@@ -73,6 +73,8 @@ namespace Yasai.Graphics.Imaging
         public Sprite(Texture tex)
         {
             CurrentTexture = tex;
+            Size = Size == Vector2.Zero ? CurrentTexture.Size : Size;
+            Origin = new Vector2(Size.X / 2, Size.Y / 2);
         }
         
         public override void Load(ContentStore cs)
@@ -85,6 +87,7 @@ namespace Yasai.Graphics.Imaging
             if (!Loaded)
                 CurrentTexture = cs.GetResource<Texture>(path);
 
+            Size = Size == Vector2.Zero ? CurrentTexture.Size : Size;
             Origin = new Vector2(Size.X / 2, Size.Y / 2);
         }
         

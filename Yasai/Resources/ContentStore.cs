@@ -54,7 +54,7 @@ namespace Yasai.Resources
         /// Loads a single resource from the path
         /// </summary>
         /// <param name="path"></param>
-        public void LoadResource(string path, string _key = null)
+        public void LoadResource(string path, string _key = null, ILoadArgs args = null)
         {
             // TODO: prevent double loading, maybe store the path somewhere
             string key = _key == null ? Path.GetFileNameWithoutExtension(path) : _key;
@@ -64,7 +64,7 @@ namespace Yasai.Resources
             if (loader == null)
                 throw new NotSupportedException($"cannot load file of type {Path.GetExtension(path)}");
 
-            resources[key] = loader.GetResource(game, Path.Combine(Directory.GetCurrentDirectory(), Root, path));
+            resources[key] = loader.GetResource(game, Path.Combine(Directory.GetCurrentDirectory(), Root, path), args);
         }
 
         /// <summary>

@@ -14,10 +14,12 @@ namespace Yasai.Resources.Loaders
             
         }
         
-        public IResource GetResource(Game game, string path)
+        public IResource GetResource(Game game, string path, ILoadArgs args)
         {
+            if (args != null)
+                Console.WriteLine("ImageLoader does not support args");
+            
             Texture final = new Texture();
-
             IntPtr surface = SDL_image.IMG_Load(path);
 
             if (surface == IntPtr.Zero)
