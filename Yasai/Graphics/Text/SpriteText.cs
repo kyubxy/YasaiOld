@@ -68,7 +68,7 @@ namespace Yasai.Graphics.Text
             for (int i = 0; i < chars.Length; i++)
             {
                 // TODO: COPY THE SPRITES GOT DAMN
-                Sprite g = Font.GetGlyph(chars[i]);
+                Sprite g = new Sprite(Font.GetGlyph(chars[i]).CurrentTexture);
                 g.Position = new Vector2 (Position.X + accX, Position.Y);
                 accX += g.Size.X;
                 Add(g);

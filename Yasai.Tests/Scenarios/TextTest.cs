@@ -26,7 +26,8 @@ namespace Yasai.Tests.Scenarios
         public override void Update()
         {
             base.Update();
-            s.Text = "11";
+            i++;
+            s.Text = i.ToString();
         }
     }
 }

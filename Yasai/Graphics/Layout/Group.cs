@@ -48,9 +48,6 @@ namespace Yasai.Graphics.Layout
 
         public void Clear()
         {
-            foreach (IDrawable s in _children)
-                s.Dispose();
-            
             _children.Clear();
         }
 

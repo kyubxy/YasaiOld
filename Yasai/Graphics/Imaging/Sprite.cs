@@ -130,12 +130,9 @@ namespace Yasai.Graphics.Imaging
         {
             base.Dispose();
             
-            // TODO: implement a copy constructor
-            // https://stackoverflow.com/questions/25738096/c-sdl2-error-when-trying-to-render-sdl-texture-invalid-texture
-            /*
             if (Loaded)
                 SDL.SDL_DestroyTexture(CurrentTexture.Handle);
-                */
+                
         }
         
         

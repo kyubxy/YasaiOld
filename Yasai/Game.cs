@@ -109,6 +109,7 @@ namespace Yasai
         public void Dispose()
         {
             ScreenMgr.Dispose();
+            Content.Dispose();
             SDL.SDL_Quit();
         }
     }

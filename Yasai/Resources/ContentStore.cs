@@ -6,7 +6,7 @@ using Yasai.Resources.Loaders;
 
 namespace Yasai.Resources
 {
-    public class ContentStore
+    public class ContentStore : IDisposable
     {
         public string Root { get; }
 
@@ -62,8 +62,8 @@ namespace Yasai.Resources
 
             // can't find any loaders
             if (loader == null)
-                throw new NotSupportedException($"cannot load file of type {Path.GetExtension(path)}");
-
+                throw new NotSupportedException($"cannot load file of type {Path.GetExtension(path)}"); 
+            
             resources[key] = loader.GetResource(game, Path.Combine(Directory.GetCurrentDirectory(), Root, path), args);
         }
 
@@ -85,6 +85,12 @@ namespace Yasai.Resources
         public void LoadAll()
         {
             // TODO: load all the resources in a folder
+        }
+
+        public void Dispose()
+        {
+            foreach (IResource x in resources.Values) 
+                x.Dispose();
         }
     }
 }
