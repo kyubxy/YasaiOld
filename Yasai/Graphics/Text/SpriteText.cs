@@ -2,6 +2,7 @@ using System;
 using OpenTK.Mathematics;
 using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Layout;
+using Yasai.Graphics.Layout.Groups;
 using Yasai.Resources;
 
 namespace Yasai.Graphics.Text
@@ -67,7 +68,6 @@ namespace Yasai.Graphics.Text
             float accX = 0;
             for (int i = 0; i < chars.Length; i++)
             {
-                // TODO: COPY THE SPRITES GOT DAMN
                 Sprite g = new Sprite(Font.GetGlyph(chars[i]).CurrentTexture);
                 g.Position = new Vector2 (Position.X + accX, Position.Y);
                 accX += g.Size.X;

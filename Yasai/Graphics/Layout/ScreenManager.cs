@@ -5,12 +5,12 @@ namespace Yasai.Graphics.Layout
 {
     public class ScreenManager : Drawable
     {
-        private Screen currentScreen;
+        public Screen CurrentScreen { get; private set; }
 
         private ContentStore _contentStore;
 
-        public ScreenManager(Screen s) => currentScreen = s;
-        public ScreenManager () => currentScreen = new Screen();
+        public ScreenManager(Screen s) => CurrentScreen = s;
+        public ScreenManager () => CurrentScreen = new Screen();
 
         public override bool Loaded => _contentStore != null;
 
@@ -18,35 +18,35 @@ namespace Yasai.Graphics.Layout
         {
             // load in the declarative style
             _contentStore = cs;
-            currentScreen.Load(cs);
+            CurrentScreen.Load(cs);
         }
         
         public void PushScreen(Screen s)
         {
-            currentScreen.Dispose();
+            CurrentScreen.Dispose();
             
             // load in the imperative style
             if (Loaded)
                 s.Load(_contentStore);
             
-            currentScreen = s;
+            CurrentScreen = s;
         }
         
         public override void Update()
         {
             if (Enabled)
-                currentScreen.Update();
+                CurrentScreen.Update();
         }
 
         public override void Draw(IntPtr renderer)
         {
             if (Enabled && Visible)
-                currentScreen.Draw(renderer);
+                CurrentScreen.Draw(renderer);
         }
 
         public override void Dispose()
         {
-            currentScreen.Dispose();
+            CurrentScreen.Dispose();
         }
     }
 }

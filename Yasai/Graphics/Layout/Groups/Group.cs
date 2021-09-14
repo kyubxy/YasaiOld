@@ -2,10 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using OpenTK.Mathematics;
 using Yasai.Resources;
 
-namespace Yasai.Graphics.Layout
+namespace Yasai.Graphics.Layout.Groups
 {
     public class Group : Drawable, ICollection<IDrawable>
     {

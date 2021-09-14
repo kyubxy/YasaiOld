@@ -1,5 +1,6 @@
 using System;
 using SDL2;
+using Yasai.Extensions;
 using Yasai.Graphics.Layout;
 using Yasai.Graphics.YasaiSDL;
 using Yasai.Input;
@@ -69,11 +70,36 @@ namespace Yasai
                     quit = true;
                     break;
                 
-                // TODO method based input:
                 case (SDL.SDL_EventType.SDL_KEYUP):
+                    int i = 0;
+                    foreach (var k in ScreenMgr.CurrentScreen)
+                    {
+                        IKeyListener listener = k as IKeyListener;
+                    
+                        if (listener == null) 
+                            continue;
+                    
+                        if (i == ScreenMgr.CurrentScreen.Count - 1  || listener.IgnoreHierachy)
+                            listener.KeyUp(ev.key.keysym.sym.ToYasaiKeyCode());
+                    
+                        i++;
+                    }
                     break;
                 
                 case (SDL.SDL_EventType.SDL_KEYDOWN):
+                    int ii = 0;
+                    foreach (var k in ScreenMgr.CurrentScreen)
+                    {
+                        IKeyListener listener = k as IKeyListener;
+
+                        if (listener == null) 
+                            continue;
+
+                        if (ii == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
+                            listener.KeyDown(ev.key.keysym.sym.ToYasaiKeyCode());
+
+                        ii++;
+                    }
                     break;
                 
                 case (SDL.SDL_EventType.SDL_MOUSEBUTTONUP):
