@@ -17,8 +17,29 @@ namespace Yasai.Graphics
         public virtual bool Loaded { get; protected set; }
         
         public virtual float Alpha { get; set; }
-        
         public virtual Color4 Colour { get; set; }
+
+        public float X
+        {
+            get => Position.X;
+            set => Position = new Vector2(value, Position.Y);
+        }
+        public float Y
+        {
+            get => Position.Y;
+            set => Position = new Vector2(Position.X, value);
+        }
+
+        public float Width
+        {
+            get => Size.X;
+            set => Size = new Vector2(value, Size.Y);
+        }
+        public float Height
+        {
+            get => Size.Y;
+            set => Size = new Vector2(Size.X, value);
+        }
         public virtual void Load(ContentStore cs)
         {
         }
