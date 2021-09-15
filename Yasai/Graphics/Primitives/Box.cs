@@ -1,34 +1,11 @@
-﻿using System;
-using OpenTK.Audio.OpenAL;
-using OpenTK.Mathematics;
-using SDL2;
-
-namespace Yasai.Graphics.Primitives
+﻿namespace Yasai.Graphics.Primitives
 {
-    public class Box : Drawable
+    /// <summary>
+    /// Texture based box. Although this primitive allows for more transformation options,
+    /// <see cref="PrimitiveBox"/> may help performance-wise under intensive use
+    /// </summary>
+    public class Box
     {
-        public bool Fill = true;
         
-        public override void Draw(IntPtr renderer)
-        {
-            if (!Enabled)
-                return;
-            
-            base.Draw(renderer);
-
-            SDL.SDL_Rect r = new SDL.SDL_Rect
-            {
-                x = (int)Position.X,
-                y = (int)Position.Y,
-                w = (int)Size.X,
-                h = (int)Size.Y
-            };
-            
-            SDL.SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            if (Fill)
-                SDL.SDL_RenderFillRect(renderer, ref r);
-            else
-                SDL.SDL_RenderDrawRect(renderer, ref r);
-        }
     }
 }

@@ -4,7 +4,7 @@ using OpenTK.Mathematics;
 
 namespace Yasai.Graphics
 {
-    public class Drawable : IDrawable
+    public class Drawable : IDrawable, IGeometry
     {
         //private Matrix3 parentTransformations; //yes
         
@@ -40,6 +40,7 @@ namespace Yasai.Graphics
             get => Size.Y;
             set => Size = new Vector2(Size.X, value);
         }
+        
         public virtual void Load(ContentStore cs)
         {
         }

@@ -39,7 +39,7 @@ namespace Yasai.Tests.Scenarios
     {
         public bool IgnoreHierachy { get; }
 
-        private Box box;
+        private PrimitiveBox _primitiveBox;
 
         private SpriteText display;
         private string text;
@@ -52,7 +52,7 @@ namespace Yasai.Tests.Scenarios
 
         public override void Load(ContentStore cs)
         {
-            Add(box = new Box()
+            Add(_primitiveBox = new PrimitiveBox()
             {
                 Position = Position,
                 Size = new Vector2(100),
@@ -69,12 +69,12 @@ namespace Yasai.Tests.Scenarios
 
         public void KeyUp(KeyCode key)
         {
-            box.Fill = false;
+            _primitiveBox.Fill = false;
         }
 
         public void KeyDown(KeyCode key)
         {
-            box.Fill = true;
+            _primitiveBox.Fill = true;
             display.Text = key.ToString();
         }
     }

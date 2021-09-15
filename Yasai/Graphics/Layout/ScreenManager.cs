@@ -1,9 +1,11 @@
 using System;
+using Yasai.Input.Keyboard;
+using Yasai.Input.Mouse;
 using Yasai.Resources;
 
 namespace Yasai.Graphics.Layout
 {
-    public class ScreenManager : Drawable
+    public class ScreenManager : Drawable, IKeyListener, IMouseListener
     {
         public Screen CurrentScreen { get; private set; }
 
@@ -47,6 +49,34 @@ namespace Yasai.Graphics.Layout
         public override void Dispose()
         {
             CurrentScreen.Dispose();
+        }
+
+
+        public bool IgnoreHierachy { get; }
+        
+        public void MouseDown(MouseArgs args)
+        {
+            CurrentScreen.MouseDown(args);
+        }
+
+        public void MouseUp(MouseArgs args)
+        {
+            CurrentScreen.MouseUp(args);
+        }
+
+        public void MouseMotion(MouseArgs args)
+        {
+            CurrentScreen.MouseMotion(args);
+        }
+
+        public void KeyUp(KeyCode key)
+        {
+            CurrentScreen.KeyUp(key);
+        }
+
+        public void KeyDown(KeyCode key)
+        {
+            CurrentScreen.KeyUp(key);
         }
     }
 }

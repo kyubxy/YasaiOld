@@ -15,7 +15,7 @@ namespace Yasai.Graphics.Layout.Groups
         private List<IDrawable> _children;
         private ContentStore _contentStore;
 
-        private Box box;
+        private PrimitiveBox _primitiveBox;
 
         private Vector2 position;
         public override Vector2 Position
@@ -24,7 +24,7 @@ namespace Yasai.Graphics.Layout.Groups
             set
             {
                 position = value;
-                box.Position = value;
+                _primitiveBox.Position = value;
             }
         }
 
@@ -35,7 +35,7 @@ namespace Yasai.Graphics.Layout.Groups
             set
             {
                 size = value;
-                box.Size = value;
+                _primitiveBox.Size = value;
             }
         }
 
@@ -46,7 +46,7 @@ namespace Yasai.Graphics.Layout.Groups
             set
             {
                 fill = value;
-                box.Enabled = value;
+                _primitiveBox.Enabled = value;
             }
         }
 
@@ -55,16 +55,20 @@ namespace Yasai.Graphics.Layout.Groups
         public Group(List<IDrawable> children)
         {
             _children = children;
-            box = new Box();
+            _primitiveBox = new PrimitiveBox();
             Fill = false;
         }
 
         public Group() : this (new List<IDrawable>())
         { }
 
+        public Group(IDrawable[] children) : this(children.ToList())
+        {
+        }
+
         public override void Load(ContentStore cs)
         {
-            box.Load(cs);
+            _primitiveBox.Load(cs);
             foreach (IDrawable s in _children)
                 s.Load(cs);
         }
@@ -83,6 +87,12 @@ namespace Yasai.Graphics.Layout.Groups
                 item.Load(_contentStore);
             
             _children.Add(item);
+        }
+
+        public void AddAll(IDrawable[] array)
+        {
+            foreach (IDrawable d in array)
+                Add(d);
         }
 
         public void Clear()
@@ -109,7 +119,7 @@ namespace Yasai.Graphics.Layout.Groups
         {
             if (Visible && Enabled)
             {
-                box.Draw(renderer);
+                _primitiveBox.Draw(renderer);
                 foreach (IDrawable s in _children)
                     s.Draw(renderer);
             }

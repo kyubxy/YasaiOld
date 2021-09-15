@@ -14,7 +14,7 @@ namespace Yasai
     /// <summary>
     /// main game instance, globally available information lives here
     /// </summary>
-    public class Game : IDisposable
+    public class Game : IDisposable, IKeyListener, IMouseListener
     {
         public Window Window { get; private set; }
         public Renderer Renderer { get; private set; } 
@@ -74,67 +74,19 @@ namespace Yasai
                 
                 #region input systems
                 case (SDL.SDL_EventType.SDL_KEYUP):
-                    int i = 0;
-                    foreach (var k in ScreenMgr.CurrentScreen)
-                    {
-                        IKeyListener listener = k as IKeyListener;
-                    
-                        if (listener == null) 
-                            continue;
-                    
-                        if (i == ScreenMgr.CurrentScreen.Count - 1  || listener.IgnoreHierachy)
-                            listener.KeyUp(ev.key.keysym.sym.ToYasaiKeyCode());
-                    
-                        i++;
-                    }
+                    KeyUp(ev.key.keysym.sym.ToYasaiKeyCode());
                     break;
                 
                 case (SDL.SDL_EventType.SDL_KEYDOWN):
-                    int ii = 0;
-                    foreach (var k in ScreenMgr.CurrentScreen)
-                    {
-                        IKeyListener listener = k as IKeyListener;
-
-                        if (listener == null) 
-                            continue;
-
-                        if (ii == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
-                            listener.KeyDown(ev.key.keysym.sym.ToYasaiKeyCode());
-
-                        ii++;
-                    }
+                    KeyDown(ev.key.keysym.sym.ToYasaiKeyCode());
                     break;
                 
                 case (SDL.SDL_EventType.SDL_MOUSEBUTTONUP):
-                   int iii = 0;
-                   foreach (var k in ScreenMgr.CurrentScreen)
-                   {
-                       IMouseListener listener = k as IMouseListener;
-                
-                       if (listener == null) 
-                           continue;
-
-                       if (iii == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
-                           listener.MouseUp(new MouseArgs((MouseButton)ev.button.button, new Vector2(ev.button.x, ev.button.y)));
-                
-                       iii++;
-                   }
-                   break;
+                    MouseUp(new MouseArgs((MouseButton) ev.button.button, new Vector2(ev.button.x, ev.button.y)));
+                    break;
                 
                 case (SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN):
-                    int iv = 0;
-                    foreach (var k in ScreenMgr.CurrentScreen)
-                    {
-                        IMouseListener listener = k as IMouseListener;
-                    
-                        if (listener == null) 
-                            continue;
-                    
-                        if (iv == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy) 
-                            listener.MouseDown(new MouseArgs((MouseButton)ev.button.button, new Vector2(ev.button.x, ev.button.y)));
-                    
-                        iv++;
-                    }
+                    MouseDown(new MouseArgs((MouseButton) ev.button.button, new Vector2(ev.button.x, ev.button.y)));
                     break;
                 
                 case (SDL.SDL_EventType.SDL_MOUSEWHEEL):
@@ -142,19 +94,8 @@ namespace Yasai
                     break;
                 
                 case (SDL.SDL_EventType.SDL_MOUSEMOTION):
-                    int v = 0;
-                    foreach (var k in ScreenMgr.CurrentScreen)
-                    {
-                        IMouseListener listener = k as IMouseListener;
+                    MouseMotion(new MouseArgs(new Vector2(ev.button.x, ev.button.y)));
                     
-                        if (listener == null) 
-                            continue;
-
-                        if (v == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
-                            listener.MouseMotion(new MouseArgs(new Vector2(ev.button.x, ev.button.y)));
-                    
-                        v++;
-                    }
                     break;
                 
                 #endregion
@@ -182,6 +123,100 @@ namespace Yasai
             ScreenMgr.Dispose();
             Content.Dispose();
             SDL.SDL_Quit();
+        }
+
+        // bruh
+        public bool IgnoreHierachy => true;
+        
+        public virtual void MouseDown(MouseArgs args)
+        {
+            ScreenMgr.MouseDown(args);
+            int iv = 0;
+            foreach (var k in ScreenMgr.CurrentScreen)
+            {
+                IMouseListener listener = k as IMouseListener;
+            
+                if (listener == null) 
+                    continue;
+            
+                if (iv == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy) 
+                    listener.MouseDown(args);
+            
+                iv++;
+            }
+        }
+
+        public virtual void MouseUp(MouseArgs args)
+        {
+            ScreenMgr.MouseUp(args);
+            int iii = 0;
+            foreach (var k in ScreenMgr.CurrentScreen)
+            {
+                IMouseListener listener = k as IMouseListener;
+            
+                if (listener == null) 
+                    continue;
+            
+                if (iii == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
+                    listener.MouseUp(args);
+            
+                iii++;
+            }
+        }
+
+        public virtual void MouseMotion(MouseArgs args)
+        {
+            ScreenMgr.MouseMotion(args);
+            int v = 0;
+            foreach (var k in ScreenMgr.CurrentScreen)
+            {
+                IMouseListener listener = k as IMouseListener;
+            
+                if (listener == null) 
+                    continue;
+            
+                if (v == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
+                    listener.MouseMotion(args);
+            
+                v++;
+            }
+        }
+
+        public virtual void KeyUp(KeyCode key)
+        {
+            ScreenMgr.KeyUp(key);
+            int i = 0;
+            foreach (var k in ScreenMgr.CurrentScreen)
+            {
+                IKeyListener listener = k as IKeyListener;
+            
+                if (listener == null) 
+                    continue;
+            
+                if (i == ScreenMgr.CurrentScreen.Count - 1  || listener.IgnoreHierachy)
+                    listener.KeyUp(key);
+            
+                i++;
+            }
+        }
+
+        public virtual void KeyDown(KeyCode key)
+        {
+            ScreenMgr.KeyDown(key);
+            
+            int ii = 0;
+            foreach (var k in ScreenMgr.CurrentScreen)
+            {
+                IKeyListener listener = k as IKeyListener;
+            
+                if (listener == null) 
+                    continue;
+            
+                if (ii == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
+                    listener.KeyDown(key);
+            
+                ii++;
+            }
         }
     }
 }

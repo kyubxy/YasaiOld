@@ -18,13 +18,11 @@ namespace Yasai.Tests.Scenarios
                 Size = new Vector2(200)
             });
             
-            g.OnRelease += GOnOnRelease;
         }
 
         private void GOnOnRelease(object? sender, EventArgs e)
         {
             MouseArgs args = (MouseArgs) e;
-            Console.WriteLine(args.Button);
         }
     }
 }
