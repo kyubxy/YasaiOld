@@ -32,6 +32,7 @@ features are still being rushed into the framework to get something feasible run
 - basic debug tools
 - basic testing interface
 - complete in code XML documentation
+- linux support through .net 5
 
 ## Part 2, more features 
 more care will be taken in maintaining code quality and readability. it will probably be easier to contribute by this point. By the end of part 2, the following will be implemented
