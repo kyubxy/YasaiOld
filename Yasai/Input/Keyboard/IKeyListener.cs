@@ -1,4 +1,4 @@
-﻿namespace Yasai.Input
+﻿namespace Yasai.Input.Keyboard
 {
     public interface IKeyListener 
     {

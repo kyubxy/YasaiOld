@@ -3,7 +3,8 @@ using SDL2;
 using Yasai.Extensions;
 using Yasai.Graphics.Layout;
 using Yasai.Graphics.YasaiSDL;
-using Yasai.Input;
+using Yasai.Input.Keyboard;
+using Yasai.Input.Mouse;
 using Yasai.Resources;
 
 
@@ -70,6 +71,7 @@ namespace Yasai
                     quit = true;
                     break;
                 
+                #region input systems
                 case (SDL.SDL_EventType.SDL_KEYUP):
                     int i = 0;
                     foreach (var k in ScreenMgr.CurrentScreen)
@@ -103,9 +105,35 @@ namespace Yasai
                     break;
                 
                 case (SDL.SDL_EventType.SDL_MOUSEBUTTONUP):
-                    break;
+                   int iii = 0;
+                   foreach (var k in ScreenMgr.CurrentScreen)
+                   {
+                       IMouseListener listener = k as IMouseListener;
+                
+                       if (listener == null) 
+                           continue;
+                
+                       if (iii == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
+                           listener.MouseUp((MouseButton)ev.button.button);
+                
+                       iii++;
+                   }
+                   break;
                 
                 case (SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN):
+                    int iv = 0;
+                    foreach (var k in ScreenMgr.CurrentScreen)
+                    {
+                        IMouseListener listener = k as IMouseListener;
+                    
+                        if (listener == null) 
+                            continue;
+                    
+                        if (iv == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
+                            listener.MouseDown((MouseButton)ev.button.button);
+                    
+                        iv++;
+                    }
                     break;
                 
                 case (SDL.SDL_EventType.SDL_MOUSEWHEEL):
@@ -113,6 +141,8 @@ namespace Yasai
                 
                 case (SDL.SDL_EventType.SDL_MOUSEMOTION):
                     break;
+                
+                #endregion
             }
         }
 

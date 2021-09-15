@@ -1,5 +1,5 @@
 ﻿using SDL2;
-using Yasai.Input;
+using Yasai.Input.Keyboard;
 
 namespace Yasai.Extensions
 {

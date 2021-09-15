@@ -2,7 +2,7 @@
 using Yasai.Graphics.Layout.Groups;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
-using Yasai.Input;
+using Yasai.Input.Keyboard;
 using Yasai.Resources;
 
 namespace Yasai.Tests.Scenarios
