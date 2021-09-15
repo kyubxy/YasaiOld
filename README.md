@@ -7,16 +7,6 @@ the funny vegetable framework, this serves as my general graphics playground. Po
 
 This framework features an awful mismatch of imperative and declerative programming styles to iterate interfaces in a concise yet comprehensive fashion. What you're looking at here is the culmination of years of wasted time and effort to produce what is subpar at best!
 
-# Where
-here
-
-# Who
-Me, I wrote it.
-Currently ssing OpenTK purely for maths tools (bad idea), this is bound to change really soon.
-
-# When
-now
-
 # Why
 I like writing code that does nothing impressive.
 
