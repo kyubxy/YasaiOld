@@ -7,16 +7,9 @@ the funny vegetable framework, this serves as my general graphics playground. Po
 
 This framework features an awful mismatch of imperative and declerative programming styles to iterate interfaces in a concise yet comprehensive fashion. What you're looking at here is the culmination of years of wasted time and effort to produce what is subpar at best!
 
-# Why
+## Why
 I like writing code that does nothing impressive.
 
 # Use and contribution
 Please don't use it, use something else.
-Please don't contribute. Otherwise, explain the inner workings of your pull requests as though the reader is five.
-
-# Folders
-## Yasai
-actual library that contains code
-
-## Yasai.Tests
-testing code
+If you do want to contribute, explain the inner workings of your pull requests as though the reader is five.
