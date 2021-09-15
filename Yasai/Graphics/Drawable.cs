@@ -6,7 +6,7 @@ namespace Yasai.Graphics
 {
     public class Drawable : IDrawable
     {
-        //private Matrix3 parentTransformations;
+        //private Matrix3 parentTransformations; //yes
         
         public virtual Vector2 Position { get; set; }
         public virtual Vector2 Origin { get; set; }
