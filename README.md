@@ -15,7 +15,7 @@ This is literaly a worse version of [osu framework](https://github.com/ppy/osu-f
 
 The roadmap section below mentions the project is still in its *part 1*. Although development will be fast paced and code will be frantically put together, I will still take the time to review any PRs that are sent. 
 
-**At this point in time, although the code is open source, the general development process will be largely kept to myself**
+**At this point in time, although the code is open source, the general development process will be largely kept to myself**. This will change after part 1.
 
 Please also keep in mind that Yasai is being built primarily for myself and my own projects, many of the functionality is not being designed to account for broader use cases outside of my own. Despite this, others are still free and welcome to use it for their own projects. 
 
