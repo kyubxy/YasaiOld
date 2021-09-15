@@ -7,8 +7,8 @@ namespace Yasai.Input.Mouse
     {
         bool IgnoreHierachy { get; }
         
-        public void MouseDown (MouseButton button, Vector2 position);
-        public void MouseUp (MouseButton button, Vector2 position);
-        public void MouseMotion (Vector2 position);
+        public void MouseDown (MouseArgs args);
+        public void MouseUp (MouseArgs args);
+        public void MouseMotion (MouseArgs args);
     }
 }

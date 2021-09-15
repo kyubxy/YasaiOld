@@ -9,21 +9,20 @@ namespace Yasai.Tests.Scenarios
 {
     public class KeyboardTest : Scenario
     {
-        private InputReceiver ir; 
         public KeyboardTest()
         {
-            Add (ir = new InputReceiver(false, "lowest one (not focused)")
+            Add (new KeyReceiver(false, "lowest one (not focused)")
             {
                 Position = new Vector2(300, 100)
             });
 
             // sigma ir
-            Add(ir = new InputReceiver(true, "second one (not focused but ignoring hierarchy )")
+            Add(new KeyReceiver(true, "second one (not focused but ignoring hierarchy )")
             {
                 Position = new Vector2(300)
             });
                 
-            Add (ir = new InputReceiver(false, "front one (focused)")
+            Add (new KeyReceiver(false, "front one (focused)")
             {
                 Position = new Vector2(300, 500)
             });
@@ -36,7 +35,7 @@ namespace Yasai.Tests.Scenarios
         }
     }
 
-    sealed class InputReceiver : Group, IKeyListener
+    sealed class KeyReceiver : Group, IKeyListener
     {
         public bool IgnoreHierachy { get; }
 
@@ -45,7 +44,7 @@ namespace Yasai.Tests.Scenarios
         private SpriteText display;
         private string text;
 
-        public InputReceiver(bool ignoreHierachy, string text)
+        public KeyReceiver(bool ignoreHierachy, string text)
         {
             IgnoreHierachy = ignoreHierachy;
             this.text = text;

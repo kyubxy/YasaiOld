@@ -113,9 +113,9 @@ namespace Yasai
                 
                        if (listener == null) 
                            continue;
-                
+
                        if (iii == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
-                           listener.MouseUp((MouseButton)ev.button.button, new Vector2(ev.button.x, ev.button.y));
+                           listener.MouseUp(new MouseArgs((MouseButton)ev.button.button, new Vector2(ev.button.x, ev.button.y)));
                 
                        iii++;
                    }
@@ -131,7 +131,7 @@ namespace Yasai
                             continue;
                     
                         if (iv == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy) 
-                            listener.MouseDown((MouseButton)ev.button.button, new Vector2(ev.button.x, ev.button.y));
+                            listener.MouseDown(new MouseArgs((MouseButton)ev.button.button, new Vector2(ev.button.x, ev.button.y)));
                     
                         iv++;
                     }
@@ -151,7 +151,7 @@ namespace Yasai
                             continue;
 
                         if (v == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
-                            listener.MouseMotion(new Vector2(ev.button.x, ev.button.y));
+                            listener.MouseMotion(new MouseArgs(new Vector2(ev.button.x, ev.button.y)));
                     
                         v++;
                     }

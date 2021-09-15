@@ -33,7 +33,7 @@ namespace Yasai.Tests.Scenarios
         }
     }
 
-    sealed class MouseInput : Group, IMouseListener
+    sealed class MouseInput : Group
     {
         public bool IgnoreHierachy { get; }
         
@@ -57,21 +57,28 @@ namespace Yasai.Tests.Scenarios
             
             base.Load(cs);
         }
-
-        public void MouseDown(MouseButton button, Vector2 position)
+        
+        public override void MouseDown(MouseArgs args)
         {
-            box.Fill = true;
+            base.MouseDown(args);
+            
+            if (args.Button == MouseButton.Left)
+                box.Fill = true;
         }
 
-        public void MouseUp(MouseButton button, Vector2 position)
+        public override void MouseUp(MouseArgs args)
         {
+            base.MouseUp(args);
+            
             box.Fill = false;
         }
 
-        public void MouseMotion(Vector2 position)
+        public override void MouseMotion(MouseArgs args)
         {
+            base.MouseMotion(args);
+            
             if (noisy)
-                Console.WriteLine(position);
+                Console.WriteLine(args.Position);
         }
     }
 }
