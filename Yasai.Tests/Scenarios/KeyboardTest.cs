@@ -36,7 +36,7 @@ namespace Yasai.Tests.Scenarios
         }
     }
 
-    public sealed class InputReceiver : Group, IKeyListener
+    sealed class InputReceiver : Group, IKeyListener
     {
         public bool IgnoreHierachy { get; }
 

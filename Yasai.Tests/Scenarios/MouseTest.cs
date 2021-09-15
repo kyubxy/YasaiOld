@@ -1,4 +1,5 @@
-﻿using OpenTK.Mathematics;
+﻿using System;
+using OpenTK.Mathematics;
 using Yasai.Graphics.Layout.Groups;
 using Yasai.Graphics.Primitives;
 using Yasai.Input.Mouse;
@@ -10,7 +11,7 @@ namespace Yasai.Tests.Scenarios
     {
         public MouseTest()
         {
-            Add(new MouseInput(true)
+            Add(new MouseInput(true, true)
             {
                 Position = new Vector2(150,100)
             });
@@ -32,13 +33,17 @@ namespace Yasai.Tests.Scenarios
         }
     }
 
-    class MouseInput : Group, IMouseListener
+    sealed class MouseInput : Group, IMouseListener
     {
-        private Box box;
+        public bool IgnoreHierachy { get; }
         
-        public MouseInput (bool ignoreHierachy)
+        private Box box;
+        private bool noisy;
+        
+        public MouseInput (bool ignoreHierachy, bool noisy = false)
         {
             IgnoreHierachy = ignoreHierachy;
+            this.noisy = noisy;
         }
 
         public override void Load(ContentStore cs)
@@ -53,15 +58,20 @@ namespace Yasai.Tests.Scenarios
             base.Load(cs);
         }
 
-        public bool IgnoreHierachy { get; }
-        public void MouseDown(MouseButton button)
+        public void MouseDown(MouseButton button, Vector2 position)
         {
             box.Fill = true;
         }
 
-        public void MouseUp(MouseButton button)
+        public void MouseUp(MouseButton button, Vector2 position)
         {
             box.Fill = false;
+        }
+
+        public void MouseMotion(Vector2 position)
+        {
+            if (noisy)
+                Console.WriteLine(position);
         }
     }
 }

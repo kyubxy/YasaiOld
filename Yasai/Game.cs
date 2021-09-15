@@ -1,4 +1,5 @@
 using System;
+using OpenTK.Mathematics;
 using SDL2;
 using Yasai.Extensions;
 using Yasai.Graphics.Layout;
@@ -114,7 +115,7 @@ namespace Yasai
                            continue;
                 
                        if (iii == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
-                           listener.MouseUp((MouseButton)ev.button.button);
+                           listener.MouseUp((MouseButton)ev.button.button, new Vector2(ev.button.x, ev.button.y));
                 
                        iii++;
                    }
@@ -129,17 +130,31 @@ namespace Yasai
                         if (listener == null) 
                             continue;
                     
-                        if (iv == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
-                            listener.MouseDown((MouseButton)ev.button.button);
+                        if (iv == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy) 
+                            listener.MouseDown((MouseButton)ev.button.button, new Vector2(ev.button.x, ev.button.y));
                     
                         iv++;
                     }
                     break;
                 
                 case (SDL.SDL_EventType.SDL_MOUSEWHEEL):
+                    // TODO: mousewheel
                     break;
                 
                 case (SDL.SDL_EventType.SDL_MOUSEMOTION):
+                    int v = 0;
+                    foreach (var k in ScreenMgr.CurrentScreen)
+                    {
+                        IMouseListener listener = k as IMouseListener;
+                    
+                        if (listener == null) 
+                            continue;
+
+                        if (v == ScreenMgr.CurrentScreen.Count - 1 || listener.IgnoreHierachy)
+                            listener.MouseMotion(new Vector2(ev.button.x, ev.button.y));
+                    
+                        v++;
+                    }
                     break;
                 
                 #endregion
