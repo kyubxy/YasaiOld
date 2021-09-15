@@ -6,7 +6,7 @@ namespace Yasai.Tests
     {
         public TestGame()
         {
-            ScreenMgr.PushScreen(new MouseTest());
+            ScreenMgr.PushScreen(new ClickableGroupTest());
         }
     }
 }

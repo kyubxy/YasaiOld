@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using OpenTK.Mathematics;
+using Yasai.Graphics.Primitives;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
@@ -14,20 +15,56 @@ namespace Yasai.Graphics.Layout.Groups
         private List<IDrawable> _children;
         private ContentStore _contentStore;
 
+        private Box box;
+
+        private Vector2 position;
+        public override Vector2 Position
+        {
+            get => position;
+            set
+            {
+                position = value;
+                box.Position = value;
+            }
+        }
+
+        private Vector2 size;
+        public override Vector2 Size
+        {
+            get => size;
+            set
+            {
+                size = value;
+                box.Size = value;
+            }
+        }
+
+        private bool fill;
+        public bool Fill
+        {
+            get => fill;
+            set
+            {
+                fill = value;
+                box.Enabled = value;
+            }
+        }
+
         public override bool Loaded => _children.All(x => x.Loaded) && _contentStore != null;
 
         public Group(List<IDrawable> children)
         {
             _children = children;
+            box = new Box();
+            Fill = false;
         }
 
-        public Group()
-        {
-            _children = new List<IDrawable>();
-        }
+        public Group() : this (new List<IDrawable>())
+        { }
 
         public override void Load(ContentStore cs)
         {
+            box.Load(cs);
             foreach (IDrawable s in _children)
                 s.Load(cs);
         }
@@ -72,6 +109,7 @@ namespace Yasai.Graphics.Layout.Groups
         {
             if (Visible && Enabled)
             {
+                box.Draw(renderer);
                 foreach (IDrawable s in _children)
                     s.Draw(renderer);
             }

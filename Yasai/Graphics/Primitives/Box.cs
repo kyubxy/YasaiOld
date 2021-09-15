@@ -11,6 +11,9 @@ namespace Yasai.Graphics.Primitives
         
         public override void Draw(IntPtr renderer)
         {
+            if (!Enabled)
+                return;
+            
             base.Draw(renderer);
 
             SDL.SDL_Rect r = new SDL.SDL_Rect
