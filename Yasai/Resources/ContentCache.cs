@@ -2,16 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using Yasai.Resources.Loaders;
 
 namespace Yasai.Resources
 {
-    public class ContentCache : IDisposable
+    public class ContentCache : IDisposable, ILoad
     {
         public string Root { get; }
 
-        private string MANAGER = "manager.txt";
+        private string MANAGER => "manager.json";
+        private ContentManager manager;
 
+        private string resourcePath => Path.Combine(Directory.GetCurrentDirectory(), Root);
+        
+        public bool Loaded => manager != null;
+        
         private Dictionary<string, IResource> resources;
 
         protected List<ILoader> Loaders;
@@ -51,10 +57,14 @@ namespace Yasai.Resources
         }
 
         /// <summary>
-        /// Loads a single resource from the path
+        /// Loads a single directory from the path and adds it to the internal dictionary
         /// </summary>
-        /// <param name="path"></param>
-        public void LoadResource(string path, string _key = null, ILoadArgs args = null)
+        /// <param name="path">path to resource</param>
+        /// <param name="_key">dictionary key, how to reference the resource, blank entries default to the extensionless resource filename</param>
+        /// <param name="args">additional load arguments supported by the loader</param>
+        /// <param name="hushWarnings">whether the program should report unloadable resources</param>
+        /// <exception cref="NotSupportedException"></exception>
+        public void LoadResource(string path, string _key = null, ILoadArgs args = null, bool hushWarnings = false)
         {
             // TODO: prevent double loading, maybe store the path somewhere
             string key = _key == null ? Path.GetFileNameWithoutExtension(path) : _key;
@@ -62,9 +72,13 @@ namespace Yasai.Resources
 
             // can't find any loaders
             if (loader == null)
-                throw new NotSupportedException($"cannot load file of type {Path.GetExtension(path)}"); 
-            
-            resources[key] = loader.GetResource(game, Path.Combine(Directory.GetCurrentDirectory(), Root, path), args);
+            {
+                if (!hushWarnings)
+                    Console.WriteLine($"cannot load file of type {Path.GetExtension(path)}, it was subsequently skipped");
+                return;
+            }
+
+            resources[key] = loader.GetResource(game, Path.Combine(resourcePath, path), args);
         }
 
         /// <summary>
@@ -74,6 +88,12 @@ namespace Yasai.Resources
         public void LoadResources(string group)
         {
             // TODO: load resources from files
+            if (manager.Empty)
+            {
+                Console.WriteLine("Either the manager is empty or it was not loaded when LoadResources was called");
+                return;
+            }
+            
             throw new NotImplementedException();
         }
 
@@ -81,16 +101,44 @@ namespace Yasai.Resources
         /// Loads *all* of the resources in the root.
         /// Use this only for smaller projects, otherwise, avoid this at all costs and use functions like
         /// <see cref="LoadResources"/> to load in larger amounts of assets at once or <see cref="LoadResource"/>
+        /// <param name="readManager">whether it should read the manager.txt for all resources</param>
         /// </summary>
-        public void LoadAll()
+        public void LoadAll(bool readManager = true)
         {
-            // TODO: load all the resources in a folder
+            
         }
 
         public void Dispose()
         {
             foreach (IResource x in resources.Values) 
                 x.Dispose();
+        }
+
+        public void Load(ContentCache cache)
+        {
+            string path = Path.Combine(resourcePath, MANAGER);
+
+            if (File.Exists(path))
+                manager = JsonSerializer.Deserialize<ContentManager>(path);
+            else
+                manager = new ContentManager();
+        }
+
+        /// <summary>
+        /// Write the manager to the resource path.
+        /// Will overwrite the previous written manager.
+        /// Will not overwrite the current manager.
+        /// Will not write an empty manager
+        /// </summary>
+        public void Write()
+        {
+            if (manager.Empty)
+                Console.WriteLine("The manager is empty, aborting the write process..");
+            else
+            {
+                string jsonStr = JsonSerializer.Serialize(manager);
+                File.WriteAllText(Path.Combine (resourcePath, "manager_written.txt"), jsonStr);
+            }
         }
     }
 }
