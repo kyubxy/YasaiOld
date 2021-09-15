@@ -25,7 +25,7 @@ namespace Yasai
 
         protected ScreenManager ScreenMgr;
         protected Screen Children;
-        protected ContentStore Content;
+        protected ContentCache Content;
 
         public Game()
         {
@@ -42,7 +42,7 @@ namespace Yasai
         {
             Window = new Window(title);
             Renderer = new Renderer(Window);
-            Content = new ContentStore(this);
+            Content = new ContentCache(this);
            
             ScreenMgr.Load(Content);
             Load();

@@ -6,7 +6,7 @@ using Yasai.Resources.Loaders;
 
 namespace Yasai.Resources
 {
-    public class ContentStore : IDisposable
+    public class ContentCache : IDisposable
     {
         public string Root { get; }
 
@@ -18,7 +18,7 @@ namespace Yasai.Resources
 
         private Game game;
         
-        public ContentStore(string root)
+        public ContentCache(string root)
         {
             Root = root;
             resources = new Dictionary<string, IResource>();
@@ -29,7 +29,7 @@ namespace Yasai.Resources
             Loaders.Add(new FontLoader());
         }
 
-        public ContentStore(Game game) : this("Assets") 
+        public ContentCache(Game game) : this("Assets") 
             => this.game = game;
 
         /// <summary>

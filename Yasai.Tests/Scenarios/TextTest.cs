@@ -16,10 +16,10 @@ namespace Yasai.Tests.Scenarios
             });
         }
 
-        public override void Load(ContentStore cs)
+        public override void Load(ContentCache cache)
         {
-            cs.LoadResource("tahoma.ttf", args: new FontArgs(90));
-            base.Load(cs);
+            cache.LoadResource("tahoma.ttf", args: new FontArgs(90));
+            base.Load(cache);
         }
 
         private int i = 0;

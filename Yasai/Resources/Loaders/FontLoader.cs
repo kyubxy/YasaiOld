@@ -33,10 +33,10 @@ namespace Yasai.Resources.Loaders
         public int Size { get; } = 32;
         public char[] CharacterSet { get; } 
 
-        public FontArgs(int size, char[] cs)
+        public FontArgs(int size, char[] cache)
         {
             Size = size;
-            CharacterSet = cs;
+            CharacterSet = cache;
         }
 
         public FontArgs(int size) : this() => Size = size;

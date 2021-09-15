@@ -48,7 +48,7 @@ namespace Yasai.Graphics.Primitives
        {
        }
 
-       public void Load(ContentStore cs)
+       public void Load(ContentCache cache)
        {
        }
        

@@ -13,7 +13,7 @@ namespace Yasai.Graphics.Layout.Groups
     public class Group : Drawable, ICollection<IDrawable>, IMouseListener, IKeyListener
     {
         private List<IDrawable> _children;
-        private ContentStore _contentStore;
+        private ContentCache _contentCache;
 
         private PrimitiveBox _primitiveBox;
 
@@ -50,7 +50,7 @@ namespace Yasai.Graphics.Layout.Groups
             }
         }
 
-        public override bool Loaded => _children.All(x => x.Loaded) && _contentStore != null;
+        public override bool Loaded => _children.All(x => x.Loaded) && _contentCache != null;
 
         public Group(List<IDrawable> children)
         {
@@ -66,11 +66,11 @@ namespace Yasai.Graphics.Layout.Groups
         {
         }
 
-        public override void Load(ContentStore cs)
+        public override void Load(ContentCache cache)
         {
-            _primitiveBox.Load(cs);
+            _primitiveBox.Load(cache);
             foreach (IDrawable s in _children)
-                s.Load(cs);
+                s.Load(cache);
         }
 
         public override void Dispose()
@@ -84,7 +84,7 @@ namespace Yasai.Graphics.Layout.Groups
                 return;
 
             if (Loaded && !item.Loaded)
-                item.Load(_contentStore);
+                item.Load(_contentCache);
             
             _children.Add(item);
         }

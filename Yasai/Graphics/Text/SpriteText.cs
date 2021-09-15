@@ -47,13 +47,13 @@ namespace Yasai.Graphics.Text
             _fontLoc = font;
         }
 
-        public override void Load(ContentStore cs)
+        public override void Load(ContentCache cache)
         {
             if (!Loaded) 
-                Font = cs.GetResource<SpriteFont>(_fontLoc);
+                Font = cache.GetResource<SpriteFont>(_fontLoc);
             Font.LoadGlyphs();
             
-            base.Load(cs);
+            base.Load(cache);
             
             updateText();
         }

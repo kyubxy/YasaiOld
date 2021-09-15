@@ -40,10 +40,10 @@ namespace Yasai.Tests.Scenarios
             });
         }
 
-        public override void Load(ContentStore cs)
+        public override void Load(ContentCache cache)
         {
-            cs.LoadResource("ino.png");
-            base.Load(cs);
+            cache.LoadResource("ino.png");
+            base.Load(cache);
         }
 
         public override void Update()

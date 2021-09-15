@@ -80,15 +80,15 @@ namespace Yasai.Graphics.Imaging
             Origin = new Vector2(Size.X / 2, Size.Y / 2);
         }
         
-        public override void Load(ContentStore cs)
+        public override void Load(ContentCache cache)
         {
-            base.Load(cs);
+            base.Load(cache);
             
-            if (cs == null)
+            if (cache == null)
                 throw new NullReferenceException("the content store was null");
             
             if (!Loaded)
-                CurrentTexture = cs.GetResource<Texture>(path);
+                CurrentTexture = cache.GetResource<Texture>(path);
 
             Size = Size == Vector2.Zero ? CurrentTexture.Size : Size;
             Origin = new Vector2(Size.X / 2, Size.Y / 2);

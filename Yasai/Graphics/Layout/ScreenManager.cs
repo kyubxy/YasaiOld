@@ -9,18 +9,18 @@ namespace Yasai.Graphics.Layout
     {
         public Screen CurrentScreen { get; private set; }
 
-        private ContentStore _contentStore;
+        private ContentCache _contentCache;
 
         public ScreenManager(Screen s) => CurrentScreen = s;
         public ScreenManager () => CurrentScreen = new Screen();
 
-        public override bool Loaded => _contentStore != null;
+        public override bool Loaded => _contentCache != null;
 
-        public override void Load(ContentStore cs)
+        public override void Load(ContentCache cache)
         {
             // load in the declarative style
-            _contentStore = cs;
-            CurrentScreen.Load(cs);
+            _contentCache = cache;
+            CurrentScreen.Load(cache);
         }
         
         public void PushScreen(Screen s)
@@ -29,7 +29,7 @@ namespace Yasai.Graphics.Layout
             
             // load in the imperative style
             if (Loaded)
-                s.Load(_contentStore);
+                s.Load(_contentCache);
             
             CurrentScreen = s;
         }

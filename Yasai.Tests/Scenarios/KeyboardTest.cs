@@ -28,10 +28,10 @@ namespace Yasai.Tests.Scenarios
             });
         }
 
-        public override void Load(ContentStore cs)
+        public override void Load(ContentCache cache)
         {
-            cs.LoadResource("tahoma.ttf");
-            base.Load(cs);
+            cache.LoadResource("tahoma.ttf");
+            base.Load(cache);
         }
     }
 
@@ -50,7 +50,7 @@ namespace Yasai.Tests.Scenarios
             this.text = text;
         }
 
-        public override void Load(ContentStore cs)
+        public override void Load(ContentCache cache)
         {
             Add(_primitiveBox = new PrimitiveBox()
             {
@@ -64,7 +64,7 @@ namespace Yasai.Tests.Scenarios
                 Position = Vector2.Add (Position, new Vector2(200, 0))
             });
             
-            base.Load(cs);
+            base.Load(cache);
         }
 
         public void KeyUp(KeyCode key)
