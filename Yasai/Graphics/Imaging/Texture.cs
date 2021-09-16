@@ -5,10 +5,9 @@ using Yasai.Resources;
 
 namespace Yasai.Graphics.Imaging
 {
-    public class Texture : IResource
+    public class Texture : Resource
     {
-        // texture -> Draw this!!
-        public IntPtr Handle { get; }
+        // texture -> Draw using Handle!! (inherited from Resource)
 
         public Vector2 Size
         {
@@ -23,9 +22,10 @@ namespace Yasai.Graphics.Imaging
             }
         }
 
-        public Texture(IntPtr ptr) => Handle = ptr;
+        public Texture(IntPtr ptr, string path = "") : base(ptr, path)
+        { }
         
-        public Texture () {}
+        public Texture() {}
 
         public void Dispose()
         {

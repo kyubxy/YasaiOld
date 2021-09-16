@@ -9,21 +9,18 @@ using Yasai.Graphics.Imaging;
 
 namespace Yasai.Graphics.Text
 {
-    public class SpriteFont : IResource
+    public class SpriteFont : Resource
     {
-        public IntPtr Handle { get; }
-
         private Dictionary<char, Sprite> glyphs = new Dictionary<char, Sprite>();
 
         private char[] characterSet;
 
         private Game game;
         
-        public SpriteFont(Game game, char[] characterSet, IntPtr h)
+        public SpriteFont(Game game, char[] characterSet, IntPtr h, string path = "") : base(h, path)
         {
             this.characterSet = characterSet;
             this.game = game;
-            Handle = h;
         }
 
         /// <summary>

@@ -15,10 +15,10 @@ namespace Yasai.Resources.Loaders
         /// <param name="args">supported, given in the form size,</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public IResource GetResource(Game game, string path, ILoadArgs _args)
+        public Resource GetResource(Game game, string path, ILoadArgs _args)
         {
-            FontArgs args = _args == null ? new FontArgs (): (FontArgs) _args;
-            SpriteFont final = new SpriteFont(game, args.CharacterSet, SDL_ttf.TTF_OpenFont(path, args.Size));
+            FontArgs args = _args == null ? new FontArgs() : (FontArgs) _args;
+            SpriteFont final = new SpriteFont(game, args.CharacterSet, SDL_ttf.TTF_OpenFont(path, args.Size), path);
 
             if (final.Handle == IntPtr.Zero)
                 throw new Exception(SDL.SDL_GetError());

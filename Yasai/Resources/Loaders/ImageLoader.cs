@@ -14,7 +14,7 @@ namespace Yasai.Resources.Loaders
             
         }
         
-        public IResource GetResource(Game game, string path, ILoadArgs args)
+        public Resource GetResource(Game game, string path, ILoadArgs args)
         {
             if (args != null)
                 Console.WriteLine("ImageLoader does not support args");
@@ -24,7 +24,7 @@ namespace Yasai.Resources.Loaders
             if (surface == IntPtr.Zero)
                 throw new Exception(SDL.SDL_GetError());
             
-            return new Texture(SDL.SDL_CreateTextureFromSurface(game.Renderer.GetPtr(), surface));
+            return new Texture(SDL.SDL_CreateTextureFromSurface(game.Renderer.GetPtr(), surface), path);
         }
     }
 }

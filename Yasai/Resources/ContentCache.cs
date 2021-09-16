@@ -18,7 +18,7 @@ namespace Yasai.Resources
         
         public bool Loaded => manager != null;
         
-        private Dictionary<string, IResource> resources;
+        private Dictionary<string, Resource> resources;
 
         protected List<ILoader> Loaders;
 
@@ -27,7 +27,7 @@ namespace Yasai.Resources
         public ContentCache(string root)
         {
             Root = root;
-            resources = new Dictionary<string, IResource>();
+            resources = new Dictionary<string, Resource>();
             
             // add the loaders
             Loaders = new List<ILoader>();
@@ -66,19 +66,27 @@ namespace Yasai.Resources
         /// <exception cref="NotSupportedException"></exception>
         public void LoadResource(string path, string _key = null, ILoadArgs args = null, bool hushWarnings = false)
         {
-            // TODO: prevent double loading, maybe store the path somewhere
             string key = _key == null ? Path.GetFileNameWithoutExtension(path) : _key;
-            ILoader loader = Loaders.Find(x => x.FileTypes.Contains(Path.GetExtension(path).ToLower()));
+            string loadType = Path.GetExtension(path);
+            ILoader loader = Loaders.Find(x => x.FileTypes.Contains(loadType.ToLower()));
 
             // can't find any loaders
             if (loader == null)
             {
                 if (!hushWarnings)
-                    Console.WriteLine($"cannot load file of type {Path.GetExtension(path)}, it was subsequently skipped");
+                    Console.WriteLine($"cannot load file of type {loadType}, it was subsequently skipped");
                 return;
             }
-
-            resources[key] = loader.GetResource(Game, Path.Combine(resourcePath, path), args);
+            
+            string loadAbsPath = Path.Combine(resourcePath, path);
+            if (IsResourceLoaded(loadAbsPath))
+            {
+                if (!hushWarnings)
+                    Console.WriteLine($"file {path} is already loaded, yet attempted to load again");
+                return;
+            }
+            
+            resources[key] = loader.GetResource(Game, loadAbsPath, args);
         }
 
         /// <summary>
@@ -110,7 +118,7 @@ namespace Yasai.Resources
 
         public void Dispose()
         {
-            foreach (IResource x in resources.Values) 
+            foreach (Resource x in resources.Values) 
                 x.Dispose();
         }
 
@@ -139,6 +147,14 @@ namespace Yasai.Resources
                 string jsonStr = JsonSerializer.Serialize(manager);
                 File.WriteAllText(Path.Combine (resourcePath, "manager_written.txt"), jsonStr);
             }
+        }
+        
+        private bool IsResourceLoaded(string absPath)
+        {
+            foreach (Resource r in resources.Values)
+                if (r.Path == absPath) return true;
+            
+            return false;
         }
     }
 }
