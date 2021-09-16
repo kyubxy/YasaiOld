@@ -2,6 +2,7 @@ using System;
 using OpenTK.Mathematics;
 using SDL2;
 using Yasai.Extensions;
+using Yasai.Graphics.Text;
 using Yasai.Resources;
 
 namespace Yasai.Graphics.Imaging
@@ -15,7 +16,7 @@ namespace Yasai.Graphics.Imaging
     
     public class Sprite : Drawable
     {
-        public Texture CurrentTexture { get; private set; }
+        public Texture CurrentTexture { get; protected set; }
         
         public override bool Loaded => CurrentTexture != null && CurrentTexture.Handle != IntPtr.Zero;
         
@@ -65,6 +66,8 @@ namespace Yasai.Graphics.Imaging
             }
         }
 
+        public Sprite() { }
+        
         public Sprite(string path)
         {
             this.path = path;
@@ -76,8 +79,7 @@ namespace Yasai.Graphics.Imaging
             if (SDL.SDL_QueryTexture(CurrentTexture.Handle, out _, out _, out _, out _) != 0)
                 throw new Exception(SDL.SDL_GetError());
             
-            Size = Size == Vector2.Zero ? CurrentTexture.Size : Size;
-            Origin = new Vector2(Size.X / 2, Size.Y / 2);
+            CenterToCurrentTex();
         }
         
         public override void Load(ContentCache cache)
@@ -90,6 +92,11 @@ namespace Yasai.Graphics.Imaging
             if (!Loaded)
                 CurrentTexture = cache.GetResource<Texture>(path);
 
+            CenterToCurrentTex();
+        }
+
+        protected void CenterToCurrentTex()
+        {
             Size = Size == Vector2.Zero ? CurrentTexture.Size : Size;
             Origin = new Vector2(Size.X / 2, Size.Y / 2);
         }

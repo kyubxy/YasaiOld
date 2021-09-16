@@ -9,6 +9,7 @@ namespace Yasai.Tests.Scenarios
     public class PrimitivesTest : Scenario
     {
         private Line line;
+        private Box box;
         
         public PrimitivesTest()
         {
@@ -27,6 +28,13 @@ namespace Yasai.Tests.Scenarios
                     EndPosition = new Vector2(200),
                     Colour = Color4.LawnGreen
                 },
+                box = new Box ()
+                {
+                    Position = (300,600),
+                    Size = new Vector2(200),
+                    Alpha = 0.5f,
+                    Colour = Color4.Orchid
+                }
             });
         }
 
@@ -34,6 +42,12 @@ namespace Yasai.Tests.Scenarios
         {
             base.MouseDown(args);
             line.EndPosition = Vector2.Subtract(line.EndPosition, new Vector2(0f, 10f));
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            box.Rotation += 0.01f;
         }
     }
 }

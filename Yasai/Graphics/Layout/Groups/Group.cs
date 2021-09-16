@@ -15,7 +15,7 @@ namespace Yasai.Graphics.Layout.Groups
         private List<IDrawable> _children;
         private ContentCache _contentCache;
 
-        private PrimitiveBox _primitiveBox;
+        private Box box;
 
         private Vector2 position;
         public override Vector2 Position
@@ -24,7 +24,7 @@ namespace Yasai.Graphics.Layout.Groups
             set
             {
                 position = value;
-                _primitiveBox.Position = value;
+                box.Position = value;
             }
         }
 
@@ -35,7 +35,7 @@ namespace Yasai.Graphics.Layout.Groups
             set
             {
                 size = value;
-                _primitiveBox.Size = value;
+                box.Size = value;
             }
         }
 
@@ -46,7 +46,7 @@ namespace Yasai.Graphics.Layout.Groups
             set
             {
                 fill = value;
-                _primitiveBox.Enabled = value;
+                box.Enabled = value;
             }
         }
 
@@ -55,7 +55,7 @@ namespace Yasai.Graphics.Layout.Groups
         public Group(List<IDrawable> children)
         {
             _children = children;
-            _primitiveBox = new PrimitiveBox();
+            box = new Box();
             Fill = false;
         }
 
@@ -68,7 +68,7 @@ namespace Yasai.Graphics.Layout.Groups
 
         public override void Load(ContentCache cache)
         {
-            _primitiveBox.Load(cache);
+            box.Load(cache);
             foreach (IDrawable s in _children)
                 s.Load(cache);
         }
@@ -119,7 +119,7 @@ namespace Yasai.Graphics.Layout.Groups
         {
             if (Visible && Enabled)
             {
-                _primitiveBox.Draw(renderer);
+                box.Draw(renderer);
                 foreach (IDrawable s in _children)
                     s.Draw(renderer);
             }

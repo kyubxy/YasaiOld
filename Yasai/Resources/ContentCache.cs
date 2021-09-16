@@ -22,7 +22,7 @@ namespace Yasai.Resources
 
         protected List<ILoader> Loaders;
 
-        private Game game;
+        public Game Game;
         
         public ContentCache(string root)
         {
@@ -36,7 +36,7 @@ namespace Yasai.Resources
         }
 
         public ContentCache(Game game) : this("Assets") 
-            => this.game = game;
+            => this.Game = game;
 
         /// <summary>
         /// get a *preloaded* resource from the internal dictionary
@@ -78,7 +78,7 @@ namespace Yasai.Resources
                 return;
             }
 
-            resources[key] = loader.GetResource(game, Path.Combine(resourcePath, path), args);
+            resources[key] = loader.GetResource(Game, Path.Combine(resourcePath, path), args);
         }
 
         /// <summary>
