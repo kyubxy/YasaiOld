@@ -17,7 +17,14 @@ The roadmap section below mentions the project is still in its *part 1*. Althoug
 
 **At this point in time, although the code is open source, the general development process will be largely kept to myself**. This will change after part 1.
 
-Please also keep in mind that Yasai is being built primarily for myself and my own projects, many of the functionality is not being designed to account for broader use cases outside of my own. Despite this, others are still free and welcome to use it for their own projects. 
+## Getting started
+At the moment, the framework doesn't actually work. You can still test it by cloning the repo and following the steps below
+### Windows
+Download [SDL](https://www.libsdl.org/download-2.0.php), [SDL_image](https://www.libsdl.org/projects/SDL_image/) and [SDL_ttf](https://www.libsdl.org/projects/SDL_ttf/). Place the .dlls in the root of the Yasai.Tests folder. Ensure you set the build settings to *Build if newer* so the dlls are present in the application folder.
+### Linux
+(wip)
+
+Currently the tests involve running the different `Scenarios`, the scenario that is run can be changed in the `TestGame`. The testing will improve in time. 
 
 # Development Roadmap
 Development is taking place in 2 parts, the goals of each are listed as follows
