@@ -105,7 +105,7 @@ namespace Yasai.Resources
         /// </summary>
         public void LoadAll(bool readManager = true)
         {
-            
+            throw new NotImplementedException();
         }
 
         public void Dispose()

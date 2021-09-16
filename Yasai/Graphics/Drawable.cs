@@ -4,7 +4,10 @@ using OpenTK.Mathematics;
 
 namespace Yasai.Graphics
 {
-    public class Drawable : IDrawable, IGeometry
+    /// <summary>
+    /// A richer <see cref="IDrawable"/> 
+    /// </summary>
+    public abstract class Drawable : IDrawable, IGeometry, IGraphicsModifiable
     {
         //private Matrix3 parentTransformations; //yes
         

@@ -12,8 +12,6 @@ namespace Yasai.Graphics.Primitives
     /// </summary>
     public class PrimitiveBox : Primitive
     {
-        public bool Fill = true;
-        
         public override void Draw(IntPtr renderer)
         {
 
@@ -27,10 +25,6 @@ namespace Yasai.Graphics.Primitives
             
             base.Draw(renderer);
             
-           SDL.SDL_SetRenderDrawColor(renderer,
-               (byte) (OutlineColour.R * 255), (byte) (OutlineColour.G * 255), (byte) (OutlineColour.B * 255),
-               (byte) (Outline ? Alpha * 255 : 0));
-           
             if (Fill)
                 SDL.SDL_RenderFillRect(renderer, ref r);
             else

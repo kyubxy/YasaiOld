@@ -11,19 +11,7 @@ namespace Yasai.Graphics.Primitives
 
         public override Vector2 Position { get; set; } = Vector2.Zero;
 
-        private Color4 col;
-        
-        public override Color4 Colour
-        {
-            get => col;
-            set => col = value;
-        }
-        
-        public override Color4 OutlineColour 
-        {
-            get => col;
-            set => col = value;
-        }
+        public override bool Fill => true;
 
         public Line()
         {
@@ -38,9 +26,6 @@ namespace Yasai.Graphics.Primitives
         public override void Draw(IntPtr renderer)
         {
             base.Draw(renderer);
-            SDL.SDL_SetRenderDrawColor(renderer,
-               (byte) (col.R * 255), (byte) (col.G * 255), (byte) (col.B * 255),
-               (byte) (Outline ? Alpha * 255 : 0));
 
             SDL.SDL_RenderDrawLine(renderer, (int) StartPosition.X + (int) Position.X,
                 (int) StartPosition.Y + (int) Position.Y, (int) Position.X + (int) EndPosition.X,

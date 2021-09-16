@@ -12,7 +12,6 @@ namespace Yasai.Tests.Scenarios
         
         public PrimitivesTest()
         {
-            // TODO: fix PrimitiveBox not changing colour
             AddAll(new IDrawable[]
             {
                 new PrimitiveBox()
@@ -20,8 +19,6 @@ namespace Yasai.Tests.Scenarios
                     Position = new Vector2(300),
                     Size = new Vector2(300),
                     Colour = Color4.Tomato,
-                    OutlineColour = Color4.Azure,
-                    Alpha = 0.5f
                 },
                 line = new Line()
                 {
