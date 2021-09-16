@@ -8,19 +8,7 @@ namespace Yasai.Graphics.Imaging
     public class Texture : IResource
     {
         // texture -> Draw this!!
-        // please dont use set :vvvv
-        private IntPtr handle;
-
-        public IntPtr Handle
-        {
-            get => handle;
-            set
-            {
-                if (SDL.SDL_QueryTexture(value, out _, out _, out _, out _) != 0)
-                    throw new Exception(SDL.SDL_GetError());
-                handle = value;
-            }
-        }
+        public IntPtr Handle { get; }
 
         public Vector2 Size
         {

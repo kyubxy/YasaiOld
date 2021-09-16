@@ -36,7 +36,7 @@ namespace Yasai.Resources
         }
 
         public ContentCache(Game game) : this("Assets") 
-            => this.Game = game;
+            => Game = game;
 
         /// <summary>
         /// get a *preloaded* resource from the internal dictionary

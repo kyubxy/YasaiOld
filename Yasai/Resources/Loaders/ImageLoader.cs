@@ -19,15 +19,12 @@ namespace Yasai.Resources.Loaders
             if (args != null)
                 Console.WriteLine("ImageLoader does not support args");
             
-            Texture final = new Texture();
             IntPtr surface = SDL_image.IMG_Load(path);
 
             if (surface == IntPtr.Zero)
                 throw new Exception(SDL.SDL_GetError());
             
-            final.Handle = SDL.SDL_CreateTextureFromSurface(game.Renderer.GetPtr(), surface);
-
-            return final;
+            return new Texture(SDL.SDL_CreateTextureFromSurface(game.Renderer.GetPtr(), surface));
         }
     }
 }

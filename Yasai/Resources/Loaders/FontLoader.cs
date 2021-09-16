@@ -18,8 +18,7 @@ namespace Yasai.Resources.Loaders
         public IResource GetResource(Game game, string path, ILoadArgs _args)
         {
             FontArgs args = _args == null ? new FontArgs (): (FontArgs) _args;
-            SpriteFont final = new SpriteFont(game, args.CharacterSet);
-            final.Handle = SDL_ttf.TTF_OpenFont(path, args.Size);
+            SpriteFont final = new SpriteFont(game, args.CharacterSet, SDL_ttf.TTF_OpenFont(path, args.Size));
 
             if (final.Handle == IntPtr.Zero)
                 throw new Exception(SDL.SDL_GetError());

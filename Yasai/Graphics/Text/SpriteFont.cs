@@ -11,7 +11,7 @@ namespace Yasai.Graphics.Text
 {
     public class SpriteFont : IResource
     {
-        public IntPtr Handle { get; set; }
+        public IntPtr Handle { get; }
 
         private Dictionary<char, Sprite> glyphs = new Dictionary<char, Sprite>();
 
@@ -19,10 +19,11 @@ namespace Yasai.Graphics.Text
 
         private Game game;
         
-        public SpriteFont(Game game, char[] characterSet)
+        public SpriteFont(Game game, char[] characterSet, IntPtr h)
         {
             this.characterSet = characterSet;
             this.game = game;
+            Handle = h;
         }
 
         /// <summary>
@@ -32,11 +33,10 @@ namespace Yasai.Graphics.Text
         {
             foreach (char c in characterSet)
             {
-                Texture tex = new Texture();
-                tex.Handle = SDL.SDL_CreateTextureFromSurface(game.Renderer.GetPtr(), 
+                IntPtr t = SDL.SDL_CreateTextureFromSurface(game.Renderer.GetPtr(), 
                     SDL_ttf.TTF_RenderGlyph_Blended(Handle, c, Color4.White.ToSdlColor()));
                 
-                glyphs[c] = new Sprite(tex);
+                glyphs[c] = new Sprite(new Texture(t));
             }
         }
 
