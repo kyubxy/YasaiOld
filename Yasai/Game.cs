@@ -6,8 +6,6 @@ using Yasai.Graphics.Layout.Groups;
 using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
-using Yasai.Platform;
-using Yasai.Platform.OperatingSystems;
 using Yasai.Resources;
 
 using static SDL2.SDL;
@@ -38,19 +36,11 @@ namespace Yasai
         
         private ContentCache _content;
 
-        private PlatformManager platformManager;
-        public IPlatform CurrentPlatform => platformManager.CurrentPlatform;
 
-        public Game(string[] args = null, OS os = OS.Unknown)
-        {
-            // platforms
-            platformManager = new PlatformManager();
-            
-            // initialise subsystems
-            CurrentPlatform.InitialiseSdlSystems();
-            SDL_Init(SDL_INIT_EVERYTHING);
-           //if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-           //    Console.WriteLine($"error on startup: {SDL_GetError()}");
+        public Game(string[] args = null)
+        { 
+            if (SDL_Init(SDL_INIT_EVERYTHING) != 0) 
+                Console.WriteLine($"error on startup: {SDL_GetError()}");
             TTF_Init();
             
             // everything else
