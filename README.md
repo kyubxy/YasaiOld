@@ -19,7 +19,7 @@ This project is still in *part 1* of its development. Although development will 
 
 **At this point in time, although the code is open source, the general development process will be largely kept to myself**. This will change after part 1.
 
-Currently the tests involve running the different `Scenarios`, the scenario that is run can be changed in the `TestGame`. The testing will improve very soon. 
+Testing works in separate test scenarios accessible in the testing interface. Pressing tab shows a test picker that allows you to view different test scenarios.
 
 # Getting started
 At the moment, the framework doesn't actually work. You can still test it by cloning the repo and following the steps below
