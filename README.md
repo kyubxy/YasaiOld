@@ -7,6 +7,8 @@ the funny vegetable framework, this serves as my general graphics playground. Po
 
 This framework features an awful mismatch of imperative and declerative programming styles to iterate interfaces in a concise yet comprehensive fashion. What you're looking at here is the culmination of years of wasted time and effort to produce what is subpar at best!
 
+see how much of part 1 is left to go on [the part 1 project page](https://github.com/EpicTofuu/Yasai/projects/1) 
+
 ## Why
 I like writing code that does nothing impressive.
 
