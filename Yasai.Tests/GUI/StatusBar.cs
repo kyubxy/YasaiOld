@@ -14,7 +14,6 @@ namespace Yasai.Tests.GUI
         
         private readonly Game game;
 
-
         private Box back;
         private SpriteText title;
 

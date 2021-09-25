@@ -16,7 +16,7 @@ namespace Yasai.Graphics.Layout.Groups
         private List<IDrawable> _children;
         private ContentCache _contentCache;
 
-        public virtual bool IgnoreHierachy { get; set; } = true;
+        public virtual bool IgnoreHierarchy { get; set; } = true;
 
         private Primitive box;
 
@@ -264,14 +264,14 @@ namespace Yasai.Graphics.Layout.Groups
 
         bool isActiveInStack(IListener x)
         {
-            if (x.IgnoreHierachy && x.Enabled)
+            if (x.IgnoreHierarchy && x.Enabled)
                 return true;
 
             Stack<IDrawable> reversed = new Stack<IDrawable>(this);
             while (reversed.Count > 0)
             {
                 var h = (IListener)reversed.Pop();
-                if (h.Enabled && !h.IgnoreHierachy)
+                if (h.Enabled && !h.IgnoreHierarchy)
                 {
                     return h == x;
                 }

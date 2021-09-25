@@ -40,7 +40,7 @@ namespace Yasai.Tests.Scenarios
 
             public MouseInput(bool ignoreHierachy, bool noisy = false)
             {
-                IgnoreHierachy = ignoreHierachy;
+                IgnoreHierarchy = ignoreHierachy;
                 this.noisy = noisy;
             }
 

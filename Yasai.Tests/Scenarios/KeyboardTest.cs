@@ -44,7 +44,7 @@ namespace Yasai.Tests.Scenarios
 
             public KeyReceiver(bool ignoreHierachy, string text)
             {
-                IgnoreHierachy = ignoreHierachy;
+                IgnoreHierarchy = ignoreHierachy;
                 this.text = text;
             }
 

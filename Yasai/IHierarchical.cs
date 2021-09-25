@@ -1,10 +1,10 @@
 ﻿namespace Yasai
 {
     /// <summary>
-    /// Whether something belongs to a hierachy
+    /// Whether something belongs to a hierarchy
     /// </summary>
     public interface IHierarchical
     {
-        bool IgnoreHierachy { get; }
+        bool IgnoreHierarchy { get; }
     }
 }

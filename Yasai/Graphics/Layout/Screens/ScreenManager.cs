@@ -14,14 +14,14 @@ namespace Yasai.Graphics.Layout.Screens
         
         public override bool Loaded => _contentCache != null;
 
-        public bool IgnoreHierachy { get; }
+        public bool IgnoreHierarchy { get; }
 
         public event EventHandler OnScreenChange;
 
         public ScreenManager(Screen s, bool ignoreHierachy = false)
         {
             CurrentScreen = s;
-            IgnoreHierachy = ignoreHierachy;
+            IgnoreHierarchy = ignoreHierachy;
         }
 
         public ScreenManager() : this (new Screen()) { }

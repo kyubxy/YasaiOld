@@ -165,7 +165,7 @@ namespace Yasai
         }
 
         #region input
-        public bool IgnoreHierachy => true;
+        public bool IgnoreHierarchy => true;
         public virtual void MouseDown(MouseArgs args) => Children.MouseDown(args);
         public virtual void MouseUp(MouseArgs args) => Children.MouseUp(args);
         public virtual void MouseMotion(MouseArgs args) => Children.MouseMotion(args);

@@ -35,7 +35,7 @@ namespace Yasai.Tests.GUI
         private SpriteText title;
         private Group buttons;
 
-        public override bool IgnoreHierachy => false;
+        public override bool IgnoreHierarchy => false;
 
         private bool enabled;
 
@@ -78,7 +78,7 @@ namespace Yasai.Tests.GUI
                 },
                 buttons = new Group()
                 {
-                    IgnoreHierachy = true
+                    IgnoreHierarchy = true
                 }
             });
             
@@ -147,7 +147,7 @@ namespace Yasai.Tests.GUI
             }
         }
 
-        public override bool IgnoreHierachy => true;
+        public override bool IgnoreHierarchy => true;
 
         public Button(ScreenManager sm, Type s)
         {

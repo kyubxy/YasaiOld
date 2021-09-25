@@ -28,6 +28,7 @@ namespace Yasai.Graphics
             get => Position.X;
             set => Position = new Vector2(value, Position.Y);
         }
+        
         public float Y
         {
             get => Position.Y;
@@ -52,6 +53,7 @@ namespace Yasai.Graphics
         public virtual void Load(ContentCache cache)
         {
         }
+        
         public virtual void Update()
         {
         }
