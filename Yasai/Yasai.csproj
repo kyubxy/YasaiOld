@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Title>Yasai</Title>
+    <Authors>yasa</Authors>
+    <Description>my personal graphics playground for C#, powered by SDL</Description>
+    <PackageProjectUrl>https://github.com/EpicTofuu/Yasai</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SDL2-CS.NetCore" Version="2.0.8" />
+  </ItemGroup>
+
+</Project>
