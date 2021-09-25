@@ -11,6 +11,7 @@ namespace Yasai.Tests
     public class TestGame : Game
     {
         public TestGame() 
+            : base (69)
         {
             ScreenManager sm = new ScreenManager(new DrawablePropertyTest());
             Children.Add(sm);

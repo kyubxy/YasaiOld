@@ -15,7 +15,7 @@ namespace Yasai.Graphics.Layout.Groups
         private List<IDrawable> _children;
         private ContentCache _contentCache;
 
-        public virtual bool IgnoreHierachy { get; protected set; }
+        public virtual bool IgnoreHierachy { get; set; } = true;
 
         private Primitive box;
 
@@ -75,15 +75,15 @@ namespace Yasai.Graphics.Layout.Groups
         public override void Start(ContentCache cache)
         {
             base.Start(cache);
-            
-            foreach (IDrawable s in _children)
-                s.Start(cache);
-            
         }
 
         public override void Load(ContentCache cache)
         {
             base.Load(cache);
+            
+            // NOTE: might be kind of risky..
+            foreach (IDrawable s in _children)
+                s.Start(cache);
             
             box.Load(cache);
             foreach (IDrawable s in _children)

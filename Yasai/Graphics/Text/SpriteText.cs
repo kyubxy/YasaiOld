@@ -21,6 +21,18 @@ namespace Yasai.Graphics.Text
             }
         }
 
+        private Vector2 position;
+
+        public override Vector2 Position
+        {
+            get => position;
+            set
+            {
+                position = value;
+                updatePositions();
+            }
+        }
+
         public SpriteFont Font { get; protected set; }
 
         public override bool Loaded => Font != null && Font.Handle != IntPtr.Zero;
@@ -60,6 +72,18 @@ namespace Yasai.Graphics.Text
             updateText();
         }
 
+        private void updatePositions()
+        {
+            float accX = 0;
+            foreach (var drawable in this)
+            {
+                var g = (Sprite)drawable;
+                g.Position = new Vector2 (Position.X + accX, Position.Y);
+                g.Colour = Colour;
+                accX += g.Size.X;
+            }
+        }
+
         private void updateText()
         {
             char[] chars = Text.ToCharArray();
@@ -67,15 +91,10 @@ namespace Yasai.Graphics.Text
             // TODO: only change the changed characters
             Clear();
 
-            float accX = 0;
-            for (int i = 0; i < chars.Length; i++)
-            {
-                Sprite g = new Sprite(Font.GetGlyph(chars[i]).CurrentTexture);
-                g.Position = new Vector2 (Position.X + accX, Position.Y);
-                g.Colour = Colour;
-                accX += g.Size.X;
-                Add(g);
-            }
+            foreach (char c in chars) 
+                Add(new Sprite(Font.GetGlyph(c).CurrentTexture));
+            
+            updatePositions();
         }
     }
 }

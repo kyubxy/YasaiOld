@@ -35,30 +35,38 @@ namespace Yasai
         protected Group Children;
         
         private ContentCache _content;
-
-
-        public Game(string[] args = null)
+        
+        #region constructors
+        public Game(string[] args = null) 
+            : this(60, args) 
+        { }
+        
+        public Game (int refreshRate, string[] args = null) 
+            : this ($"Yasai running {Assembly.GetEntryAssembly()?.GetName().Name} @ {refreshRate}Hz", refreshRate, args) 
+        { }
+        
+        public Game (string title, int refreshRate = 60, string[] args = null) 
+            : this (title, 1366, 768, refreshRate, args)
+        { }
+        
+        public Game(string title, int w, int h, int refreshRate, string[] args = null)
         { 
+            // SDL initialisation
             if (SDL_Init(SDL_INIT_EVERYTHING) != 0) 
                 Console.WriteLine($"error on startup: {SDL_GetError()}");
             TTF_Init();
             
+            
             // everything else
+            Window = new Window(title, w, h, refreshRate);
+            Renderer = new Renderer(Window);           
+             
             Children = new Group();
         }
-
-        public void Run() => Run(60);
-
-        public void Run(int refreshRate) =>
-            Run($"Yasai running {Assembly.GetEntryAssembly()?.GetName().Name} @ {refreshRate}Hz", refreshRate);
+        #endregion
         
-        public void Run(string title, int refreshRate = 60) => Run(title, 1366, 768, refreshRate);
-        
-        public void Run(string title, int w, int h, int refreshRate)
+        public void Run()
         {
-            Window = new Window(title, w, h, refreshRate);
-            Renderer = new Renderer(Window);
-            
             _content = new ContentCache(this);
 
             Start(_content);

@@ -5,7 +5,6 @@
     /// </summary>
     public interface IHierarchical
     {
-        //e
         bool IgnoreHierachy { get; }
     }
 }
