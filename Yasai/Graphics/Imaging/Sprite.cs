@@ -37,6 +37,18 @@ namespace Yasai.Graphics.Imaging
             }
         }
 
+        private bool setOrigin;
+        private Vector2 origin;
+        public override Vector2 Origin
+        {
+            get => origin;
+            set
+            {
+                setOrigin = true;
+                origin = value;
+            }
+        }
+
         public Flip Flip = Flip.None;
         
         private Color colour = Color.White;
@@ -73,7 +85,6 @@ namespace Yasai.Graphics.Imaging
                 throw new Exception(SDL_GetError());
             
             CenterToCurrentTex();
-            
         }
         
         public override void Load(ContentCache cache)
@@ -84,7 +95,8 @@ namespace Yasai.Graphics.Imaging
             if (!Loaded)
                 CurrentTexture = cache.GetResource<Texture>(path);
 
-            CenterToCurrentTex();
+            if (!setOrigin)
+                CenterToCurrentTex();
             
             base.Load(cache);
             
