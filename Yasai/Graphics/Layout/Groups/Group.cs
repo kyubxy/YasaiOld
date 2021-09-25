@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Yasai.Graphics.Primitives;
+using Yasai.Input;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
@@ -168,26 +169,20 @@ namespace Yasai.Graphics.Layout.Groups
         #endregion
 
         // i also like good and maintainable code
-        // TODO: move this somewhere else
-        // might need to start thinking about that ECS
         
         public virtual void KeyUp(KeyCode key)
         {
             if (!Enabled)
                 return;
             
-            int i = 0;
             foreach (var k in _children)
             {
                 IKeyListener listener = k as IKeyListener;
-            
                 if (listener == null) 
                     continue;
 
-                if (i == _children.Count - 1 || listener.IgnoreHierachy)
-                    listener.KeyUp(key);
-            
-                i++;
+                if (isActiveInStack((listener)))
+                    listener.KeyUp((key));
             }
         }
 
@@ -196,18 +191,14 @@ namespace Yasai.Graphics.Layout.Groups
             if (!Enabled)
                 return;
             
-            int ii = 0;
             foreach (var k in _children)
             {
                 IKeyListener listener = k as IKeyListener;
-            
                 if (listener == null) 
                     continue;
             
-                if (ii == _children.Count - 1 || listener.IgnoreHierachy)
+                if (isActiveInStack(listener))
                     listener.KeyDown(key);
-            
-                ii++;
             }
         }
 
@@ -217,20 +208,16 @@ namespace Yasai.Graphics.Layout.Groups
                 return;
             
             MouseButton button = args.Button;
-            Vector2 position = args.Position;
+            Vector2 mousepos = args.Position;
             
-            int iii = 0;
             foreach (var k in _children)
             {
                 IMouseListener listener = k as IMouseListener;
-            
                 if (listener == null)
                     continue;
-            
-                if (iii == _children.Count - 1 || listener.IgnoreHierachy) 
-                    listener.MouseDown(new MouseArgs(button, position));
                 
-                iii++;
+                if (isActiveInStack(listener))
+                    listener.MouseDown(args);
             }
         }
 
@@ -240,20 +227,16 @@ namespace Yasai.Graphics.Layout.Groups
                 return;
             
             MouseButton button = args.Button;
-            Vector2 position = args.Position;
+            Vector2 mousepos = args.Position;
             
-            int iv = 0;
             foreach (var k in _children)
             {
                 IMouseListener listener = k as IMouseListener;
-
                 if (listener == null)
                     continue;
 
-                if (iv == _children.Count - 1 || listener.IgnoreHierachy) 
-                    listener.MouseUp(new MouseArgs(button, position));
-                
-                iv++;
+                if (isActiveInStack(listener))
+                    listener.MouseUp(args);
             }
         }
 
@@ -263,21 +246,37 @@ namespace Yasai.Graphics.Layout.Groups
                 return;
             
             MouseButton button = args.Button;
-            Vector2 position = args.Position;
+            Vector2 mousepos = args.Position;
             
-            int v = 0;
             foreach (var k in _children)
             {
                 IMouseListener listener = k as IMouseListener;
-            
                 if (listener == null)
                     continue;
-            
-                if (v == _children.Count - 1 || listener.IgnoreHierachy) 
-                    listener.MouseMotion(new MouseArgs(position));
-                
-                v++;
+
+                if (isActiveInStack(listener))
+                    listener.MouseMotion(args);
             }
+        }
+
+        bool isActiveInStack(IListener x)
+        {
+            if (x.IgnoreHierachy && x.Enabled)
+                return true;
+
+            Stack<IDrawable> reversed = new Stack<IDrawable>(this);
+            while (reversed.Count > 0)
+            {
+                var h = (IListener)reversed.Pop();
+                if (h.Enabled && !h.IgnoreHierachy)
+                {
+                    return h == x;
+                }
+
+                if (h == x)
+                    return true;
+            }
+            return false;
         }
     }
 }

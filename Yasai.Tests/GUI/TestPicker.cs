@@ -14,7 +14,7 @@ using Yasai.Tests.Scenarios;
 
 namespace Yasai.Tests.GUI
 {
-    public class TestPicker : Group
+    public sealed class TestPicker : Group
     {
         private int BUTTON_HEIGHT => 40;
         private int BUTTON_WIDTH => 300;
@@ -34,13 +34,26 @@ namespace Yasai.Tests.GUI
         private SpriteText title;
         private Group buttons;
 
-        public override bool IgnoreHierachy => true;
+        public override bool IgnoreHierachy => false;
+
+        private bool enabled;
+
+        public override bool Enabled
+        {
+            get => enabled;
+            set
+            {
+                enabled = value;
+                updatePositions();
+            }
+        }
 
         public TestPicker(Game g, ScreenManager sm, Type[] scenarios)
         {
             _scenarios = scenarios;
             _manager = sm;
             _g = g;
+            Enabled = false;
         }
 
         public override void Start(ContentCache cache)
@@ -80,16 +93,6 @@ namespace Yasai.Tests.GUI
                 });
             
                 b.OnSelect += (sender, args) => Enabled = false;               
-            }
-        }
-
-        public override void KeyDown(KeyCode key)
-        {
-            base.KeyDown(key);
-            if (key == KeyCode.TAB)
-            {
-                Enabled = !Enabled;
-                updatePositions();
             }
         }
 

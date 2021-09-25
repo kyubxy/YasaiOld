@@ -13,8 +13,8 @@ namespace Yasai.Graphics.Layout
         private ContentCache _contentCache;
         
         public override bool Loaded => _contentCache != null;
-        
-        public bool IgnoreHierachy { get; }
+
+        public bool IgnoreHierachy { get; } 
 
         public ScreenManager(Screen s, bool ignoreHierachy = false)
         {
