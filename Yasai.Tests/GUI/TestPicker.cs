@@ -4,6 +4,7 @@ using System.Numerics;
 using Yasai.Graphics;
 using Yasai.Graphics.Layout;
 using Yasai.Graphics.Layout.Groups;
+using Yasai.Graphics.Layout.Screens;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Input.Keyboard;
@@ -59,7 +60,6 @@ namespace Yasai.Tests.GUI
         public override void Start(ContentCache cache)
         {
             base.Start(cache); 
-            cache.LoadResource("tahoma.ttf","_testpickerfont", new FontArgs(15));
             AddAll(new IDrawable[]
             {
                 bodyBox = new Box ()
@@ -72,7 +72,7 @@ namespace Yasai.Tests.GUI
                     Size = new Vector2(Size.X + PADDING * 2, 30),
                     Colour = Color.Tomato
                 },
-                title = new SpriteText("Open a test scenario ..", "_testpickerfont")
+                title = new SpriteText("Open a test scenario ..", "fnt_smallFont")
                 {
                     Colour = Color.White
                 },
@@ -154,9 +154,9 @@ namespace Yasai.Tests.GUI
             _sm = sm;
             _scenario = (Scenario)Activator.CreateInstance(s);
 
-            OnExit += (sender, args) => _back.Colour = Color.White;
-            OnEnter += (sender, args) => _back.Colour = Color.LightGray;
-            OnClick += (sender, args) => _back.Colour = Color.Gray;
+            OnExit += (_, _) => _back.Colour = Color.White;
+            OnEnter += (_, _) => _back.Colour = Color.LightGray;
+            OnClick += (_, _) => _back.Colour = Color.Gray;
             OnRelease += (sender, args) =>
             {
                 _sm.PushScreen((Scenario) Activator.CreateInstance(s));
@@ -174,7 +174,7 @@ namespace Yasai.Tests.GUI
                     Size = Size,
                     Colour = Color.White
                 },
-                label = new SpriteText(_scenario.Name, "_testpickerfont")
+                label = new SpriteText(_scenario.Name, "fnt_smallFont")
                 {
                     Colour = Color.Black
                 }

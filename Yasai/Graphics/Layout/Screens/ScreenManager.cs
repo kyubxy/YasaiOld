@@ -4,7 +4,7 @@ using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
 
-namespace Yasai.Graphics.Layout
+namespace Yasai.Graphics.Layout.Screens
 {
     public class ScreenManager : Drawable, IGroup
     {
@@ -14,7 +14,9 @@ namespace Yasai.Graphics.Layout
         
         public override bool Loaded => _contentCache != null;
 
-        public bool IgnoreHierachy { get; } 
+        public bool IgnoreHierachy { get; }
+
+        public event EventHandler OnScreenChange;
 
         public ScreenManager(Screen s, bool ignoreHierachy = false)
         {
@@ -51,6 +53,7 @@ namespace Yasai.Graphics.Layout
             }
 
             CurrentScreen = s;
+            OnScreenChange?.Invoke(this, new ScreenArgs(s));
         }
 
 

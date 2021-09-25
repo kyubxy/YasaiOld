@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Yasai.Graphics.Layout;
+using Yasai.Graphics.Layout.Screens;
 
 namespace Yasai.Tests.Scenarios
 {

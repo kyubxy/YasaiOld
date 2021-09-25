@@ -57,6 +57,9 @@ namespace Yasai.Graphics.Text
         private string _fontLoc;
         public SpriteText(string text, string font)
         {
+            if (font == null)
+                throw new NullReferenceException("no font provided");
+            
             Text = text;
             _fontLoc = font;
         }

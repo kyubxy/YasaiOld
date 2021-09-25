@@ -52,6 +52,8 @@ namespace Yasai.Graphics.Layout.Groups
                 box.Enabled = value;
             }
         }
+        
+        
 
         public override bool Loaded => _children.All(x => x.Loaded) && _contentCache != null;
 
@@ -106,6 +108,7 @@ namespace Yasai.Graphics.Layout.Groups
             {
                 if (Fill)
                     box.Draw(renderer);
+                
                 foreach (IDrawable s in _children)
                     s.Draw(renderer);
             }
