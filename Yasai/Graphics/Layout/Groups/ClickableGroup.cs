@@ -14,7 +14,9 @@ namespace Yasai.Graphics.Layout.Groups
         public event EventHandler OnExit;
 
         private bool _mouseDownInside;
-        
+
+        public override bool Enabled { get; set; } = true;
+
         public override void MouseDown(MouseArgs args)
         {
             base.MouseDown(args);

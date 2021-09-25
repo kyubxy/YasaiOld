@@ -55,12 +55,11 @@ namespace Yasai.Graphics.Layout.Groups
         public override bool Loaded => _children.All(x => x.Loaded) && _contentCache != null;
 
         #region constructors
-        public Group(List<IDrawable> children, bool ignoreHierachy = false)
+        public Group(List<IDrawable> children)
         {
             _children = children;
             box = new PrimitiveBox();
             Fill = false;
-            IgnoreHierachy = ignoreHierachy;
         }
 
         public Group() : this (new List<IDrawable>())
@@ -174,6 +173,9 @@ namespace Yasai.Graphics.Layout.Groups
         
         public virtual void KeyUp(KeyCode key)
         {
+            if (!Enabled)
+                return;
+            
             int i = 0;
             foreach (var k in _children)
             {
@@ -191,6 +193,9 @@ namespace Yasai.Graphics.Layout.Groups
 
         public virtual void KeyDown(KeyCode key)
         {
+            if (!Enabled)
+                return;
+            
             int ii = 0;
             foreach (var k in _children)
             {
@@ -208,6 +213,9 @@ namespace Yasai.Graphics.Layout.Groups
 
         public virtual void MouseDown(MouseArgs args)
         {
+            if (!Enabled)
+                return;
+            
             MouseButton button = args.Button;
             Vector2 position = args.Position;
             
@@ -219,7 +227,7 @@ namespace Yasai.Graphics.Layout.Groups
                 if (listener == null)
                     continue;
             
-                if (iii == _children.Count - 1 || listener.IgnoreHierachy)
+                if (iii == _children.Count - 1 || listener.IgnoreHierachy) 
                     listener.MouseDown(new MouseArgs(button, position));
                 
                 iii++;
@@ -228,6 +236,9 @@ namespace Yasai.Graphics.Layout.Groups
 
         public virtual void MouseUp(MouseArgs args)
         {
+            if (!Enabled)
+                return;
+            
             MouseButton button = args.Button;
             Vector2 position = args.Position;
             
@@ -239,7 +250,7 @@ namespace Yasai.Graphics.Layout.Groups
                 if (listener == null)
                     continue;
 
-                if (iv == _children.Count - 1 || listener.IgnoreHierachy)
+                if (iv == _children.Count - 1 || listener.IgnoreHierachy) 
                     listener.MouseUp(new MouseArgs(button, position));
                 
                 iv++;
@@ -248,6 +259,9 @@ namespace Yasai.Graphics.Layout.Groups
 
         public virtual void MouseMotion(MouseArgs args)
         {
+            if (!Enabled)
+                return;
+            
             MouseButton button = args.Button;
             Vector2 position = args.Position;
             
@@ -259,7 +273,7 @@ namespace Yasai.Graphics.Layout.Groups
                 if (listener == null)
                     continue;
             
-                if (v == _children.Count - 1 || listener.IgnoreHierachy)
+                if (v == _children.Count - 1 || listener.IgnoreHierachy) 
                     listener.MouseMotion(new MouseArgs(position));
                 
                 v++;

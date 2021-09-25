@@ -16,15 +16,13 @@ namespace Yasai.Tests.GUI
 {
     public class TestPicker : Group
     {
-        private readonly Type[] _scenarios;
-        private readonly ScreenManager _manager;
-        private readonly Game _g;
-
         private int BUTTON_HEIGHT => 40;
         private int BUTTON_WIDTH => 300;
         private int PADDING => 5;
-
-        public override bool Enabled { get; set; } = false;
+        
+        private readonly Type[] _scenarios;
+        private readonly ScreenManager _manager;
+        private readonly Game _g;
 
         public sealed override Vector2 Position => new((_g.Window.Width / 2) - (BUTTON_WIDTH / 2),
                     (_g.Window.Height / 2) - (_scenarios.Length * (BUTTON_HEIGHT + PADDING) / 2));
@@ -53,19 +51,16 @@ namespace Yasai.Tests.GUI
             {
                 bodyBox = new Box ()
                 {
-                    Position = Vector2.Subtract(Position, new Vector2(PADDING)),
                     Size = Vector2.Add (Size, new Vector2(PADDING * 2)),
                     Colour = Color.Aqua
                 },
                 headerBox = new Box ()
                 {
-                    Position = Vector2.Subtract(Position, new Vector2(PADDING, PADDING + 30)),
                     Size = new Vector2(Size.X + PADDING * 2, 30),
                     Colour = Color.Tomato
                 },
                 title = new SpriteText("Open a test scenario ..", "_testpickerfont")
                 {
-                    Position = Vector2.Subtract(Position, new Vector2(0, 30)),
                     Colour = Color.White
                 },
                 buttons = new Group()
@@ -81,7 +76,6 @@ namespace Yasai.Tests.GUI
                 Button b;
                 buttons.Add(b = new Button(_manager, s)
                 {
-                    Position = Vector2.Add (Position,new Vector2(0,  + i * (BUTTON_HEIGHT + PADDING))),
                     Size = new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
                 });
             
@@ -92,7 +86,7 @@ namespace Yasai.Tests.GUI
         public override void KeyDown(KeyCode key)
         {
             base.KeyDown(key);
-            if (key == KeyCode.LSHIFT)
+            if (key == KeyCode.TAB)
             {
                 Enabled = !Enabled;
                 updatePositions();
@@ -136,7 +130,6 @@ namespace Yasai.Tests.GUI
         public EventHandler OnSelect;
 
         private Vector2 position;
-
         public override Vector2 Position
         {
             get => position;
@@ -175,13 +168,11 @@ namespace Yasai.Tests.GUI
             {
                 _back = new Box ()
                 {
-                    Position = Position,
                     Size = Size,
                     Colour = Color.White
                 },
                 label = new SpriteText(_scenario.Name, "_testpickerfont")
                 {
-                    Position = Vector2.Add (Position, new Vector2(10, 10)),
                     Colour = Color.Black
                 }
             });

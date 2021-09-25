@@ -1,6 +1,6 @@
 ﻿namespace Yasai.Input.Keyboard
 {
-    public interface IKeyListener : IHierarchical
+    public interface IKeyListener : IListener
     {
         public void KeyUp(KeyCode key);
 
