@@ -152,14 +152,14 @@ namespace Yasai.Tests.GUI
         public Button(ScreenManager sm, Type s)
         {
             _sm = sm;
-            _scenario = (Scenario) Activator.CreateInstance(s);
+            _scenario = (Scenario)Activator.CreateInstance(s);
 
             OnExit += (sender, args) => _back.Colour = Color.White;
             OnEnter += (sender, args) => _back.Colour = Color.LightGray;
             OnClick += (sender, args) => _back.Colour = Color.Gray;
             OnRelease += (sender, args) =>
             {
-                _sm.PushScreen(_scenario);
+                _sm.PushScreen((Scenario) Activator.CreateInstance(s));
                 OnSelect?.Invoke(sender, args);
             };
         }
