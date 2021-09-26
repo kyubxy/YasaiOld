@@ -70,14 +70,6 @@ namespace Yasai.Tests.Scenarios
 
                 _primitiveBox.Fill = false;
             }
-
-            public override void MouseMotion(MouseArgs args)
-            {
-                base.MouseMotion(args);
-
-                if (noisy)
-                    Console.WriteLine(args.Position);
-            }
         }
     }
 }
