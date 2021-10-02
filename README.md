@@ -28,7 +28,9 @@ At the moment, the framework doesn't actually work. You can still test it by clo
 2. Place the .dlls in the root of the Yasai.Tests folder. Ensure you set the build settings to *Build if newer* so the dlls are present in the application folder.
 
 ## Linux
-1. Using your distro's package manager, install SDL2, SDL_image and SDL_ttf. If your distro is not listed here, a quick google search for *[distro name] SDL2 install* should give you all the information you need. Apart from running a few commands, no extra setup is required.
+1. Using your distro's package manager, install SDL2, SDL_image and SDL_ttf. 
+
+If your distro is not listed here, a quick google search for *[distro name] SDL2 install* should give you all the information you need. Apart from running a few commands, no extra setup is required.
 
 ### Arch linux
 Everything you need to get started with SDL and yasai is already available on the AUR 
