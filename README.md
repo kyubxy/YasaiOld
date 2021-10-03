@@ -23,6 +23,10 @@ Testing works in separate test scenarios accessible in the testing interface. Pr
 
 # Getting started
 At the moment, the framework doesn't actually work. You can still test it by cloning the repo and following the steps below
+
+**This project uses submodules!** Ensure when you are cloning, you initialise the submodules correctly using 
+`git submodule --init --recursive`
+
 ## Windows
 1. Download [SDL](https://www.libsdl.org/download-2.0.php), [SDL_image](https://www.libsdl.org/projects/SDL_image/) and [SDL_ttf](https://www.libsdl.org/projects/SDL_ttf/). 
 2. Place the .dlls in the root of the Yasai.Tests folder. Ensure you set the build settings to *Build if newer* so the dlls are present in the application folder.
