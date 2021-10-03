@@ -1,3 +1,5 @@
+using System.Numerics;
+using Yasai.Graphics.Text;
 using Yasai.Resources;
 
 namespace Yasai.Tests.Scenarios
@@ -5,12 +7,21 @@ namespace Yasai.Tests.Scenarios
     [TestScenario]
     public class ResourceTest : Scenario
     {
-        private ContentCache manager;
+        private ContentCache cache;
         
         public ResourceTest(Game game) 
             : base (game)
         {
-            manager = new ContentCache(Game);
+            cache = new ContentCache(Game);
+        }
+
+        public override void Start(ContentCache cache)
+        {
+            base.Start(cache);
+            Add(new SpriteText ("WIP test currently not all cache functionality is being implemented right now", "fnt_smallFont")
+            {
+                Position = new Vector2(200)
+            });
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Yasai.Tests
             {
                 lastScreen = File.ReadAllText(prefPath);
                 if (lastScreen != "")
-                    last = (Screen)Assembly.GetExecutingAssembly().CreateInstance(lastScreen);
+                    last = (Screen)Activator.CreateInstance(Assembly.GetExecutingAssembly().GetType(lastScreen) ?? typeof(WelcomeScreen), this);
             }
             else
             {

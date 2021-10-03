@@ -25,10 +25,10 @@ namespace Yasai.Tests.GUI
         private readonly ScreenManager _manager;
         private readonly Game _g;
 
-        public sealed override Vector2 Position => new((_g.Window.Width / 2) - (BUTTON_WIDTH / 2),
+        public override Vector2 Position => new((_g.Window.Width / 2) - (BUTTON_WIDTH / 2),
                     (_g.Window.Height / 2) - (_scenarios.Length * (BUTTON_HEIGHT + PADDING) / 2));
         
-        public sealed override Vector2 Size => new(BUTTON_WIDTH, (BUTTON_HEIGHT + PADDING) * _scenarios.Length);
+        public override Vector2 Size => new(BUTTON_WIDTH, (BUTTON_HEIGHT + PADDING) * _scenarios.Length);
 
         private Box headerBox;
         private Box bodyBox;
@@ -152,14 +152,14 @@ namespace Yasai.Tests.GUI
         public Button(ScreenManager sm, Type s, Game game)
         {
             _sm = sm;
-            _scenario = (Scenario)Activator.CreateInstance(s);
+            _scenario = (Scenario)Activator.CreateInstance(s, game);
 
             OnExit  += (_, _) => _back.Colour = Color.White;
             OnEnter += (_, _) => _back.Colour = Color.LightGray;
             OnClick += (_, _) => _back.Colour = Color.Gray;
             OnRelease += (sender, args) =>
             {
-                _sm.PushScreen((Scenario) Activator.CreateInstance(s, game));
+                _sm.PushScreen(_scenario);
                 OnSelect?.Invoke(sender, args);
             };
         }

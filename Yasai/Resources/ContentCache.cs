@@ -24,19 +24,17 @@ namespace Yasai.Resources
 
         public Game Game;
         
-        public ContentCache(string root)
+        public ContentCache(Game game, string root = "Assets")
         {
             Root = root;
             resources = new Dictionary<string, Resource>();
+            Game = game;
             
             // add the loaders
             Loaders = new List<ILoader>();
             Loaders.Add(new ImageLoader());
             Loaders.Add(new FontLoader());
         }
-
-        public ContentCache(Game game) : this("Assets") 
-            => Game = game;
 
         /// <summary>
         /// get a *preloaded* resource from the internal dictionary
