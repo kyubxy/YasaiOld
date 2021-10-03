@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SDL2-CS\SDL2-CS.Core.csproj" />
+    <ProjectReference Include="..\SDL2-CS\SDL2-CS.Core.csproj" />
   </ItemGroup>
 
 </Project>
