@@ -14,7 +14,7 @@ namespace Yasai.Tests.GUI
 
             string[] messages = 
             {
-                "Press <TAB> to open the scenario picker",
+                "Press <SHIFT>+<TAB> to open the scenario picker",
                 "",
                 "Youre probably here because you havent opened a test screen yet.",
                 "This interface serves as the closest thing we have to unit testing.",

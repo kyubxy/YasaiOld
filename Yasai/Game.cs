@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
 using Yasai.Extensions;
@@ -88,6 +89,8 @@ namespace Yasai
             }
         }
 
+        private HashSet<KeyCode> pressed = new();
+
         protected virtual void OnEvent(SDL_Event ev)
         {
             switch (ev.type) 
@@ -99,11 +102,13 @@ namespace Yasai
                 
                 #region input systems
                 case (SDL_EventType.SDL_KEYUP):
-                    KeyUp(ev.key.keysym.sym.ToYasaiKeyCode());
+                    pressed.Remove(ev.key.keysym.sym.ToYasaiKeyCode());
+                    KeyUp(new KeyArgs(pressed));
                     break;
                 
                 case (SDL_EventType.SDL_KEYDOWN):
-                    KeyDown(ev.key.keysym.sym.ToYasaiKeyCode());
+                    pressed.Add(ev.key.keysym.sym.ToYasaiKeyCode());
+                    KeyDown(new KeyArgs(pressed));
                     break;
                 
                 case (SDL_EventType.SDL_MOUSEBUTTONUP):
@@ -169,8 +174,8 @@ namespace Yasai
         public virtual void MouseDown(MouseArgs args) => Children.MouseDown(args);
         public virtual void MouseUp(MouseArgs args) => Children.MouseUp(args);
         public virtual void MouseMotion(MouseArgs args) => Children.MouseMotion(args);
-        public virtual void KeyUp(KeyCode key) => Children.KeyUp(key);
-        public virtual void KeyDown(KeyCode key) => Children.KeyDown(key);
+        public virtual void KeyUp(KeyArgs key) => Children.KeyUp(key);
+        public virtual void KeyDown(KeyArgs key) => Children.KeyDown(key);
         #endregion
     }
 }

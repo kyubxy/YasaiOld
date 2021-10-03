@@ -75,7 +75,7 @@ namespace Yasai.Graphics.Layout.Screens
         public void MouseDown(MouseArgs args) => CurrentScreen.MouseDown(args);
         public void MouseUp(MouseArgs args) => CurrentScreen.MouseUp(args);
         public void MouseMotion(MouseArgs args) => CurrentScreen.MouseMotion(args);
-        public void KeyUp(KeyCode key) => CurrentScreen.KeyUp(key);
-        public void KeyDown(KeyCode key) => CurrentScreen.KeyDown(key);
+        public void KeyUp(KeyArgs key) => CurrentScreen.KeyUp(key);
+        public void KeyDown(KeyArgs key) => CurrentScreen.KeyDown(key);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Yasai.Graphics.Layout.Groups;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
@@ -65,13 +66,14 @@ namespace Yasai.Tests.Scenarios
                 base.Load(cache);
             }
 
-            public override void KeyUp(KeyCode key)
+            public override void KeyUp(KeyArgs key)
             {
                 base.KeyUp(key);
                 _primitiveBox.Fill = false;
+                Console.WriteLine(key);
             }
 
-            public override void KeyDown(KeyCode key)
+            public override void KeyDown(KeyArgs key)
             {
                 base.KeyDown(key);
                 _primitiveBox.Fill = true;

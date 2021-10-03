@@ -85,10 +85,10 @@ namespace Yasai.Tests.Scenarios
             }
         }
 
-        public override void KeyDown(KeyCode key)
+        public override void KeyDown(KeyArgs key)
         {
             base.KeyDown(key);
-            if (key == KeyCode.r)
+            if (key.IsPressed(KeyCode.r))
                 rotate = !rotate;
         }
     }

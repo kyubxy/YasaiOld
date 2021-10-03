@@ -21,6 +21,7 @@ namespace Yasai.Tests.Scenarios
                     Position = new Vector2(300),
                     Size = new Vector2(300),
                     Colour = Color.Tomato,
+                    Fill = false
                 },
                 line = new Line()
                 {
@@ -48,7 +49,7 @@ namespace Yasai.Tests.Scenarios
         public override void Update()
         {
             base.Update();
-            box.Rotation += 0.01f;
+            box.Rotation += 2f;
         }
     }
 }

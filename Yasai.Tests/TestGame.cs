@@ -76,10 +76,10 @@ namespace Yasai.Tests
             }
         }
 
-        public override void KeyDown(KeyCode key)
+        public override void KeyDown(KeyArgs key)
         {
             base.KeyDown(key);
-            if (key == KeyCode.TAB)
+            if (key.IsPressed(KeyCode.TAB) && key.IsPressed(KeyCode.LSHIFT))
                 picker.Enabled = !picker.Enabled;
         }
     }

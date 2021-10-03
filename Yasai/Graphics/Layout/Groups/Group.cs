@@ -173,7 +173,7 @@ namespace Yasai.Graphics.Layout.Groups
 
         // i also like good and maintainable code
         
-        public virtual void KeyUp(KeyCode key)
+        public virtual void KeyUp(KeyArgs key)
         {
             if (!Enabled)
                 return;
@@ -185,11 +185,11 @@ namespace Yasai.Graphics.Layout.Groups
                     continue;
 
                 if (isActiveInStack((listener)))
-                    listener.KeyUp((key));
+                    listener.KeyUp(key);
             }
         }
 
-        public virtual void KeyDown(KeyCode key)
+        public virtual void KeyDown(KeyArgs key)
         {
             if (!Enabled)
                 return;

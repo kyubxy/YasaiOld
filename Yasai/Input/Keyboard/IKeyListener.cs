@@ -2,8 +2,8 @@
 {
     public interface IKeyListener : IListener
     {
-        public void KeyUp(KeyCode key);
+        public void KeyUp(KeyArgs key);
 
-        public void KeyDown(KeyCode key);
+        public void KeyDown(KeyArgs key);
     }
 }
