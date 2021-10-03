@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yasai", "Yasai\Yasai.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yasai.Tests", "Yasai.Tests\Yasai.Tests.csproj", "{B0F0D22D-15C8-4131-88E1-38B254334F61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDL2-CS.Core", "..\SDL2-CS\SDL2-CS.Core.csproj", "{946586C8-50F0-4B5B-B6F8-8AC4FD73AAF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDL2-CS.Core", "SDL2-CS\SDL2-CS.Core.csproj", "{946586C8-50F0-4B5B-B6F8-8AC4FD73AAF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
