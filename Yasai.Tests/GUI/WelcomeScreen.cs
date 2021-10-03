@@ -1,8 +1,8 @@
 using System.Numerics;
 using Yasai.Graphics;
-using Yasai.Graphics.Layout.Screens;
 using Yasai.Graphics.Text;
 using Yasai.Resources;
+using Yasai.Screens;
 
 namespace Yasai.Tests.GUI
 {

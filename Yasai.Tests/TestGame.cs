@@ -5,10 +5,10 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using Yasai.Tests.Scenarios;
-using Yasai.Graphics.Layout.Screens;
 using Yasai.Input.Keyboard;
 using Yasai.Resources;
 using Yasai.Resources.Loaders;
+using Yasai.Screens;
 using Yasai.Tests.GUI;
 
 namespace Yasai.Tests

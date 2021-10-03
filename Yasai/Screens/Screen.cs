@@ -1,6 +1,6 @@
 using Yasai.Graphics.Layout.Groups;
 
-namespace Yasai.Graphics.Layout.Screens
+namespace Yasai.Screens
 {
     public class Screen : Group
     {

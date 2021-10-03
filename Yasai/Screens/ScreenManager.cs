@@ -1,10 +1,11 @@
 using System;
+using Yasai.Graphics;
 using Yasai.Graphics.Layout.Groups;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
 
-namespace Yasai.Graphics.Layout.Screens
+namespace Yasai.Screens
 {
     public class ScreenManager : Drawable, IGroup
     {

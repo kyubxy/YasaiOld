@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
+using SDL2;
+using Yasai.Debug;
 using Yasai.Extensions;
 using Yasai.Graphics.Layout.Groups;
 using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
-
+using Yasai.Resources.Loaders;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 
@@ -36,6 +38,8 @@ namespace Yasai
         protected Group Children;
         
         private ContentCache _content;
+
+        private DebugOverlay _debugOverlay;
         
         #region constructors
         public Game(string[] args = null) 
@@ -63,6 +67,7 @@ namespace Yasai
             Renderer = new Renderer(Window);           
              
             Children = new Group();
+            Children.Add(_debugOverlay = new DebugOverlay());
         }
         #endregion
         
@@ -71,7 +76,8 @@ namespace Yasai
             _content = new ContentCache(this);
 
             Start(_content);
-            
+
+            yasaiLoad(_content);
             Children.Load(_content);
             Load(_content);
             
@@ -81,11 +87,13 @@ namespace Yasai
                     OnEvent(e);
 
                 Update();
-                
+
+                _debugOverlay.FrameRateCounter.StartCount = SDL_GetPerformanceCounter();
                 Renderer.Clear();
                 Draw(Renderer.GetPtr());
                 Renderer.Present();
                 Renderer.SetDrawColor(0,0,0,255);
+                _debugOverlay.FrameRateCounter.EndCount = SDL_GetPerformanceCounter();
             }
         }
 
@@ -132,6 +140,15 @@ namespace Yasai
         }
 
         public virtual void Start(ContentCache cache) => Children.Start(cache);
+
+        /// <summary>
+        /// Load framework related resources
+        /// </summary>
+        /// <param name="cache"></param>
+        private void yasaiLoad(ContentCache cache)
+        {
+            cache.LoadResource("Yasai/OpenSans-Regular.ttf", Constants.tinyFont, new FontArgs(12));
+        }
         
         public virtual void Load(ContentCache cache)
         { }
@@ -143,7 +160,10 @@ namespace Yasai
         public virtual void Draw(IntPtr ren)
         {
             if (Visible)
+            {
                 Children.Draw(ren);
+                _debugOverlay.Draw(ren);
+            }
             else
             {
 #if DEBUG

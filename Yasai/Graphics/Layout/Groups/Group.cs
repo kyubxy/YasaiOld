@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Yasai.Debug;
 using Yasai.Graphics.Primitives;
 using Yasai.Input;
 using Yasai.Input.Keyboard;
@@ -108,9 +109,12 @@ namespace Yasai.Graphics.Layout.Groups
             {
                 if (Fill)
                     box.Draw(renderer);
-                
+
                 foreach (IDrawable s in _children)
-                    s.Draw(renderer);
+                {
+                    if (!s.GetType().IsInstanceOfType(typeof(Widget)))
+                        s.Draw(renderer);
+                }
             }
         }
         #endregion

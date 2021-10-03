@@ -4,13 +4,13 @@ using System.Numerics;
 using Yasai.Graphics;
 using Yasai.Graphics.Layout;
 using Yasai.Graphics.Layout.Groups;
-using Yasai.Graphics.Layout.Screens;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
 using Yasai.Resources.Loaders;
+using Yasai.Screens;
 using Yasai.Tests.Scenarios;
 
 namespace Yasai.Tests.GUI
