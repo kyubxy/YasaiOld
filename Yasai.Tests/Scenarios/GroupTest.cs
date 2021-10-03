@@ -8,7 +8,7 @@ namespace Yasai.Tests.Scenarios
     [TestScenario]
     public class GroupTest : Scenario
     {
-        public GroupTest()
+        public GroupTest(Game g) : base(g)
         {
             //SingleGroup();
             MultipleGroups();

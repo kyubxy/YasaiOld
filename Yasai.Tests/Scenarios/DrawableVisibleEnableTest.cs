@@ -22,5 +22,9 @@ namespace Yasai.Tests.Scenarios
                 }
             });
         }
+
+        public DrawableVisibleEnableTest(Game game) : base(game)
+        {
+        }
     }
 }

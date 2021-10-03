@@ -12,7 +12,7 @@ namespace Yasai.Tests.Scenarios
         private Line line;
         private Box box;
         
-        public PrimitivesTest()
+        public PrimitivesTest(Game g) : base (g)
         {
             AddAll(new IDrawable[]
             {

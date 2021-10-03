@@ -10,7 +10,7 @@ namespace Yasai.Tests.Scenarios
     [TestScenario]
     public class KeyboardTest : Scenario
     {
-        public KeyboardTest()
+        public KeyboardTest(Game g) : base (g)
         {
             Add(new KeyReceiver(false, "lowest one (not focused)")
             {

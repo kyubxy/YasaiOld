@@ -8,8 +8,12 @@ namespace Yasai.Tests.Scenarios
     public class Scenario : Screen
     {
         public string Name => GetType().Name;
-        
-        public Scenario() {}
+        protected Game Game;
+
+        public Scenario(Game game)
+        {
+            Game = game;
+        }
     }
 
     /// <summary>

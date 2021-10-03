@@ -87,7 +87,7 @@ namespace Yasai.Tests.GUI
                 Type s = _scenarios[i];
                 
                 Button b;
-                buttons.Add(b = new Button(_manager, s)
+                buttons.Add(b = new Button(_manager, s, _g)
                 {
                     Size = new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
                 });
@@ -149,17 +149,17 @@ namespace Yasai.Tests.GUI
 
         public override bool IgnoreHierarchy => true;
 
-        public Button(ScreenManager sm, Type s)
+        public Button(ScreenManager sm, Type s, Game game)
         {
             _sm = sm;
             _scenario = (Scenario)Activator.CreateInstance(s);
 
-            OnExit += (_, _) => _back.Colour = Color.White;
+            OnExit  += (_, _) => _back.Colour = Color.White;
             OnEnter += (_, _) => _back.Colour = Color.LightGray;
             OnClick += (_, _) => _back.Colour = Color.Gray;
             OnRelease += (sender, args) =>
             {
-                _sm.PushScreen((Scenario) Activator.CreateInstance(s));
+                _sm.PushScreen((Scenario) Activator.CreateInstance(s, game));
                 OnSelect?.Invoke(sender, args);
             };
         }

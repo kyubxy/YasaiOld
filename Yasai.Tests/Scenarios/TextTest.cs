@@ -9,7 +9,7 @@ namespace Yasai.Tests.Scenarios
     public class TextTest : Scenario
     {
         private SpriteText s;
-        public TextTest()
+        public TextTest(Game game) : base (game)
         {
             Add(s = new SpriteText("1234567890", "tahoma")
             {

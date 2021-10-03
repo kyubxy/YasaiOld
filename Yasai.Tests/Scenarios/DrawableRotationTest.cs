@@ -16,6 +16,8 @@ namespace Yasai.Tests.Scenarios
         private Sprite center;
         private Sprite topLeft;
         
+        public DrawableRotationTest(Game g) : base (g) { }
+        
         public override void Start(ContentCache cache)
         {
             base.Start(cache);

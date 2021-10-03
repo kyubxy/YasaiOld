@@ -53,7 +53,7 @@ namespace Yasai.Tests
             sm.OnScreenChange += screenChange;
         }
 
-        private void screenChange(object? sender, EventArgs e)
+        private void screenChange(object sender, EventArgs e)
         {
             bar.UpdateTitle(sm.CurrentScreen.GetType().Name);
             ScreenArgs a = (ScreenArgs)e;

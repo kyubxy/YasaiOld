@@ -9,7 +9,7 @@ namespace Yasai.Tests.Scenarios
     public class DrawablePropertyTest : Scenario
     {
         private Sprite s;
-        public DrawablePropertyTest()
+        public DrawablePropertyTest(Game g) : base (g)
         {
             Add(new Sprite("ino")
             {

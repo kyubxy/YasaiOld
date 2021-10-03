@@ -10,7 +10,8 @@ namespace Yasai.Tests.Scenarios
     {
         ClickableGroup g;
 
-        public ClickableGroupTest()
+        public ClickableGroupTest(Game game) 
+            : base (game)
         {
             Add(g = new ClickableGroup()
             {

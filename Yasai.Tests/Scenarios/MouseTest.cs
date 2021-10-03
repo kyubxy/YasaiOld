@@ -10,7 +10,7 @@ namespace Yasai.Tests.Scenarios
     [TestScenario]
     public class MouseTest : Scenario
     {
-        public MouseTest()
+        public MouseTest(Game g) : base (g)
         {
             Add(new MouseInput(true, true)
             {
