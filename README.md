@@ -13,13 +13,14 @@ see how much of part 1 is left to go on [the part 1 project page](https://github
 I like writing code that does nothing impressive.
 
 # Contribution and Use
-This is literaly a worse version of [osu!framework](https://github.com/ppy/osu-framework), if you're looking for something similar just use that.
+This is literally a worse version of [osu!framework](https://github.com/ppy/osu-framework), if you're looking for something similar just use that.
 
 This project is still in *part 1* of its development. Although development will be fast paced and code will be frantically put together, I will still take the time to review any issues or PRs that are sent. 
 
 **At this point in time, although the code is open source, the general development process will be largely kept to myself**. This will change after part 1.
 
-Testing works in separate test scenarios accessible in the testing interface. Pressing tab shows a test picker that allows you to view different test scenarios.
+## Testing 
+Pressing tab shows a test picker that allows you to view different test scenarios. Please read [this guide](https://github.com/EpicTofuu/Yasai/wiki/Testing) on Yasai testing
 
 # Getting started
 At the moment, the framework doesn't actually work. You can still test it by cloning the repo and following the steps below
