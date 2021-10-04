@@ -112,7 +112,7 @@ namespace Yasai.Graphics.Layout.Groups
 
                 foreach (IDrawable s in _children)
                 {
-                    if (!s.GetType().IsInstanceOfType(typeof(Widget)))
+                    if (!(s is Widget))
                         s.Draw(renderer);
                 }
             }
