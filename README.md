@@ -33,23 +33,21 @@ At the moment, the framework doesn't actually work. You can still test it by clo
 2. Place the .dlls in the root of the Yasai.Tests folder. Ensure you set the build settings to *Build if newer* so the dlls are present in the application folder.
 
 ## Linux
-1. Using your distro's package manager, install SDL2, SDL_image and SDL_ttf. 
-
-If your distro is not listed here, a quick google search for *[distro name] SDL2 install* should give you all the information you need. Apart from running a few commands, no extra setup is required.
+1. Using your distro's package manager, install SDL2, SDL_image and SDL_ttf, check the list below for distro specific information. If your distro is not listed here, a quick google search for *[distro name] SDL2 install* should give you all the information you need. 
 
 ### Arch linux
-Everything you need to get started with SDL and yasai is already available on the AUR 
+Everything you need to get started with SDL and yasai is already available on the AUR. Your package manager should handle the rest. 
 ```
-pacman -S sdl2 sdl2_ttf sdl2_image
+sudo pacman -S sdl2 sdl2_ttf sdl2_image
 ```
+
 ### Ubuntu/Debian
-see also [this page](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/linux/index.php)
+Also see [this page](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/linux/index.php)
 
 Currently, the needed packages are installed by running:
 ```
 sudo apt-get install libsdl2-2.0-0 libsdl2-ttf-2.0-0 libsdl2-image-2.0-0
 ```
-
 Programs using the framework currently cannot be run without some fixes.
 Something is expecting files called `libSDL2.so`, `libSDL2_ttf.so`, and `libSDL2_image.so`.
 These files are usually symlinks, in this situation to be created manually targetting the respective files.
@@ -61,4 +59,4 @@ ln -s /usr/lib/HostTriplet/libSDL2_ttf-2.0.so.0    libSDL2_ttf.so
 ln -s /usr/lib/HostTriplet/libSDL2_image-2.0.so.0  libSDL2_image.so
 ```
 `HostTriplet` is the triplet of your system, for example: `x86_64-linux-gnu`.
-The instructions for the missing files workaround haven't been confirmed if it applies everywhere.
+The instructions for the missing files workaround haven't been confirmed to apply everywhere.
