@@ -7,7 +7,6 @@ namespace Yasai.Debug
     {
         public FrameRateCounter FrameRateCounter { get; }
         public CacheVisualiser CacheVisualiser { get; }
-        public GlobalVariableVisualiser GlobalVarVisualiser { get; }
 
         public DebugOverlay()
         {
@@ -17,11 +16,6 @@ namespace Yasai.Debug
             });
             
             Add (CacheVisualiser = new CacheVisualiser()
-            {
-                Enabled = false
-            });
-            
-            Add (GlobalVarVisualiser = new GlobalVariableVisualiser()
             {
                 Enabled = false
             });
