@@ -26,7 +26,7 @@ Pressing tab shows a test picker that allows you to view different test scenario
 At the moment, the framework doesn't actually work. You can still test it by cloning the repo and following the steps below
 
 **This project uses submodules!** Ensure when you are cloning, you initialise the submodules correctly using 
-`git submodule --init --recursive`
+`git submodule update --init --recursive`
 
 ## Windows
 1. Download [SDL](https://www.libsdl.org/download-2.0.php), [SDL_image](https://www.libsdl.org/projects/SDL_image/) and [SDL_ttf](https://www.libsdl.org/projects/SDL_ttf/). 
