@@ -26,7 +26,7 @@ Pressing tab shows a test picker that allows you to view different test scenario
 At the moment, the framework doesn't actually work. You can still test it by cloning the repo and following the steps below
 
 **This project uses submodules!** Ensure when you are cloning, you initialise the submodules correctly using 
-`git submodule --init --recursive`
+`git submodule update --init --recursive`
 
 ## Windows
 1. Download [SDL](https://www.libsdl.org/download-2.0.php), [SDL_image](https://www.libsdl.org/projects/SDL_image/) and [SDL_ttf](https://www.libsdl.org/projects/SDL_ttf/). 
@@ -43,6 +43,22 @@ Everything you need to get started with SDL and yasai is already available on th
 pacman -S sdl2 sdl2_ttf sdl2_image
 ```
 ### Ubuntu/Debian
-see [this page](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/linux/index.php)
+see also [this page](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/linux/index.php)
 
-If you are using a package manager, everything should just magically work. No extra setup required.
+Currently, the needed packages are installed by running:
+```
+sudo apt-get install libsdl2-2.0-0 libsdl2-ttf-2.0-0 libsdl2-image-2.0-0
+```
+
+Programs using the framework currently cannot be run without some fixes.
+Something is expecting files called `libSDL2.so`, `libSDL2_ttf.so`, and `libSDL2_image.so`.
+These files are usually symlinks, in this situation to be created manually targetting the respective files.
+The simplest way to workaround this is to run the following:
+```
+cd CertainProgramDir
+ln -s /usr/lib/HostTriplet/libSDL2-2.0.so.0        libSDL2.so
+ln -s /usr/lib/HostTriplet/libSDL2_ttf-2.0.so.0    libSDL2_ttf.so
+ln -s /usr/lib/HostTriplet/libSDL2_image-2.0.so.0  libSDL2_image.so
+```
+`HostTriplet` is the triplet of your system, for example: `x86_64-linux-gnu`.
+The instructions for the missing files workaround haven't been confirmed if it applies everywhere.
