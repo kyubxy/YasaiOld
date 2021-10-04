@@ -23,7 +23,7 @@ This project is still in *part 1* of its development. Although development will 
 Pressing tab shows a test picker that allows you to view different test scenarios. Please read [this guide](https://github.com/EpicTofuu/Yasai/wiki/Testing) on Yasai testing
 
 # Getting started
-At the moment, the framework doesn't actually work. You can still test it by cloning the repo and following the steps below
+Later, the framework will move towards using NuGet packages. Currently your most viable option is to either submodule the framework and use the code directly or wait a little longer for things to settle.
 
 **This project uses submodules!** Ensure when you are cloning, you initialise the submodules correctly using 
 `git submodule update --init --recursive`
