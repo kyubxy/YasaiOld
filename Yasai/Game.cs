@@ -1,4 +1,6 @@
 using System.Reflection;
+using Yasai.Graphics.Layout.Groups;
+using Yasai.Input.Keyboard;
 using Yasai.Resources;
 using Yasai.Resources.Loaders;
 
@@ -11,6 +13,8 @@ namespace Yasai
     {
         private ContentCache _content;
 
+        protected Group Root;
+        
         #region constructors
         public Game(string[] args = null) 
             : this(60, args) 
@@ -28,6 +32,10 @@ namespace Yasai
             : base (title, w, h, refreshRate, args)
         {
             Content = new ContentCache(this);
+            
+            Root = new Group();
+            Children.Add(Root);
+            Children.Add(FrameRateCounter);
         }
         #endregion
 

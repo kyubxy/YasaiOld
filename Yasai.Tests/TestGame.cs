@@ -28,6 +28,7 @@ namespace Yasai.Tests
         public TestGame() 
             : base (69)
         {
+            // load last screen
             Screen last = new WelcomeScreen();
             if (File.Exists(prefPath))
             {
@@ -44,12 +45,12 @@ namespace Yasai.Tests
             
             // find all tests
             sm = new ScreenManager(last);
-            Children.Add(sm);
+            Root.Add(sm);
             
             Type[] scenarios = GetTests(Assembly.GetExecutingAssembly()).ToArray();
-            Children.Add(picker = new TestPicker(this, sm, scenarios));
+            Root.Add(picker = new TestPicker(this, sm, scenarios));
 
-            Children.Add(bar = new StatusBar(this));
+            Root.Add(bar = new StatusBar(this));
             sm.OnScreenChange += screenChange;
         }
 
