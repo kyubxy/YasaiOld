@@ -3,7 +3,7 @@ using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Layout.Groups;
 using Yasai.Resources;
 
-namespace Yasai.Tests.Scenarios
+namespace Yasai.VisualTests.Scenarios
 {
     [TestScenario]
     public class GroupTest : Scenario

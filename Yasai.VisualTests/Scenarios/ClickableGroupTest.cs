@@ -3,7 +3,7 @@ using System.Numerics;
 using Yasai.Graphics.Layout.Groups;
 using Yasai.Input.Mouse;
 
-namespace Yasai.Tests.Scenarios
+namespace Yasai.VisualTests.Scenarios
 {
     [TestScenario]
     public class ClickableGroupTest : Scenario

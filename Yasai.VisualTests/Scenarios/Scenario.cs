@@ -3,7 +3,7 @@
 using Yasai.Graphics.Layout;
 using Yasai.Screens;
 
-namespace Yasai.Tests.Scenarios
+namespace Yasai.VisualTests.Scenarios
 {
     public class Scenario : Screen
     {

@@ -121,9 +121,6 @@ namespace Yasai.Resources
                 x.Dispose();
         }
 
-        public void Start(ContentCache cache)
-        { }
-
         public void Load(ContentCache cache)
         {
             string path = Path.Combine(resourcePath, MANAGER);
@@ -133,6 +130,8 @@ namespace Yasai.Resources
             else
                 manager = new ContentManager();
         }
+        
+        public void LoadComplete() { }
 
         /// <summary>
         /// Write the manager to the resource path.

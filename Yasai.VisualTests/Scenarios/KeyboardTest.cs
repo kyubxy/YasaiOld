@@ -6,7 +6,7 @@ using Yasai.Graphics.Text;
 using Yasai.Input.Keyboard;
 using Yasai.Resources;
 
-namespace Yasai.Tests.Scenarios
+namespace Yasai.VisualTests.Scenarios
 {
     [TestScenario]
     public class KeyboardTest : Scenario

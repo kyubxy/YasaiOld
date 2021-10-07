@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using Yasai.Tests.Scenarios;
+using Yasai.VisualTests.Scenarios;
 using Yasai.Input.Keyboard;
 using Yasai.Resources;
 using Yasai.Resources.Loaders;
 using Yasai.Screens;
-using Yasai.Tests.GUI;
+using Yasai.VisualTests.GUI;
 
-namespace Yasai.Tests
+namespace Yasai.VisualTests
 {
     public class TestGame : Game
     {
@@ -29,7 +29,7 @@ namespace Yasai.Tests
             : base (69)
         {
             // load last screen
-            Screen last = new WelcomeScreen();
+            Screen last = new WelcomeScreen(this);
             if (File.Exists(prefPath))
             {
                 lastScreen = File.ReadAllText(prefPath);
@@ -45,12 +45,12 @@ namespace Yasai.Tests
             
             // find all tests
             sm = new ScreenManager(last);
-            Root.Add(sm);
+            Children.Add(sm);
             
             Type[] scenarios = GetTests(Assembly.GetExecutingAssembly()).ToArray();
-            Root.Add(picker = new TestPicker(this, sm, scenarios));
+            Children.Add(picker = new TestPicker(this, sm, scenarios));
 
-            Root.Add(bar = new StatusBar(this));
+            Children.Add(bar = new StatusBar(this));
             sm.OnScreenChange += screenChange;
         }
 
@@ -62,10 +62,10 @@ namespace Yasai.Tests
         }
         
 
-        public override void Start(ContentCache cache)
+        public override void Load(ContentCache cache)
         {
-            base.Start(cache);
             cache.LoadResource("tahoma.ttf","fnt_smallFont", new FontArgs(15));
+            base.Load(cache);
         }
 
         static IEnumerable<Type> GetTests(Assembly assembly)

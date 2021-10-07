@@ -47,14 +47,14 @@ namespace Yasai.Graphics.Primitives
        {
        }
 
-       public virtual void Start(ContentCache cache)
+       public virtual void Load(ContentCache cache)
        {
        }
 
-       public void Load(ContentCache cache)
+       public virtual void LoadComplete()
        {
        }
-       
+
        public virtual void Draw(IntPtr renderer)
        {
            SDL_SetRenderDrawColor(renderer, Colour.R, Colour.G, Colour.B, 255);

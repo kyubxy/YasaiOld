@@ -3,7 +3,7 @@ using Yasai.Graphics.Text;
 using Yasai.Resources;
 using Yasai.Resources.Loaders;
 
-namespace Yasai.Tests.Scenarios
+namespace Yasai.VisualTests.Scenarios
 {
     [TestScenario]
     public class TextTest : Scenario

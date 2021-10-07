@@ -2,7 +2,7 @@ using System.Numerics;
 using Yasai.Graphics.Text;
 using Yasai.Resources;
 
-namespace Yasai.Tests.Scenarios
+namespace Yasai.VisualTests.Scenarios
 {
     [TestScenario]
     public class ResourceTest : Scenario
@@ -15,9 +15,9 @@ namespace Yasai.Tests.Scenarios
             cache = new ContentCache(Game);
         }
 
-        public override void Start(ContentCache cache)
+        public override void LoadComplete()
         {
-            base.Start(cache);
+            base.LoadComplete();
             Add(new SpriteText ("WIP test currently not all cache functionality is being implemented right now", "fnt_smallFont")
             {
                 Position = new Vector2(200)

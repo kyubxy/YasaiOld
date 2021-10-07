@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Yasai.Tests
+namespace Yasai.VisualTests
 {
     class Program
     {

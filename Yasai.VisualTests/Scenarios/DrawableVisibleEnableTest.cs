@@ -4,14 +4,14 @@ using Yasai.Graphics;
 using Yasai.Graphics.Primitives;
 using Yasai.Resources;
 
-namespace Yasai.Tests.Scenarios
+namespace Yasai.VisualTests.Scenarios
 {
     [TestScenario]
     public class DrawableVisibleEnableTest : Scenario
     {
-        public override void Start(ContentCache cache)
+        public override void LoadComplete()
         {
-            base.Start(cache);
+            base.LoadComplete();
             AddAll(new IDrawable[]
             {
                 new Box()

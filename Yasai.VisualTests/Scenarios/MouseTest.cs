@@ -5,7 +5,7 @@ using Yasai.Graphics.Primitives;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
 
-namespace Yasai.Tests.Scenarios
+namespace Yasai.VisualTests.Scenarios
 {
     [TestScenario]
     public class MouseTest : Scenario

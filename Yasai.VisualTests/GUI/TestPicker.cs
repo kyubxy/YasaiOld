@@ -11,9 +11,9 @@ using Yasai.Input.Mouse;
 using Yasai.Resources;
 using Yasai.Resources.Loaders;
 using Yasai.Screens;
-using Yasai.Tests.Scenarios;
+using Yasai.VisualTests.Scenarios;
 
-namespace Yasai.Tests.GUI
+namespace Yasai.VisualTests.GUI
 {
     public sealed class TestPicker : Group
     {
@@ -57,9 +57,9 @@ namespace Yasai.Tests.GUI
             Enabled = false;
         }
 
-        public override void Start(ContentCache cache)
+        public override void LoadComplete()
         {
-            base.Start(cache); 
+            base.LoadComplete(); 
             AddAll(new IDrawable[]
             {
                 bodyBox = new Box ()
@@ -164,9 +164,9 @@ namespace Yasai.Tests.GUI
             };
         }
 
-        public override void Start(ContentCache cache)
+        public override void LoadComplete()
         {
-            base.Start(cache);
+            base.LoadComplete();
             AddAll(new IDrawable[]
             {
                 _back = new Box ()

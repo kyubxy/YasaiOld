@@ -3,7 +3,7 @@ using System.Drawing;
 using Yasai.Graphics.Imaging;
 using Yasai.Resources;
 
-namespace Yasai.Tests.Scenarios
+namespace Yasai.VisualTests.Scenarios
 {
     [TestScenario("wangs")]
     public class DrawablePropertyTest : Scenario
@@ -11,6 +11,19 @@ namespace Yasai.Tests.Scenarios
         private Sprite s;
         public DrawablePropertyTest(Game g) : base (g)
         {
+            
+        }
+
+        public override void Load(ContentCache cache)
+        {
+            cache.LoadResource("ino.png");
+            base.Load(cache);
+        }
+
+        public override void LoadComplete()
+        {
+            base.LoadComplete();
+            
             Add(new Sprite("ino")
             {
                 Position = new Vector2(0,0),
@@ -42,16 +55,10 @@ namespace Yasai.Tests.Scenarios
             });
         }
 
-        public override void Start(ContentCache cache)
-        {
-            cache.LoadResource("ino.png");
-            base.Start(cache);
-        }
-
         public override void Update()
         {
-            s.Rotation += 2f;
             base.Update();
+            s.Rotation += 2f;
         }
     }
 }

@@ -3,14 +3,21 @@ using Yasai.Graphics;
 using Yasai.Graphics.Text;
 using Yasai.Resources;
 using Yasai.Screens;
+using Yasai.VisualTests.Scenarios;
 
-namespace Yasai.Tests.GUI
+namespace Yasai.VisualTests.GUI
 {
-    public class WelcomeScreen : Screen
+    public class WelcomeScreen : Scenario
     {
-        public override void Start(ContentCache cache)
+        public WelcomeScreen(Game game) 
+            : base (game)
         {
-            base.Start(cache);
+            
+        }
+        
+        public override void LoadComplete()
+        {
+            base.LoadComplete();
 
             string[] messages = 
             {

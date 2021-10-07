@@ -75,23 +75,22 @@ namespace Yasai.Graphics.Layout.Groups
 
         #region lifespan
 
-        public override void Start(ContentCache cache)
-        {
-            base.Start(cache);
-        }
-
         public override void Load(ContentCache cache)
         {
-            base.Load(cache);
-            
-            // NOTE: might be kind of risky..
-            foreach (IDrawable s in _children)
-                s.Start(cache);
-            
             box.Load(cache);
             foreach (IDrawable s in _children)
                 s.Load(cache);
             _contentCache = cache;
+            
+            base.Load(cache);
+        }
+
+        public override void LoadComplete()
+        {
+            base.LoadComplete();
+            box.LoadComplete();
+            foreach (IDrawable s in _children)
+                s.LoadComplete();
         }
 
         public override void Update()
@@ -127,6 +126,9 @@ namespace Yasai.Graphics.Layout.Groups
 
             if (Loaded && !item.Loaded)
                 item.Load(_contentCache);
+            
+            if (Loaded)
+                item.LoadComplete();
             
             _children.Add(item);
         }

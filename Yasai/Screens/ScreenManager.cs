@@ -26,14 +26,6 @@ namespace Yasai.Screens
         }
 
         public ScreenManager() : this (new Screen()) { }
-
-        public override void Start(ContentCache cache)
-        {
-            base.Start(cache);
-            
-            // load in the declarative style
-            CurrentScreen.Start(cache);
-        }
         
         public override void Load(ContentCache cache)
         {
@@ -41,17 +33,21 @@ namespace Yasai.Screens
             CurrentScreen.Load(cache);
             _contentCache = cache;
         }
-        
+
+        public override void LoadComplete()
+        {
+            base.LoadComplete();
+            CurrentScreen.LoadComplete();
+        }
+
         public void PushScreen(Screen s)
         {
             CurrentScreen.Dispose();
             
-            // load in the imperative style
-            s.Start(_contentCache);
             if (Loaded)
-            {
                 s.Load(_contentCache);
-            }
+            
+            s.LoadComplete();
 
             CurrentScreen = s;
             OnScreenChange?.Invoke(this, new ScreenArgs(s));

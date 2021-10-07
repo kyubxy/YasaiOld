@@ -6,7 +6,7 @@ using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Resources;
 
-namespace Yasai.Tests.GUI
+namespace Yasai.VisualTests.GUI
 {
     public class StatusBar : Group
     {
@@ -24,9 +24,9 @@ namespace Yasai.Tests.GUI
             Fill = true;
         }
         
-        public override void Start(ContentCache cache)
+        public override void LoadComplete()
         {
-            base.Start(cache);
+            base.LoadComplete();
             Add(title = new SpriteText("", "fnt_smallFont")
             {
                 Colour = Color.Black

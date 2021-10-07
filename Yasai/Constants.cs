@@ -4,6 +4,6 @@ namespace Yasai
     {
         // this might be bad practice..
         
-        public static string tinyFont => "yasai_fontTiny";
+        public static string TinyFont => "yasai_fontTiny";
     }
 }

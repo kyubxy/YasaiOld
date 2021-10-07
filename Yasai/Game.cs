@@ -45,13 +45,13 @@ namespace Yasai
         /// <param name="cache"></param>
         private void yasaiLoad(ContentCache cache)
         {
-            cache.LoadResource("Yasai/OpenSans-Regular.ttf", Constants.tinyFont, new FontArgs(12));
+            cache.LoadResource("Yasai/OpenSans-Regular.ttf", Constants.TinyFont, new FontArgs(12));
         }
 
         public override void Load(ContentCache cache)
         {
-            base.Load(cache);
             yasaiLoad(cache);
+            base.Load(cache);
         }
     }
 }

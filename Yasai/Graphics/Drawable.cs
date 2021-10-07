@@ -45,15 +45,15 @@ namespace Yasai.Graphics
             get => Size.Y;
             set => Size = new Vector2(Size.X, value);
         }
-
-        public virtual void Start(ContentCache cache)
-        {
-        }
-
+        
         public virtual void Load(ContentCache cache)
         {
         }
-        
+
+        public virtual void LoadComplete()
+        {
+        }
+
         public virtual void Update()
         {
         }

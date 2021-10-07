@@ -32,26 +32,6 @@ namespace Yasai.Debug
             } 
         }
         
-        public override void Start(ContentCache cache)
-        {
-            base.Start(cache);
-            AddAll(new IDrawable[]
-            {
-                back = new PrimitiveBox()
-                {
-                    Position = new Vector2(10),
-                    Size = new Vector2(80,25),
-                    Fill = true,
-                    Colour = BACKGROUND_COLOUR
-                },
-                text = new SpriteText("FPS", Constants.tinyFont)
-                {
-                    Position = new Vector2(15),
-                    Colour = Color.Black
-                }
-            });
-        }
-
         public override void Update()
         {
             base.Update();
@@ -66,6 +46,27 @@ namespace Yasai.Debug
                 back.Colour = Color.Orange;
             else if (FPS < 10)
                 back.Colour = Color.Red;
+        }
+
+        public override void LoadComplete()
+        {
+            base.LoadComplete();
+            
+            AddAll(new IDrawable[]
+            {
+                back = new PrimitiveBox()
+                {
+                    Position = new Vector2(10),
+                    Size = new Vector2(80,25),
+                    Fill = true,
+                    Colour = BACKGROUND_COLOUR
+                },
+                text = new SpriteText("FPS", Constants.TinyFont)
+                {
+                    Position = new Vector2(15),
+                    Colour = Color.Black
+                }
+            });
         }
     }
 }

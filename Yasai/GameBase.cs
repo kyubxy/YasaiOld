@@ -59,10 +59,11 @@ namespace Yasai
         
         public void Run()
         {
-            Start(Content);
-        
-            Children.Load(Content);
             Load(Content);
+            Children.Load(Content);
+            
+            LoadComplete();
+            Children.LoadComplete(); 
             
             while (!_quit)
             {
@@ -122,7 +123,8 @@ namespace Yasai
             }
         }
         
-        public virtual void Start(ContentCache cache) => Children.Start(cache);
+        public virtual void LoadComplete ()
+        { }
         
         public virtual void Load(ContentCache cache)
         { }
