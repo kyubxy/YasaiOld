@@ -1,5 +1,7 @@
 ![Untitled](https://user-images.githubusercontent.com/28855597/133410381-8996ebf2-7a67-42fa-915f-e711a330dbb0.png)
 
+[![.NET](https://github.com/EpicTofuu/Yasai/actions/workflows/dotnet.yml/badge.svg)](https://github.com/EpicTofuu/Yasai/actions/workflows/dotnet.yml)
+
 the funny vegetable framework, this serves as my general graphics playground. Powered by SDL.
 
 # What
