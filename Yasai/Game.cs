@@ -1,5 +1,5 @@
 using System.Reflection;
-using Yasai.Graphics.Layout.Groups;
+using Yasai.Graphics.Groups;
 using Yasai.Input.Keyboard;
 using Yasai.Resources;
 using Yasai.Resources.Loaders;

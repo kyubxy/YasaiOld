@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
+using Yasai.Graphics.Groups;
 using Yasai.Graphics.Imaging;
-using Yasai.Graphics.Layout.Groups;
 using Yasai.Resources;
 
 namespace Yasai.VisualTests.Scenarios

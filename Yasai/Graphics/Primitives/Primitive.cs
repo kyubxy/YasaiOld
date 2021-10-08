@@ -55,6 +55,8 @@ namespace Yasai.Graphics.Primitives
        {
        }
 
+       public DependencyHandler DependencyHandler { get; set; }
+
        public virtual void Draw(IntPtr renderer)
        {
            SDL_SetRenderDrawColor(renderer, Colour.R, Colour.G, Colour.B, 255);

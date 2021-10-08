@@ -1,7 +1,6 @@
 using System.Drawing;
 using System.Numerics;
-using Yasai.Graphics.Layout;
-using Yasai.Graphics.Layout.Groups;
+using Yasai.Graphics.Groups;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Resources;

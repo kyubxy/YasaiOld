@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 using Yasai.Graphics;
-using Yasai.Graphics.Layout.Groups;
+using Yasai.Graphics.Groups;
 using Yasai.Resources;
 
 namespace Yasai.Debug

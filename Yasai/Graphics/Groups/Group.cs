@@ -10,7 +10,7 @@ using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
 
-namespace Yasai.Graphics.Layout.Groups
+namespace Yasai.Graphics.Groups
 {
     public class Group : Drawable, IGroup, ICollection<IDrawable>
     {
@@ -54,8 +54,6 @@ namespace Yasai.Graphics.Layout.Groups
             }
         }
         
-        
-
         public override bool Loaded => _children.All(x => x.Loaded) && _contentCache != null;
 
         #region constructors
@@ -123,6 +121,9 @@ namespace Yasai.Graphics.Layout.Groups
         {
             if (item == null)
                 return;
+
+            if (DependencyHandler != null)
+                item.DependencyHandler = DependencyHandler;
 
             if (Loaded && !item.Loaded)
                 item.Load(_contentCache);

@@ -55,7 +55,7 @@ namespace Yasai.Resources
         }
 
         /// <summary>
-        /// Loads a single directory from the path and adds it to the internal dictionary
+        /// Loads a single resource from the path and adds it to the internal dictionary
         /// </summary>
         /// <param name="path">path to resource</param>
         /// <param name="_key">dictionary key, how to reference the resource, blank entries default to the extensionless resource filename</param>
@@ -115,6 +115,21 @@ namespace Yasai.Resources
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Dispose of a specific resource
+        /// </summary>
+        /// <param name="key"></param>
+        public void Unload(string key)
+        {
+            if (!resources.ContainsKey(key))
+                Console.WriteLine($"no such {key} in dictionary");
+            else
+                resources[key].Dispose();
+        }
+
+        /// <summary>
+        /// Unload all resources
+        /// </summary>
         public void Dispose()
         {
             foreach (Resource x in resources.Values) 
@@ -132,6 +147,7 @@ namespace Yasai.Resources
         }
         
         public void LoadComplete() { }
+        public DependencyHandler DependencyHandler { get; set; }
 
         /// <summary>
         /// Write the manager to the resource path.

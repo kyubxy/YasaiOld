@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Numerics;
-
 using Yasai.Input.Mouse;
 
-namespace Yasai.Graphics.Layout.Groups
+namespace Yasai.Graphics.Groups
 {
     public class ClickableGroup : Group
     {

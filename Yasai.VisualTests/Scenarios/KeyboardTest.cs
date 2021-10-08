@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using Yasai.Graphics.Layout.Groups;
+using Yasai.Graphics.Groups;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Input.Keyboard;

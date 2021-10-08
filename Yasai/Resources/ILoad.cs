@@ -2,15 +2,16 @@ using System;
 
 namespace Yasai.Resources
 {
-    public interface ILoad 
+    public interface ILoad : IDependencyHolder
     {
-        public bool Loaded { get; }
+        bool Loaded { get; }
+        
         /// <summary>
         /// Called on resource load
         /// </summary>
         /// <param name="cache"></param>
-        public void Load(ContentCache cache);
+        void Load(ContentCache cache);
 
-        public void LoadComplete();
+        void LoadComplete();
     }
 }

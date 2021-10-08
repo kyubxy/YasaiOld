@@ -1,6 +1,6 @@
 using System;
 using Yasai.Graphics;
-using Yasai.Graphics.Layout.Groups;
+using Yasai.Graphics.Groups;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;

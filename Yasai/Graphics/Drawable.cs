@@ -9,6 +9,8 @@ namespace Yasai.Graphics
 {
     public abstract class Drawable : IDrawable, IGeometry, IGraphicsModifiable
     {
+        public virtual DependencyHandler DependencyHandler { get; set; }
+        
         public virtual Vector2 Position { get; set; }
         public virtual Vector2 Origin { get; set; }
         public virtual Vector2 Size { get; set; } = new Vector2(100);
