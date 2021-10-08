@@ -56,11 +56,5 @@ namespace Yasai.Tests.Graphics.Groups
             v.Value = new Vector2(7, 8);
             Assert.Equal(new Vector2(7,8), drawable.Test);
         }
-
-        [Fact]
-        void TestFail()
-        {
-            Assert.True(false);
-        }
     }
 }
