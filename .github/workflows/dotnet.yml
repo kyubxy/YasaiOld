@@ -17,8 +17,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+    - name: submodules-init
+      uses: snickerbockers/submodules-init@v4
     - name: Restore dependencies
-      run: dotnet restore ./Yasai.Tests/Yasai.Tests.csproj
+      run: dotnet restore
     - name: Build
       run: dotnet build --no-restore 
     - name: Test
