@@ -18,6 +18,12 @@ namespace Yasai.VisualTests.Scenarios
             {
                 new PrimitiveBox()
                 {
+                    Position = new Vector2(20),
+                    Size = new Vector2(20),
+                    Colour = Color.Tomato,
+                },
+                new PrimitiveBox()
+                {
                     Position = new Vector2(300),
                     Size = new Vector2(300),
                     Colour = Color.Tomato,

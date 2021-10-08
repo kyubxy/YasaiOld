@@ -17,7 +17,7 @@ namespace Yasai
     /// <summary>
     /// The bare essentials of a Yasai application
     /// </summary>
-    public class GameBase : IGroup
+    public class GameBase : IGroup, IDisposable
     {
         public Window Window { get; private set; }
         public Renderer Renderer { get; private set; } 
@@ -158,7 +158,6 @@ namespace Yasai
         
         public void Dispose()
         {
-            Children.Dispose();
             Content.Dispose();
             SDL_Quit();
         }

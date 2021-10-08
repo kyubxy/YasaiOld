@@ -2,7 +2,7 @@ using System;
 
 namespace Yasai.Resources
 {
-    public interface ILoad : IDisposable
+    public interface ILoad 
     {
         public bool Loaded { get; }
         /// <summary>

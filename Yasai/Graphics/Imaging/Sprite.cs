@@ -140,16 +140,6 @@ namespace Yasai.Graphics.Imaging
             }
         }
         
-        public override void Dispose()
-        {
-            base.Dispose();
-            
-            if (Loaded)
-                SDL_DestroyTexture(CurrentTexture.Handle);
-                
-        }
-        
-        
         // TODO: animations (later)
         public void NextCostume()
         { }

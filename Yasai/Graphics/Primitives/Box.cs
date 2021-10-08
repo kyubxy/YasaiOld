@@ -34,11 +34,5 @@ namespace Yasai.Graphics.Primitives
             
             CenterToCurrentTex();
         }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-            CurrentTexture.Dispose();
-        }
     }
 }

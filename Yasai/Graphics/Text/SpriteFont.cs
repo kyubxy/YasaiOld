@@ -55,11 +55,6 @@ namespace Yasai.Graphics.Text
         {
             base.Dispose();
             TTF_CloseFont(Handle);
-
-            foreach (Sprite s in glyphs.Values)
-            {
-                s.Dispose();
-            }
         }
     }
 }

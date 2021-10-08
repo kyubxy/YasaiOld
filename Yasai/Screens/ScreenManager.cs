@@ -42,8 +42,6 @@ namespace Yasai.Screens
 
         public void PushScreen(Screen s)
         {
-            CurrentScreen.Dispose();
-            
             if (Loaded)
                 s.Load(_contentCache);
             
@@ -68,7 +66,6 @@ namespace Yasai.Screens
 
         // screenmanagers can only handle one screen at a time
         // thus, they all ignore the hierarchy
-        public override void Dispose() => CurrentScreen.Dispose();
         public void MouseDown(MouseArgs args) => CurrentScreen.MouseDown(args);
         public void MouseUp(MouseArgs args) => CurrentScreen.MouseUp(args);
         public void MouseMotion(MouseArgs args) => CurrentScreen.MouseMotion(args);

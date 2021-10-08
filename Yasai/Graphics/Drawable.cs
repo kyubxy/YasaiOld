@@ -1,17 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Yasai.Resources;
 
 namespace Yasai.Graphics
 {
-    /// <summary>
-    /// A richer <see cref="IDrawable"/> 
-    /// </summary>
     public abstract class Drawable : IDrawable, IGeometry, IGraphicsModifiable
     {
-        //private Matrix3 parentTransformations; //yes
-        
         public virtual Vector2 Position { get; set; }
         public virtual Vector2 Origin { get; set; }
         public virtual Vector2 Size { get; set; } = new Vector2(100);
@@ -61,10 +58,5 @@ namespace Yasai.Graphics
         public virtual void Draw(IntPtr renderer)
         {
         }
-
-        public virtual void Dispose()
-        {
-        }
-
     }
 }

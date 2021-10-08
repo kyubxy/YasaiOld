@@ -146,7 +146,7 @@ namespace Yasai.Graphics.Layout.Groups
 
         public bool Remove(IDrawable item)
         {
-            item?.Dispose();
+            if (item == null) return false;
             return _children.Remove(item);
         }
         #endregion
