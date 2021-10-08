@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 using Xunit;
 using Yasai.Graphics;
@@ -34,7 +35,7 @@ namespace Yasai.Tests.Graphics.Groups
         }
 
         [Fact]
-        void TestLayeredDependencyInjection()
+        void TestLayeredDI()
         {
              DependencyHandler dh = new DependencyHandler();
              var v = new Tracable<Vector2>(new Vector2(4,5));
@@ -56,5 +57,56 @@ namespace Yasai.Tests.Graphics.Groups
             v.Value = new Vector2(7, 8);
             Assert.Equal(new Vector2(7,8), drawable.Test);
         }
+
+        [Fact]
+        void TestDifferentHandlers()
+        {
+             var groupA = new TestGroup();
+             var groupB = new TestGroup();
+
+             groupA.Add(groupB);
+             groupA.DependencyHandler = new DependencyHandler();
+             
+             Assert.NotSame(groupA.DependencyHandler, groupB.DependencyHandler);
+        }
+        
+        class TestGroup : Group
+        {
+            public int Test { 
+                get => DependencyHandler.Retrieve<int>().Value;
+                set => DependencyHandler.Retrieve<int>().Value = value;
+            }
+
+            public string bruh;
+        }
+
+        [Fact]
+        void TestTreeStructure()
+        {
+             DependencyHandler dh = new DependencyHandler();
+             dh.Store(new Tracable<int>(0));
+             
+             var groupA = new TestGroup();
+             groupA.bruh = "A";
+             var groupB = new TestGroup();
+             groupB.bruh = "B";
+
+             groupA.DependencyHandler = dh;
+             
+             groupA.Add(groupB);
+             
+             Assert.Equal(0, groupA.Test);
+             Assert.Equal(0, groupB.Test);
+
+             groupA.Test = 3;
+             Assert.Equal(3, groupA.Test);
+             Assert.Equal(3, groupB.Test);
+             
+             Assert.NotSame(groupA.DependencyHandler, groupB.DependencyHandler);
+
+             groupB.Test = 5;
+             Assert.Equal(5, groupB.Test);
+             Assert.Equal(3, groupA.Test);
+        }       
     }
 }

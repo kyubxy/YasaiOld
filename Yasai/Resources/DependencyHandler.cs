@@ -6,6 +6,7 @@ namespace Yasai.Resources
 {
     /// <summary>
     /// Handles dependency injection between <see cref="Drawable"/>s
+    /// Allows information to propagate down the scene graph. Cannot go upwards.
     /// </summary>
     public class DependencyHandler
     {
@@ -13,15 +14,13 @@ namespace Yasai.Resources
 
         public DependencyHandler() => cache = new Dictionary<string, ITracable>();
 
-        /*
-        /// <summary>
-        /// Add something to the dependency cache without making it traceable
-        /// </summary>
-        /// <param name="item"></param>
-        /// <typeparam name="T"></typeparam>
-        public void Store<T>(T item) => Store(new Tracable<T>(item), "def");
-        */
-        
+        public DependencyHandler(DependencyHandler d)
+        {
+            cache = d.GetCache();
+        }
+
+        public Dictionary<string, ITracable> GetCache() => new (cache);
+
         /// <summary>
         /// Add something to dependency cache and ensure its traceable
         /// </summary>

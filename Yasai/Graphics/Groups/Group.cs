@@ -36,7 +36,7 @@ namespace Yasai.Graphics.Groups
         {
             foreach (IDependencyHolder holder in _children)
             {
-                holder.DependencyHandler = DependencyHandler;
+                holder.DependencyHandler = new DependencyHandler(DependencyHandler);
             }
         }
 
@@ -142,7 +142,7 @@ namespace Yasai.Graphics.Groups
                 return;
 
             if (DependencyHandler != null)
-                item.DependencyHandler = DependencyHandler;
+                item.DependencyHandler = new DependencyHandler(DependencyHandler);
 
             if (Loaded && !item.Loaded)
                 item.Load(_contentCache);
