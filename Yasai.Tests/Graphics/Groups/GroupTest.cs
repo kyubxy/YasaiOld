@@ -32,5 +32,35 @@ namespace Yasai.Tests.Graphics.Groups
             v.Value = new Vector2(7, 8);
             Assert.Equal(new Vector2(7,8), cd.Test);
         }
+
+        [Fact]
+        void TestLayeredDependencyInjection()
+        {
+             DependencyHandler dh = new DependencyHandler();
+             var v = new Tracable<Vector2>(new Vector2(4,5));
+             dh.Store(v);
+             
+             Group groupA = new Group();
+             Group groupB = new Group();
+
+             ChildDrawable drawable = new ChildDrawable();
+
+             groupA.DependencyHandler = dh;
+             
+             groupB.Add(drawable);
+             groupA.Add(groupB);
+             
+             Assert.Equal(new Vector2(4,5), drawable.Test);
+             
+            // check if can handle mutations
+            v.Value = new Vector2(7, 8);
+            Assert.Equal(new Vector2(7,8), drawable.Test);
+        }
+
+        [Fact]
+        void TestFail()
+        {
+            Assert.True(false);
+        }
     }
 }

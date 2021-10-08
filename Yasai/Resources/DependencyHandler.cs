@@ -13,8 +13,17 @@ namespace Yasai.Resources
 
         public DependencyHandler() => cache = new Dictionary<string, ITracable>();
 
+        /*
         /// <summary>
-        /// Add something to dependency cache
+        /// Add something to the dependency cache without making it traceable
+        /// </summary>
+        /// <param name="item"></param>
+        /// <typeparam name="T"></typeparam>
+        public void Store<T>(T item) => Store(new Tracable<T>(item), "def");
+        */
+        
+        /// <summary>
+        /// Add something to dependency cache and ensure its traceable
         /// </summary>
         /// <param name="dependency"></param>
         /// <param name="context"></param>

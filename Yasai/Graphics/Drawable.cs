@@ -10,6 +10,8 @@ namespace Yasai.Graphics
     public abstract class Drawable : IDrawable, IGeometry, IGraphicsModifiable
     {
         public virtual DependencyHandler DependencyHandler { get; set; }
+
+        //public Matrix3x2 Transformation => DependencyHandler.Retrieve<Matrix3x2>().Value; 
         
         public virtual Vector2 Position { get; set; }
         public virtual Vector2 Origin { get; set; }

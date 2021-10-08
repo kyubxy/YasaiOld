@@ -21,6 +21,25 @@ namespace Yasai.Graphics.Groups
 
         private Primitive box;
 
+        private DependencyHandler _dependencyHandler;
+        public override DependencyHandler DependencyHandler
+        {
+            get => _dependencyHandler;
+            set
+            {
+                _dependencyHandler = value;
+                updateChildrenDP();
+            }
+        }
+
+        void updateChildrenDP()
+        {
+            foreach (IDependencyHolder holder in _children)
+            {
+                holder.DependencyHandler = DependencyHandler;
+            }
+        }
+
         private Vector2 position;
         public override Vector2 Position
         {
