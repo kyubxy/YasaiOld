@@ -4,6 +4,7 @@ namespace Yasai.Tests.Resources
 {
     public class TraceableTest
     {
+        /*
         [Fact]
         void TestChange()
         {
@@ -14,7 +15,6 @@ namespace Yasai.Tests.Resources
             Assert.True(numChanged);
         }
 
-        /*
         [Fact]
         void TestDuplication()
         {
