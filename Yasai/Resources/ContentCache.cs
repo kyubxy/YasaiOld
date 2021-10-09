@@ -112,7 +112,11 @@ namespace Yasai.Resources
         /// </summary>
         public void LoadAll(bool readManager = true)
         {
-            throw new NotImplementedException();
+            if(readManager) throw new NotImplementedException();
+
+            IEnumerable<string> filenames = Directory.EnumerateFiles(Root);
+            foreach(string n in filenames)
+                LoadResource(n);
         }
 
         /// <summary>
