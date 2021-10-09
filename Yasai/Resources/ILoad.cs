@@ -2,7 +2,7 @@ using System;
 
 namespace Yasai.Resources
 {
-    public interface ILoad : IDependencyHolder
+    public interface ILoad 
     {
         bool Loaded { get; }
         

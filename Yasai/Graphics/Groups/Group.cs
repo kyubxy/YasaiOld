@@ -21,24 +21,22 @@ namespace Yasai.Graphics.Groups
 
         private Primitive box;
 
-        private DependencyHandler _dependencyHandler;
-        public override DependencyHandler DependencyHandler
-        {
-            get => _dependencyHandler;
-            set
-            {
-                _dependencyHandler = value;
-                updateChildrenDP();
-            }
-        }
-
-        void updateChildrenDP()
-        {
-            foreach (IDependencyHolder holder in _children)
-            {
-                holder.DependencyHandler = new DependencyHandler(DependencyHandler);
-            }
-        }
+       //private DependencyHandler _dependencyHandler;
+       //public override DependencyHandler DependencyHandler
+       //{
+       //    get => _dependencyHandler;
+       //    set
+       //    {
+       //        _dependencyHandler = value;
+       //        
+       //        // give all children new dependency handlers
+       //        foreach (IDrawable holder in _children)
+       //        {
+       //           //var dh = (DependencyHandler)DependencyHandler.Clone();
+       //           //holder.DependencyHandler = dh;
+       //        }
+       //    }
+       //}
 
         private Vector2 position;
         public override Vector2 Position
@@ -141,8 +139,8 @@ namespace Yasai.Graphics.Groups
             if (item == null)
                 return;
 
-            if (DependencyHandler != null)
-                item.DependencyHandler = new DependencyHandler(DependencyHandler);
+//           if (DependencyHandler != null) 
+//               item.LinkableDepHandler.LinkTo(LinkableDepHandler);
 
             if (Loaded && !item.Loaded)
                 item.Load(_contentCache);

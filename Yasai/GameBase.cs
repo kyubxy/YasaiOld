@@ -22,8 +22,6 @@ namespace Yasai
         public Window Window { get; private set; }
         public Renderer Renderer { get; private set; }
 
-        public DependencyHandler DependencyHandler { get; set; }
-
         private bool _quit;
         
         public bool Loaded => Window != null && Renderer != null && Content != null;
@@ -57,7 +55,6 @@ namespace Yasai
             Children = new Group();
             FrameRateCounter = new FrameRateCounter();
 
-            DependencyHandler = new DependencyHandler();
             //DependencyHandler.Store(ref Window);
             //DependencyHandler.Store(ref Renderer);
         }

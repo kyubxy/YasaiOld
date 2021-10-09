@@ -147,7 +147,6 @@ namespace Yasai.Resources
         }
         
         public void LoadComplete() { }
-        public DependencyHandler DependencyHandler { get; set; }
 
         /// <summary>
         /// Write the manager to the resource path.
