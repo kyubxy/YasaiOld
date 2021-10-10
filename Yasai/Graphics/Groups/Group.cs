@@ -57,6 +57,15 @@ namespace Yasai.Graphics.Groups
         
         public override bool Loaded => _children.All(x => x.Loaded) && _contentCache != null;
 
+        public override void LinkDependencies(Linkable<DependencyCache> parent)
+        {
+            base.LinkDependencies(parent);
+            foreach (IDrawable h in _children)
+            {
+                h.LinkDependencies(parent);
+            }
+        }
+
         #region constructors
         public Group(List<IDrawable> children)
         {
@@ -123,8 +132,8 @@ namespace Yasai.Graphics.Groups
             if (item == null)
                 return;
 
-            if (DependencyCache != null) 
-              item.LinkDependencies(LinkedDependencyCache);
+            if (DependencyCache != null)
+                item.LinkDependencies(LinkedDependencyCache);
 
             if (Loaded && !item.Loaded)
                 item.Load(_contentCache);
@@ -153,7 +162,7 @@ namespace Yasai.Graphics.Groups
         }
         #endregion
         
-        # region rest of ICollection implemetnation
+        # region rest of ICollection implementation
         public IEnumerator<IDrawable> GetEnumerator()
         {
             return _children.GetEnumerator();

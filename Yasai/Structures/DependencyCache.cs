@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -11,6 +12,8 @@ namespace Yasai.Structures
         private Dictionary<string, ITraceable> cache;
 
         public DependencyCache() => cache = new Dictionary<string, ITraceable>();
+
+        public void SetDict(Dictionary<string, ITraceable> c) => cache = c;
 
         private string getKey<T>(string c="default") => $"{typeof(T)}_{c}";
 
@@ -28,10 +31,11 @@ namespace Yasai.Structures
         /// </summary>
         /// <param name="item"></param>
         /// <param name="context"></param>
+        /// <param name="rawContext"></param>
         /// <typeparam name="T"></typeparam>
-        public void Store<T>(Traceable<T> item, string context) 
+        public void Store<T>(Traceable<T> item, string context, bool rawContext = false) 
         {
-            var k = getKey<T>(context);
+            var k = rawContext ? context : getKey<T>(context);
             item.Change += delegate(T value)
             {
                 var l = new Traceable<T>(value);

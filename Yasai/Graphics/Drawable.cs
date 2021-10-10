@@ -63,7 +63,7 @@ namespace Yasai.Graphics
         protected Linkable<DependencyCache> LinkedDependencyCache; 
         public DependencyCache DependencyCache => LinkedDependencyCache?.Value;
 
-        public void LinkDependencies(Linkable<DependencyCache> parent)
+        public virtual void LinkDependencies(Linkable<DependencyCache> parent)
         {
             LinkedDependencyCache = new Linkable<DependencyCache>();
             LinkedDependencyCache.LinkTo(parent);

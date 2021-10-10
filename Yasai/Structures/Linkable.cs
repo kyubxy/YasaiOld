@@ -19,7 +19,7 @@ namespace Yasai.Structures
         /// <param name="parent"></param>
         public void LinkTo(Linkable<T> parent)
         {
-            Value = parent.Value;
+            //Value = parent.Value;
             parent.Change += ParentOnChange;
         }
 

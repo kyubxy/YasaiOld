@@ -35,7 +35,7 @@ namespace Yasai.Tests.Graphics.Groups
 
 
         [Fact]
-        void TestParentSet()
+        void TestUpstreamAssignment()
         {
             Group group = new Group();
             Traceable<Vector2> v = new Traceable<Vector2>(new Vector2(4, 5));
@@ -55,7 +55,7 @@ namespace Yasai.Tests.Graphics.Groups
 
 
         [Fact]
-        void TestParentMutation()
+        void TestUpstreamMutation()
         {
             Group group = new Group();
             Traceable<int[]> v = new Traceable<int[]>(new[] { 5 });
@@ -72,47 +72,20 @@ namespace Yasai.Tests.Graphics.Groups
             v.Value[0] = 69;
             Assert.Equal(69, drawable.Test2);
         }
-        
-        
-        /*
-        class ChildDrawable : Drawable
-        {
-            public Vector2 Test => DependencyHandler.Retrieve<Vector2>().Value;
-        }
-        
-        [Fact]
-        void TestDependencyInjection()
-        {
-            DependencyHandler dh = new DependencyHandler();
-            var v = new Traceable<Vector2>(new Vector2(4,5));
-            dh.Store(v);
-            
-            Group group = new Group();
-            ChildDrawable cd;
-
-            group.DependencyHandler = dh;
-            group.Add (cd = new ChildDrawable());
-            
-            Assert.Equal(new Vector2(4,5), cd.Test);
-
-            // check if can handle mutations
-            v.Value = new Vector2(7, 8);
-            Assert.Equal(new Vector2(7,8), cd.Test);
-        }
 
         [Fact]
-        void TestLayeredDI()
+        void TestNestedDependencyInjection()
         {
-             DependencyHandler dh = new DependencyHandler();
-             var v = new Traceable<Vector2>(new Vector2(4,5));
-             dh.Store(v);
+             var dc = new Linkable<DependencyCache>(new DependencyCache());
+             Traceable<Vector2> v = new Traceable<Vector2>(new Vector2(4, 5));
+             dc.Value.Store(v);
              
              Group groupA = new Group();
              Group groupB = new Group();
 
-             ChildDrawable drawable = new ChildDrawable();
+             TestDrawable drawable = new TestDrawable();
 
-             groupA.DependencyHandler = dh;
+             groupA.LinkDependencies(dc);
              
              groupB.Add(drawable);
              groupA.Add(groupB);
@@ -123,56 +96,39 @@ namespace Yasai.Tests.Graphics.Groups
              Assert.Equal(new Vector2(7,8), drawable.Test);
         }
 
-        [Fact]
-        void TestDifferentHandlers()
-        {
-             var groupA = new TestGroup();
-             var groupB = new TestGroup();
-
-             groupA.Add(groupB);
-             groupA.DependencyHandler = new DependencyHandler();
-             
-             Assert.NotSame(groupA.DependencyHandler, groupB.DependencyHandler);
-        }
-        
         class TestGroup : Group
         {
-            public int Test { 
-                get => DependencyHandler.Retrieve<int>().Value;
-                set => DependencyHandler.Retrieve<int>().Value = value;
+            public int Test 
+            { 
+                get => DependencyCache.Retrieve<int>().Value;
+                set => DependencyCache.Retrieve<int>().Value = value;
             }
-
-            public string bruh;
         }
-
+        
         [Fact]
         void TestTreeStructure()
         {
-             DependencyHandler dh = new DependencyHandler();
-             dh.Store(new Traceable<int>(0));
-             
-             var groupA = new TestGroup();
-             groupA.bruh = "A";
-             var groupB = new TestGroup();
-             groupB.bruh = "B";
+            var cache = new Linkable<DependencyCache>(new DependencyCache());
+            cache.Value.Store(new Traceable<int>(0));
 
-             groupA.DependencyHandler = dh;
-             
-             groupA.Add(groupB);
-             
-             Assert.Equal(0, groupA.Test);
-             Assert.Equal(0, groupB.Test);
+            var groupA = new TestGroup();
+            var groupB = new TestGroup();
 
-             groupA.Test = 3;
-             Assert.Equal(3, groupA.Test);
-             Assert.Equal(3, groupB.Test);
-             
-             Assert.NotSame(groupA.DependencyHandler, groupB.DependencyHandler);
+            groupA.LinkDependencies(cache); 
 
-             groupB.Test = 5;
-             Assert.Equal(5, groupB.Test);
-             Assert.Equal(3, groupA.Test);
-        }       
-    */
+            groupA.Add(groupB);
+            //Assert.NotSame(groupA.DependencyCache, groupB.DependencyCache);
+
+            Assert.Equal(0, groupA.Test);
+            Assert.Equal(0, groupB.Test);
+
+            groupA.Test = 3;
+            Assert.Equal(3, groupA.Test);
+            Assert.Equal(3, groupB.Test);
+
+            groupB.Test = 5;
+            Assert.Equal(5, groupB.Test);
+            Assert.Equal(3, groupA.Test);
+        }
     }
 }
