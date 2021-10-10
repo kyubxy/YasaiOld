@@ -8,7 +8,7 @@ using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
-
+using Yasai.Structures;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 
@@ -173,5 +173,9 @@ namespace Yasai
         public virtual void KeyUp(KeyArgs key) => Children.KeyUp(key);
         public virtual void KeyDown(KeyArgs key) => Children.KeyDown(key);
         #endregion
+
+        public DependencyCache DependencyCache { get; }
+        public void LinkDependencies(Linkable<DependencyCache> parent)
+        { }
     }
 }

@@ -5,7 +5,7 @@ namespace Yasai.Structures
     /// </summary>
     public class Linkable<T> : Traceable<T>
     {
-        public Linkable(T init) : base(init)
+        public Linkable(T init) : base(init) 
         { }
 
         public Linkable()
@@ -19,6 +19,7 @@ namespace Yasai.Structures
         /// <param name="parent"></param>
         public void LinkTo(Linkable<T> parent)
         {
+            Value = parent.Value;
             parent.Change += ParentOnChange;
         }
 

@@ -14,9 +14,32 @@ namespace Yasai.Tests.Resources
         void TestGetDependency()
         {
             DependencyCache dc = new DependencyCache();
-            dc.Store(4);
+            dc.Store(new Traceable<int>(4));
             var retrieve = dc.Retrieve<int>();
-            Assert.Equal(4, retrieve);
+            Assert.Equal(4, retrieve.Value);
+        }
+
+        [Fact]
+        void TestGetChangingDependency()
+        {
+            DependencyCache dc = new DependencyCache();
+            Traceable<int> dependency = new Traceable<int>(5);
+            dc.Store(dependency);
+            Assert.Equal(5, dc.Retrieve<int>().Value);
+            dependency.Value = 7;
+            Assert.Equal(7, dc.Retrieve<int>().Value);
+        }
+
+        [Fact]
+        void TestGetDependencyWithMutations()
+        {
+            DependencyCache dc = new DependencyCache();
+            Traceable<int[]> dependency = new Traceable<int[]>(new[] { 5 });
+            dc.Store(dependency);
+            var retrieve = dc.Retrieve<int[]>();
+            Assert.Equal(new [] { 5 }, retrieve.Value);
+            dependency.Value[0] = 7;
+            Assert.Equal(new [] { 7 }, retrieve.Value);
         }
 
         /// <summary>
@@ -26,12 +49,12 @@ namespace Yasai.Tests.Resources
         void TestContextedDependencies()
         {
             DependencyCache dc = new DependencyCache();
-            dc.Store(4, "number");
-            dc.Store(69);
+            dc.Store(new Traceable<int>(4), "number");
+            dc.Store(new Traceable<int>(69));
             var retrieveContexted = dc.Retrieve<int>("number");
             var retrieve = dc.Retrieve<int>();
-            Assert.Equal(4, retrieveContexted);
-            Assert.Equal(69, retrieve);
+            Assert.Equal(4, retrieveContexted.Value);
+            Assert.Equal(69, retrieve.Value);
         }
 
         /// <summary>
@@ -44,7 +67,7 @@ namespace Yasai.Tests.Resources
             DependencyCache dc = new DependencyCache();
             Assert.Throws<KeyNotFoundException>(() => dc.Retrieve<int>());
             
-            dc.Store(true, "wow");
+            dc.Store(new Traceable<bool>(true), "wow");
             Assert.Throws<KeyNotFoundException>(() => dc.Retrieve<bool>("owo"));
         }
     }

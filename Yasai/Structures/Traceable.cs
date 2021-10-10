@@ -12,15 +12,11 @@ namespace Yasai.Structures
         public Type ValueType => typeof(T);
         public event Action<T> Change;
 
-        private T v; 
+        private T v;
+
         public virtual T Value
         {
-            get
-            {
-                if (v == null) 
-                    throw new NullReferenceException("Traceable value was null when accessed");
-                return v;
-            }
+            get => v;
             set
             {
                 Change?.Invoke(value);

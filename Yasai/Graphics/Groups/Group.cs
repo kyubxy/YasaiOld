@@ -9,6 +9,7 @@ using Yasai.Input;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
+using Yasai.Structures;
 
 namespace Yasai.Graphics.Groups
 {
@@ -20,7 +21,6 @@ namespace Yasai.Graphics.Groups
         public virtual bool IgnoreHierarchy { get; set; } = true;
 
         private Primitive box;
-
 
         private Vector2 position;
         public override Vector2 Position
@@ -123,8 +123,8 @@ namespace Yasai.Graphics.Groups
             if (item == null)
                 return;
 
-//           if (DependencyHandler != null) 
-//               item.LinkableDepHandler.LinkTo(LinkableDepHandler);
+            if (DependencyCache != null) 
+              item.LinkDependencies(LinkedDependencyCache);
 
             if (Loaded && !item.Loaded)
                 item.Load(_contentCache);
@@ -289,5 +289,6 @@ namespace Yasai.Graphics.Groups
             }
             return false;
         }
+
     }
 }

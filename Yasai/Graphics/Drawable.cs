@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Yasai.Resources;
+using Yasai.Structures;
 
 namespace Yasai.Graphics
 {
@@ -59,5 +60,13 @@ namespace Yasai.Graphics
         {
         }
 
+        protected Linkable<DependencyCache> LinkedDependencyCache; 
+        public DependencyCache DependencyCache => LinkedDependencyCache?.Value;
+
+        public void LinkDependencies(Linkable<DependencyCache> parent)
+        {
+            LinkedDependencyCache = new Linkable<DependencyCache>();
+            LinkedDependencyCache.LinkTo(parent);
+        }
     }
 }
