@@ -1,20 +1,21 @@
 using Xunit;
+using Yasai.Structures;
 
 namespace Yasai.Tests.Resources
 {
     public class TraceableTest
     {
-        /*
         [Fact]
         void TestChange()
         {
             Traceable<int> num = new Traceable<int>(5);
             bool numChanged = false;
-            num.Change += _ => numChanged = true;
+            num.Change += () => numChanged = true;
             num.Value = 8;
             Assert.True(numChanged);
         }
 
+        /*
         [Fact]
         void TestDuplication()
         {

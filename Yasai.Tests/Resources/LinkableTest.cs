@@ -5,9 +5,21 @@ namespace Yasai.Tests.Resources
 {
     public class LinkableTest
     {
+        [Fact]
+        void TestParentChange()
+        {
+            
+        }
+
+        [Fact]
+        void TestChildChange()
+        {
+            
+        }
+        
         /*
         [Fact]
-        void TestStuff()
+        void TestBoth()
         {
             Linkable<int> a = new Linkable<int>(5);
             Linkable<int> b = new Linkable<int>();
