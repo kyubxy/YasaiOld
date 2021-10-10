@@ -1,63 +1,51 @@
+using System.Collections.Generic;
 using Xunit;
 using Yasai.Resources;
+using Yasai.Structures;
 
 namespace Yasai.Tests.Resources
 {
     public class DependencyTest
     {
-        /*
-        class DependencyHolder : IDependencyHolder
-        {
-            public DependencyHandler DependencyHandler { get; set; }
-
-            public int Num => DependencyHandler.Retrieve<int[]>().Value[0];
-            public int Num2 => DependencyHandler.Retrieve<int>().Value;
-            public int Num3 => DependencyHandler.Retrieve<int>("notdef").Value;
-
-            public DependencyHolder(DependencyHandler dh) => DependencyHandler = dh;
-        }
-        
+        /// <summary>
+        /// Retrieve the number 4 with only its type
+        /// </summary>
         [Fact]
-        void TestDependencyWithMutations()
+        void TestGetDependency()
         {
-            var handler = new DependencyHandler();
-            var nums = new Traceable<int[]>(new [] { 1 });
-            handler.Store(nums);
+            DependencyCache dc = new DependencyCache();
+            dc.Store(4);
+            var retrieve = dc.Retrieve<int>();
+            Assert.Equal(4, retrieve);
+        }
+
+        /// <summary>
+        /// Store and retrieve values with a custom context
+        /// </summary>
+        [Fact]
+        void TestContextedDependencies()
+        {
+            DependencyCache dc = new DependencyCache();
+            dc.Store(4, "number");
+            dc.Store(69);
+            var retrieveContexted = dc.Retrieve<int>("number");
+            var retrieve = dc.Retrieve<int>();
+            Assert.Equal(4, retrieveContexted);
+            Assert.Equal(69, retrieve);
+        }
+
+        /// <summary>
+        /// Attempting to retrieve dependencies that have not been stored should
+        /// throw a <see cref="KeyNotFoundException"/>
+        /// </summary>
+        [Fact]
+        void TestMissingDependency()
+        {
+            DependencyCache dc = new DependencyCache();
+            Assert.Throws<KeyNotFoundException>(() => dc.Retrieve<int>());
             
-            DependencyHolder dh = new DependencyHolder(handler);
-            Assert.Equal(1, dh.Num);
-
-            nums.Value[0] = 90;
-            Assert.Equal(90, dh.Num);
+            dc.Store(true, "wow");
+            Assert.Throws<KeyNotFoundException>(() => dc.Retrieve<bool>("owo"));
         }
-
-        [Fact]
-        void TestDependencyWithoutMutations()
-        {
-             var handler = new DependencyHandler();
-             Traceable<int> num = new Traceable<int>(4);
-             handler.Store(num);
-             
-             DependencyHolder dh = new DependencyHolder(handler);
-             Assert.Equal(4, dh.Num2);
-
-             num.Value = 7;
-             Assert.Equal(7, dh.Num2);           
-        }
-
-        [Fact]
-        void TestContextedDependency()
-        {
-             var handler = new DependencyHandler();
-             Traceable<int> num = new Traceable<int>(4);
-             handler.Store(num, "notdef");
-             
-             DependencyHolder dh = new DependencyHolder(handler);
-             Assert.Equal(4, dh.Num3);
-
-             num.Value = 7;
-             Assert.Equal(7, dh.Num3);           
-        }
-        */
     }
 }
