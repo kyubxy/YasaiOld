@@ -5,26 +5,30 @@ namespace Yasai.Structures
     public interface ITraceable 
     {
         Type ValueType { get; }
-        event Action Change;
     }
     
     public class Traceable<T> : ITraceable
     {
         public Type ValueType => typeof(T);
-        public event Action Change;
+        public event Action<T> Change;
 
-        private T v;
+        private T v; 
         public virtual T Value
         {
-            get => v;
+            get
+            {
+                if (v == null) 
+                    throw new NullReferenceException("Traceable value was null when accessed");
+                return v;
+            }
             set
             {
-                Change?.Invoke();
+                Change?.Invoke(value);
                 v = value;
             }
         }
 
         public Traceable(T init) => v = init;
-        protected Traceable() {}
+        public Traceable() { }
     }
 }
