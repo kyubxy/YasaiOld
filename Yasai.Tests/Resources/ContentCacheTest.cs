@@ -10,7 +10,7 @@ namespace Yasai.Tests.Resources
         void TestLoadAll()
         {
             ContentCache cache = new ContentCache(new Game(), "Assets/LoadAllTest");
-            cache.LoadAll();
+            cache.LoadAll(false);
             
             var firstLoad = Record.Exception(() => cache.GetResource<Texture>("image"));
             Assert.Null(firstLoad);

@@ -14,8 +14,9 @@ namespace Yasai.Resources
         private string MANAGER => "manager.json";
         private ContentManager manager;
 
-        private string resourcePath => Path.Combine(Directory.GetCurrentDirectory(), Root);
-        
+        // unneeded?
+        private string resourcePath => Root;
+
         public bool Loaded => manager != null;
         
         private Dictionary<string, Resource> resources;
@@ -64,7 +65,7 @@ namespace Yasai.Resources
         /// <exception cref="NotSupportedException"></exception>
         public void LoadResource(string path, string _key = null, ILoadArgs args = null, bool hushWarnings = false)
         {
-            string key = _key ?? Path.GetFileNameWithoutExtension(path);
+            string key = _key ?? Path.ChangeExtension(path, null);
             string loadType = Path.GetExtension(path);
             ILoader loader = Loaders.Find(x => x.FileTypes.Contains(loadType.ToLower()));
 
@@ -76,8 +77,8 @@ namespace Yasai.Resources
                 return;
             }
             
-            string loadAbsPath = Path.Combine(resourcePath, path);
-            if (IsResourceLoaded(loadAbsPath, args ?? loader.DefaultArgs))
+            string loadPath = Path.Combine(resourcePath, path);
+            if (IsResourceLoaded(loadPath, args ?? loader.DefaultArgs))
             {
                 if (!hushWarnings)
                     Console.WriteLine($"file {path} is already loaded with similar arguments, " +
@@ -85,7 +86,7 @@ namespace Yasai.Resources
                 return;
             }
             
-            resources[key] = loader.GetResource(Game, loadAbsPath, args);
+            resources[key] = loader.GetResource(Game, loadPath, args);
         }
 
         /// <summary>
@@ -114,9 +115,12 @@ namespace Yasai.Resources
         {
             if(readManager) throw new NotImplementedException();
 
-            IEnumerable<string> filenames = Directory.EnumerateFiles(Root);
-            foreach(string n in filenames)
+            var filenames = Directory.EnumerateFiles(Root, "*", SearchOption.AllDirectories);
+            foreach(string nr in filenames)
+            {
+                string n = Path.GetRelativePath(Root, nr);
                 LoadResource(n);
+            }
         }
 
         /// <summary>
