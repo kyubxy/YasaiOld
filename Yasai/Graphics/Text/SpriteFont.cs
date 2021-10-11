@@ -15,6 +15,8 @@ namespace Yasai.Graphics.Text
 {
     public class SpriteFont : Resource
     {
+        public static string TinyFont => "yasai_fontTiny";
+
         private Dictionary<char, Sprite> glyphs = new Dictionary<char, Sprite>();
 
         private char[] characterSet;

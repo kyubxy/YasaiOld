@@ -1,5 +1,6 @@
 using System.Reflection;
 using Yasai.Graphics.Groups;
+using Yasai.Graphics.Text;
 using Yasai.Input.Keyboard;
 using Yasai.Resources;
 using Yasai.Resources.Loaders;
@@ -45,7 +46,7 @@ namespace Yasai
         /// <param name="cache"></param>
         private void yasaiLoad(ContentCache cache)
         {
-            cache.LoadResource("Yasai/OpenSans-Regular.ttf", Constants.TinyFont, new FontArgs(12));
+            cache.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
         }
 
         public override void Load(ContentCache cache)
