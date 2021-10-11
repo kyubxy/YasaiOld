@@ -61,7 +61,7 @@ namespace Yasai.Debug
                     Fill = true,
                     Colour = BACKGROUND_COLOUR
                 },
-                text = new SpriteText("FPS", Constants.TinyFont)
+                text = new SpriteText("FPS", SpriteFont.TinyFont)
                 {
                     Position = new Vector2(15),
                     Colour = Color.Black
