@@ -1,19 +1,20 @@
 using System;
 
-namespace Yasai
+namespace Yasai.Structures
 {
-    public interface ITracable
+    public interface ITraceable 
     {
         Type ValueType { get; }
     }
     
-    public class Tracable<T> : ITracable
+    public class Traceable<T> : ITraceable
     {
-        public event Action<T> Change;
         public Type ValueType => typeof(T);
+        public event Action<T> Change;
 
         private T v;
-        public T Value
+
+        public virtual T Value
         {
             get => v;
             set
@@ -23,6 +24,7 @@ namespace Yasai
             }
         }
 
-        public Tracable(T init) => Value = init;
+        public Traceable(T init) => v = init;
+        public Traceable() { }
     }
 }

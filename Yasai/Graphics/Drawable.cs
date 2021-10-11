@@ -4,15 +4,12 @@ using System.Drawing;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Yasai.Resources;
+using Yasai.Structures;
 
 namespace Yasai.Graphics
 {
     public abstract class Drawable : IDrawable, IGeometry, IGraphicsModifiable
     {
-        public virtual DependencyHandler DependencyHandler { get; set; }
-
-        //public Matrix3x2 Transformation => DependencyHandler.Retrieve<Matrix3x2>().Value; 
-        
         public virtual Vector2 Position { get; set; }
         public virtual Vector2 Origin { get; set; }
         public virtual Vector2 Size { get; set; } = new Vector2(100);
@@ -61,6 +58,15 @@ namespace Yasai.Graphics
 
         public virtual void Draw(IntPtr renderer)
         {
+        }
+
+        protected Linkable<DependencyCache> LinkedDependencyCache; 
+        public DependencyCache DependencyCache => LinkedDependencyCache?.Value;
+
+        public void LinkDependencies(Linkable<DependencyCache> parent)
+        {
+            LinkedDependencyCache = new Linkable<DependencyCache>();
+            LinkedDependencyCache.LinkTo(parent);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Numerics;
 using Yasai.Resources;
-
+using Yasai.Structures;
 using static SDL2.SDL;
 
 namespace Yasai.Graphics.Primitives
@@ -55,11 +55,13 @@ namespace Yasai.Graphics.Primitives
        {
        }
 
-       public DependencyHandler DependencyHandler { get; set; }
-
        public virtual void Draw(IntPtr renderer)
        {
            SDL_SetRenderDrawColor(renderer, Colour.R, Colour.G, Colour.B, 255);
        }
+       
+        private Linkable<DependencyCache> dependencyCache;
+        public DependencyCache DependencyCache => dependencyCache.Value;
+        public void LinkDependencies(Linkable<DependencyCache> parent) => dependencyCache.LinkTo(parent);
     }
 }

@@ -8,7 +8,7 @@ using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
-
+using Yasai.Structures;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 
@@ -21,8 +21,6 @@ namespace Yasai
     {
         public Window Window { get; private set; }
         public Renderer Renderer { get; private set; }
-
-        public DependencyHandler DependencyHandler { get; set; }
 
         private bool _quit;
         
@@ -57,7 +55,6 @@ namespace Yasai
             Children = new Group();
             FrameRateCounter = new FrameRateCounter();
 
-            DependencyHandler = new DependencyHandler();
             //DependencyHandler.Store(ref Window);
             //DependencyHandler.Store(ref Renderer);
         }
@@ -176,5 +173,9 @@ namespace Yasai
         public virtual void KeyUp(KeyArgs key) => Children.KeyUp(key);
         public virtual void KeyDown(KeyArgs key) => Children.KeyDown(key);
         #endregion
+
+        public DependencyCache DependencyCache { get; }
+        public void LinkDependencies(Linkable<DependencyCache> parent)
+        { }
     }
 }
