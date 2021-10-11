@@ -23,4 +23,16 @@
     <ProjectReference Include="..\Yasai\Yasai.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\Subdirectory\image.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\LoadAllTest\image.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\LoadAllTest\Subdirectory\image.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

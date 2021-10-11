@@ -1,15 +1,14 @@
-using System;
 using Xunit;
 using Yasai.Structures;
 
-namespace Yasai.Tests.Resources
+namespace Yasai.Tests.Structures
 {
     public class TraceableTest
     {
         /// <summary>
         /// changing value of num should set numChanged from false to true
         /// </summary>
-        [Fact]
+       // [Fact]
         void TestChange()
         {
             Traceable<int> num = new Traceable<int>(5);
@@ -22,7 +21,7 @@ namespace Yasai.Tests.Resources
         /// <summary>
         /// initialising a traceable without a value should return its default value
         /// </summary>
-        [Fact]
+//        [Fact]
         void TestDefault()
         {
             Traceable<int> t = new Traceable<int>();

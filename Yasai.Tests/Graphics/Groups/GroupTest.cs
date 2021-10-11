@@ -17,7 +17,7 @@ namespace Yasai.Tests.Graphics.Groups
             public int Test2 => DependencyCache.Retrieve<int[]>().Value[0];
         }
         
-        [Fact]
+      //  [Fact]
         void TestDependencyInjection()
         {
             Group group = new Group();
@@ -34,7 +34,7 @@ namespace Yasai.Tests.Graphics.Groups
         }
 
 
-        [Fact]
+    //    [Fact]
         void TestUpstreamAssignment()
         {
             Group group = new Group();
@@ -54,7 +54,7 @@ namespace Yasai.Tests.Graphics.Groups
         }
 
 
-        [Fact]
+     //   [Fact]
         void TestUpstreamMutation()
         {
             Group group = new Group();
@@ -73,7 +73,7 @@ namespace Yasai.Tests.Graphics.Groups
             Assert.Equal(69, drawable.Test2);
         }
 
-        [Fact]
+    //    [Fact]
         void TestNestedDependencyInjection()
         {
              var dc = new Linkable<DependencyCache>(new DependencyCache());
@@ -105,7 +105,7 @@ namespace Yasai.Tests.Graphics.Groups
             }
         }
         
-        [Fact]
+     //   [Fact]
         void TestTreeStructure()
         {
             var cache = new Linkable<DependencyCache>(new DependencyCache());
