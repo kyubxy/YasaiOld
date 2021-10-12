@@ -194,14 +194,14 @@ namespace Yasai
             
             string envTriplet = Environment.Is64BitProcess
                 ? "x86_64-linux-gnu"
-                : "i386";
+                : "i386-linux-gnu";
             
             foreach(var checkFile in dllNames)
             {
                 string checkLink = checkFile.Key;
                 string checkPath1 = Path.Combine($"/usr/lib/{envTriplet}/", checkLink);
                 string checkPath2 = Path.Combine("/usr/lib/", checkLink);
-                if (File.Exists(checkLink) || File.Exists(checkPath1) ) continue;
+                if (File.Exists(checkLink) || File.Exists(checkPath1) || File.Exists(checkPath2)) continue;
                 
                 string targetLink = checkFile.Value;
                 string targetPath = Path.Combine(checkPath1, targetLink);
