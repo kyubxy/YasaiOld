@@ -45,7 +45,6 @@ namespace Yasai
         public GameBase(string title, int w, int h, int refreshRate, string[] args = null)
         { 
             // SDL initialisation
-            SdlDllWorkaround();
             if (SDL_Init(SDL_INIT_EVERYTHING) != 0) 
                 Console.WriteLine($"error on startup: {SDL_GetError()}");
             TTF_Init();
@@ -181,6 +180,7 @@ namespace Yasai
         public void LinkDependencies(Linkable<DependencyCache> parent)
         { }
 
+        /*
         private static void SdlDllWorkaround()
         {
             if (Environment.OSVersion.Platform != PlatformID.Unix) return;
@@ -195,16 +195,16 @@ namespace Yasai
             string envTriplet = Environment.Is64BitProcess
                 ? "x86_64-linux-gnu"
                 : "i386";
-            string dllDir = $"/usr/lib/{envTriplet}/";
             
             foreach(var checkFile in dllNames)
             {
                 string checkLink = checkFile.Key;
-                string checkPath = Path.Combine(dllDir, checkLink);
-                if (File.Exists(checkLink) || File.Exists(checkPath)) continue;
+                string checkPath1 = Path.Combine($"/usr/lib/{envTriplet}/", checkLink);
+                string checkPath2 = Path.Combine("/usr/lib/", checkLink);
+                if (File.Exists(checkLink) || File.Exists(checkPath1) ) continue;
                 
                 string targetLink = checkFile.Value;
-                string targetPath = Path.Combine(dllDir, targetLink);
+                string targetPath = Path.Combine(checkPath1, targetLink);
                 Console.WriteLine($"{checkLink} not found, creating symlink targetting {targetPath}");
                 
                 var symlinkInf = new ProcessStartInfo("ln", $"-s {targetPath} {checkLink}");
@@ -215,5 +215,6 @@ namespace Yasai
                 Process.Start(symlinkInf);
             }
         }
+        */
     }
 }
