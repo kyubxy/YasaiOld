@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using Yasai.Resources;
-using Yasai.Structures;
 
 namespace Yasai.Graphics
 {
@@ -58,15 +55,6 @@ namespace Yasai.Graphics
 
         public virtual void Draw(IntPtr renderer)
         {
-        }
-
-        protected Linkable<DependencyCache> LinkedDependencyCache; 
-        public DependencyCache DependencyCache => LinkedDependencyCache?.Value;
-
-        public virtual void LinkDependencies(Linkable<DependencyCache> parent)
-        {
-            LinkedDependencyCache = new Linkable<DependencyCache>();
-            LinkedDependencyCache.LinkTo(parent);
         }
     }
 }
