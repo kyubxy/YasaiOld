@@ -67,13 +67,11 @@ namespace Yasai.Structures
         public Bindable()
         { }
         
-        public virtual void Bind(IBindable<T> other, bool secondary = false)
+        public virtual void Bind(IBindable<T> other)
         {
+            // this is like fairy magic to me wtf
             Unbind();
-            
-            if (!secondary)
-                Dependency = other;
-            
+            Dependency = other;
             BindStatus = BindStatus.Bidirectional;
         }
 

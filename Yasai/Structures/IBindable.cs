@@ -18,8 +18,7 @@ namespace Yasai.Structures
         /// initially the current bindable takes precedence over the bound value
         /// </summary>
         /// <param name="other">the object to share values with</param>
-        /// <param name="secondary"></param>
-        void Bind(IBindable<T> other, bool secondary = false);
+        void Bind(IBindable<T> other);
         
         /// <summary>
         /// Bind to another bindable in a unidirectional fashion.
