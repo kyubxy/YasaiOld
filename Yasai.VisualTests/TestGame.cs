@@ -26,7 +26,6 @@ namespace Yasai.VisualTests
         ScreenManager sm;
         
         public TestGame() 
-            : base (69)
         {
             // load last screen
             Screen last = new WelcomeScreen(this);

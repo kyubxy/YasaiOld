@@ -1,9 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
 
 namespace Yasai.Structures
 {
-    public class Bindable<T> : IBindable<T>
+    public abstract class Bindable<T> : IBindable<T>
     {
         public event Action<T> OnSet;
         public event Action<T> OnChanged;
@@ -12,42 +11,87 @@ namespace Yasai.Structures
         public BindStatus BindStatus { get; private set; } 
             = BindStatus.Unbound;
         
-        private IBindable<T> other;
+        // dependency
+        private IBindable<T> dependency;
+        public IBindable<T> Dependency
+        {
+            get => dependency;
+            private set
+            {
+                if (value?.Dependency == this)
+                   throw new InvalidOperationException("Circular bindable dependency, try using Bind instead of BindTo");
+                
+                dependency = value;
+            }
+        }
         
-        private T value;
+        // (temporary) internal value
+        private T self;
+        
         public T Value 
         {
             get
             {
                 OnGet?.Invoke();
-                return value;
+
+                if (BindStatus == BindStatus.Unbound)
+                    return self;
+
+                return Dependency.Value;
             }
             set
             {
                 OnSet?.Invoke(value);
                 OnChanged?.Invoke(value);
-                this.value = value;
+                
+                switch (BindStatus)
+                {
+                    case BindStatus.Unidirectional:
+                        throw new InvalidOperationException(
+                        "Tried to set a unidirectional bindable, try unbinding first or using a bidirectional binding");
+                    case BindStatus.Bidirectional:
+                        if (Dependency == null)
+                            self = value;
+                        else
+                            dependency.Value = value;
+                        break;
+                    case BindStatus.Unbound:
+                        self = value;
+                        break;
+                }
             } 
         }
         
-        public Bindable(T initialValue) => value = initialValue;
+        public Bindable(T initialSelf) => self = initialSelf;
+        
         public Bindable()
         { }
         
-        public void Bind(IBindable<T> other)
+        public virtual void Bind(IBindable<T> other, bool secondary = false)
         {
-            this.other = other;
+            Unbind();
+            
+            if (!secondary)
+                Dependency = other;
+            
             BindStatus = BindStatus.Bidirectional;
         }
 
-        public void BindTo(IBindable<T> master)
+        public virtual void BindTo(IBindable<T> master)
         {
-            other = master;
+            Unbind();
+            
+            Dependency = master;
             BindStatus = BindStatus.Unidirectional;
         }
 
-        public void Unbind()
+        public virtual void Unbind()
         {
+            if (BindStatus == BindStatus.Unbound)
+                return;
+            
+            self = Dependency.Value;
+            Dependency = null;
             BindStatus = BindStatus.Unbound;
         }
     }

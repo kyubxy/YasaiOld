@@ -6,7 +6,6 @@ namespace Yasai.Tests.Resources
 {
     public class ContentCacheTest
     {
-        [Fact]
         void TestLoadAll()
         {
             ContentCache cache = new ContentCache(new Game(), "Assets/LoadAllTest");
