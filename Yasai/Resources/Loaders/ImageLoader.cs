@@ -8,13 +8,11 @@ namespace Yasai.Resources.Loaders
 {
     public class ImageLoader : ILoader
     {
-        public string[] FileTypes => new string[] {".png", ".jpg", ".jpeg", ".webp"};
+        public string[] FileTypes => new [] {".png", ".jpg", ".jpeg", ".webp"};
         public ILoadArgs DefaultArgs => new EmptyLoadArgs();
 
         public ImageLoader()
-        {
-            
-        }
+        { }
         
         public Resource GetResource(Game game, string path, ILoadArgs args)
         {

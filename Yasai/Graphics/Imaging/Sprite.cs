@@ -139,12 +139,5 @@ namespace Yasai.Graphics.Imaging
                         (SDL_RendererFlip)Flip);
             }
         }
-        
-        // TODO: animations (later)
-        public void NextCostume()
-        { }
-
-        public void ToCostume(int n)
-        { }
     }
 }

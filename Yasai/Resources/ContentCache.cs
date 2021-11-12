@@ -14,9 +14,6 @@ namespace Yasai.Resources
         private string MANAGER => "manager.json";
         private ContentManager manager;
 
-        // unneeded?
-        private string resourcePath => Root;
-
         public bool Loaded => manager != null;
         
         private Dictionary<string, Resource> resources;
@@ -77,7 +74,7 @@ namespace Yasai.Resources
                 return;
             }
             
-            string loadPath = Path.Combine(resourcePath, path);
+            string loadPath = Path.Combine(Root, path);
             if (IsResourceLoaded(loadPath, args ?? loader.DefaultArgs))
             {
                 if (!hushWarnings)
@@ -146,7 +143,7 @@ namespace Yasai.Resources
 
         public void Load(ContentCache cache)
         {
-            string path = Path.Combine(resourcePath, MANAGER);
+            string path = Path.Combine(Root, MANAGER);
 
             if (File.Exists(path))
                 manager = JsonSerializer.Deserialize<ContentManager>(path);
@@ -169,7 +166,7 @@ namespace Yasai.Resources
             else
             {
                 string jsonStr = JsonSerializer.Serialize(manager);
-                File.WriteAllText(Path.Combine (resourcePath, "manager_written.txt"), jsonStr);
+                File.WriteAllText(Path.Combine (Root, "manager_written.txt"), jsonStr);
             }
         }
         
