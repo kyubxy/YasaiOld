@@ -47,7 +47,7 @@ namespace Yasai.Resources.Loaders
 
         public FontArgs()
         {
-            CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890<>.? ".ToCharArray();
+            CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890<>.?,() ".ToCharArray();
         }
     }
 }
