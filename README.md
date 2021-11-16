@@ -10,8 +10,6 @@ the funny vegetable framework, this serves as my general graphics playground. Po
 
 This framework features an awful mismatch of imperative and declerative programming styles to iterate interfaces in a concise yet comprehensive fashion. What you're looking at here is the culmination of years of wasted time and effort to produce what is subpar at best!
 
-see how much of part 1 is left to go on [the part 1 project page](https://github.com/EpicTofuu/Yasai/projects/1) 
-
 ## Why
 I like writing code that does nothing impressive.
 
@@ -21,9 +19,7 @@ Yasai is currently using SDL2CS through a custom submodule. Too lazy to fix, but
 # Contribution and Use
 This is literally a worse version of [osu!framework](https://github.com/ppy/osu-framework), if you're looking for something similar just use that.
 
-See [this document](https://docs.google.com/document/d/1iS57Z2sUqg6D1YusFn45NSafXYUQtsQ1NACNWx0kiN0/edit?usp=sharing) for potential tasks. Feel free to raise issues about information regarding a task you wish to complete.
-
-**Although the code is open source, the general development process will be largely kept to myself**. Again, raise an issue if you want more information. 
+See [this document](https://docs.google.com/document/d/1iS57Z2sUqg6D1YusFn45NSafXYUQtsQ1NACNWx0kiN0/edit?usp=sharing) for potential tasks. Feel free to raise issues about information regarding a task you wish to complete. **Although the code is open source, the general development process will be largely kept to myself**. Again, raise an issue if you want more information. 
 
 ## Testing 
 Pressing tab shows a test picker that allows you to view different test scenarios. Please read [this guide](https://github.com/EpicTofuu/Yasai/wiki/Testing) on Yasai testing
