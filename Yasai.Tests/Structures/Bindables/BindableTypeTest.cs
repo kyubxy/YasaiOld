@@ -51,5 +51,11 @@ namespace Yasai.Tests.Structures.Bindables
             Assert.Equal(200, x.Value);
             Assert.Equal(200, y.Value);
         }
+
+        [Fact]
+        void testBindableVector()
+        {
+            
+        } 
     }
 }

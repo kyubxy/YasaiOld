@@ -8,6 +8,7 @@ using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
+
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 
@@ -18,8 +19,8 @@ namespace Yasai
     /// </summary>
     public class GameBase : IGroup, IDisposable
     {
-        public Window Window { get; private set; }
-        public Renderer Renderer { get; private set; }
+        public Window Window { get; }
+        public Renderer Renderer { get; }
 
         private bool _quit;
         
@@ -45,7 +46,6 @@ namespace Yasai
             if (SDL_Init(SDL_INIT_EVERYTHING) != 0) 
                 Console.WriteLine($"error on startup: {SDL_GetError()}");
             TTF_Init();
-            
             
             // everything else
             Window = new Window(title, w, h, refreshRate);

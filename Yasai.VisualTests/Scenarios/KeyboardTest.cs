@@ -38,7 +38,7 @@ namespace Yasai.VisualTests.Scenarios
 
         sealed class KeyReceiver : Group
         {
-            private PrimitiveBox _primitiveBox;
+            private PrimitiveBox primitiveBox;
 
             private SpriteText display;
             private string text;
@@ -51,7 +51,7 @@ namespace Yasai.VisualTests.Scenarios
 
             public override void Load(ContentCache cache)
             {
-                Add(_primitiveBox = new PrimitiveBox()
+                Add(primitiveBox = new PrimitiveBox()
                 {
                     Position = Position,
                     Size = new Vector2(100),
@@ -69,14 +69,14 @@ namespace Yasai.VisualTests.Scenarios
             public override void KeyUp(KeyArgs key)
             {
                 base.KeyUp(key);
-                _primitiveBox.Fill = false;
+                primitiveBox.Fill = false;
                 Console.WriteLine(key);
             }
 
             public override void KeyDown(KeyArgs key)
             {
                 base.KeyDown(key);
-                _primitiveBox.Fill = true;
+                primitiveBox.Fill = true;
                 display.Text = key.ToString();
             }
         }

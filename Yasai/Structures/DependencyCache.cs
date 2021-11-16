@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Yasai.Structures
 {
     public class DependencyCache
     {
+        #region extras
         class UnresolvableException : Exception
         {
             public UnresolvableException()
@@ -34,6 +34,7 @@ namespace Yasai.Structures
 
             public override string ToString() => "{" + $"Type: {Type}, Name: {Name}" + "}";
         }
+        #endregion
 
         private Dictionary<Identifier, object> resolutionTable;
 
@@ -45,9 +46,9 @@ namespace Yasai.Structures
         /// <summary>
         /// Register a type for injection later down the line
         /// </summary>
-        /// <param name="item"></param>
-        /// <param name="name"></param>
-        /// <typeparam name="T"></typeparam>
+        /// <param name="item">the item to register</param>
+        /// <param name="name">the name of the item, this is set to "default" by default</param>
+        /// <typeparam name="T">type to register as</typeparam>
         public void Register<T>(object item, string name = "default")
         {
             resolutionTable[new Identifier(typeof(T), name)] = item;
@@ -56,10 +57,10 @@ namespace Yasai.Structures
         /// <summary>
         /// Get a dependency that was previously registered
         /// </summary>
-        /// <param name="name"></param>
-        /// <typeparam name="T"></typeparam>
+        /// <param name="name">name it was registered with (if applicable)</param>
+        /// <typeparam name="T">type to resolve</typeparam>
         /// <returns></returns>
-        /// <exception cref="UnresolvableException"></exception>
+        /// <exception cref="UnresolvableException">an unresolvable identifier was given</exception>
         public T Resolve<T>(string name = "default")
         {
             var identifier = new Identifier(typeof(T), name);

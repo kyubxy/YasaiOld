@@ -32,7 +32,6 @@ namespace Yasai.Graphics.Imaging
                 size = value;
                 
                 if (!Loaded) return;
-                Vector2 img = CurrentTexture.Size;
                 Origin = new Vector2(Size.X / 2, Size.Y / 2);
             }
         }

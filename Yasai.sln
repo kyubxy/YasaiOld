@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDL2-CS.Core", "SDL2-CS\SDL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yasai.Tests", "Yasai.Tests\Yasai.Tests.csproj", "{244422F4-497C-4D4A-8702-97FF23751204}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yasai.TestApp", "Yasai.TestApp\Yasai.TestApp.csproj", "{6844ECA6-BE15-4207-AF7D-AF967D10D7B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{244422F4-497C-4D4A-8702-97FF23751204}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{244422F4-497C-4D4A-8702-97FF23751204}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{244422F4-497C-4D4A-8702-97FF23751204}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6844ECA6-BE15-4207-AF7D-AF967D10D7B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6844ECA6-BE15-4207-AF7D-AF967D10D7B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6844ECA6-BE15-4207-AF7D-AF967D10D7B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6844ECA6-BE15-4207-AF7D-AF967D10D7B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

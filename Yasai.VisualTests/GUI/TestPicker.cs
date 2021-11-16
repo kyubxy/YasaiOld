@@ -17,14 +17,14 @@ namespace Yasai.VisualTests.GUI
         private int BUTTON_WIDTH => 300;
         private int PADDING => 5;
         
-        private readonly Type[] _scenarios;
-        private readonly ScreenManager _manager;
-        private readonly Game _g;
+        private readonly Type[] scenarios;
+        private readonly ScreenManager manager;
+        private readonly Game g;
 
-        public override Vector2 Position => new((_g.Window.Width / 2) - (BUTTON_WIDTH / 2),
-                    (_g.Window.Height / 2) - (_scenarios.Length * (BUTTON_HEIGHT + PADDING) / 2));
+        public override Vector2 Position => new((g.Window.Width / 2) - (BUTTON_WIDTH / 2),
+                    (g.Window.Height / 2) - (scenarios.Length * (BUTTON_HEIGHT + PADDING) / 2));
         
-        public override Vector2 Size => new(BUTTON_WIDTH, (BUTTON_HEIGHT + PADDING) * _scenarios.Length);
+        public override Vector2 Size => new(BUTTON_WIDTH, (BUTTON_HEIGHT + PADDING) * scenarios.Length);
 
         private Box headerBox;
         private Box bodyBox;
@@ -47,9 +47,9 @@ namespace Yasai.VisualTests.GUI
 
         public TestPicker(Game g, ScreenManager sm, Type[] scenarios)
         {
-            _scenarios = scenarios;
-            _manager = sm;
-            _g = g;
+            this.scenarios = scenarios;
+            manager = sm;
+            this.g = g;
             Enabled = false;
         }
 
@@ -78,17 +78,15 @@ namespace Yasai.VisualTests.GUI
                 }
             });
             
-            for (int i = 0; i < _scenarios.Length; i++)
+            foreach (var s in scenarios)
             {
-                Type s = _scenarios[i];
-                
                 Button b;
-                buttons.Add(b = new Button(_manager, s, _g)
+                buttons.Add(b = new Button(manager, s, g)
                 {
                     Size = new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
                 });
             
-                b.OnSelect += (sender, args) => Enabled = false;               
+                b.OnSelect += (sender, args) => Enabled = false;
             }
         }
 
@@ -119,11 +117,11 @@ namespace Yasai.VisualTests.GUI
     
     sealed class Button : ClickableGroup
     {
-        private readonly ScreenManager _sm;
+        private readonly ScreenManager sm;
 
-        private readonly Scenario _scenario;
+        private readonly Scenario scenario;
 
-        private Box _back;
+        private Box back;
         private SpriteText label;
 
         public EventHandler OnSelect;
@@ -137,7 +135,7 @@ namespace Yasai.VisualTests.GUI
                 position = value;
                 if (Loaded)
                 {
-                    _back.Position = position;
+                    back.Position = position;
                     label.Position = Vector2.Add(Position, new Vector2(10, 10));
                 }
             }
@@ -147,15 +145,15 @@ namespace Yasai.VisualTests.GUI
 
         public Button(ScreenManager sm, Type s, Game game)
         {
-            _sm = sm;
-            _scenario = (Scenario)Activator.CreateInstance(s, game);
+            this.sm = sm;
+            scenario = (Scenario)Activator.CreateInstance(s, game);
 
-            OnExit  += (_, _) => _back.Colour = Color.White;
-            OnEnter += (_, _) => _back.Colour = Color.LightGray;
-            OnClick += (_, _) => _back.Colour = Color.Gray;
+            OnExit  += (_, _) => back.Colour = Color.White;
+            OnEnter += (_, _) => back.Colour = Color.LightGray;
+            OnClick += (_, _) => back.Colour = Color.Gray;
             OnRelease += (sender, args) =>
             {
-                _sm.PushScreen(_scenario);
+                this.sm.PushScreen(scenario);
                 OnSelect?.Invoke(sender, args);
             };
         }
@@ -165,12 +163,12 @@ namespace Yasai.VisualTests.GUI
             base.LoadComplete();
             AddAll(new IDrawable[]
             {
-                _back = new Box ()
+                back = new Box ()
                 {
                     Size = Size,
                     Colour = Color.White
                 },
-                label = new SpriteText(_scenario.Name, "fnt_smallFont")
+                label = new SpriteText(scenario.Name, "fnt_smallFont")
                 {
                     Colour = Color.Black
                 }

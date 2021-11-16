@@ -4,6 +4,7 @@ using Yasai.Graphics.Text;
 using Yasai.Input.Keyboard;
 using Yasai.Resources;
 using Yasai.Resources.Loaders;
+using Yasai.Structures;
 
 namespace Yasai
 {
@@ -13,6 +14,10 @@ namespace Yasai
     public class Game : GameBase
     {
         private ContentCache _content;
+
+        public DependencyCache Dependencies;
+        
+        private ContentCache fontCache;
 
         protected Group Root;
         
@@ -37,6 +42,12 @@ namespace Yasai
             Root = new Group();
             Children.Add(Root);
             Children.Add(FrameRateCounter);
+
+            // resource dependencies
+            Dependencies = new DependencyCache();
+            fontCache = new ContentCache(this);
+            Dependencies.Register<ContentCache>("fonts");
+            Dependencies.Register<Game>(this);
         }
         #endregion
 
@@ -47,6 +58,7 @@ namespace Yasai
         private void yasaiLoad(ContentCache cache)
         {
             cache.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
+            fontCache.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
         }
 
         public override void Load(ContentCache cache)
