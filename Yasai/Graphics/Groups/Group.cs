@@ -15,7 +15,7 @@ namespace Yasai.Graphics.Groups
     public class Group : Drawable, IGroup, ICollection<IDrawable>
     {
         private List<IDrawable> _children;
-        private ContentCache _contentCache;
+        private ContentStore contentStore;
 
         public virtual bool IgnoreHierarchy { get; set; } = true;
 
@@ -54,7 +54,7 @@ namespace Yasai.Graphics.Groups
             }
         }
         
-        public override bool Loaded => _children.All(x => x.Loaded) && _contentCache != null;
+        public override bool Loaded => _children.All(x => x.Loaded) && contentStore != null;
 
         #region constructors
         public Group(List<IDrawable> children)
@@ -73,14 +73,14 @@ namespace Yasai.Graphics.Groups
 
         #region lifespan
 
-        public override void Load(ContentCache cache)
+        public override void Load(ContentStore store)
         {
-            box.Load(cache);
+            box.Load(store);
             foreach (IDrawable s in _children)
-                s.Load(cache);
-            _contentCache = cache;
+                s.Load(store);
+            contentStore = store;
             
-            base.Load(cache);
+            base.Load(store);
         }
 
         public override void LoadComplete()
@@ -123,7 +123,7 @@ namespace Yasai.Graphics.Groups
                 return;
 
             if (Loaded && !item.Loaded)
-                item.Load(_contentCache);
+                item.Load(contentStore);
             
             if (Loaded)
                 item.LoadComplete();

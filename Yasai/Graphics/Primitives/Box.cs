@@ -16,10 +16,10 @@ namespace Yasai.Graphics.Primitives
         {
         }
 
-        public override void Load(ContentCache cache)
+        public override void Load(ContentStore store)
         {
             // generate a blank texture
-            IntPtr renderer = cache.Game.Renderer.GetPtr();
+            IntPtr renderer = store.Game.Renderer.GetPtr();
             
             Texture blank = new Texture(SDL_CreateTexture(renderer,
                 SDL_PIXELFORMAT_RGBA8888, (int) SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, 1, 1));

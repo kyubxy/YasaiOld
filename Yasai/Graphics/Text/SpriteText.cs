@@ -64,12 +64,12 @@ namespace Yasai.Graphics.Text
             _fontLoc = font;
         }
 
-        public override void Load(ContentCache cache)
+        public override void Load(ContentStore store)
         {
-            base.Load(cache);
+            base.Load(store);
             
             if (!Loaded) 
-                Font = cache.GetResource<SpriteFont>(_fontLoc);
+                Font = store.GetResource<SpriteFont>(_fontLoc);
             Font.LoadGlyphs();
             
             updateText();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Yasai.Structures
 {
-    public class DependencyCache
+    public class DependencyContainer
     {
         #region extras
         class UnresolvableException : Exception
@@ -38,7 +38,7 @@ namespace Yasai.Structures
 
         private Dictionary<Identifier, object> resolutionTable;
 
-        public DependencyCache()
+        public DependencyContainer()
         {
             resolutionTable = new Dictionary<Identifier, object>();
         }

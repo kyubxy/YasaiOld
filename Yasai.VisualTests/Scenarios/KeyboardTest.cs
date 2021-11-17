@@ -30,10 +30,10 @@ namespace Yasai.VisualTests.Scenarios
             });
         }
 
-        public override void Load(ContentCache cache)
+        public override void Load(ContentStore store)
         {
-            cache.LoadResource("tahoma.ttf");
-            base.Load(cache);
+            store.LoadResource("tahoma.ttf");
+            base.Load(store);
         }
 
         sealed class KeyReceiver : Group
@@ -49,7 +49,7 @@ namespace Yasai.VisualTests.Scenarios
                 this.text = text;
             }
 
-            public override void Load(ContentCache cache)
+            public override void Load(ContentStore store)
             {
                 Add(primitiveBox = new PrimitiveBox()
                 {
@@ -63,7 +63,7 @@ namespace Yasai.VisualTests.Scenarios
                     Position = Vector2.Add(Position, new Vector2(200, 0))
                 });
 
-                base.Load(cache);
+                base.Load(store);
             }
 
             public override void KeyUp(KeyArgs key)

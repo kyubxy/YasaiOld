@@ -13,11 +13,11 @@ namespace Yasai
     /// </summary>
     public class Game : GameBase
     {
-        private ContentCache _content;
+        private ContentStore _content;
 
-        public DependencyCache Dependencies;
+        public DependencyContainer Dependencies;
         
-        private ContentCache fontCache;
+        private ContentStore fontStore;
 
         protected Group Root;
         
@@ -37,16 +37,16 @@ namespace Yasai
         public Game(string title, int w, int h, int refreshRate, string[] args = null) 
             : base (title, w, h, refreshRate, args)
         {
-            Content = new ContentCache(this);
+            Content = new ContentStore(this);
             
             Root = new Group();
             Children.Add(Root);
             Children.Add(FrameRateCounter);
 
             // resource dependencies
-            Dependencies = new DependencyCache();
-            fontCache = new ContentCache(this);
-            Dependencies.Register<ContentCache>("fonts");
+            Dependencies = new DependencyContainer();
+            fontStore = new ContentStore(this);
+            Dependencies.Register<ContentStore>("fonts");
             Dependencies.Register<Game>(this);
         }
         #endregion
@@ -54,17 +54,17 @@ namespace Yasai
         /// <summary>
         /// Load framework related resources
         /// </summary>
-        /// <param name="cache"></param>
-        private void yasaiLoad(ContentCache cache)
+        /// <param name="store"></param>
+        private void yasaiLoad(ContentStore store)
         {
-            cache.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
-            fontCache.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
+            store.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
+            fontStore.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
         }
 
-        public override void Load(ContentCache cache)
+        public override void Load(ContentStore store)
         {
-            yasaiLoad(cache);
-            base.Load(cache);
+            yasaiLoad(store);
+            base.Load(store);
         }
     }
 }

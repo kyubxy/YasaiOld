@@ -86,18 +86,18 @@ namespace Yasai.Graphics.Imaging
             CenterToCurrentTex();
         }
         
-        public override void Load(ContentCache cache)
+        public override void Load(ContentStore store)
         {
-            if (cache == null)
+            if (store == null)
                 throw new NullReferenceException("the content store was null");
             
             if (!Loaded)
-                CurrentTexture = cache.GetResource<Texture>(path);
+                CurrentTexture = store.GetResource<Texture>(path);
 
             if (!setOrigin)
                 CenterToCurrentTex();
             
-            base.Load(cache);
+            base.Load(store);
             
         }
 

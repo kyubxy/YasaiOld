@@ -8,13 +8,13 @@ namespace Yasai.Tests.Resources
     {
         void TestLoadAll()
         {
-            ContentCache cache = new ContentCache(new Game(), "Assets/LoadAllTest");
-            cache.LoadAll(false);
+            ContentStore store = new ContentStore(new Game(), "Assets/LoadAllTest");
+            store.LoadAll(false);
             
-            var firstLoad = Record.Exception(() => cache.GetResource<Texture>("image"));
+            var firstLoad = Record.Exception(() => store.GetResource<Texture>("image"));
             Assert.Null(firstLoad);
             
-            var secondLoad = Record.Exception(() => cache.GetResource<Texture>("Subdirectory/image"));
+            var secondLoad = Record.Exception(() => store.GetResource<Texture>("Subdirectory/image"));
             Assert.Null(secondLoad);
         }
     }

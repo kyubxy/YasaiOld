@@ -35,7 +35,7 @@ namespace Yasai
         
         protected Group Children;
         
-        protected ContentCache Content;
+        protected ContentStore Content;
 
         protected FrameRateCounter FrameRateCounter;
         
@@ -125,7 +125,7 @@ namespace Yasai
         public virtual void LoadComplete ()
         { }
         
-        public virtual void Load(ContentCache cache)
+        public virtual void Load(ContentStore store)
         { }
         
         public virtual void Update() => Children.Update();

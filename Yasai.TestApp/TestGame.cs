@@ -11,11 +11,11 @@ namespace Yasai.TestApp
         private Texture tex;
         private Sprite spr;
 
-        public override void Load(ContentCache cache)
+        public override void Load(ContentStore store)
         {
-            base.Load(cache);
-            cache.LoadResource("tex.png");
-            tex = cache.GetResource<Texture>("tex");
+            base.Load(store);
+            store.LoadResource("tex.png");
+            tex = store.GetResource<Texture>("tex");
         }
 
         public override void LoadComplete()

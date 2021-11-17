@@ -11,9 +11,9 @@ namespace Yasai.Screens
     {
         public Screen CurrentScreen { get; private set; }
 
-        private ContentCache _contentCache;
+        private ContentStore contentStore;
         
-        public override bool Loaded => _contentCache != null;
+        public override bool Loaded => contentStore != null;
 
         public bool IgnoreHierarchy { get; }
 
@@ -27,11 +27,11 @@ namespace Yasai.Screens
 
         public ScreenManager() : this (new Screen()) { }
         
-        public override void Load(ContentCache cache)
+        public override void Load(ContentStore store)
         {
-            base.Load(cache);
-            CurrentScreen.Load(cache);
-            _contentCache = cache;
+            base.Load(store);
+            CurrentScreen.Load(store);
+            contentStore = store;
         }
 
         public override void LoadComplete()
@@ -43,7 +43,7 @@ namespace Yasai.Screens
         public void PushScreen(Screen s)
         {
             if (Loaded)
-                s.Load(_contentCache);
+                s.Load(contentStore);
             
             s.LoadComplete();
 

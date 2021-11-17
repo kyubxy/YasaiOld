@@ -41,7 +41,7 @@ namespace Yasai.Graphics
             set => Size = new Vector2(Size.X, value);
         }
         
-        public virtual void Load(ContentCache cache)
+        public virtual void Load(ContentStore store)
         {
         }
 

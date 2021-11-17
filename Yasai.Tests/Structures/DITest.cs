@@ -18,23 +18,23 @@ namespace Yasai.Tests.Structures
         [Fact]
         void testCacheAndResolve()
         {
-            DependencyCache cache = new DependencyCache(); 
+            DependencyContainer container = new DependencyContainer(); 
             var dep = new TestDependency(); 
-            cache.Register<ITestDependency>(dep); 
-            var resolved = cache.Resolve<ITestDependency>(); 
+            container.Register<ITestDependency>(dep); 
+            var resolved = container.Resolve<ITestDependency>(); 
             Assert.Same(dep, resolved);
         }
         
          [Fact]
          void testCacheWithName()
          {
-             DependencyCache cache = new DependencyCache();
+             DependencyContainer container = new DependencyContainer();
              var dep1 = new TestDependency();
              var dep2 = new TestDependency();
-             cache.Register<ITestDependency>(dep1, "1");
-             cache.Register<ITestDependency>(dep2, "2");
-             var resolved1 = cache.Resolve<ITestDependency>("1");
-             var resolved2 = cache.Resolve<ITestDependency>("2");
+             container.Register<ITestDependency>(dep1, "1");
+             container.Register<ITestDependency>(dep2, "2");
+             var resolved1 = container.Resolve<ITestDependency>("1");
+             var resolved2 = container.Resolve<ITestDependency>("2");
              Assert.Same(dep1, resolved1);
              Assert.Same(dep2, resolved2);
          }

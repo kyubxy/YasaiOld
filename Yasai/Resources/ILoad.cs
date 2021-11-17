@@ -9,8 +9,8 @@ namespace Yasai.Resources
         /// <summary>
         /// Called on resource load
         /// </summary>
-        /// <param name="cache"></param>
-        void Load(ContentCache cache);
+        /// <param name="store"></param>
+        void Load(ContentStore store);
 
         void LoadComplete();
     }

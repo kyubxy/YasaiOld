@@ -61,10 +61,10 @@ namespace Yasai.VisualTests
         }
         
 
-        public override void Load(ContentCache cache)
+        public override void Load(ContentStore store)
         {
-            cache.LoadResource("tahoma.ttf","fnt_smallFont", new FontArgs(15));
-            base.Load(cache);
+            store.LoadResource("tahoma.ttf","fnt_smallFont", new FontArgs(15));
+            base.Load(store);
         }
 
         static IEnumerable<Type> GetTests(Assembly assembly)

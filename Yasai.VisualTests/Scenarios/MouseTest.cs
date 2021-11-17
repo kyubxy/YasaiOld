@@ -44,7 +44,7 @@ namespace Yasai.VisualTests.Scenarios
                 this.noisy = noisy;
             }
 
-            public override void Load(ContentCache cache)
+            public override void Load(ContentStore store)
             {
                 Add(_primitiveBox = new PrimitiveBox()
                 {
@@ -53,7 +53,7 @@ namespace Yasai.VisualTests.Scenarios
                     Fill = false
                 });
 
-                base.Load(cache);
+                base.Load(store);
             }
 
             public override void MouseDown(MouseArgs args)

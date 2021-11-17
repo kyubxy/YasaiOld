@@ -7,14 +7,14 @@ using Yasai.Resources.Loaders;
 
 namespace Yasai.Resources
 {
-    public class ContentCache : ILoad
+    public class ContentStore : ILoad
     {
         public string Root { get; }
 
         private string MANAGER => "manager.json";
-        private ContentManager manager;
+        private ContentPrefs prefs;
 
-        public bool Loaded => manager != null;
+        public bool Loaded => prefs != null;
         
         private Dictionary<string, Resource> resources;
 
@@ -22,7 +22,7 @@ namespace Yasai.Resources
 
         public Game Game;
         
-        public ContentCache(Game game, string root = "Assets")
+        public ContentStore(Game game, string root = "Assets")
         {
             Root = root;
             resources = new Dictionary<string, Resource>();
@@ -93,7 +93,7 @@ namespace Yasai.Resources
         public void LoadResources(string group)
         {
             // TODO: load resources from files
-            if (manager.Empty)
+            if (prefs.Empty)
             {
                 Console.WriteLine("Either the manager is empty or it was not loaded when LoadResources was called");
                 return;
@@ -141,14 +141,14 @@ namespace Yasai.Resources
                 x.Dispose();
         }
 
-        public void Load(ContentCache cache)
+        public void Load(ContentStore store)
         {
             string path = Path.Combine(Root, MANAGER);
 
             if (File.Exists(path))
-                manager = JsonSerializer.Deserialize<ContentManager>(path);
+                prefs = JsonSerializer.Deserialize<ContentPrefs>(path);
             else
-                manager = new ContentManager();
+                prefs = new ContentPrefs();
         }
         
         public void LoadComplete() { }
@@ -161,11 +161,11 @@ namespace Yasai.Resources
         /// </summary>
         public void Write()
         {
-            if (manager.Empty)
+            if (prefs.Empty)
                 Console.WriteLine("The manager is empty, aborting the write process..");
             else
             {
-                string jsonStr = JsonSerializer.Serialize(manager);
+                string jsonStr = JsonSerializer.Serialize(prefs);
                 File.WriteAllText(Path.Combine (Root, "manager_written.txt"), jsonStr);
             }
         }

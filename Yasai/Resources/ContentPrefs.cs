@@ -7,13 +7,13 @@ namespace Yasai.Resources
     /// Object representation of the manager.json. Maps a string to a list of paths.
     /// </summary>
     [Serializable]
-    public class ContentManager
+    public class ContentPrefs
     {
         public Dictionary<string, List<string>> Groups;
 
-        public ContentManager(Dictionary<string, List<string>> g) => Groups = g;
+        public ContentPrefs(Dictionary<string, List<string>> g) => Groups = g;
 
-        public ContentManager() => Groups = new Dictionary<string, List<string>>();
+        public ContentPrefs() => Groups = new Dictionary<string, List<string>>();
 
         public bool Empty => Groups.Count == 0;
     }

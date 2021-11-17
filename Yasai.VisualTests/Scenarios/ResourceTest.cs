@@ -7,12 +7,12 @@ namespace Yasai.VisualTests.Scenarios
     [TestScenario]
     public class ResourceTest : Scenario
     {
-        private ContentCache cache;
+        private ContentStore store;
         
         public ResourceTest(Game game) 
             : base (game)
         {
-            cache = new ContentCache(Game);
+            store = new ContentStore(Game);
         }
 
         public override void LoadComplete()
