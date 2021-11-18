@@ -4,7 +4,9 @@ using Yasai.Graphics.Groups;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Resources;
+using Yasai.Resources.Stores;
 using Yasai.Structures;
+using Yasai.Structures.DI;
 
 namespace Yasai.VisualTests.GUI
 {
@@ -14,7 +16,6 @@ namespace Yasai.VisualTests.GUI
         
         private readonly Game game;
 
-        private Box back;
         private SpriteText title;
 
         public StatusBar(Game game)
@@ -27,6 +28,12 @@ namespace Yasai.VisualTests.GUI
         public override void Load(DependencyContainer dependencies)
         {
             base.Load(dependencies);
+            var fontStore = dependencies.Resolve<FontStore>();
+            
+            Add(title = new SpriteText("", fontStore.GetResource(SpriteFont.FontTiny))
+            {
+                Colour = Color.Black
+            }); 
             updatePositions();
         }
 

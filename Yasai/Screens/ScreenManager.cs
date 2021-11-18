@@ -55,10 +55,10 @@ namespace Yasai.Screens
 
         // screenmanagers can only handle one screen at a time
         // thus, they all ignore the hierarchy
-        public void MouseDown(MouseArgs args) => CurrentScreen.MouseDown(args);
-        public void MouseUp(MouseArgs args) => CurrentScreen.MouseUp(args);
-        public void MouseMotion(MouseArgs args) => CurrentScreen.MouseMotion(args);
-        public void KeyUp(KeyArgs key) => CurrentScreen.KeyUp(key);
-        public void KeyDown(KeyArgs key) => CurrentScreen.KeyDown(key);
+        public void MouseDown(MouseArgs args)    => CurrentScreen.MouseDown(args);
+        public void MouseUp(MouseArgs args)      => CurrentScreen.MouseUp(args);
+        public void MouseMotion(MouseArgs args)  => CurrentScreen.MouseMotion(args);
+        public void KeyUp(KeyArgs key)           => CurrentScreen.KeyUp(key);
+        public void KeyDown(KeyArgs key)         => CurrentScreen.KeyDown(key);
     }
 }

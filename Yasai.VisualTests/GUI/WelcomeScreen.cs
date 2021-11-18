@@ -1,8 +1,11 @@
+using System.Drawing;
 using System.Numerics;
 using Yasai.Graphics;
 using Yasai.Graphics.Text;
 using Yasai.Resources;
+using Yasai.Resources.Stores;
 using Yasai.Screens;
+using Yasai.Structures.DI;
 using Yasai.VisualTests.Scenarios;
 
 namespace Yasai.VisualTests.GUI
@@ -11,13 +14,13 @@ namespace Yasai.VisualTests.GUI
     {
         public WelcomeScreen(Game game) 
             : base (game)
-        {
-            
-        }
+        { }
         
-        public override void LoadComplete()
+        public override void Load (DependencyContainer container)
         {
-            base.LoadComplete();
+            base.Load(container);
+
+            var fontStore = container.Resolve<FontStore>();
 
             string[] messages = 
             {
@@ -31,8 +34,7 @@ namespace Yasai.VisualTests.GUI
             int i = 0;
             foreach (string msg in messages)
             {
-
-                Add(new SpriteText(msg, "fnt_smallFont")
+                Add(new SpriteText(msg, fontStore.GetResource(SpriteFont.FontTiny))
                 {
                     Position = new Vector2(20, 80 + i * 20)
                 });
@@ -41,7 +43,7 @@ namespace Yasai.VisualTests.GUI
             
             AddAll(new IDrawable[]
             {
-                new SpriteText("Welcome to the Yasai visual testing interface", "fnt_smallFont")
+                new SpriteText("Welcome to the Yasai visual testing interface", fontStore.GetResource(SpriteFont.FontTiny))
                 {
                     Position = new Vector2(20)
                 },

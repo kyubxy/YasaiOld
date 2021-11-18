@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Numerics;
 using Yasai.Graphics;
 using Yasai.Graphics.Groups;
 using Yasai.Graphics.Imaging;
+using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
 using Yasai.Structures;
 using Yasai.Structures.DI;
@@ -23,37 +25,15 @@ namespace Yasai.TestApp
         {
             base.Load(dependencies);
 
-            dependencies.Register<int>(69);
+            var store = dependencies.Resolve<FontStore>();
+
             Children = new Group(new IDrawable[]
             {
-                new Group(new IDrawable[]
+                new SpriteText("penis", store.GetResource(SpriteFont.FontTiny))
                 {
-                    new Group(new IDrawable[]
-                    {
-                        new Group(new IDrawable[]
-                        {
-                            new Group(new IDrawable[]
-                            {
-                                new Penis()
-                            })
-                        })
-                    })
-                })
+                    Position = new Vector2(400)
+                }
             });
-        }
-
-        public override void Update()
-        {
-            base.Update();
-        }
-    }
-
-    class Penis : Drawable
-    {
-        public override void Load(DependencyContainer dependencies)
-        {
-            base.Load(dependencies);
-            Console.WriteLine(dependencies.Resolve<int>());
         }
     }
 }

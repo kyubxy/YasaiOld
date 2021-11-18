@@ -35,8 +35,6 @@ namespace Yasai.Graphics.Text
 
         public SpriteFont Font { get; protected set; }
 
-        public override bool Loaded => Font != null && Font.Handle != IntPtr.Zero;
-
         public override Color Colour { get; set; } = Color.White;
 
         public SpriteText() 

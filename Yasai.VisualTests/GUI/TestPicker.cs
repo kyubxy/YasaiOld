@@ -6,8 +6,9 @@ using Yasai.Graphics.Groups;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Input.Mouse;
+using Yasai.Resources.Stores;
 using Yasai.Screens;
-using Yasai.VisualTests.Scenarios;
+using Yasai.Structures.DI;
 
 namespace Yasai.VisualTests.GUI
 {
@@ -34,7 +35,6 @@ namespace Yasai.VisualTests.GUI
         public override bool IgnoreHierarchy => false;
 
         private bool enabled;
-
         public override bool Enabled
         {
             get => enabled;
@@ -53,9 +53,12 @@ namespace Yasai.VisualTests.GUI
             Enabled = false;
         }
 
-        public override void LoadComplete()
+        public override void Load(DependencyContainer dependencies)
         {
-            base.LoadComplete(); 
+            base.Load(dependencies);
+
+            var fontStore = dependencies.Resolve<FontStore>();
+            
             AddAll(new IDrawable[]
             {
                 bodyBox = new Box ()
@@ -63,19 +66,19 @@ namespace Yasai.VisualTests.GUI
                     Size = Vector2.Add (Size, new Vector2(PADDING * 2)),
                     Colour = Color.Aqua
                 },
-                headerBox = new Box ()
-                {
-                    Size = new Vector2(Size.X + PADDING * 2, 30),
-                    Colour = Color.Tomato
-                },
-                title = new SpriteText("Open a test scenario ..", "fnt_smallFont")
-                {
-                    Colour = Color.White
-                },
-                buttons = new Group()
-                {
-                    IgnoreHierarchy = true
-                }
+               headerBox = new Box ()
+               {
+                   Size = new Vector2(Size.X + PADDING * 2, 30),
+                   Colour = Color.Tomato
+               },
+               title = new SpriteText("Open a test scenario ..", fontStore.GetResource(SpriteFont.FontTiny))
+               {
+                   Colour = Color.White
+               },
+               buttons = new Group()
+               {
+                   IgnoreHierarchy = true
+               }
             });
             
             foreach (var s in scenarios)
@@ -86,7 +89,7 @@ namespace Yasai.VisualTests.GUI
                     Size = new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
                 });
             
-                b.OnSelect += (sender, args) => Enabled = false;
+                b.OnSelect += (_, _) => Enabled = false;
             }
         }
 
@@ -112,67 +115,6 @@ namespace Yasai.VisualTests.GUI
                 bodyBox.Position = Vector2.Subtract(Position, new Vector2(PADDING));
                 title.Position = Vector2.Subtract(Position, new Vector2(0, 30));
             }
-        }
-    }
-    
-    sealed class Button : ClickableGroup
-    {
-        private readonly ScreenManager sm;
-
-        private readonly Scenario scenario;
-
-        private Box back;
-        private SpriteText label;
-
-        public EventHandler OnSelect;
-
-        private Vector2 position;
-        public override Vector2 Position
-        {
-            get => position;
-            set
-            {
-                position = value;
-                if (Loaded)
-                {
-                    back.Position = position;
-                    label.Position = Vector2.Add(Position, new Vector2(10, 10));
-                }
-            }
-        }
-
-        public override bool IgnoreHierarchy => true;
-
-        public Button(ScreenManager sm, Type s, Game game)
-        {
-            this.sm = sm;
-            scenario = (Scenario)Activator.CreateInstance(s, game);
-
-            OnExit  += (_, _) => back.Colour = Color.White;
-            OnEnter += (_, _) => back.Colour = Color.LightGray;
-            OnClick += (_, _) => back.Colour = Color.Gray;
-            OnRelease += (sender, args) =>
-            {
-                this.sm.PushScreen(scenario);
-                OnSelect?.Invoke(sender, args);
-            };
-        }
-
-        public override void LoadComplete()
-        {
-            base.LoadComplete();
-            AddAll(new IDrawable[]
-            {
-                back = new Box ()
-                {
-                    Size = Size,
-                    Colour = Color.White
-                },
-                label = new SpriteText(scenario.Name, "fnt_smallFont")
-                {
-                    Colour = Color.Black
-                }
-            });
         }
     }
 }

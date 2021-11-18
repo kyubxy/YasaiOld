@@ -68,7 +68,6 @@ namespace Yasai.Graphics.Groups
        //    }
        //}
 
-        public override bool Loaded => children.All(x => x.Loaded) && base.Loaded;
 
         #region constructors
         public Group(List<IDrawable> children)

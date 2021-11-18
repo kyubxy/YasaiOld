@@ -7,7 +7,5 @@ namespace Yasai.Screens
         // screenmanagers can only handle one screen at a time
         // thus, they all ignore the hierachy
         public override bool IgnoreHierarchy => true;
-
-        public Screen () {}
     }
 }

@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Microsoft.VisualBasic.CompilerServices;
 using Yasai.Debug;
 using Yasai.Extensions;
 using Yasai.Graphics.Groups;
 using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
-using Yasai.Resources;
-using Yasai.Structures;
+using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
+
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 
@@ -38,8 +39,6 @@ namespace Yasai
         
         protected Group Children;
 
-        protected FrameRateCounter FrameRateCounter;
-        
         #region constructors
         public GameBase(string title, int w, int h, int refreshRate, string[] args = null)
         { 
@@ -48,10 +47,9 @@ namespace Yasai
             Dependencies = new DependencyContainer();
 
             Dependencies.Register<Window>(Window = new Window(title, w, h, refreshRate));
-            Dependencies.Register<Renderer>(Renderer = new Renderer(Window));          
-             
+            Dependencies.Register<Renderer>(Renderer = new Renderer(Window));
+
             Children = new Group();
-            FrameRateCounter = new FrameRateCounter();
 
         }
         #endregion
@@ -78,13 +76,11 @@ namespace Yasai
                     OnEvent(e);
         
                 Update();
-        
-                FrameRateCounter.StartCount = SDL_GetPerformanceCounter();
+                
                 Renderer.Clear();
                 Draw(Renderer.GetPtr());
                 Renderer.Present();
                 Renderer.SetDrawColor(0,0,0,255);
-                FrameRateCounter.EndCount = SDL_GetPerformanceCounter();
             }
         }
         
