@@ -44,6 +44,6 @@ namespace Yasai.Resources.Stores
         public FontArgs(int size) : this() => Size = size;
 
         public FontArgs()
-            => CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890<>.?,() ".ToCharArray();
+            => CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890<>.?,()+ ".ToCharArray();
     }
 }

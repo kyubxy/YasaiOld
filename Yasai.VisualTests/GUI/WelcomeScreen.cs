@@ -1,10 +1,6 @@
-using System.Drawing;
 using System.Numerics;
-using Yasai.Graphics;
 using Yasai.Graphics.Text;
-using Yasai.Resources;
 using Yasai.Resources.Stores;
-using Yasai.Screens;
 using Yasai.Structures.DI;
 using Yasai.VisualTests.Scenarios;
 
@@ -26,8 +22,8 @@ namespace Yasai.VisualTests.GUI
             {
                 "Press <SHIFT>+<TAB> to open the scenario picker",
                 "",
-                "Youre probably here because you havent opened a test screen yet.",
-                "This interface serves as the closest thing we have to unit testing.",
+                "You're probably here because you havent opened a test scenario yet.",
+                "This interface serves as the a means of testing components in a visual fashion.",
                 "Just like the things that are being tested this interface is also made with Yasai"
             };
 
@@ -41,12 +37,9 @@ namespace Yasai.VisualTests.GUI
                 i++;
             }
             
-            AddAll(new IDrawable[]
+            Add(new SpriteText("Welcome to the Yasai visual testing interface", fontStore.GetResource(SpriteFont.FontTiny)) 
             {
-                new SpriteText("Welcome to the Yasai visual testing interface", fontStore.GetResource(SpriteFont.FontTiny))
-                {
-                    Position = new Vector2(20)
-                },
+                Position = new Vector2(20)
             });
         }
     }
