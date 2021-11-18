@@ -1,40 +1,39 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Yasai.Graphics;
 using Yasai.Graphics.Groups;
 using Yasai.Graphics.Imaging;
-using Yasai.Resources;
+using Yasai.Graphics.Text;
+using Yasai.Resources.Stores;
+using Yasai.Structures;
+using Yasai.Structures.DI;
 
 namespace Yasai.TestApp
 {
     public class TestGame : Game
     {
-        private Texture tex;
         private Sprite spr;
 
-        public override void Load(ContentStore store)
+        public TestGame()
         {
-            base.Load(store);
+            var store = new TextureStore(Dependencies);
             store.LoadResource("tex.png");
-            tex = store.GetResource<Texture>("tex");
+            Dependencies.Register<TextureStore>(store);
         }
 
-        public override void LoadComplete()
+        public override void Load(DependencyContainer dependencies)
         {
-            base.LoadComplete();
+            base.Load(dependencies);
+
+            var store = dependencies.Resolve<FontStore>();
+
             Children = new Group(new IDrawable[]
             {
-                spr = new Sprite(tex)
+                new SpriteText("penis", store.GetResource(SpriteFont.FontTiny))
                 {
-                    Position = new Vector2(300),
-                    Size = new Vector2(140),
+                    Position = new Vector2(400)
                 }
             });
-        }
-
-        public override void Update()
-        {
-            base.Update();
-            spr.Rotation += 1f;
         }
     }
 }

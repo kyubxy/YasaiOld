@@ -3,7 +3,8 @@ using System.Drawing;
 using System.Numerics;
 using Yasai.Graphics.Groups;
 using Yasai.Graphics.Imaging;
-using Yasai.Resources;
+using Yasai.Structures;
+using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Text
 {
@@ -22,7 +23,6 @@ namespace Yasai.Graphics.Text
         }
 
         private Vector2 position;
-
         public override Vector2 Position
         {
             get => position;
@@ -34,8 +34,6 @@ namespace Yasai.Graphics.Text
         }
 
         public SpriteFont Font { get; protected set; }
-
-        public override bool Loaded => Font != null && Font.Handle != IntPtr.Zero;
 
         public override Color Colour { get; set; } = Color.White;
 
@@ -54,27 +52,13 @@ namespace Yasai.Graphics.Text
             Font = font;
         }
 
-        private string _fontLoc;
-        public SpriteText(string text, string font)
+        public override void Load(DependencyContainer dependencies)
         {
-            if (font == null)
-                throw new NullReferenceException("no font provided");
-            
-            Text = text;
-            _fontLoc = font;
+           base.Load(dependencies);
+           Font.LoadGlyphs();
+           updateText();
         }
-
-        public override void Load(ContentStore store)
-        {
-            base.Load(store);
-            
-            if (!Loaded) 
-                Font = store.GetResource<SpriteFont>(_fontLoc);
-            Font.LoadGlyphs();
-            
-            updateText();
-        }
-
+       
         private void updatePositions()
         {
             float accX = 0;

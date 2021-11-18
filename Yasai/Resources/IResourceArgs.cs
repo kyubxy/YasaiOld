@@ -3,15 +3,15 @@ using System.Collections;
 
 namespace Yasai.Resources
 {
-    public interface ILoadArgs 
+    public interface IResourceArgs 
     {
     }
 
     /// <summary>
     /// A dummy type for resources with no load args
     /// </summary>
-    public class EmptyLoadArgs : ILoadArgs
+    public class EmptyResourceArgs : IResourceArgs
     {
-        public ILoadArgs DefaultArgs => new EmptyLoadArgs();
+        public IResourceArgs DefaultArgs => new EmptyResourceArgs();
     }
 }

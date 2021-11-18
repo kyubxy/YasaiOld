@@ -24,7 +24,7 @@ namespace Yasai.Graphics.Imaging
             }
         }
 
-        public Texture(IntPtr ptr, string path = "") : base(ptr, path, new EmptyLoadArgs())
+        public Texture(IntPtr ptr, string path = "") : base(ptr, path, new EmptyResourceArgs())
         { }
         
         public override void Dispose()

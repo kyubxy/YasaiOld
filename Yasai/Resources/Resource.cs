@@ -6,9 +6,9 @@ namespace Yasai.Resources
     {
         public IntPtr Handle { get; protected set; }
         public string Path { get; private set; }
-        public ILoadArgs Args { get; private set; }
+        public IResourceArgs Args { get; private set; }
         
-        public Resource(IntPtr h, string p, ILoadArgs args)
+        public Resource(IntPtr h, string p, IResourceArgs args)
         {
             Handle = h;
             Path = p;

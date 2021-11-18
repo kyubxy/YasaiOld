@@ -6,7 +6,8 @@ using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Input.Keyboard;
 using Yasai.Resources;
-
+using Yasai.Structures;
+using Yasai.Structures.DI;
 using static SDL2.SDL;
 
 namespace Yasai.Debug
@@ -48,10 +49,8 @@ namespace Yasai.Debug
                 back.Colour = Color.Red;
         }
 
-        public override void LoadComplete()
+        public override void Load(DependencyContainer dependencies)
         {
-            base.LoadComplete();
-            
             AddAll(new IDrawable[]
             {
                 back = new PrimitiveBox()
@@ -61,12 +60,14 @@ namespace Yasai.Debug
                     Fill = true,
                     Colour = BACKGROUND_COLOUR
                 },
-                text = new SpriteText("FPS", SpriteFont.TinyFont)
-                {
-                    Position = new Vector2(15),
-                    Colour = Color.Black
-                }
+               //text = new SpriteText("FPS", dependencies.Register<>())
+               //{
+               //    Position = new Vector2(15),
+               //    Colour = Color.Black
+               //}
             });
+            
+            base.Load(dependencies);
         }
     }
 }

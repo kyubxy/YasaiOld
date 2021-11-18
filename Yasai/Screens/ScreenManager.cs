@@ -4,16 +4,14 @@ using Yasai.Graphics.Groups;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
+using Yasai.Structures;
+using Yasai.Structures.DI;
 
 namespace Yasai.Screens
 {
     public class ScreenManager : Drawable, IGroup
     {
         public Screen CurrentScreen { get; private set; }
-
-        private ContentStore contentStore;
-        
-        public override bool Loaded => contentStore != null;
 
         public bool IgnoreHierarchy { get; }
 
@@ -27,25 +25,16 @@ namespace Yasai.Screens
 
         public ScreenManager() : this (new Screen()) { }
         
-        public override void Load(ContentStore store)
+        public override void Load(DependencyContainer dependencies)
         {
-            base.Load(store);
-            CurrentScreen.Load(store);
-            contentStore = store;
-        }
-
-        public override void LoadComplete()
-        {
-            base.LoadComplete();
-            CurrentScreen.LoadComplete();
+            base.Load(dependencies);
+            CurrentScreen.Load(dependencies);
         }
 
         public void PushScreen(Screen s)
         {
             if (Loaded)
-                s.Load(contentStore);
-            
-            s.LoadComplete();
+                s.Load(Dependencies);
 
             CurrentScreen = s;
             OnScreenChange?.Invoke(this, new ScreenArgs(s));
@@ -66,10 +55,10 @@ namespace Yasai.Screens
 
         // screenmanagers can only handle one screen at a time
         // thus, they all ignore the hierarchy
-        public void MouseDown(MouseArgs args) => CurrentScreen.MouseDown(args);
-        public void MouseUp(MouseArgs args) => CurrentScreen.MouseUp(args);
-        public void MouseMotion(MouseArgs args) => CurrentScreen.MouseMotion(args);
-        public void KeyUp(KeyArgs key) => CurrentScreen.KeyUp(key);
-        public void KeyDown(KeyArgs key) => CurrentScreen.KeyDown(key);
+        public void MouseDown(MouseArgs args)    => CurrentScreen.MouseDown(args);
+        public void MouseUp(MouseArgs args)      => CurrentScreen.MouseUp(args);
+        public void MouseMotion(MouseArgs args)  => CurrentScreen.MouseMotion(args);
+        public void KeyUp(KeyArgs key)           => CurrentScreen.KeyUp(key);
+        public void KeyDown(KeyArgs key)         => CurrentScreen.KeyDown(key);
     }
 }

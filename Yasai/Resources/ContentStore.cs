@@ -2,36 +2,39 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
-using Yasai.Resources.Loaders;
+using Yasai.Structures;
+using Yasai.Structures.DI;
 
 namespace Yasai.Resources
 {
-    public class ContentStore : ILoad
+    public interface IContentStore 
     {
+        string Root { get; }
+        ContentPrefs Prefs { get; }
+        string[] FileTypes { get; }
+        IResourceArgs DefaultArgs { get; }
+    }
+    
+    public abstract class ContentStore<T> : IContentStore 
+        where T : Resource
+    {
+        // filepath root
         public string Root { get; }
 
-        private string MANAGER => "manager.json";
-        private ContentPrefs prefs;
-
-        public bool Loaded => prefs != null;
+        public ContentPrefs Prefs => throw new NotImplementedException();
         
-        private Dictionary<string, Resource> resources;
+        public abstract string[] FileTypes { get; }
+        public abstract IResourceArgs DefaultArgs { get; }
 
-        protected List<ILoader> Loaders;
+        private Dictionary<string, T> resources;
 
-        public Game Game;
+        private DependencyContainer dependencies;
         
-        public ContentStore(Game game, string root = "Assets")
+        public ContentStore(DependencyContainer container, string root = "Assets")
         {
             Root = root;
-            resources = new Dictionary<string, Resource>();
-            Game = game;
-            
-            // add the loaders
-            Loaders = new List<ILoader>();
-            Loaders.Add(new ImageLoader());
-            Loaders.Add(new FontLoader());
+            dependencies = container;
+            resources = new Dictionary<string, T>();
         }
 
         /// <summary>
@@ -41,7 +44,7 @@ namespace Yasai.Resources
         /// <typeparam name="T">the expected resource type</typeparam>
         /// <returns>the resource</returns>
         /// <exception cref="DirectoryNotFoundException">thrown if the key was not present in the dictionary</exception>
-        public T GetResource<T>(string res) where T : Resource
+        public T GetResource(string res) 
         {
             if (!resources.ContainsKey(res))
             {
@@ -49,42 +52,51 @@ namespace Yasai.Resources
                                                      $"Ensure you preload it with LoadResource or some similar function");
             }
 
-            return (T)resources[res];
+            return resources[res];
         }
+        
+        public void LoadResource (string path) => LoadResource(path, Path.ChangeExtension(path, null));
 
         /// <summary>
         /// Loads a single resource from the path and adds it to the internal dictionary
         /// </summary>
         /// <param name="path">path to resource</param>
-        /// <param name="_key">dictionary key, how to reference the resource, blank entries default to the extensionless resource filename</param>
+        /// <param name="key">dictionary key, how to reference the resource</param>
         /// <param name="args">additional load arguments supported by the loader</param>
         /// <param name="hushWarnings">whether the program should report unloadable resources</param>
         /// <exception cref="NotSupportedException"></exception>
-        public void LoadResource(string path, string _key = null, ILoadArgs args = null, bool hushWarnings = false)
+        public void LoadResource(string path, string key, IResourceArgs args = null)
         {
-            string key = _key ?? Path.ChangeExtension(path, null);
-            string loadType = Path.GetExtension(path);
-            ILoader loader = Loaders.Find(x => x.FileTypes.Contains(loadType.ToLower()));
 
-            // can't find any loaders
-            if (loader == null)
+            
+            // check if valid resource type
+            string loadType = Path.GetExtension(path);
+            if (!FileTypes.Contains(loadType))
             {
-                if (!hushWarnings)
-                    Console.WriteLine($"cannot load file of type {loadType}, it was subsequently skipped");
+                Console.WriteLine(
+                    $"Attempted to load file of type {loadType} into a store of type {typeof(T)}, file was subsequently skipped");
                 return;
             }
-            
-            string loadPath = Path.Combine(Root, path);
-            if (IsResourceLoaded(loadPath, args ?? loader.DefaultArgs))
-            {
-                if (!hushWarnings)
-                    Console.WriteLine($"file {path} is already loaded with similar arguments, " +
-                                      $"no new resource was loaded");
+
+            // avoid loading duplicates
+            string loadPath = Path.Combine(Root, path); 
+            if (IsResourceLoaded(loadPath, args ?? DefaultArgs))
                 return;
-            }
             
-            resources[key] = loader.GetResource(Game, loadPath, args);
+            // check if resource exists
+            if (!File.Exists(loadPath))
+                throw new FileNotFoundException();
+
+            resources[key] = AcquireResource(loadPath, args);
         }
+
+        /// <summary>
+        /// how to acquire the resource given a path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected abstract T AcquireResource(string path, IResourceArgs args);
 
         /// <summary>
         ///  reads the manager and finds all paths under a group to load from
@@ -93,7 +105,7 @@ namespace Yasai.Resources
         public void LoadResources(string group)
         {
             // TODO: load resources from files
-            if (prefs.Empty)
+            if (Prefs == null)
             {
                 Console.WriteLine("Either the manager is empty or it was not loaded when LoadResources was called");
                 return;
@@ -108,10 +120,8 @@ namespace Yasai.Resources
         /// <see cref="LoadResources"/> to load in larger amounts of assets at once or <see cref="LoadResource"/>
         /// <param name="readManager">whether it should read the manager.txt for all resources</param>
         /// </summary>
-        public void LoadAll(bool readManager = true)
+        public void LoadAll()
         {
-            if(readManager) throw new NotImplementedException();
-
             var filenames = Directory.EnumerateFiles(Root, "*", SearchOption.AllDirectories);
             foreach(string nr in filenames)
             {
@@ -127,9 +137,12 @@ namespace Yasai.Resources
         public void Unload(string key)
         {
             if (!resources.ContainsKey(key))
-                Console.WriteLine($"no such {key} in dictionary");
+                Console.WriteLine($"no such {key} in store");
             else
+            {
                 resources[key].Dispose();
+                resources[key] = null;
+            }
         }
 
         /// <summary>
@@ -137,21 +150,14 @@ namespace Yasai.Resources
         /// </summary>
         public void Dispose()
         {
-            foreach (Resource x in resources.Values) 
+            foreach (T x in resources.Values) 
                 x.Dispose();
         }
 
-        public void Load(ContentStore store)
+        public void LoadPrefs()
         {
-            string path = Path.Combine(Root, MANAGER);
-
-            if (File.Exists(path))
-                prefs = JsonSerializer.Deserialize<ContentPrefs>(path);
-            else
-                prefs = new ContentPrefs();
+            throw new NotImplementedException();
         }
-        
-        public void LoadComplete() { }
 
         /// <summary>
         /// Write the manager to the resource path.
@@ -161,16 +167,10 @@ namespace Yasai.Resources
         /// </summary>
         public void Write()
         {
-            if (prefs.Empty)
-                Console.WriteLine("The manager is empty, aborting the write process..");
-            else
-            {
-                string jsonStr = JsonSerializer.Serialize(prefs);
-                File.WriteAllText(Path.Combine (Root, "manager_written.txt"), jsonStr);
-            }
+            throw new NotImplementedException();
         }
         
-        private bool IsResourceLoaded(string absPath, ILoadArgs args)
+        private bool IsResourceLoaded(string absPath, IResourceArgs args)
         {
             foreach (Resource r in resources.Values)
                 if (r.Path == absPath && r.Args == args) 

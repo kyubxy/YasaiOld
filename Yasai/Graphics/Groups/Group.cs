@@ -8,18 +8,18 @@ using Yasai.Graphics.Primitives;
 using Yasai.Input;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
-using Yasai.Resources;
+using Yasai.Structures;
+using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Groups
 {
     public class Group : Drawable, IGroup, ICollection<IDrawable>
     {
-        private List<IDrawable> _children;
-        private ContentStore contentStore;
-
+        private readonly List<IDrawable> children;
+        
         public virtual bool IgnoreHierarchy { get; set; } = true;
 
-        private Primitive box;
+        private readonly Primitive box;
 
         private Vector2 position;
         public override Vector2 Position
@@ -53,13 +53,26 @@ namespace Yasai.Graphics.Groups
                 box.Enabled = value;
             }
         }
-        
-        public override bool Loaded => _children.All(x => x.Loaded) && contentStore != null;
+
+       //private DependencyContainer dependencies;
+       //public override DependencyContainer Dependencies
+       //{
+       //    get => dependencies;
+       //    set
+       //    {
+       //        dependencies = value;
+       //        
+       //        // resolve child dependencies
+       //        foreach (IDrawable client in children)
+       //            client.Dependencies = dependencies;
+       //    }
+       //}
+
 
         #region constructors
         public Group(List<IDrawable> children)
         {
-            _children = children;
+            this.children = children;
             box = new PrimitiveBox();
             Fill = false;
         }
@@ -73,41 +86,34 @@ namespace Yasai.Graphics.Groups
 
         #region lifespan
 
-        public override void Load(ContentStore store)
+        public override void Load(DependencyContainer dependencies)
         {
-            box.Load(store);
-            foreach (IDrawable s in _children)
-                s.Load(store);
-            contentStore = store;
+            base.Load(dependencies);
             
-            base.Load(store);
-        }
-
-        public override void LoadComplete()
-        {
-            base.LoadComplete();
-            box.LoadComplete();
-            foreach (IDrawable s in _children)
-                s.LoadComplete();
+            box.Load(dependencies);
+            foreach (IDrawable s in children)
+                s.Load(dependencies);
         }
 
         public override void Update()
         {
+            base.Update();
+            
             if (Enabled)
-            {
-                foreach (IDrawable s in _children)
+                foreach (IDrawable s in children)
                     s.Update();
-            }
         }
 
         public override void Draw(IntPtr renderer)
         {
+            base.Draw(renderer);
+            
             if (Visible && Enabled)
             {
                 if (Fill)
                     box.Draw(renderer);
 
-                foreach (IDrawable s in _children)
+                foreach (IDrawable s in children)
                 {
                     if (!(s is Widget))
                         s.Draw(renderer);
@@ -123,12 +129,9 @@ namespace Yasai.Graphics.Groups
                 return;
 
             if (Loaded && !item.Loaded)
-                item.Load(contentStore);
+                item.Load(Dependencies);
             
-            if (Loaded)
-                item.LoadComplete();
-            
-            _children.Add(item);
+            children.Add(item);
         }
 
         public void AddAll(IDrawable[] array)
@@ -139,20 +142,20 @@ namespace Yasai.Graphics.Groups
 
         public void Clear()
         {
-            _children.Clear();
+            children.Clear();
         }
 
         public bool Remove(IDrawable item)
         {
             if (item == null) return false;
-            return _children.Remove(item);
+            return children.Remove(item);
         }
         #endregion
         
         # region rest of ICollection implementation
         public IEnumerator<IDrawable> GetEnumerator()
         {
-            return _children.GetEnumerator();
+            return children.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -162,15 +165,15 @@ namespace Yasai.Graphics.Groups
 
         public bool Contains(IDrawable item)
         {
-            return _children.Contains(item);
+            return children.Contains(item);
         }
 
         public void CopyTo(IDrawable[] array, int arrayIndex)
         {
-            _children.CopyTo(array, arrayIndex);
+            children.CopyTo(array, arrayIndex);
         }
 
-        public int Count => _children.Count;
+        public int Count => children.Count;
         public bool IsReadOnly => false;
         
         #endregion
@@ -182,7 +185,7 @@ namespace Yasai.Graphics.Groups
             if (!Enabled)
                 return;
             
-            foreach (var k in _children)
+            foreach (var k in children)
             {
                 IKeyListener listener = k as IKeyListener;
                 if (listener == null) 
@@ -198,7 +201,7 @@ namespace Yasai.Graphics.Groups
             if (!Enabled)
                 return;
             
-            foreach (var k in _children)
+            foreach (var k in children)
             {
                 IKeyListener listener = k as IKeyListener;
                 if (listener == null) 
@@ -217,7 +220,7 @@ namespace Yasai.Graphics.Groups
             MouseButton button = args.Button;
             Vector2 mousepos = args.Position;
             
-            foreach (var k in _children)
+            foreach (var k in children)
             {
                 IMouseListener listener = k as IMouseListener;
                 if (listener == null)
@@ -236,7 +239,7 @@ namespace Yasai.Graphics.Groups
             MouseButton button = args.Button;
             Vector2 mousepos = args.Position;
             
-            foreach (var k in _children)
+            foreach (var k in children)
             {
                 IMouseListener listener = k as IMouseListener;
                 if (listener == null)
@@ -255,7 +258,7 @@ namespace Yasai.Graphics.Groups
             MouseButton button = args.Button;
             Vector2 mousepos = args.Position;
             
-            foreach (var k in _children)
+            foreach (var k in children)
             {
                 IMouseListener listener = k as IMouseListener;
                 if (listener == null)

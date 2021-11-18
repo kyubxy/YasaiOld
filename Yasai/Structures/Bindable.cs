@@ -27,7 +27,6 @@ namespace Yasai.Structures
         
         // (temporary) internal value
         private T self;
-        
         public T Value 
         {
             get

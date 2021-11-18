@@ -1,5 +1,6 @@
 using System;
 using Yasai.Resources;
+using Yasai.Structures;
 
 namespace Yasai.Graphics
 {

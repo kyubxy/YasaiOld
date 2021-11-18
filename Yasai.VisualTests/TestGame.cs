@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using Yasai.VisualTests.Scenarios;
 using Yasai.Input.Keyboard;
 using Yasai.Resources;
-using Yasai.Resources.Loaders;
+using Yasai.Resources.Stores;
 using Yasai.Screens;
+using Yasai.Structures.DI;
 using Yasai.VisualTests.GUI;
 
 namespace Yasai.VisualTests
@@ -41,6 +41,8 @@ namespace Yasai.VisualTests
                     Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YasaiTests"));
                 File.WriteAllLines(prefPath, new string []{});
             }
+
+            last = new WelcomeScreen(this);
             
             // find all tests
             sm = new ScreenManager(last);
@@ -58,13 +60,6 @@ namespace Yasai.VisualTests
             bar.UpdateTitle(sm.CurrentScreen.GetType().Name);
             ScreenArgs a = (ScreenArgs)e;
             File.WriteAllText(prefPath, a.Screen.GetType().FullName);
-        }
-        
-
-        public override void Load(ContentStore store)
-        {
-            store.LoadResource("tahoma.ttf","fnt_smallFont", new FontArgs(15));
-            base.Load(store);
         }
 
         static IEnumerable<Type> GetTests(Assembly assembly)

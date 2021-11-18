@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Microsoft.VisualBasic.CompilerServices;
 using Yasai.Debug;
 using Yasai.Extensions;
 using Yasai.Graphics.Groups;
 using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
-using Yasai.Resources;
+using Yasai.Resources.Stores;
+using Yasai.Structures.DI;
 
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
@@ -22,9 +24,9 @@ namespace Yasai
         public Window Window { get; }
         public Renderer Renderer { get; }
 
-        private bool _quit;
-        
-        public bool Loaded => Window != null && Renderer != null && Content != null;
+        private bool quit;
+
+        public bool Loaded => Window != null && Renderer != null;
         
         public bool Visible { get; set; } = true;
         public bool Enabled
@@ -33,50 +35,52 @@ namespace Yasai
             set => throw new Exception("use Game.Quit() to quit the game");
         }
         
+        public DependencyContainer Dependencies { get; }
+        
         protected Group Children;
-        
-        protected ContentStore Content;
 
-        protected FrameRateCounter FrameRateCounter;
-        
         #region constructors
         public GameBase(string title, int w, int h, int refreshRate, string[] args = null)
         { 
+            initialiseEngine();
+            
+            Dependencies = new DependencyContainer();
+
+            Dependencies.Register<Window>(Window = new Window(title, w, h, refreshRate));
+            Dependencies.Register<Renderer>(Renderer = new Renderer(Window));
+
+            Children = new Group();
+
+        }
+        #endregion
+
+        void initialiseEngine()
+        {
             // SDL initialisation
             if (SDL_Init(SDL_INIT_EVERYTHING) != 0) 
                 Console.WriteLine($"error on startup: {SDL_GetError()}");
             TTF_Init();
-            
-            // everything else
-            Window = new Window(title, w, h, refreshRate);
-            Renderer = new Renderer(Window);           
-             
-            Children = new Group();
-            FrameRateCounter = new FrameRateCounter();
+
+            Console.WriteLine("Yasai engine is ready");
         }
-        #endregion
         
         public void Run()
         {
-            Load(Content);
-            Children.Load(Content);
+            Load(Dependencies);
+            Children.Load(Dependencies);
             
-            LoadComplete();
-            Children.LoadComplete(); 
-            
-            while (!_quit)
+            // program loop
+            while (!quit)
             {
                 while (SDL_PollEvent(out var e) != 0)
                     OnEvent(e);
         
                 Update();
-        
-                FrameRateCounter.StartCount = SDL_GetPerformanceCounter();
+                
                 Renderer.Clear();
                 Draw(Renderer.GetPtr());
                 Renderer.Present();
                 Renderer.SetDrawColor(0,0,0,255);
-                FrameRateCounter.EndCount = SDL_GetPerformanceCounter();
             }
         }
         
@@ -88,7 +92,7 @@ namespace Yasai
             {
                 // program exit
                 case (SDL_EventType.SDL_QUIT):
-                    _quit = true;
+                    quit = true;
                     break;
                 
                 #region input systems
@@ -122,10 +126,7 @@ namespace Yasai
             }
         }
         
-        public virtual void LoadComplete ()
-        { }
-        
-        public virtual void Load(ContentStore store)
+        public virtual void Load(DependencyContainer dependencies)
         { }
         
         public virtual void Update() => Children.Update();
@@ -151,14 +152,15 @@ namespace Yasai
         /// </summary>
         public void Quit()
         {
-            _quit = false;
+            quit = false;
             Dispose();
         }
         
         public void Dispose()
         {
-            Content.Dispose();
+            // TODO: dispose disposable dependencies
             SDL_Quit();
+            Console.WriteLine("Disposed of resources and exited successfully");
         }
         
         #region input

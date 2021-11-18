@@ -6,7 +6,8 @@ using System.Linq;
 using Yasai.Resources;
 using Yasai.Extensions;
 using Yasai.Graphics.Imaging;
-using Yasai.Resources.Loaders;
+using Yasai.Graphics.YasaiSDL;
+using Yasai.Resources.Stores;
 
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
@@ -15,18 +16,19 @@ namespace Yasai.Graphics.Text
 {
     public class SpriteFont : Resource
     {
-        public static string TinyFont => "yasai_fontTiny";
+        public static string FontTiny => "yasai_fontTiny";
+        public static string SymbolFontTiny => "yasai_fontSymbols";
 
         private Dictionary<char, Sprite> glyphs = new Dictionary<char, Sprite>();
 
         private char[] characterSet;
 
-        private Game game;
+        private Renderer renderer;
         
-        public SpriteFont(Game game, IntPtr h, FontArgs args, string path) : base(h, path, args)
+        public SpriteFont(Renderer ren, IntPtr h, FontArgs args, string path) : base(h, path, args)
         {
             characterSet = args.CharacterSet;
-            this.game = game;
+            renderer = ren;
         }
 
         /// <summary>
@@ -36,7 +38,7 @@ namespace Yasai.Graphics.Text
         {
             foreach (char c in characterSet)
             {
-                IntPtr t = SDL_CreateTextureFromSurface(game.Renderer.GetPtr(), 
+                IntPtr t = SDL_CreateTextureFromSurface(renderer.GetPtr(), 
                     TTF_RenderGlyph_Blended(Handle, c, Color.White.ToSdlColor()));
                 
                 glyphs[c] = new Sprite(new Texture(t));

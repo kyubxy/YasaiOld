@@ -19,9 +19,7 @@ namespace Yasai.Graphics.Imaging
     {
         public Texture CurrentTexture { get; protected set; }
         
-        public override bool Loaded => CurrentTexture != null && CurrentTexture.Handle != IntPtr.Zero;
-        
-        private readonly string path;
+        public override bool Loaded => CurrentTexture?.Handle != IntPtr.Zero && base.Loaded;
 
         private Vector2 size = Vector2.Zero; 
         public override Vector2 Size
@@ -74,31 +72,15 @@ namespace Yasai.Graphics.Imaging
         }
 
         public Sprite() { }
-        
-        public Sprite(string path) => this.path = path;
 
         public Sprite(Texture tex)
         {
             CurrentTexture = tex;
+            
             if (SDL_QueryTexture(CurrentTexture.Handle, out _, out _, out _, out _) != 0)
                 throw new Exception(SDL_GetError());
             
             CenterToCurrentTex();
-        }
-        
-        public override void Load(ContentStore store)
-        {
-            if (store == null)
-                throw new NullReferenceException("the content store was null");
-            
-            if (!Loaded)
-                CurrentTexture = store.GetResource<Texture>(path);
-
-            if (!setOrigin)
-                CenterToCurrentTex();
-            
-            base.Load(store);
-            
         }
 
         protected void CenterToCurrentTex()
@@ -120,7 +102,7 @@ namespace Yasai.Graphics.Imaging
                 destRect.w = (int) Size.X;
                 destRect.h = (int) Size.Y;
 
-                SDL_Point origin = Origin.ToSdlPoint();
+                SDL_Point _origin = Origin.ToSdlPoint();
 
                 // update colour and alpha
                 var alphares 
@@ -134,7 +116,7 @@ namespace Yasai.Graphics.Imaging
             
                 // drawing
                 if (Visible && Enabled)
-                    SDL_RenderCopyEx(renderer, CurrentTexture.Handle, IntPtr.Zero, ref destRect, Rotation, ref origin,
+                    SDL_RenderCopyEx(renderer, CurrentTexture.Handle, IntPtr.Zero, ref destRect, Rotation, ref _origin,
                         (SDL_RendererFlip)Flip);
             }
         }
