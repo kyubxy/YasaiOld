@@ -4,10 +4,11 @@ using Yasai.Graphics.Groups;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Resources;
+using Yasai.Structures;
 
 namespace Yasai.VisualTests.GUI
 {
-    public class StatusBar : Group
+    public sealed class StatusBar : Group
     {
         private int HEIGHT => 40;
         
@@ -22,14 +23,10 @@ namespace Yasai.VisualTests.GUI
             Colour = Color.DarkGray;
             Fill = true;
         }
-        
-        public override void LoadComplete()
+
+        public override void Load(DependencyContainer dependencies)
         {
-            base.LoadComplete();
-            Add(title = new SpriteText("", "fnt_smallFont")
-            {
-                Colour = Color.Black
-            });
+            base.Load(dependencies);
             updatePositions();
         }
 

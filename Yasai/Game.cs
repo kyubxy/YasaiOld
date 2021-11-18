@@ -1,10 +1,7 @@
 using System.Reflection;
 using Yasai.Graphics.Groups;
-using Yasai.Graphics.Text;
-using Yasai.Input.Keyboard;
-using Yasai.Resources;
-using Yasai.Resources.Loaders;
 using Yasai.Structures;
+using Yasai.Structures.DI;
 
 namespace Yasai
 {
@@ -13,12 +10,6 @@ namespace Yasai
     /// </summary>
     public class Game : GameBase
     {
-        private ContentStore _content;
-
-        public DependencyContainer Dependencies;
-        
-        private ContentStore fontStore;
-
         protected Group Root;
         
         #region constructors
@@ -37,34 +28,31 @@ namespace Yasai
         public Game(string title, int w, int h, int refreshRate, string[] args = null) 
             : base (title, w, h, refreshRate, args)
         {
-            Content = new ContentStore(this);
-            
             Root = new Group();
             Children.Add(Root);
             Children.Add(FrameRateCounter);
 
             // resource dependencies
-            Dependencies = new DependencyContainer();
-            fontStore = new ContentStore(this);
-            Dependencies.Register<ContentStore>("fonts");
-            Dependencies.Register<Game>(this);
+           //Dependencies = new DependencyContainer();
+           //fontStore = new ContentStore(this);
+           //Dependencies.Register<ContentStore>("fonts");
+           //Dependencies.Register<Game>(this);
         }
         #endregion
 
         /// <summary>
         /// Load framework related resources
         /// </summary>
-        /// <param name="store"></param>
-        private void yasaiLoad(ContentStore store)
+        private void yasaiLoad()
         {
-            store.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
-            fontStore.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
+            //store.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
+            //fontStore.LoadResource("Yasai/OpenSans-Regular.ttf", SpriteFont.TinyFont, new FontArgs(12));
         }
 
-        public override void Load(ContentStore store)
+        public override void Load(DependencyContainer dependencies)
         {
-            yasaiLoad(store);
-            base.Load(store);
+            yasaiLoad();
+            base.Load(dependencies);
         }
     }
 }

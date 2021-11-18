@@ -2,7 +2,8 @@
 using System.Drawing;
 using System.Numerics;
 using Yasai.Resources;
-
+using Yasai.Structures;
+using Yasai.Structures.DI;
 using static SDL2.SDL;
 
 namespace Yasai.Graphics.Primitives
@@ -16,7 +17,7 @@ namespace Yasai.Graphics.Primitives
        public virtual Vector2 Size { get; set; } = new Vector2(200);
        public virtual bool Fill { get; set; } = true;
        public virtual bool Loaded => true;
-       
+
        public float X
        {
            get => Position.X;
@@ -47,7 +48,7 @@ namespace Yasai.Graphics.Primitives
        {
        }
 
-       public virtual void Load(ContentStore store)
+       public virtual void Load(DependencyContainer dependencies)
        {
        }
 
@@ -59,5 +60,8 @@ namespace Yasai.Graphics.Primitives
        {
            SDL_SetRenderDrawColor(renderer, Colour.R, Colour.G, Colour.B, 255);
        }
+
+       public bool Resolved => Dependencies != null;
+       public DependencyContainer Dependencies { get; set; }
     }
 }

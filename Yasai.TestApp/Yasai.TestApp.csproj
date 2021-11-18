@@ -9,4 +9,10 @@
       <ProjectReference Include="..\Yasai\Yasai.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Assets\tex.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
