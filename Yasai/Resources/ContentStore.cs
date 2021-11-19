@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Yasai.Structures;
+using Yasai.Debug.Logging;
 using Yasai.Structures.DI;
 
 namespace Yasai.Resources
@@ -73,7 +73,7 @@ namespace Yasai.Resources
             string loadType = Path.GetExtension(path);
             if (!FileTypes.Contains(loadType))
             {
-                Console.WriteLine(
+                GameBase.YasaiLogger.LogWarning(
                     $"Attempted to load file of type {loadType} into a store of type {typeof(T)}, file was subsequently skipped");
                 return;
             }
@@ -85,7 +85,7 @@ namespace Yasai.Resources
             
             // check if resource exists
             if (!File.Exists(loadPath))
-                throw new FileNotFoundException();
+                throw new FileNotFoundException($"no such {loadPath} could be found");
 
             resources[key] = AcquireResource(loadPath, args);
         }
@@ -107,7 +107,7 @@ namespace Yasai.Resources
             // TODO: load resources from files
             if (Prefs == null)
             {
-                Console.WriteLine("Either the manager is empty or it was not loaded when LoadResources was called");
+                GameBase.YasaiLogger.LogWarning("Either the manager is empty or it was not loaded when LoadResources was called");
                 return;
             }
             
@@ -137,7 +137,7 @@ namespace Yasai.Resources
         public void Unload(string key)
         {
             if (!resources.ContainsKey(key))
-                Console.WriteLine($"no such {key} in store");
+                GameBase.YasaiLogger.LogWarning($"no such {key} in store");
             else
             {
                 resources[key].Dispose();

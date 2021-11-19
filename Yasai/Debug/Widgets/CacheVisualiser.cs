@@ -1,4 +1,4 @@
-namespace Yasai.Debug
+namespace Yasai.Debug.Widgets
 {
     public class CacheVisualiser : Widget
     {

@@ -20,8 +20,7 @@ namespace Yasai.VisualTests
 
         private string lastScreen;
 
-        private string prefPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "YasaiTests", "prefs");
+        private string prefPath => Path.Combine(PrefHelper.HomeDirectory, "prefs");
         
         ScreenManager sm;
         
@@ -33,7 +32,8 @@ namespace Yasai.VisualTests
             {
                 lastScreen = File.ReadAllText(prefPath);
                 if (lastScreen != "")
-                    last = (Screen)Activator.CreateInstance(Assembly.GetExecutingAssembly().GetType(lastScreen) ?? typeof(WelcomeScreen), this);
+                    last = (Screen)Activator.CreateInstance(Assembly.GetExecutingAssembly().GetType(lastScreen) 
+                                                            ?? typeof(WelcomeScreen), this);
             }
             else
             {

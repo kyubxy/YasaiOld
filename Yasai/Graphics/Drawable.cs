@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Numerics;
-using Yasai.Structures;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics

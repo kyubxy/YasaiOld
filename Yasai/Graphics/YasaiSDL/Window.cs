@@ -1,4 +1,5 @@
 using System;
+using Yasai.Debug.Logging;
 using static SDL2.SDL;
 
 namespace Yasai.Graphics.YasaiSDL
@@ -21,7 +22,7 @@ namespace Yasai.Graphics.YasaiSDL
             SDL_SetWindowDisplayMode(window, ref dm);
             
             if (window == IntPtr.Zero)
-                Console.WriteLine($"error on window creation: {SDL_GetError()}");
+                GameBase.YasaiLogger.LogError($"error on window creation: {SDL_GetError()}");
         }
 
         // wrapping SDL function

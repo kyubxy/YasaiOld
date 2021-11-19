@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Microsoft.VisualBasic.CompilerServices;
-using Yasai.Debug;
+using Yasai.Debug.Logging;
 using Yasai.Extensions;
 using Yasai.Graphics.Groups;
 using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
-using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
 
 using static SDL2.SDL;
@@ -39,9 +37,11 @@ namespace Yasai
         
         protected Group Children;
 
+        public static readonly Logger YasaiLogger = new Logger("yasai.log");
+
         #region constructors
         public GameBase(string title, int w, int h, int refreshRate, string[] args = null)
-        { 
+        {
             initialiseEngine();
             
             Dependencies = new DependencyContainer();
@@ -57,11 +57,11 @@ namespace Yasai
         void initialiseEngine()
         {
             // SDL initialisation
-            if (SDL_Init(SDL_INIT_EVERYTHING) != 0) 
-                Console.WriteLine($"error on startup: {SDL_GetError()}");
-            TTF_Init();
+            if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+                YasaiLogger.LogError($"error on startup: {SDL_GetError()}");
 
-            Console.WriteLine("Yasai engine is ready");
+            TTF_Init();
+            YasaiLogger.LogInfo("Spash! ヽ(*・ω・)ﾉ");
         }
         
         public void Run()
@@ -142,7 +142,7 @@ namespace Yasai
             else
             {
                 #if DEBUG
-                Console.WriteLine("Game is invisible. The use of Game.Visible is highly unadvised in the first place!");
+                GameBase.YasaiLogger.LogWarning("Game is invisible. The use of Game.Visible is highly unadvised in the first place!");
                 #endif 
             }
         }
@@ -160,7 +160,7 @@ namespace Yasai
         {
             // TODO: dispose disposable dependencies
             SDL_Quit();
-            Console.WriteLine("Disposed of resources and exited successfully");
+            GameBase.YasaiLogger.LogInfo("Disposed of resources and exited successfully");
         }
         
         #region input

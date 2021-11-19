@@ -1,16 +1,14 @@
 using System;
 using System.Drawing;
 using System.Numerics;
+using Yasai.Debug.Logging;
 using Yasai.Graphics;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
-using Yasai.Input.Keyboard;
-using Yasai.Resources;
-using Yasai.Structures;
 using Yasai.Structures.DI;
 using static SDL2.SDL;
 
-namespace Yasai.Debug
+namespace Yasai.Debug.Widgets
 {
     public class FrameRateCounter : Widget
     {
@@ -29,7 +27,7 @@ namespace Yasai.Debug
             if (anchor != Anchor.TopLeft)
             {
                 this.anchor = Anchor.TopLeft;
-                Console.WriteLine("other anchors are not supported yet");
+                GameBase.YasaiLogger.LogDebug("other anchors are not supported yet");
             } 
         }
         

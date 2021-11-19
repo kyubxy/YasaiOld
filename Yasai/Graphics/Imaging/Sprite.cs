@@ -1,6 +1,7 @@
 using System;
 using System.Numerics;
 using System.Drawing;
+using Yasai.Debug.Logging;
 using Yasai.Extensions;
 using Yasai.Resources;
 
@@ -66,7 +67,7 @@ namespace Yasai.Graphics.Imaging
                 if (alpha > 1)
                 {
                     alpha = 1;
-                    Console.WriteLine("alpha was larger than 1, ensure that alpha remains a number between 0 and 1");
+                    GameBase.YasaiLogger.LogWarning("alpha was larger than 1, ensure that alpha remains a number between 0 and 1");
                 }
             }
         }

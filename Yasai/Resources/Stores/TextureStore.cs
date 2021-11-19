@@ -1,8 +1,9 @@
 ﻿using System;
+using Yasai.Debug.Logging;
 using Yasai.Graphics.Imaging;
 using Yasai.Graphics.YasaiSDL;
-using Yasai.Structures;
 using Yasai.Structures.DI;
+
 using static SDL2.SDL_image;
 using static SDL2.SDL;
 
@@ -17,11 +18,11 @@ namespace Yasai.Resources.Stores
 
         public override string[] FileTypes => new [] {".png", ".jpg", ".jpeg", ".webp"};
         public override IResourceArgs DefaultArgs => new EmptyResourceArgs();
-        
+
         protected override Texture AcquireResource(string path, IResourceArgs args)
         {
             if (args != null)
-                Console.WriteLine("ImageLoader does not support args");
+                GameBase.YasaiLogger.LogWarning("ImageLoader does not support args");
             
             IntPtr surface = IMG_Load(path);
 

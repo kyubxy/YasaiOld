@@ -2,7 +2,6 @@ using System.Reflection;
 using Yasai.Graphics.Groups;
 using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
-using Yasai.Structures;
 using Yasai.Structures.DI;
 
 namespace Yasai
@@ -15,6 +14,7 @@ namespace Yasai
         protected Group Root;
 
         private FontStore fontStore;
+
         
         #region constructors
         public Game(string[] args = null) 
@@ -36,7 +36,7 @@ namespace Yasai
             Children.Add(Root);
 
             // register font store 
-            Dependencies.Register<FontStore>(fontStore = new FontStore(Dependencies, @"Assets\Fonts"));
+            Dependencies.Register<FontStore>(fontStore = new FontStore(Dependencies, @"Assets/Fonts"));
         }
         #endregion
 

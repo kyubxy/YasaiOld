@@ -1,7 +1,7 @@
 using Yasai.Input.Keyboard;
 using Yasai.Screens;
 
-namespace Yasai.Debug
+namespace Yasai.Debug.Widgets
 {
     public class DebugOverlay : Screen
     {

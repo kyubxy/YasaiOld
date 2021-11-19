@@ -1,4 +1,5 @@
 using System;
+using Yasai.Debug.Logging;
 using static SDL2.SDL;
 
 namespace Yasai.Graphics.YasaiSDL
@@ -14,7 +15,7 @@ namespace Yasai.Graphics.YasaiSDL
             renderer = SDL_CreateRenderer(window.GetPtr(), -1,
                 SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
             if (renderer == IntPtr.Zero)
-                Console.WriteLine($"error on renderer creation: {SDL_GetError()}");
+                GameBase.YasaiLogger.LogError($"error on renderer creation: {SDL_GetError()}");
         }
 
         // wrap some functions

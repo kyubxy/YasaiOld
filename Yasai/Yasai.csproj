@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
     <Title>Yasai</Title>
     <Authors>yasa</Authors>
     <Description>my personal graphics playground for C#, powered by SDL</Description>
     <PackageProjectUrl>https://github.com/EpicTofuu/Yasai</PackageProjectUrl>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -81,10 +81,6 @@
     <None Update="Assets\Fonts\OpenSans-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NLog" Version="4.7.11" />
   </ItemGroup>
 
 </Project>
