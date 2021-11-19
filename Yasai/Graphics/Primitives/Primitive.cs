@@ -16,7 +16,7 @@ namespace Yasai.Graphics.Primitives
        public virtual Vector2 Position { get; set; } = new Vector2(400);
        public virtual Vector2 Size { get; set; } = new Vector2(200);
        public virtual bool Fill { get; set; } = true;
-       public virtual bool Loaded => true;
+       public virtual bool Loaded => Dependencies != null;
 
        public float X
        {
