@@ -4,7 +4,7 @@ using System.Drawing;
 using Yasai.Debug.Logging;
 using Yasai.Extensions;
 using Yasai.Resources;
-
+using Yasai.Structures.DI;
 using static SDL2.SDL;
 
 namespace Yasai.Graphics.Imaging
@@ -35,18 +35,6 @@ namespace Yasai.Graphics.Imaging
             }
         }
 
-        private bool setOrigin;
-        private Vector2 origin;
-        public override Vector2 Origin
-        {
-            get => origin;
-            set
-            {
-                setOrigin = true;
-                origin = value;
-            }
-        }
-
         public Flip Flip = Flip.None;
         
         private Color colour = Color.White;
@@ -72,6 +60,19 @@ namespace Yasai.Graphics.Imaging
             }
         }
 
+        // VERY temporary
+        private bool setOrigin;
+        private Vector2 origin;
+        public override Vector2 Origin
+        {
+            get => origin;
+            set
+            {
+                origin = value;
+                setOrigin = true;
+            }
+        }
+
         public Sprite() { }
 
         public Sprite(Texture tex)
@@ -81,7 +82,13 @@ namespace Yasai.Graphics.Imaging
             if (SDL_QueryTexture(CurrentTexture.Handle, out _, out _, out _, out _) != 0)
                 throw new Exception(SDL_GetError());
             
-            CenterToCurrentTex();
+        }
+
+        public override void Load(DependencyContainer dependencies)
+        {
+            base.Load(dependencies);
+            if (!setOrigin)
+                CenterToCurrentTex();
         }
 
         protected void CenterToCurrentTex()
