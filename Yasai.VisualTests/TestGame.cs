@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Yasai.VisualTests.Scenarios;
 using Yasai.Input.Keyboard;
 using Yasai.Resources;
 using Yasai.Resources.Stores;
@@ -23,26 +22,29 @@ namespace Yasai.VisualTests
         private string prefPath => Path.Combine(PrefHelper.HomeDirectory, "prefs");
         
         ScreenManager sm;
+
+        private TextureStore textureStore;
         
-        public TestGame() 
+        public TestGame()
         {
+            textureStore = new TextureStore(Dependencies);
+            Dependencies.Register<TextureStore>(textureStore);
+            
             // load last screen
-            Screen last = new WelcomeScreen(this);
+            Screen last = new WelcomeScreen();
             if (File.Exists(prefPath))
             {
                 lastScreen = File.ReadAllText(prefPath);
                 if (lastScreen != "")
                     last = (Screen)Activator.CreateInstance(Assembly.GetExecutingAssembly().GetType(lastScreen) 
-                                                            ?? typeof(WelcomeScreen), this);
+                                                            ?? typeof(WelcomeScreen));
             }
             else
             {
                 Directory.CreateDirectory(
-                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YasaiTests"));
+                    Path.Combine(PrefHelper.HomeDirectory, "YasaiTests"));
                 File.WriteAllLines(prefPath, new string []{});
             }
-
-            last = new WelcomeScreen(this);
             
             // find all tests
             sm = new ScreenManager(last);
@@ -75,7 +77,9 @@ namespace Yasai.VisualTests
         {
             base.KeyDown(key);
             if (key.IsPressed(KeyCode.TAB) && key.IsPressed(KeyCode.LSHIFT))
+            {
                 picker.Enabled = !picker.Enabled;
+            }
         }
     }
 }

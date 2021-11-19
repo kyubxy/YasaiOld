@@ -93,12 +93,6 @@ namespace Yasai.VisualTests.GUI
             }
         }
 
-        public override void MouseMotion(MouseArgs args)
-        {
-            if (Loaded)
-                base.MouseMotion(args);
-        }
-
         void updatePositions()
         {
             if (Loaded)

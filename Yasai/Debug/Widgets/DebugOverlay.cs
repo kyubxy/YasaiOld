@@ -26,7 +26,9 @@ namespace Yasai.Debug.Widgets
             
             // toggle frame rate
             if (key.IsPressed(KeyCode.LCTRL) && key.IsPressed(KeyCode.F11))
+            {
                 FrameRateCounter.Enabled = !FrameRateCounter.Enabled;
+            }
         }
     }
 }

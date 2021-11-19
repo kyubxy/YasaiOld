@@ -5,10 +5,8 @@ using System.Linq;
 using System.Numerics;
 using Yasai.Debug;
 using Yasai.Graphics.Primitives;
-using Yasai.Input;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
-using Yasai.Structures;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Groups
@@ -53,21 +51,6 @@ namespace Yasai.Graphics.Groups
                 box.Enabled = value;
             }
         }
-
-       //private DependencyContainer dependencies;
-       //public override DependencyContainer Dependencies
-       //{
-       //    get => dependencies;
-       //    set
-       //    {
-       //        dependencies = value;
-       //        
-       //        // resolve child dependencies
-       //        foreach (IDrawable client in children)
-       //            client.Dependencies = dependencies;
-       //    }
-       //}
-
 
         #region constructors
         public Group(List<IDrawable> children)
@@ -178,116 +161,65 @@ namespace Yasai.Graphics.Groups
         
         #endregion
 
-        // i also like good and maintainable code
-        
-        public virtual void KeyUp(KeyArgs key)
+        public override void KeyDown(KeyArgs key)
         {
-            if (!Enabled)
-                return;
-            
-            foreach (var k in children)
+            foreach (IDrawable handler in children)
             {
-                IKeyListener listener = k as IKeyListener;
-                if (listener == null) 
-                    continue;
-
-                if (isActiveInStack((listener)))
-                    listener.KeyUp(key);
-            }
-        }
-
-        public virtual void KeyDown(KeyArgs key)
-        {
-            if (!Enabled)
-                return;
-            
-            foreach (var k in children)
-            {
-                IKeyListener listener = k as IKeyListener;
-                if (listener == null) 
-                    continue;
-            
-                if (isActiveInStack(listener))
-                    listener.KeyDown(key);
-            }
-        }
-
-        public virtual void MouseDown(MouseArgs args)
-        {
-            if (!Enabled)
-                return;
-            
-            MouseButton button = args.Button;
-            Vector2 mousepos = args.Position;
-            
-            foreach (var k in children)
-            {
-                IMouseListener listener = k as IMouseListener;
-                if (listener == null)
-                    continue;
+                if (!handler.Enabled)
+                    break;
                 
-                if (isActiveInStack(listener))
-                    listener.MouseDown(args);
+                handler.KeyDown(key);
             }
         }
-
-        public virtual void MouseUp(MouseArgs args)
+        
+        public override void KeyUp(KeyArgs key)
         {
-            if (!Enabled)
-                return;
-            
-            MouseButton button = args.Button;
-            Vector2 mousepos = args.Position;
-            
-            foreach (var k in children)
+            foreach (IDrawable handler in children)
             {
-                IMouseListener listener = k as IMouseListener;
-                if (listener == null)
-                    continue;
-
-                if (isActiveInStack(listener))
-                    listener.MouseUp(args);
+                if (!handler.Enabled)
+                    break;
+                
+                handler.KeyUp(key);
             }
         }
 
-        public virtual void MouseMotion(MouseArgs args)
+        public override void MouseDown(MouseArgs args)
         {
-            if (!Enabled)
-                return;
-            
-            MouseButton button = args.Button;
-            Vector2 mousepos = args.Position;
-            
-            foreach (var k in children)
+            foreach (IDrawable handler in children)
             {
-                IMouseListener listener = k as IMouseListener;
-                if (listener == null)
-                    continue;
-
-                if (isActiveInStack(listener))
-                    listener.MouseMotion(args);
+                if (!handler.Enabled)
+                    break;
+                
+                handler.MouseDown(args);
             }
+            
+            base.MouseDown(args);
         }
-
-        bool isActiveInStack(IListener x)
+        
+        public override void MouseUp(MouseArgs args)
         {
-            if (x.IgnoreHierarchy && x.Enabled)
-                return true;
-
-            Stack<IDrawable> reversed = new Stack<IDrawable>(this);
-            while (reversed.Count > 0)
+            foreach (IDrawable handler in children)
             {
-                var h = (IListener)reversed.Pop();
-                if (h.Enabled && !h.IgnoreHierarchy)
-                {
-                    return h == x;
-                }
-
-                if (h == x)
-                    return true;
+                if (!handler.Enabled)
+                    break;
+                
+                handler.MouseUp(args);
             }
-            return false;
+            
+            base.MouseUp(args);
         }
-
+        
+        public override void MouseMotion(MouseArgs args)
+        {
+            foreach (IDrawable handler in children)
+            {
+                if (!handler.Enabled)
+                    break;
+                
+                handler.MouseMotion(args);
+            }
+            
+            base.MouseMotion(args);
+        }
     }
 }

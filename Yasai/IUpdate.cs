@@ -1,7 +1,8 @@
 namespace Yasai
 {
-    public interface IUpdate : IEnablable
+    public interface IUpdate
     {
+        bool Enabled { get; set; }
         public void Update();
     }
 }

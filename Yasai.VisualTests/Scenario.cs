@@ -1,18 +1,11 @@
 ﻿using System;
-
 using Yasai.Screens;
 
-namespace Yasai.VisualTests.Scenarios
+namespace Yasai.VisualTests
 {
     public class Scenario : Screen
     {
         public string Name => GetType().Name;
-        protected Game Game;
-
-        public Scenario(Game game)
-        {
-            Game = game;
-        }
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿namespace Yasai.Input.Mouse
 {
-    public interface IMouseListener : IListener
+    public interface IMouseHandler : IHandler
     {
         void MouseDown (MouseArgs args);
         void MouseUp (MouseArgs args);

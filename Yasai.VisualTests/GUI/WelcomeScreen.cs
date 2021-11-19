@@ -2,16 +2,11 @@ using System.Numerics;
 using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
-using Yasai.VisualTests.Scenarios;
 
 namespace Yasai.VisualTests.GUI
 {
     public class WelcomeScreen : Scenario
     {
-        public WelcomeScreen(Game game) 
-            : base (game)
-        { }
-        
         public override void Load (DependencyContainer container)
         {
             base.Load(container);

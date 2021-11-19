@@ -8,11 +8,10 @@ using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
 using Yasai.Screens;
 using Yasai.Structures.DI;
-using Yasai.VisualTests.Scenarios;
 
 namespace Yasai.VisualTests.GUI
 {
-    sealed class Button : ClickableGroup
+    sealed class Button : Group
     {
         private readonly ScreenManager sm;
 
@@ -38,12 +37,10 @@ namespace Yasai.VisualTests.GUI
             }
         }
 
-        public override bool IgnoreHierarchy => true;
-
         public Button(ScreenManager sm, Type s, Game game)
         {
             this.sm = sm;
-            scenario = (Scenario)Activator.CreateInstance(s, game);
+            scenario = (Scenario)Activator.CreateInstance(s);
 
             OnExit  += (_, _) => back.Colour = Color.White;
             OnEnter += (_, _) => back.Colour = Color.LightGray;
