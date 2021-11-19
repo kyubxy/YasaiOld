@@ -22,7 +22,6 @@ namespace Yasai.VisualTests.Scenarios.Drawables
             base.Load(container);
             
             var texstore = container.Resolve<TextureStore>();
-            texstore.LoadResource("ino.png");
             var tex = texstore.GetResource("ino");
 
             var fontstore = container.Resolve<FontStore>();

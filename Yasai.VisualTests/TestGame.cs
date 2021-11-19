@@ -23,12 +23,12 @@ namespace Yasai.VisualTests
         
         ScreenManager sm;
 
-        private TextureStore textureStore;
         
         public TestGame()
         {
-            textureStore = new TextureStore(Dependencies);
+            TextureStore textureStore = new TextureStore(Dependencies);
             Dependencies.Register<TextureStore>(textureStore);
+            textureStore.LoadAll();
             
             // load last screen
             Screen last = new WelcomeScreen();
