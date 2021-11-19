@@ -14,7 +14,7 @@ This framework features an awful mismatch of imperative and declerative programm
 I like writing code that does nothing impressive.
 
 ### Why is CI failing
-Yasai is currently using SDL2CS through a custom submodule. Too lazy to fix, but later we'll be using veldrid which won't require submodules. CI will probably work then.
+Yasai is currently using SDL2CS through a custom submodule. Too lazy to fix, but later we'll be using OpenTK which won't require submodules. CI will probably work then.
 
 # Contribution and Use
 This is literally a worse version of [osu!framework](https://github.com/ppy/osu-framework), if you're looking for something similar just use that.
