@@ -9,7 +9,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.Screens
 {
-    public class ScreenManager : Drawable, IGroup
+    public class ScreenManager : Drawable, IContainer
     {
         public Screen CurrentScreen { get; private set; }
 

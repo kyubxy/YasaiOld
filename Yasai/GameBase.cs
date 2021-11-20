@@ -21,7 +21,7 @@ namespace Yasai
     /// <summary>
     /// The bare essentials of a Yasai application
     /// </summary>
-    public class GameBase : IGroup, IDisposable
+    public class GameBase : IContainer, IDisposable
     {
         public Window Window { get; }
         public Renderer Renderer { get; }
@@ -41,7 +41,7 @@ namespace Yasai
         
         public DependencyContainer Dependencies { get; }
         
-        protected Group Children;
+        protected Container Children;
 
         internal static readonly Logger YasaiLogger = new ("yasai.log");
 
@@ -55,7 +55,7 @@ namespace Yasai
             Dependencies.Register<Window>(Window = new Window(title, w, h, refreshRate));
             Dependencies.Register<Renderer>(Renderer = new Renderer(Window));
 
-            Children = new Group();
+            Children = new Container();
         }
         #endregion
 

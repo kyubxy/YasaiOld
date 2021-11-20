@@ -35,7 +35,7 @@ namespace Yasai.VisualTests.Scenarios.Drawables
                 },
                 
                 // center
-                new Group (new IDrawable[]
+                new Container (new IDrawable[]
                 {
                     center = new Sprite(tex)
                     {
@@ -55,7 +55,7 @@ namespace Yasai.VisualTests.Scenarios.Drawables
                 }),
                 
                 // topleft
-                new Group (new IDrawable[]
+                new Container (new IDrawable[]
                 {
                     topLeft = new Sprite(tex)
                     {

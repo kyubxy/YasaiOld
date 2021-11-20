@@ -12,11 +12,16 @@ using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Groups
 {
-    public class Group : Drawable, IGroup, ICollection<IDrawable>
+    public class Container : Drawable, IContainer, ICollection<IDrawable>
     {
         private readonly List<IDrawable> children;
 
         private readonly Primitive box;
+
+        public IDrawable[] Items
+        {
+            init => AddAll(value);
+        }
 
         private Vector2 position = Vector2.Zero;
         public override Vector2 Position
@@ -63,7 +68,7 @@ namespace Yasai.Graphics.Groups
         }
 
         #region constructors
-        public Group(List<IDrawable> children)
+        public Container(List<IDrawable> children)
         {
             this.children = new List<IDrawable>();
             AddAll(children.ToArray());
@@ -73,10 +78,10 @@ namespace Yasai.Graphics.Groups
             Fill = false;
         }
 
-        public Group() : this (new List<IDrawable>())
+        public Container() : this (new List<IDrawable>())
         { }
 
-        public Group(IDrawable[] children) : this(children.ToList())
+        public Container(IDrawable[] children) : this(children.ToList())
         { }
         #endregion
 

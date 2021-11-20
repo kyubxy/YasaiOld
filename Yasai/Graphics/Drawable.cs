@@ -12,14 +12,14 @@ namespace Yasai.Graphics
 {
     public abstract class Drawable : IDrawable, IGeometry, IGraphicsModifiable 
     {
-        
-        public virtual Vector2 Position { get; set; }
+        public virtual Vector2 Position { get; set; } = Vector2.Zero;
         public virtual Vector2 Size { get; set; } = new (100);
-        public virtual float Rotation { get; set; }
-        public virtual Anchor Anchor { get; set; }
-        public virtual Anchor Origin { get; set; }
-        public virtual Vector2 Offset { get; set; }
-        
+        public virtual float Rotation { get; set; } 
+        public virtual Anchor Anchor { get; set; } = Anchor.TopLeft;
+        public virtual Anchor Origin { get; set; } = Anchor.TopLeft;
+        public virtual Vector2 Offset { get; set; } = Vector2.Zero;
+        public Vector2 Scale { get; set; } = Vector2.One;
+
         public virtual bool Visible { get; set; } = true;
         public virtual bool Enabled { get; set; } = true;
         
@@ -37,7 +37,8 @@ namespace Yasai.Graphics
 
         public virtual Color Colour { get; set; }
 
-        public Matrix3 Transformations => Parent.Transformations; // + all the current transforms
+        public Matrix3 Transformations => Matrix.DotMultiply(Parent?.Transformations ?? Matrix.Identity,
+            Matrix.GetTranslationMat(Position));
 
         public float X
         {

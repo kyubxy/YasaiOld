@@ -12,7 +12,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.VisualTests.GUI
 {
-    public sealed class TestPicker : Group
+    public sealed class TestPicker : Container
     {
         private int BUTTON_HEIGHT => 40;
         private int BUTTON_WIDTH => 300;
@@ -30,7 +30,7 @@ namespace Yasai.VisualTests.GUI
         private Box headerBox;
         private Box bodyBox;
         private SpriteText title;
-        private Group buttons;
+        private Container buttons;
 
         private bool enabled;
         public override bool Enabled
@@ -73,7 +73,7 @@ namespace Yasai.VisualTests.GUI
                {
                    Colour = Color.White
                },
-               buttons = new Group()
+               buttons = new Container()
             });
             
             foreach (var s in scenarios)

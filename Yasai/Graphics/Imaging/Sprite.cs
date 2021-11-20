@@ -2,6 +2,7 @@ using System;
 using System.Numerics;
 using System.Drawing;
 using Yasai.Extensions;
+using Yasai.Maths;
 using Yasai.Structures.DI;
 using static SDL2.SDL;
 
@@ -89,9 +90,11 @@ namespace Yasai.Graphics.Imaging
             if (CurrentTexture != null)
             {
                 // positioning
+                var pos = Matrix.GetTranslationFromMat(Transformations);
+                
                 SDL_Rect destRect;
-                destRect.x = (int) Position.X;
-                destRect.y = (int) Position.Y;
+                destRect.x = (int) pos.X;
+                destRect.y = (int) pos.Y;
                 destRect.w = (int) Size.X;
                 destRect.h = (int) Size.Y;
 

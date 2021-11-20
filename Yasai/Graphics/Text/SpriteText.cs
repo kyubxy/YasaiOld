@@ -8,7 +8,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Text
 {
-    public class SpriteText : Group
+    public class SpriteText : Container
     {
         private string text = "";
         public string Text

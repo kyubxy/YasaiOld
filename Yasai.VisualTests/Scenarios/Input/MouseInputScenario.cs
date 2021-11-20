@@ -50,7 +50,7 @@ namespace Yasai.VisualTests.Scenarios.Input
             }
         }
 
-        sealed class EventMouseConsumer : Group
+        sealed class EventMouseConsumer : Container
         {
             SpriteText statusText;
 
@@ -127,7 +127,7 @@ namespace Yasai.VisualTests.Scenarios.Input
                 {
                     Position = new Vector2(230, 180)
                 },
-                new Group(new IDrawable[]
+                new Container(new IDrawable[]
                 {
                     new EventMouseConsumer
                     {

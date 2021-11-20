@@ -6,7 +6,7 @@ using Yasai.Resources;
 
 namespace Yasai.Debug
 {
-    public class Widget : Group
+    public class Widget : Container
     {
         protected Color BACKGROUND_COLOUR = Color.DimGray;
 

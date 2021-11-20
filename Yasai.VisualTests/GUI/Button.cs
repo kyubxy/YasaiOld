@@ -11,7 +11,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.VisualTests.GUI
 {
-    sealed class Button : Group
+    sealed class Button : Container
     {
         private readonly ScreenManager sm;
         private Scenario scenario;
@@ -41,16 +41,6 @@ namespace Yasai.VisualTests.GUI
         {
             this.sm = sm;
             scenarioType = s;
-
-            OnExit  += (_, _) => back.Colour = Color.White;
-            OnEnter += (_, _) => back.Colour = Color.LightGray;
-            OnClick += (_, _) => back.Colour = Color.Gray;
-            OnRelease += (sender, args) =>
-            {
-                scenario = (Scenario)Activator.CreateInstance(s);
-                this.sm.PushScreen(scenario);
-                OnSelect?.Invoke(sender, args);
-            };
         }
 
         public override void Load(DependencyContainer dependencies)
@@ -71,6 +61,16 @@ namespace Yasai.VisualTests.GUI
                     Colour = Color.Black
                 }
             });
+            
+            OnExit  += (_, _) => back.Colour = Color.White;
+            OnEnter += (_, _) => back.Colour = Color.LightGray;
+            OnClick += (_, _) => back.Colour = Color.Gray;
+            OnRelease += (sender, args) =>
+            {
+                scenario = (Scenario)Activator.CreateInstance(scenarioType);
+                this.sm.PushScreen(scenario);
+                OnSelect?.Invoke(sender, args);
+            };
         }
     }
 

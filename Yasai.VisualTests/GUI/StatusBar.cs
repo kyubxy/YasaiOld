@@ -10,7 +10,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.VisualTests.GUI
 {
-    public sealed class StatusBar : Group
+    public sealed class StatusBar : Container
     {
         private int HEIGHT => 40;
         

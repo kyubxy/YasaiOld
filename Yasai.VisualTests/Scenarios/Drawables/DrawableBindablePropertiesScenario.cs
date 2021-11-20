@@ -14,22 +14,23 @@ namespace Yasai.VisualTests.Scenarios.Drawables
         {
             AddAll(new IDrawable[]
             {
-                new Group(new IDrawable[]
-                {
-                    new Box()
-                    {
-                        Position = new Vector2(20),
-                    },
-                    new Box()
-                    {
-                        Position = new Vector2(200),
-                    },
-                })
+                new Container ()
                 {
                     Colour = Color.Aqua,
                     Fill = true,
+                    Alpha = 0.7f,
+                    Items = new IDrawable[]
+                    {
+                        new Box()
+                        {
+                            Position = new Vector2(20),
+                        },
+                        new Box()
+                        {
+                            Position = new Vector2(200),
+                        },
+                    },
                 },
-                
                 new Box()
                 {
                     Position = new Vector2(400),
