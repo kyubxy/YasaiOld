@@ -105,12 +105,13 @@ namespace Yasai.Graphics.Imaging
                 
                 // get the difference between the x and y coords and use those as the sizes
                 // TODO:
+                var big = new Vector2();
                 
                 SDL_Rect destRect;
                 destRect.x = (int) pos.X;
                 destRect.y = (int) pos.Y;
-                destRect.w = (int) Size.X;
-                destRect.h = (int) Size.Y;
+                destRect.w = (int) big.X;
+                destRect.h = (int) big.Y;
 
                 SDL_Point _origin = Offset.ToSdlPoint();
 

@@ -10,7 +10,7 @@ using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Structures.DI;
 
-namespace Yasai.Graphics.Groups
+namespace Yasai.Graphics.Containers
 {
     public class Container : Drawable, IContainer, ICollection<IDrawable>
     {
