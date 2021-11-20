@@ -27,7 +27,7 @@ namespace Yasai.TestApp
 
             var store = dependencies.Resolve<FontStore>();
 
-            Children = new Group(new IDrawable[]
+            Children = new Container(new IDrawable[]
             {
                 new SpriteText("penis", store.GetResource(SpriteFont.FontTiny))
                 {

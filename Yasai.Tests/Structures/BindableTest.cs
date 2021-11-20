@@ -51,7 +51,14 @@ namespace Yasai.Tests.Structures
             Assert.Equal(12, a.Value);
             Assert.Equal(12, b.Value);
 
-            Assert.Throws<InvalidOperationException>(() => a.Value = 69);
+            try
+            {
+                Assert.Throws<InvalidOperationException>(() => a.Value = 69);
+            }
+            catch (InvalidOperationException _)
+            {
+                
+            }
         }
 
         [Fact]

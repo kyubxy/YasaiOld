@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Yasai.Structures;
 
 namespace Yasai.Graphics
 {

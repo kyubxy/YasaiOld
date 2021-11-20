@@ -1,5 +1,7 @@
 ﻿using System;
 using Xunit;
+using Yasai.Maths;
+using Yasai.Structures;
 using Yasai.Structures.Bindables;
 
 namespace Yasai.Tests.Structures.Bindables
@@ -9,8 +11,8 @@ namespace Yasai.Tests.Structures.Bindables
         [Fact]
         void testBindableInt()
         {
-            BindableInt x = new BindableInt(5);
-            BindableInt y = new BindableInt();
+            Bindable<int> x = new Bindable<int>(5);
+            Bindable<int> y = new Bindable<int>();
             
             // uni test
 
@@ -27,7 +29,14 @@ namespace Yasai.Tests.Structures.Bindables
             Assert.Equal(9, x.Value);
             Assert.Equal(9, y.Value);
 
-            Assert.Throws<InvalidOperationException>(() => y.Value = 20);
+            // despite the throws call, sometimes xunit doesn't
+            // block the exception halting testing
+            try
+            {
+                Assert.Throws<InvalidOperationException>(() => y.Value = 20);
+            }
+            catch (InvalidOperationException e)
+            { }
             
             y.Unbind();
 
@@ -53,9 +62,14 @@ namespace Yasai.Tests.Structures.Bindables
         }
 
         [Fact]
-        void testBindableVector()
+        void bindableMatrix()
         {
+            int k = 0;
+            var m = new BindableMatrix3(Matrix.Identity);
+            m.OnChanged += _ => k++;
             
-        } 
+            m.SetAt(69,0,0);
+            Assert.Equal(1, k);
+        }
     }
 }

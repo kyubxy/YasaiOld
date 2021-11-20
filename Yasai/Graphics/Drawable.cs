@@ -3,24 +3,52 @@ using System.Drawing;
 using System.Numerics;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
+using Yasai.Maths;
+using Yasai.Structures;
+using Yasai.Structures.Bindables;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics
 {
     public abstract class Drawable : IDrawable, IGeometry, IGraphicsModifiable 
     {
-        public virtual Vector2 Position { get; set; }
-        public virtual Vector2 Origin { get; set; }
+        public virtual Vector2 Position { get; set; } = Vector2.Zero;
         public virtual Vector2 Size { get; set; } = new (100);
-        public virtual float Rotation { get; set; }
+        public virtual Anchor Anchor { get; set; } = Anchor.TopLeft;
+        public virtual Anchor Origin { get; set; } = Anchor.TopLeft;
+        public virtual Vector2 Offset { get; set; } = Vector2.Zero;
+        public Vector2 Scale { get; set; } = Vector2.One;
+
         public virtual bool Visible { get; set; } = true;
         public virtual bool Enabled { get; set; } = true;
+        
+        protected DependencyContainer Dependencies { get; private set; }
         public virtual bool Loaded => Dependencies != null;
 
-        public virtual float Alpha { get; set; }
+        public Drawable Parent { get; set; }
+
+        private float rotation;
+
+        public virtual float Rotation
+        {
+            get => rotation;
+            set => rotation = value % (float)Math.PI;
+        }
+
+        private float alpha = 1;
+        public virtual float Alpha
+        {
+            get => alpha * (Parent?.alpha ?? 1);
+            set => alpha = value;
+        }
+
         public virtual Color Colour { get; set; }
 
-        protected DependencyContainer Dependencies { get; set; }
+        public Matrix3 Transformations
+            => (Parent?.Transformations ?? Matrix.Identity) *
+               Matrix.GetTranslationMat(Position) *
+               Matrix.GetRotationMat(Rotation) 
+               ;
 
         public float X
         {
@@ -44,7 +72,7 @@ namespace Yasai.Graphics
             get => Size.Y;
             set => Size = new Vector2(Size.X, value);
         }
-        
+
         public virtual void Load(DependencyContainer dependencies)
             => Dependencies = dependencies;
 

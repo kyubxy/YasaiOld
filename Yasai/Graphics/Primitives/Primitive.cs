@@ -13,6 +13,7 @@ namespace Yasai.Graphics.Primitives
     public abstract class Primitive : IDrawable, ISimpleGeometry
     {
         public virtual bool Enabled { get; set; } = true;
+        public Drawable Parent { get; set; }
         public virtual bool Visible { get; set; } = true;
         public virtual Color Colour { get; set; } = Color.White;
         public virtual Vector2 Position { get; set; } = new Vector2(400);

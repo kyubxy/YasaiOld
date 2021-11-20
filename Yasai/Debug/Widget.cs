@@ -6,10 +6,8 @@ using Yasai.Resources;
 
 namespace Yasai.Debug
 {
-    public class Widget : Group
+    public class Widget : Container
     {
-        public override bool IgnoreHierarchy => true;
-
         protected Color BACKGROUND_COLOUR = Color.DimGray;
 
         public Widget()
