@@ -22,7 +22,7 @@ namespace Yasai.Graphics.Imaging
         
         public override bool Loaded => CurrentTexture?.Handle != IntPtr.Zero && base.Loaded;
 
-        private Vector2 size = Vector2.Zero; 
+        private Vector2 size = new Vector2(100);
         public override Vector2 Size
         {
             get => size;
@@ -31,7 +31,7 @@ namespace Yasai.Graphics.Imaging
                 size = value;
                 
                 if (!Loaded) return;
-                Origin = new Vector2(Size.X / 2, Size.Y / 2);
+                Offset = new Vector2(Size.X / 2, Size.Y / 2);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Yasai.Graphics.Imaging
         // VERY temporary
         private bool setOrigin;
         private Vector2 origin;
-        public override Vector2 Origin
+        public override Vector2 Offset
         {
             get => origin;
             set
@@ -94,7 +94,7 @@ namespace Yasai.Graphics.Imaging
         protected void CenterToCurrentTex()
         {
             Size = Size == Vector2.Zero ? CurrentTexture.Size : Size;
-            Origin = new Vector2(Size.X / 2, Size.Y / 2);
+            Offset = new Vector2(Size.X / 2, Size.Y / 2);
         }
         
         public override void Draw(IntPtr renderer)
@@ -110,7 +110,7 @@ namespace Yasai.Graphics.Imaging
                 destRect.w = (int) Size.X;
                 destRect.h = (int) Size.Y;
 
-                SDL_Point _origin = Origin.ToSdlPoint();
+                SDL_Point _origin = Offset.ToSdlPoint();
 
                 // update colour and alpha
                 var alphares 

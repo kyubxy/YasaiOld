@@ -6,7 +6,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.Tests.Graphics.Groups
 {
-    public class GroupTests
+    public class GroupTest
     {
         class TestClient : Drawable
         {

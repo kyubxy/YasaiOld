@@ -61,7 +61,7 @@ namespace Yasai.VisualTests.Scenarios.Drawables
                     {
                         Position = new Vector2(700,200),
                         Size = new Vector2(200),
-                        Origin = Vector2.Zero
+                        Offset = Vector2.Zero
                     },
                     new Box()
                     {

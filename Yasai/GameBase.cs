@@ -37,7 +37,7 @@ namespace Yasai
         
         protected Group Children;
 
-        public static readonly Logger YasaiLogger = new Logger("yasai.log");
+        internal static readonly Logger YasaiLogger = new ("yasai.log");
 
         #region constructors
         public GameBase(string title, int w, int h, int refreshRate, string[] args = null)
@@ -50,7 +50,6 @@ namespace Yasai
             Dependencies.Register<Renderer>(Renderer = new Renderer(Window));
 
             Children = new Group();
-
         }
         #endregion
 
