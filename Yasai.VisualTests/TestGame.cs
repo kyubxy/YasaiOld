@@ -22,7 +22,6 @@ namespace Yasai.VisualTests
         private string prefPath => Path.Combine(PrefHelper.HomeDirectory, "prefs");
         
         ScreenManager sm;
-
         
         public TestGame()
         {
