@@ -150,9 +150,10 @@ namespace Yasai.Maths
                 Math.Sin(angle),  Math.Cos(angle), 0,
                 0, 0, 1
             });
-
+        
+        // TODO: get all four vectors, take their inverses and average them out
         public static float GetRotationFromMat(Matrix3 mat)
-            => (float)Math.Acos(mat.GetAt(0, 0)); // <- TODO: get all four vectors, take their inverses and average them out
+            => (float)Math.Acos(mat.GetAt(0, 0));
 
         #endregion
     }

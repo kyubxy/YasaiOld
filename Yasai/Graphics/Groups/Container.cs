@@ -16,22 +16,11 @@ namespace Yasai.Graphics.Groups
     {
         private readonly List<IDrawable> children;
 
-        private readonly Primitive box;
+        private readonly Box box;
 
         public IDrawable[] Items
         {
             init => AddAll(value);
-        }
-
-        private Vector2 position = Vector2.Zero;
-        public override Vector2 Position
-        {
-            get => position;
-            set
-            {
-                position = value;
-                box.Position = value;
-            }
         }
 
         private Vector2 size;
@@ -73,8 +62,8 @@ namespace Yasai.Graphics.Groups
             this.children = new List<IDrawable>();
             AddAll(children.ToArray());
             
-            box = new PrimitiveBox();
-            box.Position = Vector2.Zero; // <- temporary fix of sorts
+            box = new Box();
+            box.Parent = this;
             Fill = false;
         }
 

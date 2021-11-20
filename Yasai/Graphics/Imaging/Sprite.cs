@@ -92,7 +92,9 @@ namespace Yasai.Graphics.Imaging
                 // positioning
                 var pos = Matrix.GetTranslationFromMat(Transformations);
                 var big = Matrix.GetScaleFromMat(Transformations);
-                var rot = 180/Math.PI * Matrix.GetRotationFromMat(Transformations);
+                var rot = 180/Math.PI * Matrix.GetRotationFromMat(Transformations) * 2;
+                if (rot != 0)
+                    Console.WriteLine(Matrix.GetRotationFromMat(Transformations));
                 
                 SDL_Rect destRect;
                 destRect.x = (int) pos.X;
@@ -117,7 +119,7 @@ namespace Yasai.Graphics.Imaging
                 if (Visible && Enabled)
                 {
                     SDL_SetTextureBlendMode(CurrentTexture.Handle, SDL_BlendMode.SDL_BLENDMODE_BLEND);
-                    SDL_RenderCopyEx(renderer, CurrentTexture.Handle, IntPtr.Zero, ref destRect, Rotation, ref _origin,
+                    SDL_RenderCopyEx(renderer, CurrentTexture.Handle, IntPtr.Zero, ref destRect, rot, ref _origin,
                         (SDL_RendererFlip)Flip);
                 }
             }
