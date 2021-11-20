@@ -1,4 +1,5 @@
 using System.Numerics;
+using Yasai.Structures.Bindables;
 
 namespace Yasai.Graphics
 {

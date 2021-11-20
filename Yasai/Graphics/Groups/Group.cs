@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using Yasai.Debug;
@@ -14,12 +15,10 @@ namespace Yasai.Graphics.Groups
     public class Group : Drawable, IGroup, ICollection<IDrawable>
     {
         private readonly List<IDrawable> children;
-        
-        public virtual bool IgnoreHierarchy { get; set; } = true;
 
         private readonly Primitive box;
 
-        private Vector2 position;
+        private Vector2 position = Vector2.Zero;
         public override Vector2 Position
         {
             get => position;
@@ -51,12 +50,26 @@ namespace Yasai.Graphics.Groups
                 box.Enabled = value;
             }
         }
+        
+        private Color colour;
+        public override Color Colour
+        {
+            get => colour;
+            set
+            {
+                box.Colour = value;
+                colour = value;
+            }
+        }
 
         #region constructors
         public Group(List<IDrawable> children)
         {
-            this.children = children;
+            this.children = new List<IDrawable>();
+            AddAll(children.ToArray());
+            
             box = new PrimitiveBox();
+            box.Position = Vector2.Zero; // <- temporary fix of sorts
             Fill = false;
         }
 
@@ -110,6 +123,8 @@ namespace Yasai.Graphics.Groups
         {
             if (item == null)
                 return;
+
+            item.Parent = this;
 
             if (Loaded && !item.Loaded)
                 item.Load(Dependencies);

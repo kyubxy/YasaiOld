@@ -14,8 +14,8 @@ namespace Yasai.VisualTests.GUI
     sealed class Button : Group
     {
         private readonly ScreenManager sm;
-
-        private readonly Scenario scenario;
+        private Scenario scenario;
+        private Type scenarioType;
 
         private Box back;
         private SpriteText label;
@@ -37,16 +37,17 @@ namespace Yasai.VisualTests.GUI
             }
         }
 
-        public Button(ScreenManager sm, Type s, Game game)
+        public Button(ScreenManager sm, Type s)
         {
             this.sm = sm;
-            scenario = (Scenario)Activator.CreateInstance(s);
+            scenarioType = s;
 
             OnExit  += (_, _) => back.Colour = Color.White;
             OnEnter += (_, _) => back.Colour = Color.LightGray;
             OnClick += (_, _) => back.Colour = Color.Gray;
             OnRelease += (sender, args) =>
             {
+                scenario = (Scenario)Activator.CreateInstance(s);
                 this.sm.PushScreen(scenario);
                 OnSelect?.Invoke(sender, args);
             };
@@ -65,7 +66,7 @@ namespace Yasai.VisualTests.GUI
                     Size = Size,
                     Colour = Color.White
                 },
-                label = new SpriteText(scenario.Name, fontStore.GetResource(SpriteFont.FontTiny))
+                label = new SpriteText(scenarioType.Name, fontStore.GetResource(SpriteFont.FontTiny))
                 {
                     Colour = Color.Black
                 }

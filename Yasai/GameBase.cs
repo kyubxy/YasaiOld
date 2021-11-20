@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Numerics;
 using Yasai.Debug.Logging;
 using Yasai.Extensions;
+using Yasai.Graphics;
 using Yasai.Graphics.Groups;
+using Yasai.Graphics.Primitives;
 using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
+using Yasai.Maths;
+using Yasai.Structures.Bindables;
 using Yasai.Structures.DI;
 
 using static SDL2.SDL;
@@ -25,6 +29,8 @@ namespace Yasai
         private bool quit;
 
         public bool Loaded => Window != null && Renderer != null;
+
+        public Drawable Parent { get; set; }
         
         public bool Visible { get; set; } = true;
         public bool Enabled
@@ -76,10 +82,10 @@ namespace Yasai
         
                 Update();
                 
+                Renderer.SetDrawColor(0,0,0,0);
                 Renderer.Clear();
                 Draw(Renderer.GetPtr());
                 Renderer.Present();
-                Renderer.SetDrawColor(0,0,0,255);
             }
         }
         

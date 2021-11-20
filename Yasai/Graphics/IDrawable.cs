@@ -7,6 +7,8 @@ namespace Yasai.Graphics
 {
     public interface IDrawable : IUpdate, ILoad, IMouseHandler, IKeyHandler
     {
+        Drawable Parent { get; set; }
+        
         bool Visible { get; set; }
         void Draw(IntPtr renderer);
     }

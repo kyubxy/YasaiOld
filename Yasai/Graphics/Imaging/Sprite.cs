@@ -1,9 +1,7 @@
 using System;
 using System.Numerics;
 using System.Drawing;
-using Yasai.Debug.Logging;
 using Yasai.Extensions;
-using Yasai.Resources;
 using Yasai.Structures.DI;
 using static SDL2.SDL;
 
@@ -22,7 +20,7 @@ namespace Yasai.Graphics.Imaging
         
         public override bool Loaded => CurrentTexture?.Handle != IntPtr.Zero && base.Loaded;
 
-        private Vector2 size = new Vector2(100);
+        private Vector2 size = new (100);
         public override Vector2 Size
         {
             get => size;
@@ -44,22 +42,6 @@ namespace Yasai.Graphics.Imaging
             set => colour = value;
         }
 
-
-        private float alpha = 1;
-        public override float Alpha
-        {
-            get => alpha;
-            set
-            {
-                alpha = value;
-                if (alpha > 1)
-                {
-                    alpha = 1;
-                    GameBase.YasaiLogger.LogWarning("alpha was larger than 1, ensure that alpha remains a number between 0 and 1");
-                }
-            }
-        }
-
         // VERY temporary
         private bool setOrigin;
         private Vector2 origin;
@@ -78,10 +60,13 @@ namespace Yasai.Graphics.Imaging
         public Sprite(Texture tex)
         {
             CurrentTexture = tex;
+
+            int w, h;
             
-            if (SDL_QueryTexture(CurrentTexture.Handle, out _, out _, out _, out _) != 0)
+            if (SDL_QueryTexture(CurrentTexture.Handle, out _, out _, out w, out h) != 0)
                 throw new Exception(SDL_GetError());
             
+            Size = new Vector2(w, h);
         }
 
         public override void Load(DependencyContainer dependencies)
@@ -115,17 +100,21 @@ namespace Yasai.Graphics.Imaging
                 // update colour and alpha
                 var alphares 
                     = SDL_SetTextureColorMod(CurrentTexture.Handle, (colour.R), (colour.G), (colour.B));
-                
+
+                    
                 var colres 
-                    = SDL_SetTextureAlphaMod(CurrentTexture.Handle, (byte)(alpha * 255));
+                    = SDL_SetTextureAlphaMod(CurrentTexture.Handle, (byte)(Alpha * 255));
                 
                 if (alphares != 0 || colres != 0)
                     throw new Exception(SDL_GetError());
             
                 // drawing
                 if (Visible && Enabled)
+                {
+                    SDL_SetTextureBlendMode(CurrentTexture.Handle, SDL_BlendMode.SDL_BLENDMODE_BLEND);
                     SDL_RenderCopyEx(renderer, CurrentTexture.Handle, IntPtr.Zero, ref destRect, Rotation, ref _origin,
                         (SDL_RendererFlip)Flip);
+                }
             }
         }
     }

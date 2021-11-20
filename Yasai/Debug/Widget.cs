@@ -8,8 +8,6 @@ namespace Yasai.Debug
 {
     public class Widget : Group
     {
-        public override bool IgnoreHierarchy => true;
-
         protected Color BACKGROUND_COLOUR = Color.DimGray;
 
         public Widget()

@@ -32,8 +32,6 @@ namespace Yasai.VisualTests.GUI
         private SpriteText title;
         private Group buttons;
 
-        public override bool IgnoreHierarchy => false;
-
         private bool enabled;
         public override bool Enabled
         {
@@ -76,15 +74,12 @@ namespace Yasai.VisualTests.GUI
                    Colour = Color.White
                },
                buttons = new Group()
-               {
-                   IgnoreHierarchy = true
-               }
             });
             
             foreach (var s in scenarios)
             {
                 Button b;
-                buttons.Add(b = new Button(manager, s, g)
+                buttons.Add(b = new Button(manager, s)
                 {
                     Size = new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
                 });

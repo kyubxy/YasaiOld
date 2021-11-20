@@ -3,26 +3,41 @@ using System.Drawing;
 using System.Numerics;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
+using Yasai.Maths;
+using Yasai.Structures;
+using Yasai.Structures.Bindables;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics
 {
     public abstract class Drawable : IDrawable, IGeometry, IGraphicsModifiable 
     {
+        
         public virtual Vector2 Position { get; set; }
         public virtual Vector2 Size { get; set; } = new (100);
         public virtual float Rotation { get; set; }
         public virtual Anchor Anchor { get; set; }
         public virtual Anchor Origin { get; set; }
         public virtual Vector2 Offset { get; set; }
+        
         public virtual bool Visible { get; set; } = true;
         public virtual bool Enabled { get; set; } = true;
+        
+        protected DependencyContainer Dependencies { get; set; }
         public virtual bool Loaded => Dependencies != null;
 
-        public virtual float Alpha { get; set; }
+        public Drawable Parent { get; set; }
+
+        private float alpha = 1;
+        public virtual float Alpha
+        {
+            get => alpha * (Parent?.alpha ?? 1);
+            set => alpha = value;
+        }
+
         public virtual Color Colour { get; set; }
 
-        protected DependencyContainer Dependencies { get; set; }
+        public Matrix3 Transformations => Parent.Transformations; // + all the current transforms
 
         public float X
         {
@@ -46,7 +61,7 @@ namespace Yasai.Graphics
             get => Size.Y;
             set => Size = new Vector2(Size.X, value);
         }
-        
+
         public virtual void Load(DependencyContainer dependencies)
             => Dependencies = dependencies;
 
