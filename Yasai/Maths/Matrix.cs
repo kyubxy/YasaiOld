@@ -139,15 +139,21 @@ namespace Yasai.Maths
                 0, scale.Y, 0,
                 0, 0, 1
             });
+        
+        public static Vector2 GetScaleFromMat(Matrix3 mat)
+            => new ((float)mat.GetAt(0, 0), (float)mat.GetAt(1, 1));
 
         public static Matrix3 GetRotationMat(float angle)
-            => new Matrix3(new double[] 
+            => new (new [] 
             { 
                 Math.Cos(angle), -Math.Sin(angle), 0,
                 Math.Sin(angle),  Math.Cos(angle), 0,
                 0, 0, 1
             });
-        
+
+        public static float GetRotationFromMat(Matrix3 mat)
+            => (float)Math.Acos(mat.GetAt(0, 0)); // <- TODO: get all four vectors, take their inverses and average them out
+
         #endregion
     }
 }

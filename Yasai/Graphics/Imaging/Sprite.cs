@@ -91,6 +91,8 @@ namespace Yasai.Graphics.Imaging
             {
                 // positioning
                 var pos = Matrix.GetTranslationFromMat(Transformations);
+                var big = Matrix.GetScaleFromMat(Transformations);
+                var rot = 180/Math.PI * Matrix.GetRotationFromMat(Transformations);
                 
                 SDL_Rect destRect;
                 destRect.x = (int) pos.X;

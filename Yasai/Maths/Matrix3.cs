@@ -78,5 +78,7 @@ namespace Yasai.Maths
 
             return true;
         }
+        
+        public static Matrix3 operator *(Matrix3 a, Matrix3 b) => Matrix.DotMultiply(a, b);
     }
 }

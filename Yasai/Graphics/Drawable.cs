@@ -37,8 +37,10 @@ namespace Yasai.Graphics
 
         public virtual Color Colour { get; set; }
 
-        public Matrix3 Transformations => Matrix.DotMultiply(Parent?.Transformations ?? Matrix.Identity,
-            Matrix.GetTranslationMat(Position));
+        public Matrix3 Transformations => (Parent?.Transformations ?? Matrix.Identity) *
+            Matrix.GetTranslationMat(Position) *
+            Matrix.GetRotationMat(Rotation)
+            ;
 
         public float X
         {

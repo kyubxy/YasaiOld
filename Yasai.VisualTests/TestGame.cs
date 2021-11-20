@@ -9,6 +9,8 @@ using Yasai.Resources.Stores;
 using Yasai.Screens;
 using Yasai.Structures.DI;
 using Yasai.VisualTests.GUI;
+using Yasai.VisualTests.Scenarios.Drawables;
+using Yasai.VisualTests.Scenarios.Input;
 
 namespace Yasai.VisualTests
 {
@@ -46,6 +48,7 @@ namespace Yasai.VisualTests
             }
             
             // find all tests
+            last = new DrawableSceneGraphScenario();
             sm = new ScreenManager(last);
             Children.Add(sm);
             

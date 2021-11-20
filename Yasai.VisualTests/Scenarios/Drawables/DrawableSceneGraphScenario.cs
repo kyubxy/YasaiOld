@@ -38,7 +38,7 @@ namespace Yasai.VisualTests.Scenarios.Drawables
                 new Container
                 {
                     Position = new Vector2(100, 200),
-                    Rotation = (float)Math.PI/2,
+                    Rotation = (float)Math.PI/4,
                     Items = new IDrawable[]
                     {
                         new Box
@@ -75,17 +75,23 @@ namespace Yasai.VisualTests.Scenarios.Drawables
                         })
                         {
                             Position = new Vector2(100),
-                            Rotation = 0.5f
+                            Rotation = 0.1f,
+                            Colour = Color.Aqua,
                         }
                     })
                     {
                         Position = new Vector2(100),
-                        Rotation = 0.5f
+                        Rotation = 0.1f,
+                        Colour = Color.Blue,
+                        Size = new Vector2(80),
+                        Fill = true
                     }
                 })
                 {
-                    Position = new Vector2(100),
-                    Rotation = 0.5f
+                    Position = new Vector2(100, 400),
+                    Rotation = 0.1f,
+                    Colour = Color.Coral,
+                    Fill = true
                 }
             });
         }
