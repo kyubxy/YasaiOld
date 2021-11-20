@@ -37,7 +37,6 @@ namespace Yasai.VisualTests.Scenarios.Drawables
         public override void Update()
         {
             base.Update();
-            //box.Rotation += 0.01f;
             cont.Rotation += 0.01f;
             box.X++;
         }
@@ -53,7 +52,7 @@ namespace Yasai.VisualTests.Scenarios.Drawables
             cont = new Container
             {
                 Fill = true,
-                Position = new Vector2(500),
+                Position = new Vector2(200),
                 Items = new IDrawable[]
                 {
                     box = new Box()

@@ -89,12 +89,22 @@ namespace Yasai.Graphics.Imaging
             
             if (CurrentTexture != null)
             {
-                // positioning
-                var pos = Matrix.GetTranslationFromMat(Transformations);
-                var big = Matrix.GetScaleFromMat(Transformations);
-                var rot = 180/Math.PI * Matrix.GetRotationFromMat(Transformations) * 2;
-                if (rot != 0)
-                    Console.WriteLine(Matrix.GetRotationFromMat(Transformations));
+                // very important lesson in linear algebra: the point of a transformation matrix is
+                // to take individual vertices of a unit square and pre-operate a matrix on each to
+                // find the coordinates for the new points which are then used to draw the shape.
+                
+                // for now, we'll use some hacks to get numbers which abide by the SDL way of doing things
+                
+                //get the coordinate of the top left point at (0,1) on the unit square
+                var pos = Matrix.DotMultiply(Transformations, new Vector3(0, 1, 1));
+                
+                // use the inverse tangent of two horizontally adjacent points on the unit square
+                var p0 = Matrix.DotMultiply(Transformations, new Vector3(0, 0, 1));
+                var p1 = Matrix.DotMultiply(Transformations, new Vector3(0, 1, 1));
+                var rot = Math.Atan((p1.Y - p0.Y) / (p1.X - p0.X)) * 180 / Math.PI + 90;
+                
+                // get the difference between the x and y coords and use those as the sizes
+                // TODO:
                 
                 SDL_Rect destRect;
                 destRect.x = (int) pos.X;

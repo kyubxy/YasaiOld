@@ -117,12 +117,12 @@ namespace Yasai.Maths
             0, 0, 1
         });
 
-        public static Matrix3 Zero => new Matrix3(new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+        public static Matrix3 Zero => new (new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 
         #region affine transformation functions
         
         public static Matrix3 GetTranslationMat(Vector2 position)
-            => new Matrix3(new double[] 
+            => new (new double[] 
             { 
                 1, 0, position.X,
                 0, 1, position.Y,
@@ -133,15 +133,12 @@ namespace Yasai.Maths
             => new ((float)mat.GetAt(0, 2), (float)mat.GetAt(1, 2));
 
         public static Matrix3 GetScaleMat(Vector2 scale)
-            => new Matrix3(new double[] 
+            => new (new double[] 
             { 
                 scale.X, 0, 0,
                 0, scale.Y, 0,
                 0, 0, 1
             });
-        
-        public static Vector2 GetScaleFromMat(Matrix3 mat)
-            => new ((float)mat.GetAt(0, 0), (float)mat.GetAt(1, 1));
 
         public static Matrix3 GetRotationMat(float angle)
             => new (new [] 
@@ -150,10 +147,6 @@ namespace Yasai.Maths
                 Math.Sin(angle),  Math.Cos(angle), 0,
                 0, 0, 1
             });
-        
-        // TODO: get all four vectors, take their inverses and average them out
-        public static float GetRotationFromMat(Matrix3 mat)
-            => (float)Math.Acos(mat.GetAt(0, 0));
 
         #endregion
     }

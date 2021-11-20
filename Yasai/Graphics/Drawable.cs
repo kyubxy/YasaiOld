@@ -13,11 +13,13 @@ namespace Yasai.Graphics
     public abstract class Drawable : IDrawable, IGeometry, IGraphicsModifiable 
     {
         public virtual Vector2 Position { get; set; } = Vector2.Zero;
+        public virtual Vector2 Scale { get; set; } = Vector2.One;
         public virtual Vector2 Size { get; set; } = new (100);
+        public virtual RelativeAxes RelativeAxes { get; set; } = RelativeAxes.None;
+        
         public virtual Anchor Anchor { get; set; } = Anchor.TopLeft;
         public virtual Anchor Origin { get; set; } = Anchor.TopLeft;
         public virtual Vector2 Offset { get; set; } = Vector2.Zero;
-        public Vector2 Scale { get; set; } = Vector2.One;
 
         public virtual bool Visible { get; set; } = true;
         public virtual bool Enabled { get; set; } = true;
@@ -28,11 +30,10 @@ namespace Yasai.Graphics
         public Drawable Parent { get; set; }
 
         private float rotation;
-
         public virtual float Rotation
         {
             get => rotation;
-            set => rotation = value % (float)Math.PI;
+            set => rotation = value % (float)(2 * Math.PI);
         }
 
         private float alpha = 1;
@@ -47,7 +48,8 @@ namespace Yasai.Graphics
         public Matrix3 Transformations
             => (Parent?.Transformations ?? Matrix.Identity) *
                Matrix.GetTranslationMat(Position) *
-               Matrix.GetRotationMat(Rotation) 
+               Matrix.GetRotationMat(Rotation) *
+               Matrix.GetScaleMat(Scale)
                ;
 
         public float X
