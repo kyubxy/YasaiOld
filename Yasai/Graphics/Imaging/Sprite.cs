@@ -89,29 +89,11 @@ namespace Yasai.Graphics.Imaging
             
             if (CurrentTexture != null)
             {
-                // very important lesson in linear algebra: the point of a transformation matrix is
-                // to take individual vertices of a unit square and pre-operate a matrix on each to
-                // find the coordinates for the new points which are then used to draw the shape.
-                
-                // for now, we'll use some hacks to get numbers which abide by the SDL way of doing things
-                
-                //get the coordinate of the top left point at (0,1) on the unit square
-                var pos = Matrix.DotMultiply(Transformations, new Vector3(0, 1, 1));
-                
-                // use the inverse tangent of two horizontally adjacent points on the unit square
-                var p0 = Matrix.DotMultiply(Transformations, new Vector3(0, 0, 1));
-                var p1 = Matrix.DotMultiply(Transformations, new Vector3(0, 1, 1));
-                var rot = Math.Atan((p1.Y - p0.Y) / (p1.X - p0.X)) * 180 / Math.PI + 90;
-                
-                // get the difference between the x and y coords and use those as the sizes
-                // TODO:
-                var big = new Vector2();
-                
                 SDL_Rect destRect;
-                destRect.x = (int) pos.X;
-                destRect.y = (int) pos.Y;
-                destRect.w = (int) big.X;
-                destRect.h = (int) big.Y;
+                destRect.x = (int) Position.X;
+                destRect.y = (int) Position.Y;
+                destRect.w = (int) Size.X;
+                destRect.h = (int) Size.Y;
 
                 SDL_Point _origin = Offset.ToSdlPoint();
 
@@ -130,7 +112,7 @@ namespace Yasai.Graphics.Imaging
                 if (Visible && Enabled)
                 {
                     SDL_SetTextureBlendMode(CurrentTexture.Handle, SDL_BlendMode.SDL_BLENDMODE_BLEND);
-                    SDL_RenderCopyEx(renderer, CurrentTexture.Handle, IntPtr.Zero, ref destRect, rot, ref _origin,
+                    SDL_RenderCopyEx(renderer, CurrentTexture.Handle, IntPtr.Zero, ref destRect, Rotation, ref _origin,
                         (SDL_RendererFlip)Flip);
                 }
             }
