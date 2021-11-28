@@ -1,9 +1,10 @@
 using System;
 using System.Drawing;
 using System.Reflection;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+using Yasai.Graphics.Shaders;
 using Yasai.Structures.DI;
 
 namespace Yasai
@@ -59,10 +60,36 @@ namespace Yasai
            //fontStore.LoadResource(@"LigatureSymbols.ttf", SpriteFont.SymbolFontTiny, new FontArgs(14));
         }
 
+        private int vbo;
+
+        readonly float[] vertices = {
+            -0.5f, -0.5f, 0.0f, //Bottom-left vertex
+            0.5f, -0.5f, 0.0f, //Bottom-right vertex
+            0.0f,  0.5f, 0.0f  //Top vertex
+        };
+
+        private Shader shader;
+
         public override void Load(DependencyContainer dependencies)
         {
             yasaiLoad();
             base.Load(dependencies);
+            
+            GL.ClearColor(Color.CornflowerBlue);
+
+            vbo = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+
+            shader = new Shader(@"Assets/shader.vert", @"Assets/shader.frag");
+        }
+
+        public override void Unload(DependencyContainer dependencies)
+        {
+            base.Unload(dependencies);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.DeleteBuffer(vbo);
+            shader.Dispose();
         }
 
         public sealed override void Draw(FrameEventArgs args)
@@ -70,13 +97,6 @@ namespace Yasai
             base.Draw(args);
             
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            GL.ClearColor(Color.CornflowerBlue);
-            
-            GL.Begin(PrimitiveType.Triangles);
-            GL.Vertex2(0,0);
-            GL.Vertex2(1,0);
-            GL.Vertex2(0,1);
-            GL.End();
             
             Window.SwapBuffers();
         }

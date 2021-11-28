@@ -1,4 +1,5 @@
 using System;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -53,11 +54,17 @@ namespace Yasai
             Window.Unload += () => Unload(Dependencies);
             Window.UpdateFrame += Update;
             Window.RenderFrame += Draw;
+            Window.Resize += Resize;
             
             Dependencies = new DependencyContainer();
             Dependencies.Register<GameWindow>(Window);
 
             //Children = new Container();
+        }
+
+        public virtual void Resize(ResizeEventArgs obj)
+        {
+            GL.Viewport(0,0,obj.Width, obj.Height);
         }
 
         #endregion
