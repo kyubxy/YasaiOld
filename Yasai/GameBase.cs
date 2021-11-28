@@ -5,12 +5,9 @@ using Yasai.Debug.Logging;
 using Yasai.Extensions;
 using Yasai.Graphics;
 using Yasai.Graphics.Containers;
-using Yasai.Graphics.Primitives;
 using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
-using Yasai.Maths;
-using Yasai.Structures.Bindables;
 using Yasai.Structures.DI;
 
 using static SDL2.SDL;

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
-using Yasai.Debug;
 using Yasai.Graphics.Primitives;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
@@ -103,11 +102,8 @@ namespace Yasai.Graphics.Containers
                 if (Fill)
                     box.Draw(renderer);
 
-                foreach (IDrawable s in children)
-                {
-                    if (!(s is Widget))
-                        s.Draw(renderer);
-                }
+                foreach (IDrawable s in children) 
+                    s.Draw(renderer);
             }
         }
         #endregion
