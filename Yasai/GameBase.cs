@@ -1,17 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Numerics;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
 using Yasai.Debug.Logging;
-using Yasai.Extensions;
-using Yasai.Graphics;
-using Yasai.Graphics.Containers;
-using Yasai.Graphics.YasaiSDL;
-using Yasai.Input.Keyboard;
-using Yasai.Input.Mouse;
 using Yasai.Structures.DI;
-
-using static SDL2.SDL;
-using static SDL2.SDL_ttf;
+using Yasai.Graphics;
 
 namespace Yasai
 {
@@ -20,194 +13,73 @@ namespace Yasai
     /// </summary>
     public class GameBase : IContainer, IDisposable
     {
-        public Window Window { get; }
-        public Renderer Renderer { get; }
-
+        public readonly GameWindow Window;
+        
         private bool quit;
 
-        public bool Loaded => Window != null && Renderer != null;
-
-        public Drawable Parent { get; set; }
+        public bool Loaded => true;
         
         public bool Visible { get; set; } = true;
+        public void Draw(IntPtr renderer)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Enabled
         {
             get => throw new Exception("use Game.Quit() to quit the game");
             set => throw new Exception("use Game.Quit() to quit the game");
         }
-        
+
         public DependencyContainer Dependencies { get; }
         
-        protected Container Children;
+        //protected Container Children;
 
         internal static readonly Logger YasaiLogger = new ("yasai.log");
 
         #region constructors
-        public GameBase(string title, int w, int h, int refreshRate, string[] args = null)
+        public GameBase(string title, int w, int h, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
-            initialiseEngine();
+            var e = new NativeWindowSettings()
+            {
+                Size = new Vector2i(800,600)
+            };
+            
+            Window = new GameWindow(gameSettings, e);
+            //Window.Size = new Vector2i(800, 600);
+            Window.Title = title;
+
+            Window.Load += () => Load(Dependencies);
+            Window.Unload += () => Unload(Dependencies);
+            Window.UpdateFrame += Update;
+            Window.RenderFrame += Draw;
             
             Dependencies = new DependencyContainer();
+            Dependencies.Register<GameWindow>(Window);
 
-            Dependencies.Register<Window>(Window = new Window(title, w, h, refreshRate));
-            Dependencies.Register<Renderer>(Renderer = new Renderer(Window));
-
-            Children = new Container();
+            //Children = new Container();
         }
+
         #endregion
-
-        void initialiseEngine()
-        {
-            // SDL initialisation
-            if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-                YasaiLogger.LogError($"error on startup: {SDL_GetError()}");
-
-            TTF_Init();
-            YasaiLogger.LogInfo("Spash! ヽ(*・ω・)ﾉ");
-        }
-        
-        public void Run()
-        {
-            Load(Dependencies);
-            Children.Load(Dependencies);
-            
-            // program loop
-            while (!quit)
-            {
-                while (SDL_PollEvent(out var e) != 0)
-                    OnEvent(e);
-        
-                Update();
-                
-                Renderer.SetDrawColor(0,0,0,0);
-                Renderer.Clear();
-                Draw(Renderer.GetPtr());
-                Renderer.Present();
-            }
-        }
-        
-        private HashSet<KeyCode> pressed = new();
-        
-        protected virtual void OnEvent(SDL_Event ev)
-        {
-            switch (ev.type) 
-            {
-                // program exit
-                case (SDL_EventType.SDL_QUIT):
-                    quit = true;
-                    break;
-                
-                #region input systems
-                case (SDL_EventType.SDL_KEYUP):
-                    pressed.Remove(ev.key.keysym.sym.ToYasaiKeyCode());
-                    KeyUp(new KeyArgs(pressed));
-                    break;
-                
-                case (SDL_EventType.SDL_KEYDOWN):
-                    pressed.Add(ev.key.keysym.sym.ToYasaiKeyCode());
-                    KeyDown(new KeyArgs(pressed));
-                    break;
-                
-                case (SDL_EventType.SDL_MOUSEBUTTONUP):
-                    MouseUp(new MouseArgs((MouseButton) ev.button.button, new Vector2(ev.button.x, ev.button.y)));
-                    break;
-                
-                case (SDL_EventType.SDL_MOUSEBUTTONDOWN):
-                    MouseDown(new MouseArgs((MouseButton) ev.button.button, new Vector2(ev.button.x, ev.button.y)));
-                    break;
-                
-                case (SDL_EventType.SDL_MOUSEWHEEL):
-                    // TODO: mousewheel
-                    break;
-                
-                case (SDL_EventType.SDL_MOUSEMOTION):
-                    MouseMotion(new MouseArgs(new Vector2(ev.button.x, ev.button.y)));
-                    break;
-                
-                #endregion
-            }
-        }
         
         public virtual void Load(DependencyContainer dependencies)
         { }
+
+        public virtual void Update(FrameEventArgs args)
+        { }
         
-        public virtual void Update() => Children.Update();
-        
-        // it's probably more efficient to pass around pointers than actual objects
-        // can change this later though if need be
-        public virtual void Draw(IntPtr ren)
-        {
-            if (Visible)
-            {
-                Children.Draw(ren);
-            }
-            else
-            {
-                #if DEBUG
-                GameBase.YasaiLogger.LogWarning("Game is invisible. The use of Game.Visible is highly unadvised in the first place!");
-                #endif 
-            }
-        }
-        
-        /// <summary>
-        /// Quit the current game
-        /// </summary>
-        public void Quit()
-        {
-            quit = false;
-            Dispose();
-        }
+        public virtual void Draw(FrameEventArgs args)
+        { }
+
+        public virtual void Unload(DependencyContainer dependencies)
+        { }
+
+        public void Run() => Window.Run();
         
         public void Dispose()
         {
             // TODO: dispose disposable dependencies
-            SDL_Quit();
-            GameBase.YasaiLogger.LogInfo("Disposed of resources and exited successfully");
+            YasaiLogger.LogInfo("Disposed of resources and exited successfully");
         }
-        
-        #region input
-        public virtual void MouseDown(MouseArgs args) => Children.MouseDown(args);
-        public virtual void MouseUp(MouseArgs args) => Children.MouseUp(args);
-        public virtual void MouseMotion(MouseArgs args) => Children.MouseMotion(args);
-        public virtual void KeyUp(KeyArgs key) => Children.KeyUp(key);
-        public virtual void KeyDown(KeyArgs key) => Children.KeyDown(key);
-        #endregion
-
-        /*
-        private static void SdlDllWorkaround()
-        {
-            if (Environment.OSVersion.Platform != PlatformID.Unix) return;
-            
-            var dllNames = new Dictionary<string, string>()
-            {
-                {"libSDL2.so",       "libSDL2-2.0.so.0"      },
-                {"libSDL2_ttf.so",   "libSDL2_ttf-2.0.so.0"  },
-                {"libSDL2_image.so", "libSDL2_image-2.0.so.0"}
-            };
-            
-            string envTriplet = Environment.Is64BitProcess
-                ? "x86_64-linux-gnu"
-                : "i386-linux-gnu";
-            
-            foreach(var checkFile in dllNames)
-            {
-                string checkLink = checkFile.Key;
-                string checkPath1 = Path.Combine($"/usr/lib/{envTriplet}/", checkLink);
-                string checkPath2 = Path.Combine("/usr/lib/", checkLink);
-                if (File.Exists(checkLink) || File.Exists(checkPath1) || File.Exists(checkPath2)) continue;
-                
-                string targetLink = checkFile.Value;
-                string targetPath = Path.Combine(checkPath1, targetLink);
-                Console.WriteLine($"{checkLink} not found, creating symlink targetting {targetPath}");
-                
-                var symlinkInf = new ProcessStartInfo("ln", $"-s {targetPath} {checkLink}");
-                symlinkInf.RedirectStandardOutput = true;
-                symlinkInf.UseShellExecute = false;
-                symlinkInf.CreateNoWindow = true;
-                
-                Process.Start(symlinkInf);
-            }
-        }
-        */
     }
 }

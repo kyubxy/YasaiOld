@@ -1,15 +1,14 @@
 using System;
-using Yasai.Input.Keyboard;
-using Yasai.Input.Mouse;
+using OpenTK.Windowing.Common;
 using Yasai.Resources;
 
 namespace Yasai.Graphics
 {
-    public interface IDrawable : IUpdate, ILoad, IMouseHandler, IKeyHandler
+    public interface IDrawable : IUpdate, ILoad //IMouseHandler, IKeyHandler
     {
-        Drawable Parent { get; set; }
+        //Drawable Parent { get; set; }
         
         bool Visible { get; set; }
-        void Draw(IntPtr renderer);
+        void Draw(FrameEventArgs args);
     }
 }
