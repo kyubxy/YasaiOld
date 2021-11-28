@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Numerics;
 using Yasai.Graphics;
-using Yasai.Graphics.Groups;
+using Yasai.Graphics.Containers;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Input.Mouse;
@@ -12,7 +12,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.VisualTests.GUI
 {
-    public sealed class TestPicker : Group
+    public sealed class TestPicker : Container
     {
         private int BUTTON_HEIGHT => 40;
         private int BUTTON_WIDTH => 300;
@@ -30,9 +30,7 @@ namespace Yasai.VisualTests.GUI
         private Box headerBox;
         private Box bodyBox;
         private SpriteText title;
-        private Group buttons;
-
-        public override bool IgnoreHierarchy => false;
+        private Container buttons;
 
         private bool enabled;
         public override bool Enabled
@@ -75,16 +73,13 @@ namespace Yasai.VisualTests.GUI
                {
                    Colour = Color.White
                },
-               buttons = new Group()
-               {
-                   IgnoreHierarchy = true
-               }
+               buttons = new Container()
             });
             
             foreach (var s in scenarios)
             {
                 Button b;
-                buttons.Add(b = new Button(manager, s, g)
+                buttons.Add(b = new Button(manager, s)
                 {
                     Size = new Vector2(BUTTON_WIDTH, BUTTON_HEIGHT),
                 });

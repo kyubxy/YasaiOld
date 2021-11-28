@@ -1,6 +1,6 @@
 using System;
 using Yasai.Graphics;
-using Yasai.Graphics.Groups;
+using Yasai.Graphics.Containers;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Resources;
@@ -9,7 +9,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.Screens
 {
-    public class ScreenManager : Drawable, IGroup
+    public class ScreenManager : Drawable, IContainer
     {
         public Screen CurrentScreen { get; private set; }
 

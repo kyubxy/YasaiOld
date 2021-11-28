@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using Yasai.Debug.Logging;
 using Yasai.Extensions;
-using Yasai.Graphics.Groups;
+using Yasai.Graphics;
+using Yasai.Graphics.Containers;
 using Yasai.Graphics.YasaiSDL;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
@@ -17,7 +18,7 @@ namespace Yasai
     /// <summary>
     /// The bare essentials of a Yasai application
     /// </summary>
-    public class GameBase : IGroup, IDisposable
+    public class GameBase : IContainer, IDisposable
     {
         public Window Window { get; }
         public Renderer Renderer { get; }
@@ -25,6 +26,8 @@ namespace Yasai
         private bool quit;
 
         public bool Loaded => Window != null && Renderer != null;
+
+        public Drawable Parent { get; set; }
         
         public bool Visible { get; set; } = true;
         public bool Enabled
@@ -35,9 +38,9 @@ namespace Yasai
         
         public DependencyContainer Dependencies { get; }
         
-        protected Group Children;
+        protected Container Children;
 
-        public static readonly Logger YasaiLogger = new Logger("yasai.log");
+        internal static readonly Logger YasaiLogger = new ("yasai.log");
 
         #region constructors
         public GameBase(string title, int w, int h, int refreshRate, string[] args = null)
@@ -49,8 +52,7 @@ namespace Yasai
             Dependencies.Register<Window>(Window = new Window(title, w, h, refreshRate));
             Dependencies.Register<Renderer>(Renderer = new Renderer(Window));
 
-            Children = new Group();
-
+            Children = new Container();
         }
         #endregion
 
@@ -77,10 +79,10 @@ namespace Yasai
         
                 Update();
                 
+                Renderer.SetDrawColor(0,0,0,0);
                 Renderer.Clear();
                 Draw(Renderer.GetPtr());
                 Renderer.Present();
-                Renderer.SetDrawColor(0,0,0,255);
             }
         }
         

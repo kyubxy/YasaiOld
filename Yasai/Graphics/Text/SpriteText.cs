@@ -1,14 +1,14 @@
 using System;
 using System.Drawing;
 using System.Numerics;
-using Yasai.Graphics.Groups;
+using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
 using Yasai.Structures;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Text
 {
-    public class SpriteText : Group
+    public class SpriteText : Container
     {
         private string text = "";
         public string Text

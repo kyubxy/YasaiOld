@@ -1,6 +1,6 @@
 using System.Drawing;
 using System.Numerics;
-using Yasai.Graphics.Groups;
+using Yasai.Graphics.Containers;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Resources;
@@ -10,7 +10,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.VisualTests.GUI
 {
-    public sealed class StatusBar : Group
+    public sealed class StatusBar : Container
     {
         private int HEIGHT => 40;
         

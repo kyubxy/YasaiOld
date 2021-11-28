@@ -1,33 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
-using Yasai.Debug;
 using Yasai.Graphics.Primitives;
 using Yasai.Input.Keyboard;
 using Yasai.Input.Mouse;
 using Yasai.Structures.DI;
 
-namespace Yasai.Graphics.Groups
+namespace Yasai.Graphics.Containers
 {
-    public class Group : Drawable, IGroup, ICollection<IDrawable>
+    public class Container : Drawable, IContainer, ICollection<IDrawable>
     {
         private readonly List<IDrawable> children;
-        
-        public virtual bool IgnoreHierarchy { get; set; } = true;
 
-        private readonly Primitive box;
+        private readonly Box box;
 
-        private Vector2 position;
-        public override Vector2 Position
+        public IDrawable[] Items
         {
-            get => position;
-            set
-            {
-                position = value;
-                box.Position = value;
-            }
+            init => AddAll(value);
         }
 
         private Vector2 size;
@@ -51,19 +43,33 @@ namespace Yasai.Graphics.Groups
                 box.Enabled = value;
             }
         }
+        
+        private Color colour;
+        public override Color Colour
+        {
+            get => colour;
+            set
+            {
+                box.Colour = value;
+                colour = value;
+            }
+        }
 
         #region constructors
-        public Group(List<IDrawable> children)
+        public Container(List<IDrawable> children)
         {
-            this.children = children;
-            box = new PrimitiveBox();
+            this.children = new List<IDrawable>();
+            AddAll(children.ToArray());
+            
+            box = new Box();
+            box.Parent = this;
             Fill = false;
         }
 
-        public Group() : this (new List<IDrawable>())
+        public Container() : this (new List<IDrawable>())
         { }
 
-        public Group(IDrawable[] children) : this(children.ToList())
+        public Container(IDrawable[] children) : this(children.ToList())
         { }
         #endregion
 
@@ -96,11 +102,8 @@ namespace Yasai.Graphics.Groups
                 if (Fill)
                     box.Draw(renderer);
 
-                foreach (IDrawable s in children)
-                {
-                    if (!(s is Widget))
-                        s.Draw(renderer);
-                }
+                foreach (IDrawable s in children) 
+                    s.Draw(renderer);
             }
         }
         #endregion
@@ -110,6 +113,8 @@ namespace Yasai.Graphics.Groups
         {
             if (item == null)
                 return;
+
+            item.Parent = this;
 
             if (Loaded && !item.Loaded)
                 item.Load(Dependencies);

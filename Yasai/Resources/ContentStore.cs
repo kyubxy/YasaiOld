@@ -99,7 +99,7 @@ namespace Yasai.Resources
         protected abstract T AcquireResource(string path, IResourceArgs args);
 
         /// <summary>
-        ///  reads the manager and finds all paths under a group to load from
+        ///  reads the manager and finds all paths under a container to load from
         /// </summary>
         /// <param name="group"></param>
         public void LoadResources(string group)

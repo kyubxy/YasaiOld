@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Numerics;
 using Yasai.Graphics;
-using Yasai.Graphics.Groups;
+using Yasai.Graphics.Containers;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
@@ -11,11 +11,11 @@ using Yasai.Structures.DI;
 
 namespace Yasai.VisualTests.GUI
 {
-    sealed class Button : Group
+    sealed class Button : Container
     {
         private readonly ScreenManager sm;
-
-        private readonly Scenario scenario;
+        private Scenario scenario;
+        private Type scenarioType;
 
         private Box back;
         private SpriteText label;
@@ -37,19 +37,10 @@ namespace Yasai.VisualTests.GUI
             }
         }
 
-        public Button(ScreenManager sm, Type s, Game game)
+        public Button(ScreenManager sm, Type s)
         {
             this.sm = sm;
-            scenario = (Scenario)Activator.CreateInstance(s);
-
-            OnExit  += (_, _) => back.Colour = Color.White;
-            OnEnter += (_, _) => back.Colour = Color.LightGray;
-            OnClick += (_, _) => back.Colour = Color.Gray;
-            OnRelease += (sender, args) =>
-            {
-                this.sm.PushScreen(scenario);
-                OnSelect?.Invoke(sender, args);
-            };
+            scenarioType = s;
         }
 
         public override void Load(DependencyContainer dependencies)
@@ -65,11 +56,21 @@ namespace Yasai.VisualTests.GUI
                     Size = Size,
                     Colour = Color.White
                 },
-                label = new SpriteText(scenario.Name, fontStore.GetResource(SpriteFont.FontTiny))
+                label = new SpriteText(scenarioType.Name, fontStore.GetResource(SpriteFont.FontTiny))
                 {
                     Colour = Color.Black
                 }
             });
+            
+            OnExit  += (_, _) => back.Colour = Color.White;
+            OnEnter += (_, _) => back.Colour = Color.LightGray;
+            OnClick += (_, _) => back.Colour = Color.Gray;
+            OnRelease += (sender, args) =>
+            {
+                scenario = (Scenario)Activator.CreateInstance(scenarioType);
+                this.sm.PushScreen(scenario);
+                OnSelect?.Invoke(sender, args);
+            };
         }
     }
 

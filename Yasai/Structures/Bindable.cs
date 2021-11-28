@@ -2,11 +2,11 @@
 
 namespace Yasai.Structures
 {
-    public abstract class Bindable<T> : IBindable<T>
+    public class Bindable<T> : IBindable<T>
     {
-        public event Action<T> OnSet;
-        public event Action<T> OnChanged;
-        public event Action OnGet;
+        public virtual event Action<T> OnSet;
+        public virtual event Action<T> OnChanged;
+        public virtual event Action OnGet;
         
         public BindStatus BindStatus { get; private set; } 
             = BindStatus.Unbound;
@@ -31,7 +31,7 @@ namespace Yasai.Structures
         {
             get
             {
-                OnGet?.Invoke();
+                RaiseGet();
 
                 if (BindStatus == BindStatus.Unbound)
                     return self;
@@ -40,8 +40,8 @@ namespace Yasai.Structures
             }
             set
             {
-                OnSet?.Invoke(value);
-                OnChanged?.Invoke(value);
+                RaiseSet(value);
+                RaiseChanged(value);
                 
                 switch (BindStatus)
                 {
@@ -91,5 +91,10 @@ namespace Yasai.Structures
             Dependency = null;
             BindStatus = BindStatus.Unbound;
         }
+
+        // TODO: will need to make these thread safe later
+        protected void RaiseGet() => OnGet?.Invoke();
+        protected void RaiseSet(T t) => OnSet?.Invoke(t);
+        protected void RaiseChanged(T t) => OnChanged?.Invoke(t);
     }
 }

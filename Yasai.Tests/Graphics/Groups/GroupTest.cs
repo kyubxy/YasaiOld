@@ -1,12 +1,12 @@
 ﻿using Xunit;
 using Yasai.Graphics;
-using Yasai.Graphics.Groups;
+using Yasai.Graphics.Containers;
 using Yasai.Structures;
 using Yasai.Structures.DI;
 
 namespace Yasai.Tests.Graphics.Groups
 {
-    public class GroupTests
+    public class GroupTest
     {
         class TestClient : Drawable
         {
@@ -18,14 +18,14 @@ namespace Yasai.Tests.Graphics.Groups
         {
             TestClient client;
             
-            Group group = new Group(new IDrawable[]
+            Container container = new Container(new IDrawable[]
             {
                 client = new TestClient()
             });
             
             DependencyContainer dependencyContainer = new DependencyContainer();
             dependencyContainer.Register<int>(69);
-            group.Load(dependencyContainer);
+            container.Load(dependencyContainer);
 
             Assert.Equal(69, client.Dependency);
         }
@@ -35,17 +35,17 @@ namespace Yasai.Tests.Graphics.Groups
         {
              TestClient client;
              
-             Group group = new Group(new IDrawable[]
+             Container container = new Container(new IDrawable[]
              {
-                 new Group(new IDrawable[]
+                 new Container(new IDrawable[]
                  {
-                    new Group(new IDrawable[]
+                    new Container(new IDrawable[]
                     {
-                        new Group(new IDrawable[]
+                        new Container(new IDrawable[]
                         {
-                            new Group (new IDrawable[]
+                            new Container (new IDrawable[]
                             {
-                                new Group(new IDrawable[]
+                                new Container(new IDrawable[]
                                 {
                                     client = new TestClient()
                                 })
@@ -57,7 +57,7 @@ namespace Yasai.Tests.Graphics.Groups
  
              DependencyContainer dependencyContainer = new DependencyContainer();
              dependencyContainer.Register<int>(69);
-             group.Load(dependencyContainer);
+             container.Load(dependencyContainer);
  
              Assert.Equal(69, client.Dependency);           
         }

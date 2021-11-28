@@ -24,9 +24,9 @@ namespace Yasai.Debug.Logging
         
         public void Log(string message, LogLevel level)
         {
-            string msg = $"{DateTime.UtcNow} [{level.ToString()}]: {message}";
+            string msg = $"{DateTime.Now} [{level.ToString()}]: {message}";
             
-            if (writeFile)
+            if (writeFile && level != LogLevel.Debug)
                 File.AppendAllLines(logPath, new[] { msg });
             
             if (writeConsole)

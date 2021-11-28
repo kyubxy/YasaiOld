@@ -1,5 +1,5 @@
 using System.Reflection;
-using Yasai.Graphics.Groups;
+using Yasai.Graphics.Containers;
 using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
@@ -11,7 +11,7 @@ namespace Yasai
     /// </summary>
     public class Game : GameBase
     {
-        protected Group Root;
+        protected Container Root;
 
         private FontStore fontStore;
 
@@ -32,7 +32,7 @@ namespace Yasai
         public Game(string title, int w, int h, int refreshRate, string[] args = null) 
             : base (title, w, h, refreshRate, args)
         {
-            Root = new Group();
+            Root = new Container();
             Children.Add(Root);
 
             // register font store 

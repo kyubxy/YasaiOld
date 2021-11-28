@@ -1,11 +1,9 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using Yasai.Graphics;
-using Yasai.Graphics.Groups;
+using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
-using Yasai.Structures;
 using Yasai.Structures.DI;
 
 namespace Yasai.TestApp
@@ -27,7 +25,7 @@ namespace Yasai.TestApp
 
             var store = dependencies.Resolve<FontStore>();
 
-            Children = new Group(new IDrawable[]
+            Children = new Container(new IDrawable[]
             {
                 new SpriteText("penis", store.GetResource(SpriteFont.FontTiny))
                 {
