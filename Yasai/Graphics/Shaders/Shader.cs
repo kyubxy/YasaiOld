@@ -57,6 +57,8 @@ namespace Yasai.Graphics.Shaders
             GL.DeleteShader(FragmentShader);
             GL.DeleteShader(VertexShader);
         }
+
+        public int GetAttribLocation(string name) => GL.GetAttribLocation(handle, name);
         
         public void Use() => GL.UseProgram(handle);
         

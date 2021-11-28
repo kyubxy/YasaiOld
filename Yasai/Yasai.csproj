@@ -85,7 +85,6 @@
     <None Remove="Extensions\**" />
     <None Remove="Input\**" />
     <None Remove="Screens\**" />
-    <None Remove="Graphics\Imaging\**" />
     <None Remove="Graphics\Primitives\**" />
     <None Remove="Graphics\Text\**" />
     <None Remove="Graphics\YasaiSDL\**" />
@@ -98,7 +97,6 @@
     <Compile Remove="Extensions\**" />
     <Compile Remove="Input\**" />
     <Compile Remove="Screens\**" />
-    <Compile Remove="Graphics\Imaging\**" />
     <Compile Remove="Graphics\Primitives\**" />
     <Compile Remove="Graphics\Text\**" />
     <Compile Remove="Graphics\YasaiSDL\**" />
@@ -116,7 +114,6 @@
     <EmbeddedResource Remove="Extensions\**" />
     <EmbeddedResource Remove="Input\**" />
     <EmbeddedResource Remove="Screens\**" />
-    <EmbeddedResource Remove="Graphics\Imaging\**" />
     <EmbeddedResource Remove="Graphics\Primitives\**" />
     <EmbeddedResource Remove="Graphics\Text\**" />
     <EmbeddedResource Remove="Graphics\YasaiSDL\**" />
@@ -126,6 +123,7 @@
 
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.6.7" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
   </ItemGroup>
 
 </Project>
