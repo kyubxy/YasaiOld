@@ -120,12 +120,10 @@ namespace Yasai
 
             tex = new Texture("Assets/tex.png");
             tex.Use();
+
+            view = Matrix4.CreateTranslation(0, 0, -3);
             
-            view = Matrix4.CreateTranslation(0.0f, 0.0f, -3.0f);
-            projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45f), Window.Size.X / (float) Window.Size.Y, 0.1f, 100.0f);
-
-            // GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0); // <- no images
-
+            projection = Matrix4.CreateOrthographic(800, 600, 0.1f, 100f);
         }
 
         private Texture tex;
@@ -145,18 +143,17 @@ namespace Yasai
         public sealed override void Draw(FrameEventArgs args)
         {
             base.Draw(args);
-            time += args.Time*100;
+            time += args.Time;
             
-            //GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             
             GL.BindVertexArray(vao);
             
             tex.Use();
             shader.Use();
-            
-            model = Matrix4.Identity * Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(time));
-            
+
+            model = Matrix4.Identity * Matrix4.CreateScale(300) * Matrix4.CreateRotationZ((float)time*2);
+
             shader.SetMatrix4("model", model);
             shader.SetMatrix4("view", view);
             shader.SetMatrix4("projection", projection);
