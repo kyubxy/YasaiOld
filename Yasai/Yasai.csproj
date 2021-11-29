@@ -81,8 +81,6 @@
     <None Update="Assets\Fonts\OpenSans-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Remove="Audio\**" />
-    <None Remove="Extensions\**" />
     <None Remove="Input\**" />
     <None Remove="Screens\**" />
     <None Remove="Graphics\Primitives\**" />
@@ -93,8 +91,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Audio\**" />
-    <Compile Remove="Extensions\**" />
     <Compile Remove="Input\**" />
     <Compile Remove="Screens\**" />
     <Compile Remove="Graphics\Primitives\**" />
@@ -110,8 +106,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Audio\**" />
-    <EmbeddedResource Remove="Extensions\**" />
     <EmbeddedResource Remove="Input\**" />
     <EmbeddedResource Remove="Screens\**" />
     <EmbeddedResource Remove="Graphics\Primitives\**" />

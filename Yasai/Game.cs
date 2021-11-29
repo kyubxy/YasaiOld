@@ -5,6 +5,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using Yasai.Graphics;
+using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Shaders;
 using Yasai.Structures.DI;
 
@@ -21,18 +22,6 @@ namespace Yasai
 
         
         #region constructors
-        //public Game(string[] args = null) 
-        //    : this(60, args) 
-        //{ }
-        //
-        //public Game (int refreshRate, string[] args = null) 
-        //    : this ($"Yasai running {Assembly.GetEntryAssembly()?.GetName().Name} @ {refreshRate}Hz", refreshRate, args) 
-        //{ }
-        //
-        //public Game (string title, int refreshRate = 60, string[] args = null) 
-        //    : this (title, 1366, 768, refreshRate, args)
-        //{ }
-
         public Game() : this ($"Yasai running {Assembly.GetEntryAssembly()?.GetName().Name}")
         { }
         
@@ -65,11 +54,10 @@ namespace Yasai
         private int vao;
 
         private Matrix4 model;
-        private Matrix4 view;
         private Matrix4 projection;
 
         private Shader shader;
-        private int _elementBufferObject;
+        private int elementBufferObject;
         private readonly float[] vertices =
         {
             // Position         TextureTemp coordinates
@@ -78,7 +66,7 @@ namespace Yasai
             -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
             -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
         };
-        private readonly uint[] _indices =
+        private readonly uint[] indices =
         {
             0, 1, 3, // The first triangle will be the bottom-right half of the triangle
             1, 2, 3  // Then the second will be the top-right half of the triangle
@@ -103,10 +91,11 @@ namespace Yasai
             GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
             
             // ebo
-            _elementBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
+            elementBufferObject = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
             
+            // shaders
             shader = new Shader(@"Assets/vert_shader.glsl", @"Assets/frag_shader.glsl");
             shader.Use();
             
@@ -118,9 +107,12 @@ namespace Yasai
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
 
+            // textures
             tex = new Texture("Assets/tex.png");
             tex.Use();
 
+            // projection
+            
             // realistically all 2D objects should have a z of 0
             projection = Matrix4.CreateOrthographic(800, 600, -1f, 1f);
         }
@@ -144,19 +136,18 @@ namespace Yasai
             base.Draw(args);
             time += args.Time;
             
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            model = Matrix4.Identity * Matrix4.CreateScale(300) * Matrix4.CreateRotationZ((float)time*2);
             
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.BindVertexArray(vao);
             
             tex.Use();
             shader.Use();
 
-            model = Matrix4.Identity * Matrix4.CreateScale(300) * Matrix4.CreateRotationZ((float)time*2);
-
             shader.SetMatrix4("model", model);
             shader.SetMatrix4("projection", projection);
             
-            GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
             
             Window.SwapBuffers();
         }

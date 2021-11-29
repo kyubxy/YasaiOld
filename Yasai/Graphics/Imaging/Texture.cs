@@ -5,7 +5,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
-namespace Yasai.Graphics
+namespace Yasai.Graphics.Imaging
 {
     public class Texture
     {
