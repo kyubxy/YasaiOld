@@ -13,10 +13,10 @@
       <None Update="Assets\tex.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Assets\shader.frag">
+      <None Update="Assets\frag_shader.glsl">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Assets\shader.vert">
+      <None Update="Assets\vert_shader.glsl">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>

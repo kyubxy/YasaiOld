@@ -107,7 +107,7 @@ namespace Yasai
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
             GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
             
-            shader = new Shader(@"Assets/shader.vert", @"Assets/shader.frag");
+            shader = new Shader(@"Assets/vert_shader.glsl", @"Assets/frag_shader.glsl");
             shader.Use();
             
             var vertexLocation = shader.GetAttribLocation("aPosition");
@@ -121,9 +121,8 @@ namespace Yasai
             tex = new Texture("Assets/tex.png");
             tex.Use();
 
-            view = Matrix4.CreateTranslation(0, 0, -3);
-            
-            projection = Matrix4.CreateOrthographic(800, 600, 0.1f, 100f);
+            // realistically all 2D objects should have a z of 0
+            projection = Matrix4.CreateOrthographic(800, 600, -1f, 1f);
         }
 
         private Texture tex;
@@ -155,7 +154,6 @@ namespace Yasai
             model = Matrix4.Identity * Matrix4.CreateScale(300) * Matrix4.CreateRotationZ((float)time*2);
 
             shader.SetMatrix4("model", model);
-            shader.SetMatrix4("view", view);
             shader.SetMatrix4("projection", projection);
             
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
