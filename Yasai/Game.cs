@@ -8,6 +8,7 @@ using OpenTK.Windowing.Desktop;
 using Yasai.Graphics;
 using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Shaders;
+using Yasai.Graphics.Shapes;
 using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
 
@@ -51,6 +52,9 @@ namespace Yasai
             // fonts
            //fontStore.LoadResource(@"OpenSans-Regular.ttf", SpriteFont.FontTiny, new FontArgs(14));
            //fontStore.LoadResource(@"LigatureSymbols.ttf", SpriteFont.SymbolFontTiny, new FontArgs(14));
+           
+            shaderStore.LoadResource("texture.sh", Shader.TextureShader);
+            shaderStore.LoadResource("solid.sh", Shader.SolidShader);
         }
 
         private int vbo;
@@ -73,6 +77,8 @@ namespace Yasai
             0, 1, 3, // The first triangle will be the bottom-right half of the triangle
             1, 2, 3  // Then the second will be the top-right half of the triangle
         };
+
+        private Box box;
 
         public override void Load(DependencyContainer dependencies)
         {
@@ -99,8 +105,7 @@ namespace Yasai
             
             // shaders
             //shader = new Shader(@"Assets/vert_shader.glsl", @"Assets/frag_shader.glsl");
-            shaderStore.LoadResource("texture.sh");
-            shader = shaderStore.GetResource("texture");
+            shader = shaderStore.GetResource(Shader.TextureShader);
             shader.Use();
             
             var vertexLocation = shader.GetAttribLocation("aPosition");
@@ -114,6 +119,11 @@ namespace Yasai
             // textures
             tex = new Texture("Assets/tex.png");
             tex.Use();
+
+            box = new Box
+            {
+                Position = new Vector2(400)
+            };
         }
 
         private Texture tex;
@@ -129,12 +139,11 @@ namespace Yasai
             shader.Dispose();
         }
 
-        private double time;
         public sealed override void Draw(FrameEventArgs args)
         {
             base.Draw(args);
-            time += args.Time;
 
+            // TODO: move this inside Drawable
             model = Matrix4.Identity * 
                     Matrix4.CreateScale(100,100,0) *             // Scale
                     Matrix4.CreateTranslation(100, 100, 0)       // translation
@@ -143,12 +152,14 @@ namespace Yasai
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.BindVertexArray(vao);
             
+            // TODO: this too
             tex.Use();
             shader.Use();
 
             shader.SetMatrix4("model", model);
             shader.SetMatrix4("projection", Projection);
             
+            // maybe not this
             GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
             
             Window.SwapBuffers();

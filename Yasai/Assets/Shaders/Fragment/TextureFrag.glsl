@@ -1,3 +1,5 @@
+// produces a texture
+
 #version 330
 out vec4 outputColor;
 in vec2 texCoord;

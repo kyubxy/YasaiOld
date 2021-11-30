@@ -51,7 +51,7 @@ namespace Yasai.Graphics.Shaders
             if (infoLogFrag != String.Empty)
                 Console.WriteLine(infoLogFrag);
             
-            // more shit
+            // binding
             Handle = GL.CreateProgram();
 
             GL.AttachShader(Handle, vertexShader);
@@ -100,6 +100,12 @@ namespace Yasai.Graphics.Shaders
         {
             Use();
             GL.Uniform3(uniformLocations[name], data);
+        }
+
+        public void SetVector4(string name, Vector4 data)
+        {
+            Use();
+            GL.Uniform4(uniformLocations[name], data);
         }
         
         public void Use() => GL.UseProgram(Handle);
