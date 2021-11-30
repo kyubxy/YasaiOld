@@ -16,7 +16,7 @@ namespace Yasai.Resources
     }
     
     public abstract class ContentStore<T> : IContentStore 
-        where T : Resource
+        where T : IResource
     {
         // filepath root
         public string Root { get; }
@@ -63,12 +63,9 @@ namespace Yasai.Resources
         /// <param name="path">path to resource</param>
         /// <param name="key">dictionary key, how to reference the resource</param>
         /// <param name="args">additional load arguments supported by the loader</param>
-        /// <param name="hushWarnings">whether the program should report unloadable resources</param>
         /// <exception cref="NotSupportedException"></exception>
         public void LoadResource(string path, string key, IResourceArgs args = null)
         {
-
-            
             // check if valid resource type
             string loadType = Path.GetExtension(path);
             if (!FileTypes.Contains(loadType))
@@ -141,7 +138,7 @@ namespace Yasai.Resources
             else
             {
                 resources[key].Dispose();
-                resources[key] = null;
+                resources[key] = default;
             }
         }
 
@@ -172,7 +169,7 @@ namespace Yasai.Resources
         
         private bool IsResourceLoaded(string absPath, IResourceArgs args)
         {
-            foreach (Resource r in resources.Values)
+            foreach (IResource r in resources.Values)
                 if (r.Path == absPath && r.Args == args) 
                     return true;
             

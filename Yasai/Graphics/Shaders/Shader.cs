@@ -1,112 +1,113 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection.Metadata;
 using System.Text;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using Yasai.Resources;
 
 namespace Yasai.Graphics.Shaders
 {
-    public class Shader
+    public class Shader : Resource<int>
     {
-        private int handle;
-        private readonly Dictionary<string,int> _uniformLocations;
+        //private int handle;
+        private readonly Dictionary<string,int> uniformLocations;
 
-        public Shader(string vertexPath, string fragPath)
+        public Shader(string vertexPath, string fragPath) 
         {
             // read shaders
-            string VertexShaderSource;
+            string vertexShaderSource;
 
             using (StreamReader reader = new StreamReader(vertexPath, Encoding.UTF8))
-                VertexShaderSource = reader.ReadToEnd();
+                vertexShaderSource = reader.ReadToEnd();
 
-            string FragmentShaderSource;
+            string fragmentShaderSource;
 
             using (StreamReader reader = new StreamReader(fragPath, Encoding.UTF8))
-                FragmentShaderSource = reader.ReadToEnd();
+                fragmentShaderSource = reader.ReadToEnd();
             
             // generate shaders
-            var VertexShader = GL.CreateShader(ShaderType.VertexShader);
-            GL.ShaderSource(VertexShader, VertexShaderSource);
+            var vertexShader = GL.CreateShader(ShaderType.VertexShader);
+            GL.ShaderSource(vertexShader, vertexShaderSource);
 
-            var FragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(FragmentShader, FragmentShaderSource);
+            var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+            GL.ShaderSource(fragmentShader, fragmentShaderSource);
             
             // compile shaders
-            GL.CompileShader(VertexShader);
+            GL.CompileShader(vertexShader);
 
-            string infoLogVert = GL.GetShaderInfoLog(VertexShader);
-            if (infoLogVert != System.String.Empty)
-                System.Console.WriteLine(infoLogVert);
+            string infoLogVert = GL.GetShaderInfoLog(vertexShader);
+            if (infoLogVert != String.Empty)
+                Console.WriteLine(infoLogVert);
 
-            GL.CompileShader(FragmentShader);
+            GL.CompileShader(fragmentShader);
 
-            string infoLogFrag = GL.GetShaderInfoLog(FragmentShader);
+            string infoLogFrag = GL.GetShaderInfoLog(fragmentShader);
 
-            if (infoLogFrag != System.String.Empty)
-                System.Console.WriteLine(infoLogFrag);
+            if (infoLogFrag != String.Empty)
+                Console.WriteLine(infoLogFrag);
             
             // more shit
-            handle = GL.CreateProgram();
+            Handle = GL.CreateProgram();
 
-            GL.AttachShader(handle, VertexShader);
-            GL.AttachShader(handle, FragmentShader);
+            GL.AttachShader(Handle, vertexShader);
+            GL.AttachShader(Handle, fragmentShader);
 
-            GL.LinkProgram(handle);
+            GL.LinkProgram(Handle);
             
             // cleanup
-            GL.DetachShader(handle, VertexShader);
-            GL.DetachShader(handle, FragmentShader);
-            GL.DeleteShader(FragmentShader);
-            GL.DeleteShader(VertexShader);
+            GL.DetachShader(Handle, vertexShader);
+            GL.DetachShader(Handle, fragmentShader);
+            GL.DeleteShader(fragmentShader);
+            GL.DeleteShader(vertexShader);
             
-            GL.GetProgram(handle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms); 
-            _uniformLocations = new Dictionary<string, int>();
+            GL.GetProgram(Handle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms); 
+            uniformLocations = new Dictionary<string, int>();
 
             // Loop over all the uniforms,
             for (var i = 0; i < numberOfUniforms; i++)
             {
                 // get the name of this uniform,
-                var key = GL.GetActiveUniform(handle, i, out _, out _);
+                var key = GL.GetActiveUniform(Handle, i, out _, out _);
 
                 // get the location,
-                var location = GL.GetUniformLocation(handle, key);
+                var location = GL.GetUniformLocation(Handle, key);
 
                 // and then add it to the dictionary.
-                _uniformLocations.Add(key, location);
+                uniformLocations.Add(key, location);
             }
         }
 
-        public int GetAttribLocation(string name) => GL.GetAttribLocation(handle, name);
+        public int GetAttribLocation(string name) => GL.GetAttribLocation(Handle, name);
 
         public void SetInt(string name, int value)
         {
             Use();
-            GL.Uniform1(_uniformLocations[name], value);
+            GL.Uniform1(uniformLocations[name], value);
         }
         
         public void SetMatrix4(string name, Matrix4 value)
         {
             Use();
-            GL.UniformMatrix4(_uniformLocations[name], true, ref value);
+            GL.UniformMatrix4(uniformLocations[name], true, ref value);
         }
         
         public void SetVector3(string name, Vector3 data)
         {
             Use();
-            GL.Uniform3(_uniformLocations[name], data);
+            GL.Uniform3(uniformLocations[name], data);
         }
         
-        public void Use() => GL.UseProgram(handle);
+        public void Use() => GL.UseProgram(Handle);
         
+        #region IDisposable pattern
         private bool disposedValue;
         
-        protected virtual void Dispose(bool disposing)
+        private void dispose(bool disposing)
         {
             if (!disposedValue)
             {
-                GL.DeleteProgram(handle);
+                GL.DeleteProgram(Handle);
 
                 disposedValue = true;
             }
@@ -114,13 +115,14 @@ namespace Yasai.Graphics.Shaders
 
         ~Shader()
         {
-            GL.DeleteProgram(handle);
+            GL.DeleteProgram(Handle);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
-            Dispose(true);
+            dispose(true);
             GC.SuppressFinalize(this);
         }
+        # endregion
     }
 }

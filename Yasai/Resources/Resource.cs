@@ -2,21 +2,29 @@ using System;
 
 namespace Yasai.Resources
 {
-    public abstract class Resource : IDisposable
+    public interface IResource : IDisposable
     {
-        public IntPtr Handle { get; protected set; }
-        public string Path { get; private set; }
-        public IResourceArgs Args { get; private set; }
-        
-        public Resource(IntPtr h, string p, IResourceArgs args)
+        string Path { init; get; }
+        IResourceArgs Args { init; get; }
+    }
+    
+    public abstract class Resource<T> : IDisposable
+    {
+        //public IntPtr Handle { get; protected set; }
+        public T Handle { init; get; }
+        public string Path { init; get; }
+        public IResourceArgs Args { init; get; }
+
+        public Resource(T handle, string p, IResourceArgs args)
         {
-            Handle = h;
+            Handle = handle;
             Path = p;
             Args = args;
         }
+        
+        public Resource() {}
 
         public virtual void Dispose()
-        {
-        }
+        { }
     }
 }

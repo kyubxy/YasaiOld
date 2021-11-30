@@ -25,9 +25,6 @@ namespace Yasai.Graphics
         public virtual Shader Shader { get; set; }
         public virtual bool Enabled { get; set; } = true;
 
-        protected DependencyContainer Dependencies { get; private set; }
-        public virtual bool Loaded => Dependencies != null;
-            
         // TODO: use a bindable 
         private float alpha = 1;
         public virtual float Alpha
@@ -37,16 +34,8 @@ namespace Yasai.Graphics
         }
 
         public virtual Color Colour { get; set; }
-
-        public Matrix3 Transformations => throw new NotImplementedException();
-        /*
-            => (Parent?.Transformations ?? Matrix.Identity) *
-               Matrix.GetTranslationMat(Position) *
-               Matrix.GetRotationMat(Rotation) *
-               Matrix.GetScaleMat(Scale)
-               ;
-               */
-
+        
+        // TODO: also use a bindable 
         public float X
         {
             get => Position.X;
@@ -70,8 +59,19 @@ namespace Yasai.Graphics
             set => Size = new Vector2(Size.X, value);
         }
 
-        public virtual void Load(DependencyContainer dependencies)
-            => Dependencies = dependencies;
+        public Matrix3 Transformations => throw new NotImplementedException();
+        /*
+            => (Parent?.Transformations ?? Matrix.Identity) *
+               Matrix.GetTranslationMat(Position) *
+               Matrix.GetRotationMat(Rotation) *
+               Matrix.GetScaleMat(Scale)
+               ;
+               */
+
+        public virtual bool Loaded { get; }
+
+        public virtual void Load(DependencyContainer dependencies) 
+        { }
 
         public virtual void Update(FrameEventArgs args)
         { }
