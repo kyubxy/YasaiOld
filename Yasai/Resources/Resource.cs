@@ -8,7 +8,7 @@ namespace Yasai.Resources
         IResourceArgs Args { init; get; }
     }
     
-    public abstract class Resource<T> : IDisposable
+    public abstract class Resource<T> : IResource
     {
         //public IntPtr Handle { get; protected set; }
         public T Handle { init; get; }

@@ -8,6 +8,7 @@ using OpenTK.Windowing.Desktop;
 using Yasai.Graphics;
 using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Shaders;
+using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
 
 namespace Yasai
@@ -20,6 +21,7 @@ namespace Yasai
         //protected Container Root;
 
         //private FontStore fontStore;
+        private ShaderStore shaderStore;
 
         private static readonly string DEFAULT_NAME = $"Yasai running {Assembly.GetEntryAssembly()?.GetName().Name}";
 
@@ -37,6 +39,7 @@ namespace Yasai
 
             // register font store 
             //Dependencies.Register<FontStore>(fontStore = new FontStore(Dependencies, @"Assets/Fonts"));
+            Dependencies.Register<ShaderStore>(shaderStore = new ShaderStore(Dependencies, @"Assets/Shaders"));
         }
         #endregion
 
@@ -95,7 +98,9 @@ namespace Yasai
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
             
             // shaders
-            shader = new Shader(@"Assets/vert_shader.glsl", @"Assets/frag_shader.glsl");
+            //shader = new Shader(@"Assets/vert_shader.glsl", @"Assets/frag_shader.glsl");
+            shaderStore.LoadResource("texture.sh");
+            shader = shaderStore.GetResource("texture");
             shader.Use();
             
             var vertexLocation = shader.GetAttribLocation("aPosition");

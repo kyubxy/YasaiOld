@@ -10,10 +10,14 @@ namespace Yasai.Graphics.Shaders
 {
     public class Shader : Resource<int>
     {
+        public static string TextureShader => "yasai_textureShader";
+        public static string SolidShader   => "yasai_solidShader";
+        public static string MaskingShader => "yasai_maskingShader";
+        
         //private int handle;
         private readonly Dictionary<string,int> uniformLocations;
 
-        public Shader(string vertexPath, string fragPath) 
+        public Shader(string fragPath, string vertexPath)
         {
             // read shaders
             string vertexShaderSource;
