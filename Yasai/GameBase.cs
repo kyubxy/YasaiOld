@@ -16,21 +16,8 @@ namespace Yasai
     {
         public readonly GameWindow Window;
         
-        private bool quit;
-
-        public bool Loaded => true;
-        
-        public bool Visible { get; set; } = true;
-        public void Draw(IntPtr renderer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Enabled
-        {
-            get => throw new Exception("use Game.Quit() to quit the game");
-            set => throw new Exception("use Game.Quit() to quit the game");
-        }
+        // encapsulate the projection matrix for now
+        protected Matrix4 Projection;
 
         public DependencyContainer Dependencies { get; }
         
@@ -38,16 +25,10 @@ namespace Yasai
 
         internal static readonly Logger YasaiLogger = new ("yasai.log");
 
-        #region constructors
-        public GameBase(string title, int w, int h, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
+        public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
-            var e = new NativeWindowSettings()
-            {
-                Size = new Vector2i(800,600)
-            };
-            
-            Window = new GameWindow(gameSettings, e);
-            //Window.Size = new Vector2i(800, 600);
+            // Window
+            Window = new GameWindow(gameSettings, nativeSettings);
             Window.Title = title;
 
             Window.Load += () => Load(Dependencies);
@@ -56,6 +37,7 @@ namespace Yasai
             Window.RenderFrame += Draw;
             Window.Resize += Resize;
             
+            // Initialise dependencies
             Dependencies = new DependencyContainer();
             Dependencies.Register<GameWindow>(Window);
 
@@ -65,9 +47,8 @@ namespace Yasai
         public virtual void Resize(ResizeEventArgs obj)
         {
             GL.Viewport(0,0,obj.Width, obj.Height);
+            Projection = Matrix4.CreateOrthographicOffCenter(0, Window.Size.X, Window.Size.Y, 0, -1, 1); 
         }
-
-        #endregion
         
         public virtual void Load(DependencyContainer dependencies)
         { }
@@ -88,5 +69,17 @@ namespace Yasai
             // TODO: dispose disposable dependencies
             YasaiLogger.LogInfo("Disposed of resources and exited successfully");
         }
+        
+        # region random stuff
+        public void Draw(IntPtr renderer)
+            => throw new NotImplementedException();
+        public bool Loaded => true;
+        public bool Visible { get; set; } = true;
+        public bool Enabled
+        {
+            get => throw new Exception("use Game.Quit() to quit the game");
+            set => throw new Exception("use Game.Quit() to quit the game");
+        }
+        # endregion
     }
 }

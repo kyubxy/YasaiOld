@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Reflection;
 using OpenTK.Graphics.OpenGL4;
@@ -20,17 +21,16 @@ namespace Yasai
 
         //private FontStore fontStore;
 
-        
+        private static readonly string DEFAULT_NAME = $"Yasai running {Assembly.GetEntryAssembly()?.GetName().Name}";
+
         #region constructors
-        public Game() : this ($"Yasai running {Assembly.GetEntryAssembly()?.GetName().Name}")
+        
+        public Game(string title=null, int w=1366, int h=768, string[] args = null) 
+            : this (title ?? DEFAULT_NAME, GameWindowSettings.Default, new NativeWindowSettings { Size = new Vector2i(w, h) }, args)
         { }
         
-        public Game (string title, int w = 1366, int h = 768, string[] args = null) 
-            : this (title, w, h, GameWindowSettings.Default, NativeWindowSettings.Default, args)
-        { }
-        
-        public Game(string title, int w, int h, GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, string[] args = null) 
-            : base (title, w, h, gameWindowSettings, nativeWindowSettings, args)
+        public Game(string title, GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, string[] args = null) 
+            : base (title, gameWindowSettings, nativeWindowSettings, args)
         {
             //Root = new Container();
             //Children.Add(Root);
@@ -54,17 +54,16 @@ namespace Yasai
         private int vao;
 
         private Matrix4 model;
-        private Matrix4 projection;
 
         private Shader shader;
         private int elementBufferObject;
         private readonly float[] vertices =
         {
             // Position         TextureTemp coordinates
-             0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
-             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
-            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
+             0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // top right
+             0.5f, -0.5f, 0.0f, 1.0f, 1.0f, // bottom right
+            -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // bottom left
+            -0.5f,  0.5f, 0.0f, 0.0f, 0.0f  // top left
         };
         private readonly uint[] indices =
         {
@@ -110,11 +109,6 @@ namespace Yasai
             // textures
             tex = new Texture("Assets/tex.png");
             tex.Use();
-
-            // projection
-            
-            // realistically all 2D objects should have a z of 0
-            projection = Matrix4.CreateOrthographic(800, 600, -1f, 1f);
         }
 
         private Texture tex;
@@ -135,8 +129,11 @@ namespace Yasai
         {
             base.Draw(args);
             time += args.Time;
-            
-            model = Matrix4.Identity * Matrix4.CreateScale(300) * Matrix4.CreateRotationZ((float)time*2);
+
+            model = Matrix4.Identity * 
+                    Matrix4.CreateScale(100,100,0) *             // Scale
+                    Matrix4.CreateTranslation(100, 100, 0)       // translation
+                    ;
             
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.BindVertexArray(vao);
@@ -145,7 +142,7 @@ namespace Yasai
             shader.Use();
 
             shader.SetMatrix4("model", model);
-            shader.SetMatrix4("projection", projection);
+            shader.SetMatrix4("projection", Projection);
             
             GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
             

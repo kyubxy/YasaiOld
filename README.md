@@ -3,7 +3,7 @@
 [![Status](https://github.com/EpicTofuu/Yasai/actions/workflows/dotnet.yml/badge.svg)](https://github.com/EpicTofuu/Yasai/actions/workflows/dotnet.yml)
 ![GitHub](https://img.shields.io/github/license/epictofuu/yasai)
 
-the funny vegetable framework, this serves as my general graphics playground. Powered by SDL2 (for now).
+the funny vegetable framework, this serves as my general graphics playground. Powered by OpenGL4 (through OpenTK)
 
 # What
 [infinite monkey theorem](https://en.wikipedia.org/wiki/Infinite_monkey_theorem) but it's being applied to writing a C# graphics framework. 
