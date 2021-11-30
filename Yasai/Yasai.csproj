@@ -83,36 +83,29 @@
     </None>
     <None Remove="Input\**" />
     <None Remove="Screens\**" />
-    <None Remove="Graphics\Primitives\**" />
     <None Remove="Graphics\Text\**" />
     <None Remove="Graphics\YasaiSDL\**" />
     <None Remove="Graphics\Containers\**" />
-    <None Remove="Resources\Stores\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Input\**" />
     <Compile Remove="Screens\**" />
-    <Compile Remove="Graphics\Primitives\**" />
     <Compile Remove="Graphics\Text\**" />
     <Compile Remove="Graphics\YasaiSDL\**" />
-    <Compile Remove="Graphics\Anchor.cs" />
-    <Compile Remove="Graphics\Drawable.cs" />
     <Compile Remove="Graphics\IGeometry.cs" />
     <Compile Remove="Graphics\IGraphicsModifiable.cs" />
-    <Compile Remove="Graphics\RelativeAxes.cs" />
     <Compile Remove="Graphics\Containers\**" />
-    <Compile Remove="Resources\Stores\**" />
+    <Compile Remove="Resources\Stores\FontStore.cs" />
+    <Compile Remove="Resources\Stores\TextureStore.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="Input\**" />
     <EmbeddedResource Remove="Screens\**" />
-    <EmbeddedResource Remove="Graphics\Primitives\**" />
     <EmbeddedResource Remove="Graphics\Text\**" />
     <EmbeddedResource Remove="Graphics\YasaiSDL\**" />
     <EmbeddedResource Remove="Graphics\Containers\**" />
-    <EmbeddedResource Remove="Resources\Stores\**" />
   </ItemGroup>
 
   <ItemGroup>

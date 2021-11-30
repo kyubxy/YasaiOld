@@ -78,7 +78,7 @@ namespace Yasai
             
             GL.ClearColor(Color.CornflowerBlue);
             
-            GL.Enable(EnableCap.DepthTest);
+            //GL.Enable(EnableCap.DepthTest);
             
             // vao
             vao = GL.GenVertexArray();

@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -12,7 +13,7 @@ namespace Yasai
     /// <summary>
     /// The bare essentials of a Yasai application
     /// </summary>
-    public class GameBase : IContainer, IDisposable
+    public class GameBase : IDisposable
     {
         public readonly GameWindow Window;
         
@@ -69,17 +70,5 @@ namespace Yasai
             // TODO: dispose disposable dependencies
             YasaiLogger.LogInfo("Disposed of resources and exited successfully");
         }
-        
-        # region random stuff
-        public void Draw(IntPtr renderer)
-            => throw new NotImplementedException();
-        public bool Loaded => true;
-        public bool Visible { get; set; } = true;
-        public bool Enabled
-        {
-            get => throw new Exception("use Game.Quit() to quit the game");
-            set => throw new Exception("use Game.Quit() to quit the game");
-        }
-        # endregion
     }
 }

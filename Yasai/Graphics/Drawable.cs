@@ -1,56 +1,51 @@
 using System;
 using System.Drawing;
-using System.Numerics;
-using Yasai.Input.Keyboard;
-using Yasai.Input.Mouse;
-using Yasai.Maths;
-using Yasai.Structures;
-using Yasai.Structures.Bindables;
 using Yasai.Structures.DI;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using Yasai.Graphics.Shaders;
 
 namespace Yasai.Graphics
 {
-    public abstract class Drawable : IDrawable, IGeometry, IGraphicsModifiable 
+    public abstract class Drawable : IDrawable 
     {
-        public virtual Vector2 Position { get; set; } = Vector2.Zero;
-        public virtual Vector2 Scale { get; set; } = Vector2.One;
-        public virtual Vector2 Size { get; set; } = new (100);
-        public virtual RelativeAxes RelativeAxes { get; set; } = RelativeAxes.None;
+        public IDrawable Parent { get; set; }
         
+        public virtual Vector2 Position { get; set; } = Vector2.Zero;
+        public virtual Vector2 Offset { get; set; } = Vector2.Zero;
         public virtual Anchor Anchor { get; set; } = Anchor.TopLeft;
         public virtual Anchor Origin { get; set; } = Anchor.TopLeft;
-        public virtual Vector2 Offset { get; set; } = Vector2.Zero;
-
-        public virtual bool Visible { get; set; } = true;
-        public virtual bool Enabled { get; set; } = true;
+        public virtual float Rotation { get; set; }
         
+        public virtual Vector2 Size { get; set; } = new (100);
+        public virtual Vector2 Scale { get; set; } = Vector2.One;
+        public virtual RelativeAxes RelativeAxes { get; set; } = RelativeAxes.None;
+        
+        public virtual bool Visible { get; set; } = true;
+        public virtual Shader Shader { get; set; }
+        public virtual bool Enabled { get; set; } = true;
+
         protected DependencyContainer Dependencies { get; private set; }
         public virtual bool Loaded => Dependencies != null;
-
-        public Drawable Parent { get; set; }
-
-        private float rotation;
-        public virtual float Rotation
-        {
-            get => rotation;
-            set => rotation = value % (float)(2 * Math.PI);
-        }
-
+            
+        // TODO: use a bindable 
         private float alpha = 1;
         public virtual float Alpha
         {
-            get => alpha * (Parent?.alpha ?? 1);
+            get => alpha * (Parent?.Alpha ?? 1);
             set => alpha = value;
         }
 
         public virtual Color Colour { get; set; }
 
-        public Matrix3 Transformations
+        public Matrix3 Transformations => throw new NotImplementedException();
+        /*
             => (Parent?.Transformations ?? Matrix.Identity) *
                Matrix.GetTranslationMat(Position) *
                Matrix.GetRotationMat(Rotation) *
                Matrix.GetScaleMat(Scale)
                ;
+               */
 
         public float X
         {
@@ -78,14 +73,10 @@ namespace Yasai.Graphics
         public virtual void Load(DependencyContainer dependencies)
             => Dependencies = dependencies;
 
-        public virtual void Update()
-        {
-        }
-
-        public virtual void Draw(IntPtr renderer)
-        {
-        }
-
+        public virtual void Update(FrameEventArgs args)
+        { }
+        
+        /*
         # region input
         
         // keyboard
@@ -153,5 +144,6 @@ namespace Yasai.Graphics
                position.Y < Position.Y + Size.Y;
         
         # endregion
+        */
     }
 }
