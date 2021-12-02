@@ -29,8 +29,8 @@ namespace Yasai.Graphics
         public virtual RelativeAxes RelativeAxes { get; set; } = RelativeAxes.None;
         
         public virtual bool Visible { get; set; } = true;
-        public virtual Shader Shader { get; set; }
         public virtual bool Enabled { get; set; } = true;
+        public virtual Shader Shader { get; set; }
 
         // TODO: use a bindable 
         private float alpha = 1;
@@ -85,7 +85,7 @@ namespace Yasai.Graphics
 
         public virtual bool Loaded { get; protected set; }
 
-        public virtual void Load(DependencyContainer dependencies) 
+        public virtual void Load(DependencyContainer dep) 
         { }
 
         public virtual void Update(FrameEventArgs args)
@@ -93,76 +93,7 @@ namespace Yasai.Graphics
 
         public virtual void Use()
         { }
-
-        /*
-        # region input
         
-        // keyboard
-        public virtual void KeyUp(KeyArgs key) 
-        { }
-
-        public virtual void KeyDown(KeyArgs key) 
-        { }
-         
-        // mouse
-        public event EventHandler OnClick;
-        public event EventHandler OnRelease;
-        public event EventHandler OnHover;
-        public event EventHandler OnEnter;
-        public event EventHandler OnExit;
-
-        private bool mouseDownInside;
-        public virtual void MouseDown(MouseArgs args)
-        {
-            if (Hovering (args.Position))
-            {
-                mouseDownInside = true;
-                EventHandler handler = OnClick;
-                handler?.Invoke(this, args);
-            }
-        }
-        
-        public virtual void MouseUp(MouseArgs args)
-        {
-            if (Hovering (args.Position) && mouseDownInside)
-            {
-                EventHandler handler = OnRelease;
-                handler?.Invoke(this, args);
-            }
-
-            mouseDownInside = false;
-        }
-
-        private bool previousHover;
-        public virtual void MouseMotion(MouseArgs args)
-        {
-            bool currentHover = Hovering(args.Position);
-            if (currentHover)
-            {
-                EventHandler handler = OnHover;
-                handler?.Invoke(this, args);
-            }
-
-            if (currentHover && !previousHover)
-            {
-                EventHandler handler = OnEnter;
-                handler?.Invoke(this, args);
-            } 
-            else if (!currentHover && previousHover)
-            {
-                EventHandler handler = OnExit;
-                handler?.Invoke(this, args);
-            }
-
-            previousHover = Hovering(args.Position);
-        }
-
-        protected virtual bool Hovering(Vector2 position)
-            => position.X > Position.X && position.X < Position.X + Size.X && position.Y > Position.Y &&
-               position.Y < Position.Y + Size.Y;
-        
-        # endregion
-        */
         public virtual void Dispose()
         {
             //Parent?.Dispose();

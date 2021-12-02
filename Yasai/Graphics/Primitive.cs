@@ -10,9 +10,9 @@ namespace Yasai.Graphics
 
         private int vertexBufferObject, elementBufferObject;
 
-        public override void Load(DependencyContainer dependencies)
+        public override void Load(DependencyContainer dep)
         {
-            base.Load(dependencies);
+            base.Load(dep);
             
             // VertexBufferObject
             vertexBufferObject = GL.GenBuffer();

@@ -3,19 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Numerics;
-using Yasai.Graphics.Primitives;
-using Yasai.Input.Keyboard;
-using Yasai.Input.Mouse;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using Yasai.Graphics.Shapes;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Containers
 {
-    public class Container : Drawable, IContainer, ICollection<IDrawable>
+    public class WangContainer : Drawable, ICollection<IDrawable>
     {
         private readonly List<IDrawable> children;
 
         private readonly Box box;
+
+        private DependencyContainer dependencies;
 
         public IDrawable[] Items
         {
@@ -56,7 +58,7 @@ namespace Yasai.Graphics.Containers
         }
 
         #region constructors
-        public Container(List<IDrawable> children)
+        public WangContainer(List<IDrawable> children)
         {
             this.children = new List<IDrawable>();
             AddAll(children.ToArray());
@@ -66,46 +68,72 @@ namespace Yasai.Graphics.Containers
             Fill = false;
         }
 
-        public Container() : this (new List<IDrawable>())
+        public WangContainer() : this (new List<IDrawable>())
         { }
 
-        public Container(IDrawable[] children) : this(children.ToList())
+        public WangContainer(IDrawable[] children) : this(children.ToList())
         { }
+        
         #endregion
 
         #region lifespan
 
-        public override void Load(DependencyContainer dependencies)
+        public override void Load(DependencyContainer dep)
         {
-            base.Load(dependencies);
+            base.Load(dep);
+
+            dependencies = dep;
             
-            box.Load(dependencies);
+            box.Load(dep);
             foreach (IDrawable s in children)
-                s.Load(dependencies);
+                s.Load(dep);
         }
 
-        public override void Update()
+        public override void Update(FrameEventArgs args)
         {
-            base.Update();
+            base.Update(args);
             
             if (Enabled)
                 foreach (IDrawable s in children)
-                    s.Update();
+                    s.Update(args);
         }
 
-        public override void Draw(IntPtr renderer)
+        public override void Use() => box.Use();
+
+        // tightly coupling to this one until there's a good enough reason
+        // to decouple this behaviour
+        public void Draw()
         {
-            base.Draw(renderer);
-            
-            if (Visible && Enabled)
-            {
-                if (Fill)
-                    box.Draw(renderer);
-
-                foreach (IDrawable s in children) 
-                    s.Draw(renderer);
-            }
+            foreach (IDrawable drawable in children)
+                if (drawable is WangContainer c)
+                    c.Draw();
+                else if (drawable is Primitive p)
+                    DrawPrimitive(p);
         }
+        
+        /// <summary>
+        /// Render a single <see cref="Primitive"/> to the screen
+        /// </summary>
+        /// <param name="primitive"></param>
+        private void DrawPrimitive(Primitive primitive)
+        {
+           //if (!primitive.Enabled || !primitive.Visible)
+           //    return;
+            
+            var shader = primitive.Shader;
+            
+            shader.Use();
+            primitive.Use();
+            
+            // glhf !!
+            
+            // assuming the drawable uses a vertex shader with model and projection matrices
+            shader.SetMatrix4("model", primitive.ModelTransforms);
+            shader.SetMatrix4("projection", dependencies.Resolve<Matrix4>("proj"));
+            
+            GL.DrawElements(PrimitiveType.Triangles, primitive.Indices.Length, DrawElementsType.UnsignedInt, 0);
+        }
+        
         #endregion
         
         #region collection stuff
@@ -117,7 +145,7 @@ namespace Yasai.Graphics.Containers
             item.Parent = this;
 
             if (Loaded && !item.Loaded)
-                item.Load(Dependencies);
+                item.Load(dependencies);
             
             children.Add(item);
         }
@@ -165,66 +193,5 @@ namespace Yasai.Graphics.Containers
         public bool IsReadOnly => false;
         
         #endregion
-
-        public override void KeyDown(KeyArgs key)
-        {
-            foreach (IDrawable handler in children)
-            {
-                if (!handler.Enabled)
-                    break;
-                
-                handler.KeyDown(key);
-            }
-        }
-        
-        public override void KeyUp(KeyArgs key)
-        {
-            foreach (IDrawable handler in children)
-            {
-                if (!handler.Enabled)
-                    break;
-                
-                handler.KeyUp(key);
-            }
-        }
-
-        public override void MouseDown(MouseArgs args)
-        {
-            foreach (IDrawable handler in children)
-            {
-                if (!handler.Enabled)
-                    break;
-                
-                handler.MouseDown(args);
-            }
-            
-            base.MouseDown(args);
-        }
-        
-        public override void MouseUp(MouseArgs args)
-        {
-            foreach (IDrawable handler in children)
-            {
-                if (!handler.Enabled)
-                    break;
-                
-                handler.MouseUp(args);
-            }
-            
-            base.MouseUp(args);
-        }
-        
-        public override void MouseMotion(MouseArgs args)
-        {
-            foreach (IDrawable handler in children)
-            {
-                if (!handler.Enabled)
-                    break;
-                
-                handler.MouseMotion(args);
-            }
-            
-            base.MouseMotion(args);
-        }
     }
 }

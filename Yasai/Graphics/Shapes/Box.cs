@@ -10,10 +10,10 @@ namespace Yasai.Graphics.Shapes
 {
     public class Box : Quad
     {
-        public override void Load(DependencyContainer dependencies)
+        public override void Load(DependencyContainer dep)
         {
-            base.Load(dependencies);
-            var shaderStore = dependencies.Resolve<ShaderStore>();
+            base.Load(dep);
+            var shaderStore = dep.Resolve<ShaderStore>();
             
             Shader = shaderStore.GetResource(Shader.SolidShader);
             Shader.Use();

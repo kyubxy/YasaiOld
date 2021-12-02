@@ -81,7 +81,6 @@
     <None Remove="Screens\**" />
     <None Remove="Graphics\Text\**" />
     <None Remove="Graphics\YasaiSDL\**" />
-    <None Remove="Graphics\Containers\**" />
     <None Update="Assets\VertexShaders\Vert2D.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -112,7 +111,6 @@
     <Compile Remove="Graphics\YasaiSDL\**" />
     <Compile Remove="Graphics\IGeometry.cs" />
     <Compile Remove="Graphics\IGraphicsModifiable.cs" />
-    <Compile Remove="Graphics\Containers\**" />
     <Compile Remove="Resources\Stores\FontStore.cs" />
   </ItemGroup>
 
@@ -121,7 +119,6 @@
     <EmbeddedResource Remove="Screens\**" />
     <EmbeddedResource Remove="Graphics\Text\**" />
     <EmbeddedResource Remove="Graphics\YasaiSDL\**" />
-    <EmbeddedResource Remove="Graphics\Containers\**" />
   </ItemGroup>
 
   <ItemGroup>

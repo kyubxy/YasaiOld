@@ -7,8 +7,8 @@ using OpenTK.Windowing.Desktop;
 using Yasai.Debug.Logging;
 using Yasai.Structures.DI;
 using Yasai.Graphics;
+using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
-using Yasai.Graphics.Shaders;
 using Yasai.Graphics.Shapes;
 using Yasai.Resources.Stores;
 
@@ -22,7 +22,7 @@ namespace Yasai
         public readonly GameWindow Window;
         
         // encapsulate the projection matrix for now
-        protected Matrix4 Projection;
+        public Matrix4 Projection;
 
         public DependencyContainer Dependencies { get; }
         
@@ -47,6 +47,7 @@ namespace Yasai
             // Initialise dependencies
             Dependencies = new DependencyContainer();
             Dependencies.Register<GameWindow>(Window);
+            Dependencies.Register<Matrix4>(Projection, "proj"); // <- we'll register the projection matrix for now as a dependency
 
             //Children = new Container();
         }
@@ -63,6 +64,8 @@ namespace Yasai
 
         private Sprite spr;
 
+        private WangContainer container;
+
         private TextureStore texStore;
         
         public virtual void Load(DependencyContainer dependencies)
@@ -72,6 +75,20 @@ namespace Yasai
             // VertexArrayObject
             VertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(VertexArrayObject);
+
+            container = new WangContainer
+            {
+                Items = new IDrawable[]
+                {
+                    new Box
+                    {
+                        Position = new Vector2(500),
+                        Size = new Vector2(40),
+                        Colour = Color.LightSkyBlue
+                    }
+                }
+            };
+            container.Load(dependencies);
             
             box = new Box
             {
@@ -94,6 +111,7 @@ namespace Yasai
                 Position = new Vector2(300,400),
                 Size = new Vector2(40),
                 Colour = Color.FromArgb(255,23,140,170),
+                Alpha = 0.5f
             };
             box3.Load(dependencies);
 
@@ -120,14 +138,16 @@ namespace Yasai
             GL.BindVertexArray(VertexArrayObject);
 
             time += (float)args.Time;
-            
-            DrawPrimitive(box);
-            DrawPrimitive(box2);
-            DrawPrimitive(box3);
-            DrawPrimitive(spr);
+
+            container.Draw();
+           //DrawPrimitive(box);
+           //DrawPrimitive(box2);
+           //DrawPrimitive(spr);
+           //DrawPrimitive(box3);
 
             //spr.Rotation = (time) % (2 * (float)Math.PI);
-            spr.Size = new Vector2(time*40);
+            //spr.Size = new Vector2(time*40);
+            box3.Y = time*80;
             
             Window.SwapBuffers();
         }
@@ -138,6 +158,9 @@ namespace Yasai
         /// <param name="primitive"></param>
         private void DrawPrimitive(Primitive primitive)
         {
+            if (!primitive.Enabled || !primitive.Visible)
+                return;
+            
             var shader = primitive.Shader;
             
             shader.Use();
@@ -154,8 +177,8 @@ namespace Yasai
         {
             box.Dispose();
             box2.Dispose();
-            box3.Dispose();
             spr.Dispose();
+            box3.Dispose();
             
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindVertexArray(0);
