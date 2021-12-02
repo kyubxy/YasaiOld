@@ -70,6 +70,10 @@ namespace Yasai.Graphics
         public Matrix4 ModelTransforms 
             => Matrix4.Identity *
                Parent?.ModelTransforms ?? Matrix4.Identity * // parent
+            
+               // currently inheriting scale, need to make this optional
+               // glhf !!
+               
                Matrix4.CreateTranslation(-Offset.X - AnchorToUnit(Origin).X, Offset.Y + AnchorToUnit(Origin).Y, 0) * // Origin
                Matrix4.CreateScale(Width, Height, 0f) * // Scale
                Matrix4.CreateRotationZ (Rotation) * // Rotation

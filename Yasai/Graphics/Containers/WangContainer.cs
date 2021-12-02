@@ -116,8 +116,6 @@ namespace Yasai.Graphics.Containers
             shader.Use();
             primitive.Use();
             
-            // glhf !!
-            
             // assuming the drawable uses a vertex shader with model and projection matrices
             shader.SetMatrix4("model", primitive.ModelTransforms);
             shader.SetMatrix4("projection", GameBase.Projection);
