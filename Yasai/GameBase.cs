@@ -21,8 +21,8 @@ namespace Yasai
     {
         public readonly GameWindow Window;
         
-        // encapsulate the projection matrix for now
-        public Matrix4 Projection;
+        // make the field static for now, we'll worry about thread safety later
+        public static Matrix4 Projection;
 
         public DependencyContainer Dependencies { get; }
         
@@ -47,7 +47,7 @@ namespace Yasai
             // Initialise dependencies
             Dependencies = new DependencyContainer();
             Dependencies.Register<GameWindow>(Window);
-            Dependencies.Register<Matrix4>(Projection, "proj"); // <- we'll register the projection matrix for now as a dependency
+            Projection = Matrix4.CreateOrthographicOffCenter(0, Window.Size.X, Window.Size.Y, 0, -1, 1); 
 
             //Children = new Container();
         }
@@ -78,13 +78,17 @@ namespace Yasai
 
             container = new WangContainer
             {
+                Fill = true,
+                Position = new Vector2(100),
+                Size = new Vector2(300),
+                Colour = Color.Green,
                 Items = new IDrawable[]
                 {
                     new Box
                     {
-                        Position = new Vector2(500),
+                        Position = Vector2.Zero,
                         Size = new Vector2(40),
-                        Colour = Color.LightSkyBlue
+                        Colour = Color.Red
                     }
                 }
             };
@@ -140,6 +144,9 @@ namespace Yasai
             time += (float)args.Time;
 
             container.Draw();
+           //container.X += 0.5f;
+           //container.Rotation += 0.05f;
+           //container.Height += 0.5f;
            //DrawPrimitive(box);
            //DrawPrimitive(box2);
            //DrawPrimitive(spr);

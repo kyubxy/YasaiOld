@@ -69,10 +69,11 @@ namespace Yasai.Graphics
         // mainly for OpenGL stuff, thus the 4x4 matrix storing 2D affine transformations in 3D space
         public Matrix4 ModelTransforms 
             => Matrix4.Identity *
+               Parent?.ModelTransforms ?? Matrix4.Identity * // parent
                Matrix4.CreateTranslation(-Offset.X - AnchorToUnit(Origin).X, Offset.Y + AnchorToUnit(Origin).Y, 0) * // Origin
                Matrix4.CreateScale(Width, Height, 0f) * // Scale
                Matrix4.CreateRotationZ (Rotation) * // Rotation
-               Matrix4.CreateTranslation(X, Y, 0)   // Translation
+               Matrix4.CreateTranslation(X, Y, 0) // Translation
                ;
                                           
         /*
@@ -93,6 +94,7 @@ namespace Yasai.Graphics
 
         public virtual void Use()
         { }
+        
         
         public virtual void Dispose()
         {

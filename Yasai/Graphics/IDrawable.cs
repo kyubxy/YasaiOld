@@ -53,6 +53,8 @@ namespace Yasai.Graphics
         /// </summary>
         IDrawable Parent { get; set; }
         
+        Matrix4 ModelTransforms { get; }
+        
         /// <summary>
         /// Whether to draw or not
         /// </summary>

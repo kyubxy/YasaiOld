@@ -23,18 +23,7 @@ namespace Yasai.Graphics.Containers
         {
             init => AddAll(value);
         }
-
-        private Vector2 size;
-        public override Vector2 Size
-        {
-            get => size;
-            set
-            {
-                size = value;
-                box.Size = value;
-            }
-        }
-
+        
         private bool fill;
         public bool Fill
         {
@@ -64,8 +53,7 @@ namespace Yasai.Graphics.Containers
             AddAll(children.ToArray());
             
             box = new Box();
-            box.Parent = this;
-            Fill = false;
+            box.Parent = this; 
         }
 
         public WangContainer() : this (new List<IDrawable>())
@@ -87,6 +75,8 @@ namespace Yasai.Graphics.Containers
             box.Load(dep);
             foreach (IDrawable s in children)
                 s.Load(dep);
+
+            Loaded = true;
         }
 
         public override void Update(FrameEventArgs args)
@@ -98,12 +88,13 @@ namespace Yasai.Graphics.Containers
                     s.Update(args);
         }
 
-        public override void Use() => box.Use();
 
         // tightly coupling to this one until there's a good enough reason
         // to decouple this behaviour
         public void Draw()
         {
+            DrawPrimitive(box);
+            
             foreach (IDrawable drawable in children)
                 if (drawable is WangContainer c)
                     c.Draw();
@@ -129,7 +120,7 @@ namespace Yasai.Graphics.Containers
             
             // assuming the drawable uses a vertex shader with model and projection matrices
             shader.SetMatrix4("model", primitive.ModelTransforms);
-            shader.SetMatrix4("projection", dependencies.Resolve<Matrix4>("proj"));
+            shader.SetMatrix4("projection", GameBase.Projection);
             
             GL.DrawElements(PrimitiveType.Triangles, primitive.Indices.Length, DrawElementsType.UnsignedInt, 0);
         }
