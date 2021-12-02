@@ -5,31 +5,31 @@ namespace Yasai.Graphics
 {
     public abstract class Primitive : Drawable
     {
-        public abstract float[] Vertices { get; }
+        protected abstract float[] Vertices { get; }
         public abstract uint[] Indices { get; }
 
-        public int VertexBufferObject, ElementBufferObject;
+        private int vertexBufferObject, elementBufferObject;
 
         public override void Load(DependencyContainer dependencies)
         {
             base.Load(dependencies);
             
             // VertexBufferObject
-            VertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
+            vertexBufferObject = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
             GL.BufferData(BufferTarget.ArrayBuffer, Vertices.Length * sizeof(float), Vertices, BufferUsageHint.StaticDraw);
             
             // ElementBufferObject
-            ElementBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ElementBufferObject);
+            elementBufferObject = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
             GL.BufferData(BufferTarget.ElementArrayBuffer, Indices.Length * sizeof(uint), Indices, BufferUsageHint.StaticDraw);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            GL.DeleteBuffer(VertexBufferObject);
-            GL.DeleteBuffer(ElementBufferObject);
+            GL.DeleteBuffer(vertexBufferObject);
+            GL.DeleteBuffer(elementBufferObject);
         }
     }
 }

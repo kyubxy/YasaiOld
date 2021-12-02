@@ -49,11 +49,6 @@ namespace Yasai.Graphics
         Vector2 Offset { get; set; }
         
         /// <summary>
-        /// Scaling factor
-        /// </summary>
-        Vector2 Scale { get; set; }
-        
-        /// <summary>
         /// Parent
         /// </summary>
         IDrawable Parent { get; set; }

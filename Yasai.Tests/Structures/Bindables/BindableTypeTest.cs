@@ -1,8 +1,6 @@
 ﻿using System;
 using Xunit;
-using Yasai.Maths;
 using Yasai.Structures;
-using Yasai.Structures.Bindables;
 
 namespace Yasai.Tests.Structures.Bindables
 {
@@ -59,17 +57,6 @@ namespace Yasai.Tests.Structures.Bindables
             
             Assert.Equal(200, x.Value);
             Assert.Equal(200, y.Value);
-        }
-
-        [Fact]
-        void bindableMatrix()
-        {
-            int k = 0;
-            var m = new BindableMatrix3(Matrix.Identity);
-            m.OnChanged += _ => k++;
-            
-            m.SetAt(69,0,0);
-            Assert.Equal(1, k);
         }
     }
 }

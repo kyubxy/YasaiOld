@@ -2,6 +2,6 @@
 {
     public class TestGame : Game
     {
-        public TestGame() : base ("your mother", 1366,768) {}
+        public TestGame() : base ("your mother", 1366,768) { }
     }
 }

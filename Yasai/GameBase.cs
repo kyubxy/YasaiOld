@@ -74,7 +74,7 @@ namespace Yasai
             box = new Box
             {
                 Position = new Vector2(300),
-                Size = new Vector2(80),
+                Size = new Vector2(40),
                 Colour = Color.FromArgb(255,255,255,78)
             };
             box.Load(dependencies);
@@ -82,7 +82,7 @@ namespace Yasai
             box2 = new Box
             {
                 Position = new Vector2(300, 400),
-                Size = new Vector2(80),
+                Size = new Vector2(40),
                 Colour = Color.FromArgb(255,69,255,78)
             };
             box2.Load(dependencies);
@@ -90,7 +90,7 @@ namespace Yasai
             box3 = new Box
             {
                 Position = new Vector2(300,500),
-                Size = new Vector2(80),
+                Size = new Vector2(40),
                 Colour = Color.FromArgb(255,23,140,170)
             };
             box3.Load(dependencies);
@@ -99,8 +99,9 @@ namespace Yasai
             texStore.LoadResource(@"tex.png");
             spr = new Sprite(texStore.GetResource("tex"))
             {
-                Position = new Vector2(400,300),
+                Position = new Vector2(300),
                 Size = new Vector2(80),
+                Origin = Anchor.TopLeft,
             };
             spr.Load(dependencies);
         }
@@ -115,12 +116,15 @@ namespace Yasai
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.BindVertexArray(VertexArrayObject);
 
-            time += (float)args.Time * 100;
+            time += (float)args.Time;
             
             DrawPrimitive(box);
             DrawPrimitive(box2);
             DrawPrimitive(box3);
             DrawPrimitive(spr);
+
+            //spr.Rotation = (time) % (2 * (float)Math.PI);
+            spr.Size = new Vector2(time*40);
             
             Window.SwapBuffers();
         }
