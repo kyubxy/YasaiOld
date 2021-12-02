@@ -1,3 +1,4 @@
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Yasai.Graphics.Primitives;
 using Yasai.Resources.Stores;
@@ -12,8 +13,22 @@ namespace Yasai.Graphics.Shapes
         {
             base.Load(dependencies);
             var shaderStore = dependencies.Resolve<ShaderStore>();
+           // Shader = shaderStore.GetResource(Shader.TextureShader);
+            
             Shader = shaderStore.GetResource(Shader.SolidShader);
-            Shader.SetVector4("colour", new Vector4(1,1,1,1));
+            Shader.Use();
+            Shader.SetVector4("colour", new Vector4(Colour.R, Colour.G, Colour.B, Colour.A));
+            
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(0);
+            
+            Loaded = true;
+        }
+
+        public override void Use()
+        {
+            base.Use();
+            Shader.SetVector4("colour", new Vector4(Colour.R/(float)255, Colour.G/(float)255, Colour.B/(float)255, Colour.A/(float)255));
         }
     }
 }

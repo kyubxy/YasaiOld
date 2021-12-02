@@ -37,6 +37,7 @@ namespace Yasai.Resources
             resources = new Dictionary<string, T>();
         }
 
+        // TODO: look into whether we need to clone resources everytime or not
         /// <summary>
         /// get a *preloaded* resource from the internal dictionary
         /// </summary>
@@ -44,7 +45,7 @@ namespace Yasai.Resources
         /// <typeparam name="T">the expected resource type</typeparam>
         /// <returns>the resource</returns>
         /// <exception cref="DirectoryNotFoundException">thrown if the key was not present in the dictionary</exception>
-        public T GetResource(string res) 
+        public virtual T GetResource(string res) 
         {
             if (!resources.ContainsKey(res))
             {

@@ -40,5 +40,10 @@ namespace Yasai.Resources.Stores
 
             return new Shader(Path.Combine(Root, fragPath, frag), Path.Combine(Root, vertPath, vert));
         }
+
+        public override Shader GetResource(string res)
+        {
+            return base.GetResource(res);
+        }
     }
 }

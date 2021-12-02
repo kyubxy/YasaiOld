@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using OpenTK.Mathematics;
 using Yasai.Graphics.Shaders;
@@ -5,7 +6,7 @@ using Yasai.Resources;
 
 namespace Yasai.Graphics
 {
-    public interface IDrawable : IUpdate, ILoad //IMouseHandler, IKeyHandler
+    public interface IDrawable : IUpdate, ILoad, IDisposable //IMouseHandler, IKeyHandler
     {
         /// <summary>
         /// radian measure from vertical

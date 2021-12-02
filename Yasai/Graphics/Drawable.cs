@@ -33,7 +33,7 @@ namespace Yasai.Graphics
             set => alpha = value;
         }
 
-        public virtual Color Colour { get; set; }
+        public virtual Color Colour { get; set; } = Color.White;
         
         // TODO: also use a bindable 
         public float X
@@ -59,23 +59,31 @@ namespace Yasai.Graphics
             set => Size = new Vector2(Size.X, value);
         }
 
-        public Matrix3 Transformations => throw new NotImplementedException();
+        // mainly for OpenGL stuff, thus the 4x4 matrix storing 2D affine transformations in 3D space
+        public Matrix4 ModelTransforms => Matrix4.Identity *
+                                          Matrix4.CreateScale(Width, Height, 0f) *
+                                          Matrix4.CreateTranslation(X, Y, 0)
+                                          ;
+                                          
         /*
-            => (Parent?.Transformations ?? Matrix.Identity) *
+            => (Parent?.ModelTransforms ?? Matrix.Identity) *
                Matrix.GetTranslationMat(Position) *
                Matrix.GetRotationMat(Rotation) *
                Matrix.GetScaleMat(Scale)
                ;
                */
 
-        public virtual bool Loaded { get; }
+        public virtual bool Loaded { get; protected set; }
 
         public virtual void Load(DependencyContainer dependencies) 
         { }
 
         public virtual void Update(FrameEventArgs args)
         { }
-        
+
+        public virtual void Use()
+        { }
+
         /*
         # region input
         
@@ -145,5 +153,10 @@ namespace Yasai.Graphics
         
         # endregion
         */
+        public virtual void Dispose()
+        {
+            //Parent?.Dispose();
+            Shader?.Dispose();
+        }
     }
 }

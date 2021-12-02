@@ -17,10 +17,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SDL2-CS\SDL2-CS.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Assets\Yasai\OpenSans-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
