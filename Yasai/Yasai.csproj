@@ -114,7 +114,6 @@
     <Compile Remove="Graphics\IGraphicsModifiable.cs" />
     <Compile Remove="Graphics\Containers\**" />
     <Compile Remove="Resources\Stores\FontStore.cs" />
-    <Compile Remove="Resources\Stores\TextureStore.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,3 +1,4 @@
+using System;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Yasai.Graphics.Primitives;
@@ -13,7 +14,6 @@ namespace Yasai.Graphics.Shapes
         {
             base.Load(dependencies);
             var shaderStore = dependencies.Resolve<ShaderStore>();
-           // Shader = shaderStore.GetResource(Shader.TextureShader);
             
             Shader = shaderStore.GetResource(Shader.SolidShader);
             Shader.Use();
