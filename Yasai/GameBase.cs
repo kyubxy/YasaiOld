@@ -41,6 +41,8 @@ namespace Yasai
             Window.UpdateFrame += Update;
             Window.RenderFrame += Draw;
             Window.Resize += Resize;
+
+            GL.Enable(EnableCap.Blend);
             
             // Initialise dependencies
             Dependencies = new DependencyContainer();
@@ -89,9 +91,9 @@ namespace Yasai
             
             box3 = new Box
             {
-                Position = new Vector2(300,500),
+                Position = new Vector2(300,400),
                 Size = new Vector2(40),
-                Colour = Color.FromArgb(255,23,140,170)
+                Colour = Color.FromArgb(255,23,140,170),
             };
             box3.Load(dependencies);
 
@@ -102,6 +104,7 @@ namespace Yasai
                 Position = new Vector2(300),
                 Size = new Vector2(80),
                 Origin = Anchor.TopLeft,
+                Colour = Color.Aqua,
             };
             spr.Load(dependencies);
         }

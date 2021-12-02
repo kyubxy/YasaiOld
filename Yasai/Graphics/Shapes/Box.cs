@@ -17,7 +17,6 @@ namespace Yasai.Graphics.Shapes
             
             Shader = shaderStore.GetResource(Shader.SolidShader);
             Shader.Use();
-            Shader.SetVector4("colour", new Vector4(Colour.R, Colour.G, Colour.B, Colour.A));
             
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
@@ -28,7 +27,9 @@ namespace Yasai.Graphics.Shapes
         public override void Use()
         {
             base.Use();
-            Shader.SetVector4("colour", new Vector4(Colour.R/(float)255, Colour.G/(float)255, Colour.B/(float)255, Colour.A/(float)255));
+            GL.BlendFunc(BlendingFactor.One, BlendingFactor.OneMinusSrcAlpha);
+            Shader.SetVector3("colour", new Vector3(Colour.R/(float)255, Colour.G/(float)255, Colour.B/(float)255));
+            Shader.SetFloat("alpha", Alpha);
         }
     }
 }

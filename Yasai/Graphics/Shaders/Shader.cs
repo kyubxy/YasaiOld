@@ -108,6 +108,12 @@ namespace Yasai.Graphics.Shaders
             GL.Uniform4(uniformLocations[name], data);
         }
         
+        public void SetFloat (string name, float data)
+        {
+            Use();
+            GL.Uniform1(uniformLocations[name], data);
+        }
+        
         public void Use() => GL.UseProgram(Handle);
         
         #region IDisposable pattern

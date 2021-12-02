@@ -1,4 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using Yasai.Graphics.Primitives;
 using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
@@ -19,6 +20,7 @@ namespace Yasai.Graphics.Imaging
             
             Shader = shaderStore.GetResource(Shader.TextureShader);
             Shader.Use();
+
             
             var vertexLocation = Shader.GetAttribLocation("aPosition");
             GL.EnableVertexAttribArray(vertexLocation);
@@ -36,6 +38,9 @@ namespace Yasai.Graphics.Imaging
         public override void Use()
         {
             base.Use();
+            GL.BlendFunc(BlendingFactor.One, BlendingFactor.OneMinusSrcAlpha);
+            Shader.SetVector3("colour", new Vector3(Colour.R/(float)255, Colour.G/(float)255, Colour.B/(float)255));
+            Shader.SetFloat("alpha", Alpha);
             texture.Use();
         }
     }
