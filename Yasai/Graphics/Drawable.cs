@@ -9,7 +9,7 @@ namespace Yasai.Graphics
 {
     public abstract class Drawable : IDrawable 
     {
-        public IDrawable Parent { get; set; }
+        public Drawable Parent { get; set; }
         
         /// <summary>
         /// Relative to parent
@@ -23,9 +23,9 @@ namespace Yasai.Graphics
         
         public virtual Anchor Anchor { get; set; } = Anchor.TopLeft;
         public virtual Anchor Origin { get; set; } = Anchor.TopLeft;
-        public virtual float Rotation { get; set; }
+        public virtual float Rotation { get; set; } = 0;
         
-        public virtual Vector2 Size { get; set; } = new (100);
+        public virtual Vector2 Scale { get; set; } = new (100);
         public virtual RelativeAxes RelativeAxes { get; set; } = RelativeAxes.None;
         
         public virtual bool Visible { get; set; } = true;
@@ -57,37 +57,29 @@ namespace Yasai.Graphics
 
         public float Width
         {
-            get => Size.X;
-            set => Size = new Vector2(value, Size.Y);
+            get => Scale.X;
+            set => Scale = new Vector2(value, Scale.Y);
         }
         public float Height
         {
-            get => Size.Y;
-            set => Size = new Vector2(Size.X, value);
+            get => Scale.Y;
+            set => Scale = new Vector2(Scale.X, value);
         }
 
+        private Matrix4 parentTransforms => Parent?.ModelTransforms ?? Matrix4.Identity;
+        
         // mainly for OpenGL stuff, thus the 4x4 matrix storing 2D affine transformations in 3D space
-        public Matrix4 ModelTransforms 
-            => Matrix4.Identity *
-               Parent?.ModelTransforms ?? Matrix4.Identity * // parent
-            
-               // currently inheriting scale, need to make this optional
-               // glhf !!
-               
-               Matrix4.CreateTranslation(-Offset.X - AnchorToUnit(Origin).X, Offset.Y + AnchorToUnit(Origin).Y, 0) * // Origin
-               Matrix4.CreateScale(Width, Height, 0f) * // Scale
-               Matrix4.CreateRotationZ (Rotation) * // Rotation
-               Matrix4.CreateTranslation(X, Y, 0) // Translation
-               ;
-                                          
-        /*
-            => (Parent?.ModelTransforms ?? Matrix.Identity) *
-               Matrix.GetTranslationMat(Position) *
-               Matrix.GetRotationMat(Rotation) *
-               Matrix.GetScaleMat(Scale)
-               ;
-               */
-
+        public Matrix4 ModelTransforms
+            => 
+                Matrix4.CreateTranslation(-Offset.X - AnchorToUnit(Origin).X, Offset.Y + AnchorToUnit(Origin).Y, 0) * // Origin
+                Matrix4.CreateScale(Width, Height, 0f) * // Scale
+                Matrix4.CreateTranslation (AnchorToUnit(Anchor).X, AnchorToUnit(Anchor).Y, 0) *
+                Matrix4.CreateRotationZ(Rotation) * // Rotation
+                Matrix4.CreateTranslation(X, Y, 0) * // Translation
+                Matrix4.Invert(Matrix4.CreateTranslation(-Offset.X - AnchorToUnit(Origin).X, Offset.Y + AnchorToUnit(Origin).Y, 0)) * // undo origin transformation
+                Matrix4.Invert(Matrix4.CreateTranslation (AnchorToUnit(Anchor).X, AnchorToUnit(Anchor).Y, 0)) * // undo origin transformation
+                parentTransforms;
+        
         public virtual bool Loaded { get; protected set; }
 
         public virtual void Load(DependencyContainer dep) 
@@ -98,7 +90,6 @@ namespace Yasai.Graphics
 
         public virtual void Use()
         { }
-        
         
         public virtual void Dispose()
         {

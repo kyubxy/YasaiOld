@@ -55,7 +55,8 @@ namespace Yasai
         public virtual void Resize(ResizeEventArgs obj)
         {
             GL.Viewport(0,0,obj.Width, obj.Height);
-            Projection = Matrix4.CreateOrthographicOffCenter(0, Window.Size.X, Window.Size.Y, 0, -1, 1); 
+            Projection = Matrix4.CreateOrthographicOffCenter(0, Window.Size.X, Window.Size.Y, 0, -1, 1);
+            container.Scale = Window.Size / 2;
         }
 
         protected int VertexArrayObject;
@@ -78,42 +79,43 @@ namespace Yasai
 
             container = new WangContainer
             {
-                Fill = true,
-                Position = new Vector2(100),
-                Size = new Vector2(300),
+                Scale = Window.Size / 2, // <- wot
                 Colour = Color.Green,
+                Fill = true,
                 Items = new IDrawable[]
                 {
                     new Box
                     {
                         Position = Vector2.Zero,
-                        Size = new Vector2(40),
-                        Colour = Color.Red
+                        Scale = new Vector2(0.5f),
+                        Colour = Color.Red,
+                        Anchor = Anchor.Center,
+                        Origin = Anchor.Center,
                     }
                 }
             };
             container.Load(dependencies);
             
-            box = new Box
-            {
-                Position = new Vector2(300),
-                Size = new Vector2(40),
-                Colour = Color.FromArgb(255,255,255,78)
-            };
-            box.Load(dependencies);
-            
             box2 = new Box
             {
-                Position = new Vector2(300, 400),
-                Size = new Vector2(40),
+                Position = new Vector2(0),
+                Scale = new Vector2(200),
                 Colour = Color.FromArgb(255,69,255,78)
             };
             box2.Load(dependencies);
             
+            box = new Box
+            {
+                Position = new Vector2(300),
+                Scale = new Vector2(40),
+                Colour = Color.FromArgb(255,255,255,78)
+            };
+            box.Load(dependencies);
+            
             box3 = new Box
             {
                 Position = new Vector2(300,400),
-                Size = new Vector2(40),
+                Scale = new Vector2(40),
                 Colour = Color.FromArgb(255,23,140,170),
                 Alpha = 0.5f
             };
@@ -124,7 +126,7 @@ namespace Yasai
             spr = new Sprite(texStore.GetResource("tex"))
             {
                 Position = new Vector2(300),
-                Size = new Vector2(80),
+                Scale = new Vector2(80),
                 Origin = Anchor.TopLeft,
                 Colour = Color.Aqua,
             };
@@ -132,7 +134,9 @@ namespace Yasai
         }
 
         public virtual void Update(FrameEventArgs args)
-        { }
+        {
+            container.Update(args);
+        }
 
         private float time;
 
@@ -143,41 +147,22 @@ namespace Yasai
 
             time += (float)args.Time;
 
+           //container.X += 1f;
+           //container.Y--;
+           //container.Height++;
+           //container.Rotation += 0.01f;
             container.Draw();
-           //container.X += 0.5f;
            //container.Rotation += 0.05f;
            //container.Height += 0.5f;
            //DrawPrimitive(box);
-           //DrawPrimitive(box2);
            //DrawPrimitive(spr);
            //DrawPrimitive(box3);
 
             //spr.Rotation = (time) % (2 * (float)Math.PI);
-            //spr.Size = new Vector2(time*40);
+            //spr.Scale = new Vector2(time*40);
             box3.Y = time*80;
             
             Window.SwapBuffers();
-        }
-
-        /// <summary>
-        /// Render a single <see cref="Primitive"/> to the screen
-        /// </summary>
-        /// <param name="primitive"></param>
-        private void DrawPrimitive(Primitive primitive)
-        {
-            if (!primitive.Enabled || !primitive.Visible)
-                return;
-            
-            var shader = primitive.Shader;
-            
-            shader.Use();
-            primitive.Use();
-            
-            // assuming the drawable uses a vertex shader with model and projection matrices
-            shader.SetMatrix4("model", primitive.ModelTransforms);
-            shader.SetMatrix4("projection", Projection);
-            
-            GL.DrawElements(PrimitiveType.Triangles, primitive.Indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
         public virtual void Unload(DependencyContainer dependencies)

@@ -29,9 +29,9 @@ namespace Yasai.Graphics
         Vector2 Position { get; set; }
         
         /// <summary>
-        /// Sizing
+        /// Scaling factor
         /// </summary>
-        Vector2 Size { get; set; }
+        Vector2 Scale { get; set; }
         
         /// <summary>
         /// Anchor relative to parent
@@ -51,7 +51,7 @@ namespace Yasai.Graphics
         /// <summary>
         /// Parent
         /// </summary>
-        IDrawable Parent { get; set; }
+        Drawable Parent { get; set; }
         
         Matrix4 ModelTransforms { get; }
         

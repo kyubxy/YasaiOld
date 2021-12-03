@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,17 +22,8 @@ namespace Yasai.Graphics.Containers
         {
             init => AddAll(value);
         }
-        
-        private bool fill;
-        public bool Fill
-        {
-            get => fill;
-            set
-            {
-                fill = value;
-                box.Enabled = value;
-            }
-        }
+
+        public bool Fill { get; set; } 
         
         private Color colour;
         public override Color Colour
@@ -52,8 +42,12 @@ namespace Yasai.Graphics.Containers
             this.children = new List<IDrawable>();
             AddAll(children.ToArray());
             
-            box = new Box();
-            box.Parent = this; 
+            box = new Box()
+            {
+                Position = Vector2.Zero,
+                Scale = Vector2.One,
+                Parent = this
+            };
         }
 
         public WangContainer() : this (new List<IDrawable>())
@@ -93,13 +87,14 @@ namespace Yasai.Graphics.Containers
         // to decouple this behaviour
         public void Draw()
         {
-            DrawPrimitive(box);
+           if (Fill) 
+               DrawPrimitive(box);
             
-            foreach (IDrawable drawable in children)
-                if (drawable is WangContainer c)
-                    c.Draw();
-                else if (drawable is Primitive p)
-                    DrawPrimitive(p);
+           foreach (IDrawable drawable in children)
+               if (drawable is WangContainer c)
+                   c.Draw();
+               else if (drawable is Primitive p)
+                   DrawPrimitive(p);
         }
         
         /// <summary>
