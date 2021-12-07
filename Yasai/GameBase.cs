@@ -64,7 +64,7 @@ namespace Yasai
 
         private Sprite spr;
 
-        private Container container;
+        private Container container, container2;
 
         private TextureStore texStore;
         
@@ -78,20 +78,26 @@ namespace Yasai
 
             container = new Container
             {
-                Position = new Vector2(200),
-                Size = new Vector2(100),
-                Colour = Color.Green,
-                Anchor = Anchor.BottomRight,
-                Origin = Anchor.BottomRight,
-                Fill = true,
+                Size = new Vector2(1366/2, 768/2),
                 Items = new IDrawable[]
                 {
-                    new Box
+                    container2 = new Container
                     {
-                        Size = new Vector2(50),
-                        Colour = Color.Red,
-                        Origin = Anchor.BottomLeft,
-                        Anchor = Anchor.BottomLeft
+                        Size = new Vector2(200),
+                        Colour = Color.Yellow,
+                        Anchor = Anchor.Center,
+                        Origin = Anchor.Center,
+                        Fill = true,
+                        Items = new IDrawable[]
+                        {
+                            new Box
+                            {
+                                Size = new Vector2(50),
+                                Colour = Color.Tan,
+                                Origin = Anchor.Center,
+                                Anchor = Anchor.Center
+                            },
+                        }
                     }
                 }
             };
@@ -138,6 +144,7 @@ namespace Yasai
         public virtual void Update(FrameEventArgs args)
         {
             container.Update(args);
+            container2.X++;
         }
 
         private float time;

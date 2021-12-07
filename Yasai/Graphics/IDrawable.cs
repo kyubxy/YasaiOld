@@ -32,7 +32,5 @@ namespace Yasai.Graphics
         /// shader
         /// </summary>
         Shader Shader { get; set; } // <- currently tight coupling to shader
-
-        ITransform Transforms { get; }
     }
 }

@@ -66,8 +66,8 @@ namespace Yasai.Graphics
             set => Size = new Vector2(Size.X, value);
         }
 
-        public ITransform Transforms => new Transform(this, Parent);
-        public Matrix4 ModelTransforms => Transforms.ModelTransforms;
+        // TODO: stop making this virtual
+        public virtual Matrix4 ModelTransforms => new Transform(this, Parent).ModelTransforms;
         
         public virtual bool Loaded { get; protected set; }
 
