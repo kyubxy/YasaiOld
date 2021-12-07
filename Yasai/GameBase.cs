@@ -56,7 +56,6 @@ namespace Yasai
         {
             GL.Viewport(0,0,obj.Width, obj.Height);
             Projection = Matrix4.CreateOrthographicOffCenter(0, Window.Size.X, Window.Size.Y, 0, -1, 1);
-            container.Scale = Window.Size / 2;
         }
 
         protected int VertexArrayObject;
@@ -65,7 +64,7 @@ namespace Yasai
 
         private Sprite spr;
 
-        private WangContainer container;
+        private Container container;
 
         private TextureStore texStore;
         
@@ -77,29 +76,32 @@ namespace Yasai
             VertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(VertexArrayObject);
 
-            container = new WangContainer
+            container = new Container
             {
-                Scale = Window.Size / 2, // <- wot
+                Position = new Vector2(200),
+                Size = new Vector2(100),
                 Colour = Color.Green,
+                Anchor = Anchor.BottomRight,
+                Origin = Anchor.BottomRight,
                 Fill = true,
                 Items = new IDrawable[]
                 {
                     new Box
                     {
-                        Position = Vector2.Zero,
-                        Scale = new Vector2(0.5f),
+                        Size = new Vector2(50),
                         Colour = Color.Red,
-                        Anchor = Anchor.Center,
-                        Origin = Anchor.Center,
+                        Origin = Anchor.BottomLeft,
+                        Anchor = Anchor.BottomLeft
                     }
                 }
             };
+            
             container.Load(dependencies);
             
             box2 = new Box
             {
                 Position = new Vector2(0),
-                Scale = new Vector2(200),
+                Size = new Vector2(200),
                 Colour = Color.FromArgb(255,69,255,78)
             };
             box2.Load(dependencies);
@@ -107,7 +109,7 @@ namespace Yasai
             box = new Box
             {
                 Position = new Vector2(300),
-                Scale = new Vector2(40),
+                Size = new Vector2(40),
                 Colour = Color.FromArgb(255,255,255,78)
             };
             box.Load(dependencies);
@@ -115,7 +117,7 @@ namespace Yasai
             box3 = new Box
             {
                 Position = new Vector2(300,400),
-                Scale = new Vector2(40),
+                Size = new Vector2(40),
                 Colour = Color.FromArgb(255,23,140,170),
                 Alpha = 0.5f
             };
@@ -126,7 +128,7 @@ namespace Yasai
             spr = new Sprite(texStore.GetResource("tex"))
             {
                 Position = new Vector2(300),
-                Scale = new Vector2(80),
+                Size = new Vector2(80),
                 Origin = Anchor.TopLeft,
                 Colour = Color.Aqua,
             };
@@ -147,10 +149,10 @@ namespace Yasai
 
             time += (float)args.Time;
 
-           //container.X += 1f;
+            //container.X += 1f;
            //container.Y--;
            //container.Height++;
-           //container.Rotation += 0.01f;
+            //container.Rotation += 0.01f;
             container.Draw();
            //container.Rotation += 0.05f;
            //container.Height += 0.5f;
@@ -159,7 +161,7 @@ namespace Yasai
            //DrawPrimitive(box3);
 
             //spr.Rotation = (time) % (2 * (float)Math.PI);
-            //spr.Scale = new Vector2(time*40);
+            //spr.Size = new Vector2(time*40);
             box3.Y = time*80;
             
             Window.SwapBuffers();

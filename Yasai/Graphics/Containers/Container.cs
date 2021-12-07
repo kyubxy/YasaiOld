@@ -10,7 +10,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Containers
 {
-    public class WangContainer : Drawable, ICollection<IDrawable>
+    public class Container : Drawable, ICollection<IDrawable>
     {
         private readonly List<IDrawable> children;
 
@@ -18,10 +18,7 @@ namespace Yasai.Graphics.Containers
 
         private DependencyContainer dependencies;
 
-        public IDrawable[] Items
-        {
-            init => AddAll(value);
-        }
+        public IDrawable[] Items { init => AddAll(value); }
 
         public bool Fill { get; set; } 
         
@@ -35,25 +32,33 @@ namespace Yasai.Graphics.Containers
                 colour = value;
             }
         }
-
+        private Vector2 size;
+        public override Vector2 Size
+        {
+            get => size;
+            set
+            {
+                size = value;
+                box.Size = value;
+            }
+        }
+        
         #region constructors
-        public WangContainer(List<IDrawable> children)
+        public Container(List<IDrawable> children)
         {
             this.children = new List<IDrawable>();
             AddAll(children.ToArray());
             
             box = new Box()
             {
-                Position = Vector2.Zero,
-                Scale = Vector2.One,
                 Parent = this
             };
         }
 
-        public WangContainer() : this (new List<IDrawable>())
+        public Container() : this (new List<IDrawable>())
         { }
 
-        public WangContainer(IDrawable[] children) : this(children.ToList())
+        public Container(IDrawable[] children) : this(children.ToList())
         { }
         
         #endregion
@@ -82,26 +87,25 @@ namespace Yasai.Graphics.Containers
                     s.Update(args);
         }
 
-
         // tightly coupling to this one until there's a good enough reason
         // to decouple this behaviour
         public void Draw()
         {
            if (Fill) 
-               DrawPrimitive(box);
+               drawPrimitive(box);
             
            foreach (IDrawable drawable in children)
-               if (drawable is WangContainer c)
+               if (drawable is Container c)
                    c.Draw();
                else if (drawable is Primitive p)
-                   DrawPrimitive(p);
+                   drawPrimitive(p);
         }
         
         /// <summary>
         /// Render a single <see cref="Primitive"/> to the screen
         /// </summary>
         /// <param name="primitive"></param>
-        private void DrawPrimitive(Primitive primitive)
+        private void drawPrimitive(Primitive primitive)
         {
            //if (!primitive.Enabled || !primitive.Visible)
            //    return;

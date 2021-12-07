@@ -7,7 +7,7 @@ using Yasai.Graphics.Shaders;
 
 namespace Yasai.Graphics
 {
-    public abstract class Drawable : IDrawable 
+    public class Drawable : IDrawable 
     {
         public Drawable Parent { get; set; }
         
@@ -25,7 +25,7 @@ namespace Yasai.Graphics
         public virtual Anchor Origin { get; set; } = Anchor.TopLeft;
         public virtual float Rotation { get; set; } = 0;
         
-        public virtual Vector2 Scale { get; set; } = new (100);
+        public virtual Vector2 Size { get; set; } = new (100);
         public virtual RelativeAxes RelativeAxes { get; set; } = RelativeAxes.None;
         
         public virtual bool Visible { get; set; } = true;
@@ -57,28 +57,17 @@ namespace Yasai.Graphics
 
         public float Width
         {
-            get => Scale.X;
-            set => Scale = new Vector2(value, Scale.Y);
+            get => Size.X;
+            set => Size = new Vector2(value, Size.Y);
         }
         public float Height
         {
-            get => Scale.Y;
-            set => Scale = new Vector2(Scale.X, value);
+            get => Size.Y;
+            set => Size = new Vector2(Size.X, value);
         }
 
-        private Matrix4 parentTransforms => Parent?.ModelTransforms ?? Matrix4.Identity;
-        
-        // mainly for OpenGL stuff, thus the 4x4 matrix storing 2D affine transformations in 3D space
-        public Matrix4 ModelTransforms
-            => 
-                Matrix4.CreateTranslation(-Offset.X - AnchorToUnit(Origin).X, Offset.Y + AnchorToUnit(Origin).Y, 0) * // Origin
-                Matrix4.CreateScale(Width, Height, 0f) * // Scale
-                Matrix4.CreateTranslation (AnchorToUnit(Anchor).X, AnchorToUnit(Anchor).Y, 0) *
-                Matrix4.CreateRotationZ(Rotation) * // Rotation
-                Matrix4.CreateTranslation(X, Y, 0) * // Translation
-                Matrix4.Invert(Matrix4.CreateTranslation(-Offset.X - AnchorToUnit(Origin).X, Offset.Y + AnchorToUnit(Origin).Y, 0)) * // undo origin transformation
-                Matrix4.Invert(Matrix4.CreateTranslation (AnchorToUnit(Anchor).X, AnchorToUnit(Anchor).Y, 0)) * // undo origin transformation
-                parentTransforms;
+        public ITransform Transforms => new Transform(this, Parent);
+        public Matrix4 ModelTransforms => Transforms.ModelTransforms;
         
         public virtual bool Loaded { get; protected set; }
 
@@ -97,7 +86,5 @@ namespace Yasai.Graphics
             Shader?.Dispose();
         }
 
-        public static Vector2i AnchorToUnit(Anchor anchor) => AnchorToUnit((int)anchor);
-        public static Vector2i AnchorToUnit(int num) => new (num % 3 - 1, 1 - (int)Math.Floor((double)num / 3));
     }
 }

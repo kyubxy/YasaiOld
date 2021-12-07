@@ -6,13 +6,8 @@ using Yasai.Resources;
 
 namespace Yasai.Graphics
 {
-    public interface IDrawable : IUpdate, ILoad, IDisposable //IMouseHandler, IKeyHandler
+    public interface IDrawable : IUpdate, ILoad, IDisposable, ITransform //IMouseHandler, IKeyHandler
     {
-        /// <summary>
-        /// radian measure from vertical
-        /// </summary>
-        float Rotation { get; set; }
-
         /// <summary>
         /// Opacity, ranges between 0 and 1
         /// </summary>
@@ -22,38 +17,11 @@ namespace Yasai.Graphics
         /// Tint
         /// </summary>
         Color Colour { get; set; }
-
-        /// <summary>
-        /// Position
-        /// </summary>
-        Vector2 Position { get; set; }
-        
-        /// <summary>
-        /// Scaling factor
-        /// </summary>
-        Vector2 Scale { get; set; }
-        
-        /// <summary>
-        /// Anchor relative to parent
-        /// </summary>
-        Anchor Anchor { get; set; }
-        
-        /// <summary>
-        /// Anchor relative to sprite
-        /// </summary>
-        Anchor Origin { get; set; }
-        
-        /// <summary>
-        /// Origin offset relative to sprite
-        /// </summary>
-        Vector2 Offset { get; set; }
         
         /// <summary>
         /// Parent
         /// </summary>
         Drawable Parent { get; set; }
-        
-        Matrix4 ModelTransforms { get; }
         
         /// <summary>
         /// Whether to draw or not
@@ -64,5 +32,7 @@ namespace Yasai.Graphics
         /// shader
         /// </summary>
         Shader Shader { get; set; } // <- currently tight coupling to shader
+
+        ITransform Transforms { get; }
     }
 }
