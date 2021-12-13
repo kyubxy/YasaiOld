@@ -13,17 +13,6 @@ namespace Yasai.Graphics.Containers
 {
     public class Container : Drawable, ICollection<IDrawable>
     {
-        public override Matrix4 ModelTransforms
-        {
-            get
-            {
-                if (box.Colour == Color.Yellow)
-                    Console.WriteLine(Anchor);
-                
-                return base.ModelTransforms;
-            }
-        }
-
         private readonly List<IDrawable> children;
 
         private readonly Box box;

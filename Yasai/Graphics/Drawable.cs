@@ -67,7 +67,9 @@ namespace Yasai.Graphics
         }
 
         // TODO: stop making this virtual
-        public virtual Matrix4 ModelTransforms => new Transform(this, Parent).ModelTransforms;
+        public Transform Transform => new(this, Parent?.Transform);
+
+        public virtual Matrix4 ModelTransforms => Transform.ModelTransforms;
         
         public virtual bool Loaded { get; protected set; }
 

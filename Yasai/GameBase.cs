@@ -78,31 +78,59 @@ namespace Yasai
 
             container = new Container
             {
-                Size = new Vector2(1366/2, 768/2),
+                Position = new Vector2(200),
+                Size = new Vector2(200),
+                Colour = Color.Green,
+                Fill = true,
                 Items = new IDrawable[]
                 {
-                    container2 = new Container
+                    new Container
                     {
-                        Size = new Vector2(200),
-                        Colour = Color.Yellow,
                         Anchor = Anchor.Center,
                         Origin = Anchor.Center,
+                        Size = new Vector2(80),
+                        Colour = Color.Blue,
                         Fill = true,
                         Items = new IDrawable[]
                         {
                             new Box
                             {
-                                Size = new Vector2(50),
-                                Colour = Color.Tan,
+                                Colour = Color.Red,
+                                Anchor = Anchor.Center,
                                 Origin = Anchor.Center,
-                                Anchor = Anchor.Center
-                            },
+                                Size = new Vector2(40),
+                            }
                         }
                     }
                 }
             };
-            
             container.Load(dependencies);
+
+           //container = new Container
+           //{
+           //    Size = new Vector2(1366/2, 768/2),
+           //    Items = new IDrawable[]
+           //    {
+           //        container2 = new Container
+           //        {
+           //            Size = new Vector2(200),
+           //            Colour = Color.Yellow,
+           //            Anchor = Anchor.Center,
+           //            Origin = Anchor.Center,
+           //            Fill = true,
+           //            Items = new IDrawable[]
+           //            {
+           //                new Box
+           //                {
+           //                    Size = new Vector2(50),
+           //                    Colour = Color.Tan,
+           //                    Origin = Anchor.Center,
+           //                    Anchor = Anchor.Center
+           //                },
+           //            }
+           //        }
+           //    }
+           //};
             
             box2 = new Box
             {
@@ -144,7 +172,6 @@ namespace Yasai
         public virtual void Update(FrameEventArgs args)
         {
             container.Update(args);
-            container2.X++;
         }
 
         private float time;
