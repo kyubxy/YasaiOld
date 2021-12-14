@@ -78,7 +78,7 @@ namespace Yasai
 
             container = new Container
             {
-                Position = new Vector2(200),
+                Position = new Vector2(100),
                 Size = new Vector2(200),
                 Colour = Color.Green,
                 Fill = true,
@@ -86,19 +86,19 @@ namespace Yasai
                 {
                     new Container
                     {
-                        Anchor = Anchor.Center,
-                        Origin = Anchor.Center,
                         Size = new Vector2(80),
                         Colour = Color.Blue,
                         Fill = true,
+                        Anchor = Anchor.Center,
+                        Origin = Anchor.Center,
                         Items = new IDrawable[]
                         {
                             new Box
                             {
                                 Colour = Color.Red,
-                                Anchor = Anchor.Center,
-                                Origin = Anchor.Center,
                                 Size = new Vector2(40),
+                                Anchor = Anchor.Left,
+                                Origin = Anchor.Left,
                             }
                         }
                     }
@@ -134,7 +134,7 @@ namespace Yasai
             
             box2 = new Box
             {
-                Position = new Vector2(0),
+                Position = new Vector2(1366 - 200, 0),
                 Size = new Vector2(200),
                 Colour = Color.FromArgb(255,69,255,78)
             };
@@ -172,6 +172,7 @@ namespace Yasai
         public virtual void Update(FrameEventArgs args)
         {
             container.Update(args);
+            //Console.WriteLine(container.Position);
         }
 
         private float time;
@@ -188,6 +189,7 @@ namespace Yasai
            //container.Height++;
             //container.Rotation += 0.01f;
             container.Draw();
+            drawPrimitive(box2);
            //container.Rotation += 0.05f;
            //container.Height += 0.5f;
            //DrawPrimitive(box);
@@ -199,6 +201,23 @@ namespace Yasai
             box3.Y = time*80;
             
             Window.SwapBuffers();
+        }
+        
+        private void drawPrimitive(Primitive primitive)
+        {
+           //if (!primitive.Enabled || !primitive.Visible)
+           //    return;
+            
+            var shader = primitive.Shader;
+            
+            shader.Use();
+            primitive.Use();
+            
+            // assuming the drawable uses a vertex shader with model and projection matrices
+            shader.SetMatrix4("model", primitive.ModelTransforms);
+            shader.SetMatrix4("projection", Projection);
+            
+            GL.DrawElements(PrimitiveType.Triangles, primitive.Indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
         public virtual void Unload(DependencyContainer dependencies)

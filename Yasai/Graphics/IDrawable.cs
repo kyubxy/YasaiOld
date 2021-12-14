@@ -19,11 +19,6 @@ namespace Yasai.Graphics
         Color Colour { get; set; }
         
         /// <summary>
-        /// Parent
-        /// </summary>
-        Drawable Parent { get; set; }
-        
-        /// <summary>
         /// Whether to draw or not
         /// </summary>
         bool Visible { get; set; }
@@ -32,5 +27,20 @@ namespace Yasai.Graphics
         /// shader
         /// </summary>
         Shader Shader { get; set; } // <- currently tight coupling to shader
+        
+        /// <summary>
+        /// Parent
+        /// </summary>
+        Drawable Parent { get; set; }
+        
+        /// <summary>
+        /// Used in propagating the scenegraph
+        /// </summary>
+        Transform AbsoluteTransform { get; }
+        
+        /// <summary>
+        /// Absolute matrix positioning information
+        /// </summary>
+        Matrix4 ModelTransforms { get; }
     }
 }

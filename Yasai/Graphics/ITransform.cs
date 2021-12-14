@@ -33,11 +33,5 @@ namespace Yasai.Graphics
         /// Origin offset relative to sprite
         /// </summary>
         Vector2 Offset { get; }
-        
-        /// <summary>
-        /// Absolute matrix positioning information
-        /// </summary>
-        Matrix4 ModelTransforms { get; }
     }
-    
 }

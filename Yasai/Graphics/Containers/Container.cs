@@ -33,6 +33,7 @@ namespace Yasai.Graphics.Containers
                 colour = value;
             }
         }
+        
         private Vector2 size;
         public override Vector2 Size
         {

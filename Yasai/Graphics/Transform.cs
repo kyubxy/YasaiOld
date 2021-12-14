@@ -3,53 +3,24 @@ using OpenTK.Mathematics;
 
 namespace Yasai.Graphics
 {
-    // this is fucked, just make a more transparent method of attaining
-    // absolute transforms and work using those
-    
-    // repurpose Transform: Transform use case should be exclusively for 
-    // absolute positions and low level usage. Drawable should figure out
-    // relative positioning etc
-    
-    /// <summary>
-    /// composes an <see cref="ITransform"/> with a parent's <see cref="ITransform"/>
-    /// </summary>
-    public struct Transform : ITransform
+    public readonly struct Transform : ITransform
     {
-        public Vector2 Position {
-            get
-            {
-                if (parent == null)
-                    return self?.Position ?? Vector2.Zero;
-                
-                return (Vector2) ((self?.Position ?? Vector2.Zero) + parent?.ModelTransforms.ExtractTranslation().Xy);
-            }
-        }
+       public Vector2 Position { get; }
+       public Vector2 Size     { get; }
+       public float Rotation   { get; }
 
-       public float Rotation   => (self?.Rotation ?? 0) + (parent?.Rotation ?? 0);
-       public Vector2 Size     => self?.Size ?? new Vector2(100);
-
-       public Anchor Anchor    => self.Anchor;
-       public Anchor Origin    => self.Origin;
-       public Vector2 Offset   => self.Offset;
-
-       private ITransform parent;
-       private ITransform self;
+       public Anchor Anchor    { get; }
+       public Anchor Origin    { get; }
+       public Vector2 Offset   { get; }
        
-       public Transform(ITransform self = null, ITransform parent = null)
+       public Transform(Vector2 position, Vector2 size, float rotation, Anchor anchor, Anchor origin, Vector2 offset)
        {
-           this.parent = parent;
-           this.self = self;
+           Position = position;
+           Size = size;
+           Rotation = rotation;
+           Anchor = anchor;
+           Origin = origin;
+           Offset = offset;
        }
-       
-       // not sure why we're multiplying the anchor by 2 but it works so ¯\_(ツ)_/¯
-       public Matrix4 ModelTransforms =>
-              Matrix4.CreateTranslation(new Vector3(AnchorToUnit(Origin) + Offset)) * // origin
-              Matrix4.CreateScale(new Vector3(Size)) * // size
-              Matrix4.CreateTranslation(2 * new Vector3((parent?.Size * (-AnchorToUnit(Anchor) + Vector2i.One) / 2) ?? Vector2.Zero)) * // anchor
-              Matrix4.CreateTranslation(new Vector3(Position)) * // position
-              Matrix4.Identity;
-        
-       public static Vector2i AnchorToUnit(Anchor anchor) => AnchorToUnit((int)anchor);
-       public static Vector2i AnchorToUnit(int num) => new (1 - num % 3, 1 - (int)Math.Floor((double)num / 3));
     }
 }

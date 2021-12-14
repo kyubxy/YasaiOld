@@ -9,6 +9,7 @@ namespace Yasai.Tests.Graphics
     // to test things like offset and rotation etc
     public class TransformTest
     {
+        /*
         private Drawable self => new ()
         {
             Position = new Vector2(2, 3),
@@ -67,27 +68,6 @@ namespace Yasai.Tests.Graphics
                 Assert.Equal(new Vector3(expected, expected, 0), transform.ModelTransforms.ExtractScale());
             }
         }
-        
-        [Fact]
-        void testAnchors()
-        {
-            var tests = new Vector2i[]
-            {
-                new( 1,  1), // 0 topleft
-                new( 0,  1), // 1 top
-                new(-1,  1), // 2 topright
-                
-                new( 1,  0), // 3 left
-                new( 0,  0), // 4 middle
-                new(-1,  0), // 5 right
-                
-                new( 1, -1), // 6 bottomleft
-                new( 0, -1), // 7 bottom
-                new(-1, -1), // 8 bottomright
-            };
-            
-            for (int i = 0; i < tests.Length; i++)
-                Assert.Equal(tests[i], Transform.AnchorToUnit(i));
-        }
+        */
     }
 }
