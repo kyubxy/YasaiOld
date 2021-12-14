@@ -79,10 +79,10 @@ namespace Yasai.Graphics
 
         private Vector2 origin => Size * (AnchorToUnit(Origin) + Offset);
         private Vector2 pos => Position + parentTransform.Position;
-        private Vector2 anchor => parentTransform.Size * -AnchorToUnit(Anchor);
+        private Vector2 anchor => parentTransform.Size * AnchorToUnit(Anchor);
 
         public Transform AbsoluteTransform => new(
-            position: pos + origin + anchor,
+            position: pos - origin + anchor,
             size: Size,
             rotation: Rotation + parentTransform.Rotation,
             anchor: Anchor,
@@ -90,10 +90,22 @@ namespace Yasai.Graphics
             offset: Offset
         );
 
+        private Vector2 pivot => Parent == null ? origin : parentTransform.Position + origin;
+
         // how to actually draw
         public Matrix4 ModelTransforms =>
             Matrix4.CreateTranslation(new Vector3(1,1,0)) *
-            Matrix4.CreateScale(new Vector3(AbsoluteTransform.Size / 2)) * // position
+            
+            
+            // scale
+            Matrix4.CreateScale(new Vector3(AbsoluteTransform.Size / 2)) * 
+            
+            // rotation
+            Matrix4.CreateTranslation(new Vector3(pivot)) *
+            Matrix4.CreateRotationZ(AbsoluteTransform.Rotation) *
+            Matrix4.CreateTranslation(new Vector3(-pivot)) *
+            
+            // position
             Matrix4.CreateTranslation(new Vector3(AbsoluteTransform.Position)) *
             Matrix4.Identity;
 
@@ -115,6 +127,6 @@ namespace Yasai.Graphics
         }
         
         public static Vector2 AnchorToUnit(Anchor anchor) => AnchorToUnit((int)anchor);
-        public static Vector2 AnchorToUnit(int num) => new (-(float)num % 3 / 2, -(float)Math.Floor((double)num / 3) / 2);
+        public static Vector2 AnchorToUnit(int num) => new ((float)num % 3 / 2, (float)Math.Floor((double)num / 3) / 2);
     }
 }

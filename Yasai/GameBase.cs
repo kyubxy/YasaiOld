@@ -172,6 +172,7 @@ namespace Yasai
         public virtual void Update(FrameEventArgs args)
         {
             container.Update(args);
+            container.Rotation += 0.1f;
             //Console.WriteLine(container.Position);
         }
 
