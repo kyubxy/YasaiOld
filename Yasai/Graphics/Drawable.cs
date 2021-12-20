@@ -94,16 +94,13 @@ namespace Yasai.Graphics
 
         // how to actually draw
         public Matrix4 ModelTransforms =>
+            // rotation
             Matrix4.CreateTranslation(new Vector3(1,1,0)) *
             
+            Matrix4.CreateRotationZ(AbsoluteTransform.Rotation) *
             
             // scale
             Matrix4.CreateScale(new Vector3(AbsoluteTransform.Size / 2)) * 
-            
-            // rotation
-            Matrix4.CreateTranslation(new Vector3(pivot)) *
-            Matrix4.CreateRotationZ(AbsoluteTransform.Rotation) *
-            Matrix4.CreateTranslation(new Vector3(-pivot)) *
             
             // position
             Matrix4.CreateTranslation(new Vector3(AbsoluteTransform.Position)) *

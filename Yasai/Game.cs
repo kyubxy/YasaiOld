@@ -6,6 +6,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using Yasai.Graphics;
+using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Shaders;
 using Yasai.Graphics.Shapes;
@@ -19,7 +20,10 @@ namespace Yasai
     /// </summary>
     public class Game : GameBase
     {
-        //protected Container Root;
+        protected Container Root;
+
+        // you can only set this before Load()
+        protected IDrawable[] Children;
 
         //private FontStore fontStore;
         private ShaderStore shaderStore;
@@ -35,8 +39,10 @@ namespace Yasai
         public Game(string title, GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, string[] args = null) 
             : base (title, gameWindowSettings, nativeWindowSettings, args)
         {
-            //Root = new Container();
-            //Children.Add(Root);
+            Root = new Container()
+            {
+                Size = nativeWindowSettings.Size
+            };
 
             // register font store 
             //Dependencies.Register<FontStore>(fontStore = new FontStore(Dependencies, @"Assets/Fonts"));
@@ -61,6 +67,26 @@ namespace Yasai
         {
             yasaiLoad();
             base.Load(dependencies);
+            Root.AddAll(Children);
+            Root.Load(dependencies);
+        }
+
+        public override void Resize(ResizeEventArgs obj)
+        {
+            base.Resize(obj);
+            Root.Size = Window.Size;
+        }
+
+        public override void Update(FrameEventArgs args)
+        {
+            base.Update(args);
+            Root.Update(args);
+        }
+
+        protected override void Draw(FrameEventArgs args)
+        {
+            base.Draw(args);
+            Root.Draw();
         }
     }
 }
