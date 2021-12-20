@@ -2,9 +2,7 @@
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Graphics;
-using Yasai.Graphics.Containers;
 using Yasai.Graphics.Shapes;
-using Yasai.Structures.DI;
 
 namespace Yasai.TestApp
 {

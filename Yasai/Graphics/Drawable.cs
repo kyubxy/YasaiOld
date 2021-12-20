@@ -90,8 +90,6 @@ namespace Yasai.Graphics
             offset: Offset
         );
 
-        private Vector2 pivot => Parent == null ? origin : parentTransform.Position + origin;
-
         // how to actually draw
         public Matrix4 ModelTransforms =>
             // rotation
