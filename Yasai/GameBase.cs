@@ -41,6 +41,12 @@ namespace Yasai
             Window.UpdateFrame += Update;
             Window.RenderFrame += draw;
             Window.Resize += Resize;
+            Window.KeyDown += KeyDown;
+            Window.KeyUp += KeyUp;
+            Window.MouseMove += MouseMove;
+            Window.MouseDown += MouseDown;
+            Window.MouseUp += MouseUp;
+            Window.MouseWheel += MouseWheel;
 
             GL.Enable(EnableCap.Blend);
             
@@ -95,6 +101,38 @@ namespace Yasai
         }
 
         public void Run() => Window.Run();
+        
+        #region input
+        private void MouseWheel(MouseWheelEventArgs obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void MouseUp(MouseButtonEventArgs obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void MouseDown(MouseButtonEventArgs obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void MouseMove(MouseMoveEventArgs obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KeyUp(KeyboardKeyEventArgs obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void KeyDown(KeyboardKeyEventArgs obj)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
         
         public void Dispose()
         {

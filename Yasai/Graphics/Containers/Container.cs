@@ -181,7 +181,41 @@ namespace Yasai.Graphics.Containers
 
         public int Count => children.Count;
         public bool IsReadOnly => false;
+
+        public override bool MouseClick(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            foreach (IDrawable d in children)
+            {
+                if (!new RectangleF(d.Position.X, d.Position.Y, d.Size.X, d.Size.Y).Contains(position.X, position.Y))
+                    continue;
+                
+                var result = d.MouseClick(position, buttonArgs);
+                
+                if (!result)
+                    break;
+            }
+
+            return base.MouseClick(position, buttonArgs);
+        }
         
+        public override bool MouseMove(MouseMoveEventArgs args)
+        {
+            foreach (IDrawable d in children)
+            {
+                if (!new RectangleF(d.Position.X, d.Position.Y, d.Size.X, d.Size.Y).Contains(args.X, args.Y))
+                    continue;
+
+                var result = d.MouseMove(args);
+                
+                if (!result)
+                    break;
+            }
+
+            return base.MouseMove(args);
+        }
+        
+        // TODO: fuck i'll do this later
+
         #endregion
     }
 }

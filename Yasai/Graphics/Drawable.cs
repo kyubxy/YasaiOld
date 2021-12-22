@@ -1,9 +1,12 @@
 using System;
 using System.Drawing;
+using System.Numerics;
 using Yasai.Structures.DI;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Graphics.Shaders;
+using Vector2 = OpenTK.Mathematics.Vector2;
+using Vector3 = OpenTK.Mathematics.Vector3;
 
 namespace Yasai.Graphics
 {
@@ -132,5 +135,19 @@ namespace Yasai.Graphics
         
         public static Vector2 AnchorToUnit(Anchor anchor) => AnchorToUnit((int)anchor);
         public static Vector2 AnchorToUnit(int num) => new ((float)num % 3 / 2, (float)Math.Floor((double)num / 3) / 2);
+
+        #region input
+        public virtual bool MouseClick(Vector2 position, MouseButtonEventArgs buttonArgs) => true;
+        public virtual bool MouseMove(MouseMoveEventArgs args) => true;
+        public virtual bool MouseEnter() => true;
+        public virtual bool MouseExit() => true;
+        public virtual bool MouseScroll(Vector2 position, MouseWheelEventArgs args) => true;
+        
+        public virtual void KeyDown(KeyboardKeyEventArgs args)
+        { }
+        
+        public virtual void KeyUp(KeyboardKeyEventArgs args)
+        { }
+        #endregion
     }
 }
