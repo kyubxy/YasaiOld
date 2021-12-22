@@ -113,9 +113,8 @@
 
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.6.7" />
-    <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta15" />
+    <PackageReference Include="SharpFNT" Version="2.0.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta13" />
   </ItemGroup>
 
 </Project>

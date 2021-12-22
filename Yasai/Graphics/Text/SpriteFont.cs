@@ -2,11 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
-using SixLabors.Fonts;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
+using SharpFNT;
 using Yasai.Resources;
 using Yasai.Graphics.Imaging;
 using Yasai.Resources.Stores;
@@ -37,10 +33,13 @@ namespace Yasai.Graphics.Text
         /// </summary>
         public void LoadGlyphs()
         {
+            // use font data to read teh spritesheet
+            
             foreach (char c in characterSet)
             {
                 int p = c;
-                var box = font.GetGlyph(p).BoundingBox(num.Vector2.Zero, new num.Vector2(5));
+                //var box = font.GetGlyph(p).BoundingBox(num.Vector2.Zero, new num.Vector2(5));
+                /*
                 using (Image<Rgba32> image = new Image<Rgba32>(toOne(box.Width), toOne(box.Height)))
                 {
                     image.Mutate(x => x.DrawText(c.ToString(), font, Color.White, new PointF(0, 0)));
@@ -79,6 +78,7 @@ namespace Yasai.Graphics.Text
 
                     glyphs[c] = new Texture(handle);
                 }
+                */
             }
         }
 
