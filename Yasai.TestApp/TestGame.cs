@@ -16,7 +16,7 @@ namespace Yasai.TestApp
             {
                 box = new Box()
                 {
-                    Anchor = Anchor.Center,
+                    Anchor = Anchor.Bottom,
                     Origin = Anchor.Center,
                     Size = new Vector2(200),
                     Colour = Color.Aqua

@@ -82,7 +82,7 @@ namespace Yasai.Graphics
         private Vector2 anchor => parentTransform.Size * AnchorToUnit(Anchor);
 
         public Transform AbsoluteTransform => new(
-            position: pos - origin + anchor,
+            position: pos + anchor,
             size: Size,
             rotation: Rotation + parentTransform.Rotation,
             anchor: Anchor,
@@ -92,9 +92,11 @@ namespace Yasai.Graphics
 
         // how to actually draw
         public Matrix4 ModelTransforms =>
-            // rotation
-            Matrix4.CreateTranslation(new Vector3(1,1,0)) *
+            // origin
+            Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)) *
+            //Matrix4.CreateTranslation(1,1,0) *
             
+            // rotation
             Matrix4.CreateRotationZ(AbsoluteTransform.Rotation) *
             
             // scale
