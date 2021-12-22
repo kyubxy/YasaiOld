@@ -42,5 +42,7 @@ namespace Yasai.Graphics
         /// Absolute matrix positioning information
         /// </summary>
         Matrix4 ModelTransforms { get; }
+
+        void Draw();
     }
 }

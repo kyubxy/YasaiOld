@@ -91,7 +91,7 @@ namespace Yasai.Graphics.Containers
 
         // tightly coupling to this one until there's a good enough reason
         // to decouple this behaviour
-        public void Draw()
+        public override void Draw()
         {
            if (Fill) 
                drawPrimitive(box);
@@ -115,7 +115,7 @@ namespace Yasai.Graphics.Containers
             var shader = primitive.Shader;
             
             shader.Use();
-            primitive.Use();
+            primitive.Draw();
             
             // assuming the drawable uses a vertex shader with model and projection matrices
             shader.SetMatrix4("model", primitive.ModelTransforms);

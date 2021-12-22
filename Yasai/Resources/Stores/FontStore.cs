@@ -1,38 +1,40 @@
-﻿using System;
+﻿using System.Numerics;
 using Yasai.Graphics.Text;
-using Yasai.Graphics.YasaiSDL;
-using Yasai.Structures;
 using Yasai.Structures.DI;
-using static SDL2.SDL;
-using static SDL2.SDL_ttf;
+using SixLabors.Fonts;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace Yasai.Resources.Stores
 {
     public class FontStore : ContentStore<SpriteFont>
     {
-        private Renderer ren;
-        public FontStore(DependencyContainer container, string root = "Assets") : base(container, root) 
-            => ren = container.Resolve<Renderer>();
-
-        public override string[] FileTypes => new [] {".ttf", ".otf"};
+        public override string[] FileTypes => new[] { ".ttf", ".otf" };
         public override IResourceArgs DefaultArgs => new FontArgs(32);
+
+        private FontCollection collection;
         
-        protected override SpriteFont AcquireResource(string path, IResourceArgs largs)
+        public FontStore(DependencyContainer container, string root = "Assets") : base(container, root)
         {
-            FontArgs args = (FontArgs)largs;
-            
-            SpriteFont final = new SpriteFont(ren, TTF_OpenFont(path, args.Size), args, path);
+            collection = new FontCollection();
+        }
 
-            if (final.Handle == IntPtr.Zero)
-                throw new Exception(SDL_GetError());
+        protected override SpriteFont AcquireResource(string path, IResourceArgs args)
+        {
+            var fargs = (FontArgs) args;
 
-            return final;
+            FontFamily family = collection.Install(path);
+            Font font = family.CreateFont(fargs.Size, FontStyle.Regular); // TODO: fontstyle
+
+            return new SpriteFont(font, fargs, path);
         }
     }
     
     public class FontArgs : IResourceArgs
     {
-        public int Size { get; } = 32;
+        public int Size { get; } = 31;
         public char[] CharacterSet { get; }
 
         public FontArgs(int size, char[] cache)
@@ -44,6 +46,6 @@ namespace Yasai.Resources.Stores
         public FontArgs(int size) : this() => Size = size;
 
         public FontArgs()
-            => CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890<>.?,()+ ".ToCharArray();
+            => CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567889<>.?,()+ ".ToCharArray();
     }
 }

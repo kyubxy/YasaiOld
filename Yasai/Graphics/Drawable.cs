@@ -77,7 +77,6 @@ namespace Yasai.Graphics
             offset: Vector2.Zero
         );
 
-        private Vector2 origin => Size * (AnchorToUnit(Origin) + Offset);
         private Vector2 pos => Position + parentTransform.Position;
         private Vector2 anchor => parentTransform.Size * AnchorToUnit(Anchor);
 
@@ -94,7 +93,6 @@ namespace Yasai.Graphics
         public Matrix4 ModelTransforms =>
             // origin
             Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)) *
-            //Matrix4.CreateTranslation(1,1,0) *
             
             // rotation
             Matrix4.CreateRotationZ(AbsoluteTransform.Rotation) *
@@ -114,7 +112,7 @@ namespace Yasai.Graphics
         public virtual void Update(FrameEventArgs args)
         { }
 
-        public virtual void Use()
+        public virtual void Draw()
         { }
         
         public virtual void Dispose()

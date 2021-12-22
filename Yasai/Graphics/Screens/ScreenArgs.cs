@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
-namespace Yasai.Screens
+namespace Yasai.Graphics.Screens
 {
     public class ScreenArgs : EventArgs
     {

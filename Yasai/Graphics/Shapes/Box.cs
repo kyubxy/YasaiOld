@@ -25,9 +25,9 @@ namespace Yasai.Graphics.Shapes
             Loaded = true;
         }
 
-        public override void Use()
+        public override void Draw()
         {
-            base.Use();
+            base.Draw();
             GL.BlendFunc(BlendingFactor.One, BlendingFactor.OneMinusSrcAlpha);
             Shader.SetVector3("colour", new Vector3(Colour.R/(float)255, Colour.G/(float)255, Colour.B/(float)255));
             Shader.SetFloat("alpha", Alpha);

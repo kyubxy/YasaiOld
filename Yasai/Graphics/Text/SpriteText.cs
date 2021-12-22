@@ -1,9 +1,7 @@
-using System;
-using System.Drawing;
-using System.Numerics;
+﻿using System.Drawing;
+using OpenTK.Mathematics;
 using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
-using Yasai.Structures;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Text
@@ -81,7 +79,7 @@ namespace Yasai.Graphics.Text
             Clear();
 
             foreach (char c in chars) 
-                Add(new Sprite(Font.GetGlyph(c).CurrentTexture));
+                Add(new Sprite(Font.GetGlyph(c)));
             
             updatePositions();
         }

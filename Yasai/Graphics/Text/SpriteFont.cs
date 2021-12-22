@@ -1,36 +1,37 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-
+using OpenTK.Graphics.OpenGL4;
+using SixLabors.Fonts;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using Yasai.Resources;
-using Yasai.Extensions;
 using Yasai.Graphics.Imaging;
-using Yasai.Graphics.YasaiSDL;
 using Yasai.Resources.Stores;
-
-using static SDL2.SDL;
-using static SDL2.SDL_ttf;
+using num = System.Numerics;
 
 namespace Yasai.Graphics.Text
 {
-    public class SpriteFont : Resource
+    public class SpriteFont : Resource<Font>
     {
         public static string FontTiny => "yasai_fontTiny";
         public static string SymbolFontTiny => "yasai_fontSymbols";
 
-        private Dictionary<char, Sprite> glyphs = new Dictionary<char, Sprite>();
+        private Dictionary<char, Texture> glyphs = new ();
 
+        private Font font;
         private char[] characterSet;
 
-        private Renderer renderer;
-        
-        public SpriteFont(Renderer ren, IntPtr h, FontArgs args, string path) : base(h, path, args)
+        public SpriteFont(Font f, FontArgs args, string path) : base(f, path, args)
         {
+            font = f;
             characterSet = args.CharacterSet;
-            renderer = ren;
         }
 
+        int toOne(float x) => (int) (x < 1 ? 1 : x);
+        
         /// <summary>
         /// Renders all characters in the character set 
         /// </summary>
@@ -38,10 +39,46 @@ namespace Yasai.Graphics.Text
         {
             foreach (char c in characterSet)
             {
-                IntPtr t = SDL_CreateTextureFromSurface(renderer.GetPtr(), 
-                    TTF_RenderGlyph_Blended(Handle, c, Color.White.ToSdlColor()));
-                
-                glyphs[c] = new Sprite(new Texture(t));
+                int p = c;
+                var box = font.GetGlyph(p).BoundingBox(num.Vector2.Zero, new num.Vector2(5));
+                using (Image<Rgba32> image = new Image<Rgba32>(toOne(box.Width), toOne(box.Height)))
+                {
+                    image.Mutate(x => x.DrawText(c.ToString(), font, Color.White, new PointF(0, 0)));
+                    
+                    // TODO: this image processing code needs to be abstracted..
+                    // similar occurence in TextureStore
+                    IntPtr handle = (IntPtr)GL.GenTexture();
+                    GL.ActiveTexture(TextureUnit.Texture0);
+                    GL.BindTexture(TextureTarget.Texture2D, (int)handle);
+                    
+                    var pixels = new List<byte>(4 * image.Width * image.Height);
+
+                    for (int y = 0; y < image.Height; y++) 
+                    {
+                        var row = image.GetPixelRowSpan(y);
+
+                        for (int x = 0; x < image.Width; x++) 
+                        {
+                            pixels.Add(row[x].R);
+                            pixels.Add(row[x].G);
+                            pixels.Add(row[x].B);
+                            pixels.Add(row[x].A);
+                        }
+                    }
+                    
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, image.Width, image.Height, 0,
+                        PixelFormat.Rgba, PixelType.UnsignedByte, pixels.ToArray());
+                    
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+
+                    GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+                    glyphs[c] = new Texture(handle);
+                }
             }
         }
 
@@ -50,15 +87,7 @@ namespace Yasai.Graphics.Text
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public Sprite GetGlyph(char c)
-        {
-            return characterSet.Contains(c) ? glyphs[c] : glyphs['?'];
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-            TTF_CloseFont(Handle);
-        }
+        public Texture GetGlyph(char c)
+            => ((IList) characterSet).Contains(c) ? glyphs[c] : glyphs['?'];
     }
 }

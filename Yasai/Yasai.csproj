@@ -77,9 +77,6 @@
     <None Update="Assets\Fonts\OpenSans-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Remove="Input\**" />
-    <None Remove="Screens\**" />
-    <None Remove="Graphics\Text\**" />
     <None Remove="Graphics\YasaiSDL\**" />
     <None Update="Assets\VertexShaders\Vert2D.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -105,25 +102,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Input\**" />
-    <Compile Remove="Screens\**" />
-    <Compile Remove="Graphics\Text\**" />
     <Compile Remove="Graphics\YasaiSDL\**" />
     <Compile Remove="Graphics\IGeometry.cs" />
     <Compile Remove="Graphics\IGraphicsModifiable.cs" />
-    <Compile Remove="Resources\Stores\FontStore.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Input\**" />
-    <EmbeddedResource Remove="Screens\**" />
-    <EmbeddedResource Remove="Graphics\Text\**" />
     <EmbeddedResource Remove="Graphics\YasaiSDL\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.6.7" />
+    <PackageReference Include="SixLabors.Fonts" Version="1.0.0-beta15" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta13" />
   </ItemGroup>
 
 </Project>
