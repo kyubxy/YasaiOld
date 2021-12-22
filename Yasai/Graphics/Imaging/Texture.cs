@@ -4,10 +4,12 @@ using Yasai.Resources;
 
 namespace Yasai.Graphics.Imaging
 {
-    public class Texture : Resource<IntPtr>
+    public class Texture : Resource
     {
+        private readonly IntPtr handle;
+        
         public Texture(IntPtr handle)
-            => Handle = handle;
+            => this.handle = handle;
 
         // TODO: should Texture0 be specifiable as a parameter
         /// <summary>
@@ -16,7 +18,7 @@ namespace Yasai.Graphics.Imaging
         public void Use()
         {
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, (int)Handle);
+            GL.BindTexture(TextureTarget.Texture2D, (int)handle);
         }
     }
 }

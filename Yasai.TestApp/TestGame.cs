@@ -12,6 +12,7 @@ namespace Yasai.TestApp
     public class TestGame : Game
     {
         private Container c;
+        private Box b;
         
         public TestGame()
         {
@@ -26,10 +27,10 @@ namespace Yasai.TestApp
                     Fill = true,
                     Items = new IDrawable[]
                     {
-                        new Box
+                        b = new Box
                         {
                             Anchor = Anchor.TopLeft, 
-                            Origin = Anchor.TopLeft, 
+                            Origin = Anchor.Center, 
                             Size = new Vector2(100),
                             Colour = Color.Blue,
                         }
@@ -41,7 +42,7 @@ namespace Yasai.TestApp
         public override void Update(FrameEventArgs args)
         {
             base.Update(args);
-            c.Size -= Vector2.One;
+            b.Rotation += 0.01f;
         }
     }
 }

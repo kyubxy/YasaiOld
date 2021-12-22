@@ -59,5 +59,16 @@ namespace Yasai.Resources.Stores
 
             return new Texture(handle);
         }
+
+        /// <summary>
+        /// Add a collection of images to the store through a spritesheet
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <param name="bruh"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void LoadSpritesheet(string sheet, (string, int, int)[] bruh)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

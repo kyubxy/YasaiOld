@@ -8,11 +8,13 @@ using Yasai.Resources;
 
 namespace Yasai.Graphics.Shaders
 {
-    public class Shader : Resource<int>
+    public class Shader : Resource
     {
         public static string TextureShader => "yasai_textureShader";
         public static string SolidShader   => "yasai_solidShader";
         public static string MaskingShader => "yasai_maskingShader";
+
+        private readonly int handle;
         
         //private int handle;
         private readonly Dictionary<string,int> uniformLocations;
@@ -52,37 +54,37 @@ namespace Yasai.Graphics.Shaders
                 Console.WriteLine(infoLogFrag);
             
             // binding
-            Handle = GL.CreateProgram();
+            handle = GL.CreateProgram();
 
-            GL.AttachShader(Handle, vertexShader);
-            GL.AttachShader(Handle, fragmentShader);
+            GL.AttachShader(handle, vertexShader);
+            GL.AttachShader(handle, fragmentShader);
 
-            GL.LinkProgram(Handle);
+            GL.LinkProgram(handle);
             
             // cleanup
-            GL.DetachShader(Handle, vertexShader);
-            GL.DetachShader(Handle, fragmentShader);
+            GL.DetachShader(handle, vertexShader);
+            GL.DetachShader(handle, fragmentShader);
             GL.DeleteShader(fragmentShader);
             GL.DeleteShader(vertexShader);
             
-            GL.GetProgram(Handle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms); 
+            GL.GetProgram(handle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms); 
             uniformLocations = new Dictionary<string, int>();
 
             // Loop over all the uniforms,
             for (var i = 0; i < numberOfUniforms; i++)
             {
                 // get the name of this uniform,
-                var key = GL.GetActiveUniform(Handle, i, out _, out _);
+                var key = GL.GetActiveUniform(handle, i, out _, out _);
 
                 // get the location,
-                var location = GL.GetUniformLocation(Handle, key);
+                var location = GL.GetUniformLocation(handle, key);
 
                 // and then add it to the dictionary.
                 uniformLocations.Add(key, location);
             }
         }
 
-        public int GetAttribLocation(string name) => GL.GetAttribLocation(Handle, name);
+        public int GetAttribLocation(string name) => GL.GetAttribLocation(handle, name);
 
         public void SetInt(string name, int value)
         {
@@ -114,7 +116,7 @@ namespace Yasai.Graphics.Shaders
             GL.Uniform1(uniformLocations[name], data);
         }
         
-        public void Use() => GL.UseProgram(Handle);
+        public void Use() => GL.UseProgram(handle);
         
         #region IDisposable pattern
         private bool disposedValue;
@@ -123,7 +125,7 @@ namespace Yasai.Graphics.Shaders
         {
             if (!disposedValue)
             {
-                GL.DeleteProgram(Handle);
+                GL.DeleteProgram(handle);
 
                 disposedValue = true;
             }
@@ -131,7 +133,7 @@ namespace Yasai.Graphics.Shaders
 
         ~Shader()
         {
-            GL.DeleteProgram(Handle);
+            GL.DeleteProgram(handle);
         }
 
         public override void Dispose()

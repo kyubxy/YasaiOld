@@ -29,6 +29,8 @@ namespace Yasai.Resources.Stores
         }
     }
     
+    */
+    
     public class FontArgs : IResourceArgs
     {
         public int Size { get; } = 31;
@@ -45,5 +47,4 @@ namespace Yasai.Resources.Stores
         public FontArgs()
             => CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567889<>.?,()+ ".ToCharArray();
     }
-    */
 }

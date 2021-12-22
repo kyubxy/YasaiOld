@@ -8,16 +8,13 @@ namespace Yasai.Resources
         IResourceArgs Args { init; get; }
     }
     
-    public abstract class Resource<T> : IResource
+    public abstract class Resource : IResource
     {
-        //public IntPtr Handle { get; protected set; }
-        public T Handle { init; get; }
         public string Path { init; get; }
         public IResourceArgs Args { init; get; }
 
-        public Resource(T handle, string p, IResourceArgs args)
+        public Resource(string p, IResourceArgs args)
         {
-            Handle = handle;
             Path = p;
             Args = args;
         }

@@ -77,6 +77,7 @@ namespace Yasai.Graphics
             offset: Vector2.Zero
         );
 
+        // everything works except rotation
         private Vector2 pos => Position + parentTransform.Position;
         private Vector2 anchor => parentTransform.Size * AnchorToUnit(Anchor);
         private Vector2 origin => Size * (AnchorToUnit(Origin) + Offset);

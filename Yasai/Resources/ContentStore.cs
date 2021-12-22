@@ -169,7 +169,7 @@ namespace Yasai.Resources
         
         private bool IsResourceLoaded(string absPath, IResourceArgs args)
         {
-            foreach (IResource r in resources.Values)
+            foreach (T r in resources.Values)
                 if (r.Path == absPath && r.Args == args) 
                     return true;
             
