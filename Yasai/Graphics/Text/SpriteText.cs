@@ -6,6 +6,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Text
 {
+    /*
     public class SpriteText : Container
     {
         private string text = "";
@@ -84,4 +85,5 @@ namespace Yasai.Graphics.Text
             updatePositions();
         }
     }
+    */
 }

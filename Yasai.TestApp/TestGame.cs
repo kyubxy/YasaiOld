@@ -2,6 +2,7 @@
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Graphics;
+using Yasai.Graphics.Containers;
 using Yasai.Graphics.Shapes;
 using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
@@ -10,27 +11,29 @@ namespace Yasai.TestApp
 {
     public class TestGame : Game
     {
-        private readonly Box box;
-
-        private SpriteText text;
-
+        private Container c;
+        
         public TestGame()
         {
-            FontStore fontStore = new FontStore(Dependencies);
-            fontStore.LoadResource(@"Fonts\OpenSans-Regular.ttf", "normal", new FontArgs(32));
-            
             Children = new IDrawable[]
             {
-                box = new Box()
+                c = new Container
                 {
-                    Anchor = Anchor.Center,
-                    Origin = Anchor.Center,
-                    Size = new Vector2(200),
-                    Colour = Color.Aqua
-                },
-                text = new SpriteText("wangs", fontStore.GetResource("normal"))
-                {
-                    
+                    Anchor = Anchor.Center, 
+                    Origin = Anchor.Center, 
+                    Size = new Vector2(400),
+                    Colour = Color.Red,
+                    Fill = true,
+                    Items = new IDrawable[]
+                    {
+                        new Box
+                        {
+                            Anchor = Anchor.TopLeft, 
+                            Origin = Anchor.TopLeft, 
+                            Size = new Vector2(100),
+                            Colour = Color.Blue,
+                        }
+                    }
                 }
             };
         }
@@ -38,7 +41,7 @@ namespace Yasai.TestApp
         public override void Update(FrameEventArgs args)
         {
             base.Update(args);
-            box.Rotation += 0.01f;
+            c.Size -= Vector2.One;
         }
     }
 }

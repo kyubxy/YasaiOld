@@ -10,6 +10,7 @@ using num = System.Numerics;
 
 namespace Yasai.Graphics.Text
 {
+    /*
     public class SpriteFont : Resource<Font>
     {
         public static string FontTiny => "yasai_fontTiny";
@@ -78,7 +79,6 @@ namespace Yasai.Graphics.Text
 
                     glyphs[c] = new Texture(handle);
                 }
-                */
             }
         }
 
@@ -90,4 +90,5 @@ namespace Yasai.Graphics.Text
         public Texture GetGlyph(char c)
             => ((IList) characterSet).Contains(c) ? glyphs[c] : glyphs['?'];
     }
+    */
 }

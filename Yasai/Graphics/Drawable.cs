@@ -79,9 +79,10 @@ namespace Yasai.Graphics
 
         private Vector2 pos => Position + parentTransform.Position;
         private Vector2 anchor => parentTransform.Size * AnchorToUnit(Anchor);
+        private Vector2 origin => Size * (AnchorToUnit(Origin) + Offset);
 
         public Transform AbsoluteTransform => new(
-            position: pos + anchor,
+            position: pos - origin + anchor,
             size: Size,
             rotation: Rotation + parentTransform.Rotation,
             anchor: Anchor,
@@ -90,12 +91,19 @@ namespace Yasai.Graphics
         );
 
         // how to actually draw
+        // i have no idea what im doing
         public Matrix4 ModelTransforms =>
             // origin
             Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)) *
             
             // rotation
             Matrix4.CreateRotationZ(AbsoluteTransform.Rotation) *
+            
+            // undo origin
+            Matrix4.Invert(Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1))) *
+            
+            // move back to top left
+            Matrix4.CreateTranslation(1, 1, 0) *
             
             // scale
             Matrix4.CreateScale(new Vector3(AbsoluteTransform.Size / 2)) * 

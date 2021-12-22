@@ -1,14 +1,11 @@
 ﻿using System.Numerics;
 using Yasai.Graphics.Text;
 using Yasai.Structures.DI;
-using SixLabors.Fonts;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 
 namespace Yasai.Resources.Stores
 {
+    /*
     public class FontStore : ContentStore<SpriteFont>
     {
         public override string[] FileTypes => new[] { ".ttf", ".otf" };
@@ -48,4 +45,5 @@ namespace Yasai.Resources.Stores
         public FontArgs()
             => CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567889<>.?,()+ ".ToCharArray();
     }
+    */
 }
