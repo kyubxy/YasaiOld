@@ -25,7 +25,7 @@ namespace Yasai.Resources
         public abstract string[] FileTypes { get; }
         public abstract IResourceArgs DefaultArgs { get; }
 
-        private Dictionary<string, T> resources;
+        protected Dictionary<string, T> Resources;
 
         private DependencyContainer dependencies;
         
@@ -33,7 +33,7 @@ namespace Yasai.Resources
         {
             Root = root;
             dependencies = container;
-            resources = new Dictionary<string, T>();
+            Resources = new Dictionary<string, T>();
         }
 
         // TODO: look into whether we need to clone resources everytime or not
@@ -46,13 +46,13 @@ namespace Yasai.Resources
         /// <exception cref="DirectoryNotFoundException">thrown if the key was not present in the dictionary</exception>
         public virtual T GetResource(string res) 
         {
-            if (!resources.ContainsKey(res))
+            if (!Resources.ContainsKey(res))
             {
                 throw new DirectoryNotFoundException($"{res} was not loaded into the dictionary. " + 
                                                      $"Ensure you preload it with LoadResource or some similar function");
             }
 
-            return resources[res];
+            return Resources[res];
         }
         
         public void LoadResource (string path) => LoadResource(path, Path.ChangeExtension(path, null));
@@ -84,7 +84,7 @@ namespace Yasai.Resources
             if (!File.Exists(loadPath))
                 throw new FileNotFoundException($"no such {loadPath} could be found");
 
-            resources[key] = AcquireResource(loadPath, args);
+            Resources[key] = AcquireResource(loadPath, args);
         }
 
         /// <summary>
@@ -133,12 +133,12 @@ namespace Yasai.Resources
         /// <param name="key"></param>
         public void Unload(string key)
         {
-            if (!resources.ContainsKey(key))
+            if (!Resources.ContainsKey(key))
                 GameBase.YasaiLogger.LogWarning($"no such {key} in store");
             else
             {
-                resources[key].Dispose();
-                resources[key] = default;
+                Resources[key].Dispose();
+                Resources[key] = default;
             }
         }
 
@@ -147,7 +147,7 @@ namespace Yasai.Resources
         /// </summary>
         public void Dispose()
         {
-            foreach (T x in resources.Values) 
+            foreach (T x in Resources.Values) 
                 x.Dispose();
         }
 
@@ -169,7 +169,7 @@ namespace Yasai.Resources
         
         private bool IsResourceLoaded(string absPath, IResourceArgs args)
         {
-            foreach (T r in resources.Values)
+            foreach (T r in Resources.Values)
                 if (r.Path == absPath && r.Args == args) 
                     return true;
             

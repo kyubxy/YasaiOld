@@ -3,6 +3,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Graphics;
 using Yasai.Graphics.Containers;
+using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Shapes;
 using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
@@ -12,10 +13,14 @@ namespace Yasai.TestApp
     public class TestGame : Game
     {
         private Container c;
-        private Box b;
+        private Drawable b;
         
         public TestGame()
         {
+            TextureStore tstore = new TextureStore(Dependencies);
+            tstore.LoadResource("tex.png");
+            Texture t = tstore.GetResource("tex");
+            
             Children = new IDrawable[]
             {
                 c = new Container
@@ -27,9 +32,9 @@ namespace Yasai.TestApp
                     Fill = true,
                     Items = new IDrawable[]
                     {
-                        b = new Box
+                        b = new Sprite(t)
                         {
-                            Anchor = Anchor.TopLeft, 
+                            Anchor = Anchor.Center, 
                             Origin = Anchor.Center, 
                             Size = new Vector2(100),
                             Colour = Color.Blue,

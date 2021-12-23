@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Yasai.Structures.DI;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -94,6 +95,37 @@ namespace Yasai.Graphics
             offset: Offset
         );
 
+        Vector2 sizing
+        {
+            get
+            {
+                var originalSize = AbsoluteTransform.Size / 2;
+
+                Vector2 ret;
+                
+                switch (RelativeAxes)
+                {
+                    case RelativeAxes.None:
+                        ret = originalSize;
+                        break;
+                    case RelativeAxes.Both:
+                        ret = parentTransform.Size * originalSize;
+                        break;
+                    case RelativeAxes.X:
+                        ret = new Vector2(parentTransform.Size.X * originalSize.X, originalSize.Y);
+                        break;
+                    case RelativeAxes.Y:
+                        ret = new Vector2(originalSize.X, parentTransform.Size.Y * originalSize.Y);
+                        break;
+                    default:
+                        throw new SwitchExpressionException(); 
+                }
+
+                return ret;
+            }
+        }
+
+        // TODO: make this not suck
         // how to actually draw
         // i have no idea what im doing
         public Matrix4 ModelTransforms =>
@@ -110,7 +142,7 @@ namespace Yasai.Graphics
             Matrix4.CreateTranslation(1, 1, 0) *
             
             // scale
-            Matrix4.CreateScale(new Vector3(AbsoluteTransform.Size / 2)) * 
+            Matrix4.CreateScale(new Vector3(sizing)) *
             
             // position
             Matrix4.CreateTranslation(new Vector3(AbsoluteTransform.Position)) *

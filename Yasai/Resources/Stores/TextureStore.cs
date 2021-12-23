@@ -23,11 +23,16 @@ namespace Yasai.Resources.Stores
             if (args != null)
                 GameBase.YasaiLogger.LogWarning("ImageLoader does not support args");
             
+            Image<Rgba32> image = Image.Load<Rgba32>(path);
+            return new Texture(generateTexture(image));
+        }
+        
+        private IntPtr generateTexture(Image<Rgba32> image)
+        {
             IntPtr handle = (IntPtr)GL.GenTexture();
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, (int)handle);
             
-            Image<Rgba32> image = Image.Load<Rgba32>(path);
 
             image.Mutate(x => x.Flip(FlipMode.Vertical));
 
@@ -57,18 +62,30 @@ namespace Yasai.Resources.Stores
 
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-            return new Texture(handle);
+            return handle;
         }
 
         /// <summary>
         /// Add a collection of images to the store through a spritesheet
         /// </summary>
-        /// <param name="sheet"></param>
-        /// <param name="bruh"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void LoadSpritesheet(string sheet, (string, int, int)[] bruh)
+        public void LoadSpritesheet(string sheetLocation, Dictionary<string, Rectangle> sheetData)
         {
-            throw new NotImplementedException();
+            Image<Rgba32> sheet = Image.Load<Rgba32>(sheetLocation);
+            
+            foreach (KeyValuePair<string, Rectangle> pair in sheetData)
+                loadSection(sheet, pair.Key, pair.Value);
+        }
+
+        private void loadSection(Image<Rgba32> sheet, string name, Rectangle area)
+        {
+            var ret = sheet.Clone(x => 
+                    x.Resize(area.Width, area.Height)
+                    .Crop(area)
+                );
+
+            var handle = generateTexture(ret);
+            Resources[name] = new Texture(handle);
         }
     }
 }

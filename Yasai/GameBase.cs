@@ -41,12 +41,12 @@ namespace Yasai
             Window.UpdateFrame += Update;
             Window.RenderFrame += draw;
             Window.Resize += Resize;
-            Window.KeyDown += KeyDown;
-            Window.KeyUp += KeyUp;
-            Window.MouseMove += MouseMove;
-            Window.MouseDown += MouseDown;
-            Window.MouseUp += MouseUp;
-            Window.MouseWheel += MouseWheel;
+            //Window.KeyDown += KeyDown;
+            //Window.KeyUp += KeyUp;
+            //Window.MouseMove += MouseMove;
+            //Window.MouseDown += MouseDown;
+            //Window.MouseUp += MouseUp;
+            //Window.MouseWheel += MouseWheel;
 
             GL.Enable(EnableCap.Blend);
             
