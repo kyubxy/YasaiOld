@@ -37,7 +37,6 @@ namespace Yasai.TestApp
                             Anchor = Anchor.Center, 
                             Origin = Anchor.Center, 
                             Size = new Vector2(100),
-                            Colour = Color.Blue,
                         }
                     }
                 }
