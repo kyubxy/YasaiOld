@@ -89,8 +89,6 @@ namespace Yasai.Graphics.Containers
                     s.Update(args);
         }
 
-        // tightly coupling to this one until there's a good enough reason
-        // to decouple this behaviour
         public override void Draw()
         {
            if (Fill) 
@@ -114,8 +112,8 @@ namespace Yasai.Graphics.Containers
             
             var shader = primitive.Shader;
             
-            shader.Use();
             primitive.Draw();
+            shader.Use();
             
             // assuming the drawable uses a vertex shader with model and projection matrices
             shader.SetMatrix4("model", primitive.ModelTransforms);

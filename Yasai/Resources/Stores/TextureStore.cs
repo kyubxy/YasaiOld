@@ -24,6 +24,8 @@ namespace Yasai.Resources.Stores
                 GameBase.YasaiLogger.LogWarning("ImageLoader does not support args");
             
             Image<Rgba32> image = Image.Load<Rgba32>(path);
+            // imaging is fucked i hate sixlabours bullshit
+            image.Save(@"C:\Users\rinka\Desktop\bruh2.png");
             return new Texture(generateTexture(image));
         }
         
@@ -33,7 +35,6 @@ namespace Yasai.Resources.Stores
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, (int)handle);
             
-
             image.Mutate(x => x.Flip(FlipMode.Vertical));
 
             var pixels = new List<byte>(4 * image.Width * image.Height);
@@ -53,6 +54,8 @@ namespace Yasai.Resources.Stores
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, image.Width, image.Height, 0,
                 PixelFormat.Rgba, PixelType.UnsignedByte, pixels.ToArray());
+            
+            image.Save(@"C:\Users\rinka\Desktop\bruh.png");
             
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);

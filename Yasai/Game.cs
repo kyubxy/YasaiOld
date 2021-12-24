@@ -23,7 +23,7 @@ namespace Yasai
         protected Container Root;
 
         // you can only set this before Load()
-        protected IDrawable[] Children;
+        protected IDrawable[] Children = Array.Empty<IDrawable>();
 
         //private FontStore fontStore;
         private ShaderStore shaderStore;

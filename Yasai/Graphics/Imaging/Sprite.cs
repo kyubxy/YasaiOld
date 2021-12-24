@@ -1,3 +1,4 @@
+using System;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Yasai.Graphics.Primitives;
@@ -20,7 +21,6 @@ namespace Yasai.Graphics.Imaging
             
             Shader = shaderStore.GetResource(Shader.TextureShader);
             Shader.Use();
-
             
             var vertexLocation = Shader.GetAttribLocation("aPosition");
             GL.EnableVertexAttribArray(vertexLocation);
