@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.PixelFormats;
 using Yasai.Graphics.Imaging;
 using Yasai.Structures.DI;
 
@@ -24,8 +24,7 @@ namespace Yasai.Resources.Stores
                 GameBase.YasaiLogger.LogWarning("ImageLoader does not support args");
             
             Image<Rgba32> image = Image.Load<Rgba32>(path);
-            // imaging is fucked i hate sixlabours bullshit
-            image.Save(@"C:\Users\rinka\Desktop\bruh2.png");
+            image.Save(@"C:\Users\rinka\Desktop\bruh3.png");
             return new Texture(generateTexture(image));
         }
         

@@ -22,10 +22,9 @@ namespace Yasai.TestApp
         public TestGame()
         {
             TextureStore tstore = new TextureStore(Dependencies);
-            tstore.LoadResource("tex.png");
+            tstore.LoadResource("school.png", "tex");
             Texture t = tstore.GetResource("tex");
             
-            /*
             Children = new IDrawable[]
             {
                 c = new Container
@@ -46,7 +45,6 @@ namespace Yasai.TestApp
                     }
                 }
             };
-            */
 
             sp = new Sprite(t)
             {

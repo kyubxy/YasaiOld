@@ -83,8 +83,9 @@ namespace Yasai.Resources
             // check if resource exists
             if (!File.Exists(loadPath))
                 throw new FileNotFoundException($"no such {loadPath} could be found");
-
-            Resources[key] = AcquireResource(loadPath, args);
+            
+            var res = AcquireResource(loadPath, args);
+            Resources[key] = res;
         }
 
         /// <summary>
