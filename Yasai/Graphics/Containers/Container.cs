@@ -180,11 +180,16 @@ namespace Yasai.Graphics.Containers
         public int Count => children.Count;
         public bool IsReadOnly => false;
 
+        bool pointInDrawable(Vector2 point, IDrawable d)
+            => point.X >= d.Position.X && point.X <= d.Position.X + d.Size.X && point.Y >= d.Position.Y &&
+               point.Y <= d.Position.Y + d.Size.Y;
+            
+
         public override bool MouseClick(Vector2 position, MouseButtonEventArgs buttonArgs)
         {
             foreach (IDrawable d in children)
             {
-                if (!new RectangleF(d.Position.X, d.Position.Y, d.Size.X, d.Size.Y).Contains(position.X, position.Y))
+                if (!pointInDrawable(position, d))
                     continue;
                 
                 var result = d.MouseClick(position, buttonArgs);
@@ -200,7 +205,7 @@ namespace Yasai.Graphics.Containers
         {
             foreach (IDrawable d in children)
             {
-                if (!new RectangleF(d.Position.X, d.Position.Y, d.Size.X, d.Size.Y).Contains(args.X, args.Y))
+                if (!pointInDrawable(args.Position, d))
                     continue;
 
                 var result = d.MouseMove(args);

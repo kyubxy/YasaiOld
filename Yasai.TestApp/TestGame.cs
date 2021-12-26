@@ -5,8 +5,6 @@ using OpenTK.Windowing.Common;
 using Yasai.Graphics;
 using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
-using Yasai.Graphics.Shapes;
-using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
 
