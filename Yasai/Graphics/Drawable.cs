@@ -196,17 +196,8 @@ namespace Yasai.Graphics
             return true;
         }
 
-        public virtual bool MouseEnter()
-        {
-            MouseEnterEvent?.Invoke();
-            return true;
-        }
-
-        public virtual bool MouseExit()
-        {
-            MouseExitEvent?.Invoke();
-            return true;
-        }
+        public virtual bool MouseEnter() => throw new NotImplementedException();
+        public virtual bool MouseExit() => throw new NotImplementedException();
 
         public virtual bool MouseScroll(Vector2 position, MouseWheelEventArgs args)
         {

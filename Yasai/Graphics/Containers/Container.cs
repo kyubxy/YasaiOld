@@ -196,7 +196,7 @@ namespace Yasai.Graphics.Containers
         {
             for (int i = 0; i < children.Count; i++)
             {
-                IDrawable d = children[^i];
+                IDrawable d = children[children.Count - i - 1];
                 
                 if (!d.Enabled)
                     continue;
