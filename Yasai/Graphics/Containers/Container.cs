@@ -192,7 +192,7 @@ namespace Yasai.Graphics.Containers
             
         // mouse
 
-        public override bool MouseClick(Vector2 position, MouseButtonEventArgs buttonArgs)
+        public override bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
         {
             for (int i = 0; i < children.Count; i++)
             {
@@ -204,13 +204,13 @@ namespace Yasai.Graphics.Containers
                 if (!pointInDrawable(position, d))
                     continue;
                 
-                var result = d.MouseClick(position, buttonArgs);
+                var result = d.MouseHold(position, buttonArgs);
 
                 if (!result)
                     return false;
             }
 
-            return base.MouseClick(position, buttonArgs);
+            return base.MouseHold(position, buttonArgs);
         }
 
         public override bool MousePress(Vector2 position, MouseButtonEventArgs buttonArgs)

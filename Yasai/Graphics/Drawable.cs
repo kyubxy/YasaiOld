@@ -178,7 +178,7 @@ namespace Yasai.Graphics
         public event Action<Vector2, MouseWheelEventArgs> MouseScrollEvent;
         
         // mouse
-        public virtual bool MouseClick(Vector2 position, MouseButtonEventArgs buttonArgs)
+        public virtual bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
         {
             MouseClickEvent?.Invoke(position, buttonArgs);
             return true;

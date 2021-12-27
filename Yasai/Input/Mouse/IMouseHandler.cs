@@ -9,15 +9,15 @@ namespace Yasai.Input.Mouse
         // false to block, true to not block
         
         /// <summary>
-        /// When the user clicks the mouse, fires once until the user releases key and presses again
+        /// When the user depresses the mouse button
         /// </summary>
         /// <param name="position"></param>
         /// <param name="buttonArgs"></param>
         /// <returns></returns>
-        bool MouseClick(Vector2 position, MouseButtonEventArgs buttonArgs);
+        bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs);
         
         /// <summary>
-        /// When the user depresses the mouse button
+        /// When the user clicks the mouse, fires once, waits and then fires continually
         /// </summary>
         /// <param name="position"></param>
         /// <param name="buttonArgs"></param>
@@ -38,7 +38,7 @@ namespace Yasai.Input.Mouse
         bool MouseEnter();
         
         /// <summary>
-        /// When teh user exits the object, fires once
+        /// When the user exits the object, fires once
         /// </summary>
         /// <returns></returns>
         bool MouseExit();

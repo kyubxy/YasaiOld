@@ -18,17 +18,18 @@ namespace Yasai.TestApp
 
         sealed class TestSprite : Sprite
         {
-            public TestSprite(Texture texture) : base(texture)
+            private string k;
+            
+            public TestSprite(Texture texture, string k) : base(texture)
             {
-                Anchor = Anchor.Center;
-                Origin = Anchor.Center;
                 Size = new Vector2(100);
+                this.k = k;
             }
 
             public override bool MousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
             {
-                Console.WriteLine("some of this wangs");
-                return true;
+                Console.WriteLine("some of this wangs " + k);
+                return false;
             }
         }
         
@@ -49,7 +50,18 @@ namespace Yasai.TestApp
                     Fill = true,
                     Items = new IDrawable[]
                     {
-                        b = new TestSprite(t)
+                        b = new TestSprite(t, "left")
+                        {
+                            Anchor = Anchor.Center,
+                            Origin = Anchor.Right,
+                            X = 30
+                        },
+                        new TestSprite(t, "right")
+                        {
+                            Anchor = Anchor.Center,
+                            Origin = Anchor.Left,
+                            X = -30
+                        }
                     }
                 }
             };
