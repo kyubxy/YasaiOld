@@ -10,6 +10,8 @@ using Yasai.Graphics;
 using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Shapes;
+using Yasai.Input.Keyboard;
+using Yasai.Input.Mouse;
 using Yasai.Resources.Stores;
 
 namespace Yasai
@@ -41,12 +43,12 @@ namespace Yasai
             Window.UpdateFrame += Update;
             Window.RenderFrame += draw;
             Window.Resize += Resize;
-            //Window.KeyDown += KeyDown;
-            //Window.KeyUp += KeyUp;
-            //Window.MouseMove += MouseMove;
-            //Window.MouseDown += MouseDown;
-            //Window.MouseUp += MouseUp;
-            //Window.MouseWheel += MouseWheel;
+            Window.KeyDown += KeyDown;
+            Window.KeyUp += KeyUp;
+            Window.MouseMove += MouseMove;
+            Window.MouseDown += MouseDown;
+            Window.MouseUp += MouseUp;
+            Window.MouseWheel += MouseWheel;
 
             GL.Enable(EnableCap.Blend);
             
@@ -58,9 +60,9 @@ namespace Yasai
             //Children = new Container();
         }
 
-        public virtual void Resize(ResizeEventArgs obj)
+        public virtual void Resize(ResizeEventArgs args)
         {
-            GL.Viewport(0,0,obj.Width, obj.Height);
+            GL.Viewport(0,0,args.Width, args.Height);
             Projection = Matrix4.CreateOrthographicOffCenter(0, Window.Size.X, Window.Size.Y, 0, -1, 1);
         }
 
@@ -103,35 +105,23 @@ namespace Yasai
         public void Run() => Window.Run();
         
         #region input
-        private void MouseWheel(MouseWheelEventArgs obj)
-        {
-            throw new NotImplementedException();
-        }
+        protected virtual void MouseWheel(MouseWheelEventArgs args)
+        { }
 
-        private void MouseUp(MouseButtonEventArgs obj)
-        {
-            throw new NotImplementedException();
-        }
+        protected virtual void MouseUp(MouseButtonEventArgs args)
+        { }
 
-        private void MouseDown(MouseButtonEventArgs obj)
-        {
-            throw new NotImplementedException();
-        }
+        protected virtual void MouseDown(MouseButtonEventArgs args)
+        { }
 
-        private void MouseMove(MouseMoveEventArgs obj)
-        {
-            throw new NotImplementedException();
-        }
+        protected virtual void MouseMove(MouseMoveEventArgs args)
+        { }
 
-        private void KeyUp(KeyboardKeyEventArgs obj)
-        {
-            throw new NotImplementedException();
-        }
+        protected virtual void KeyUp(KeyboardKeyEventArgs args)
+        { }
 
-        private void KeyDown(KeyboardKeyEventArgs obj)
-        {
-            throw new NotImplementedException();
-        }
+        protected virtual void KeyDown(KeyboardKeyEventArgs args)
+        { }
         #endregion
         
         public void Dispose()

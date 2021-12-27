@@ -88,5 +88,47 @@ namespace Yasai
             base.Draw(args);
             Root.Draw();
         }
+
+        #region input
+
+        private Vector2 mousePosition;
+        
+        protected override void KeyDown(KeyboardKeyEventArgs args)
+        {
+            base.KeyDown(args);
+            Root.KeyDown(args);
+        }
+
+        protected override void KeyUp(KeyboardKeyEventArgs args)
+        {
+            base.KeyUp(args);
+            Root.KeyUp(args);
+        }
+
+        protected override void MouseWheel(MouseWheelEventArgs args)
+        {
+            base.MouseWheel(args);
+            Root.MouseScroll(mousePosition, args);
+        }
+
+        protected override void MouseUp(MouseButtonEventArgs args)
+        {
+            base.MouseUp(args);
+        }
+
+        protected override void MouseDown(MouseButtonEventArgs args)
+        {
+            base.MouseDown(args);
+            Root.MousePress(mousePosition, args);
+        }
+
+        protected override void MouseMove(MouseMoveEventArgs args)
+        {
+            base.MouseMove(args);
+            Root.MouseMove(args);
+            mousePosition = args.Position;
+        }
+        
+        #endregion
     }
 }

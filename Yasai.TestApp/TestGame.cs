@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -15,7 +16,21 @@ namespace Yasai.TestApp
         private Container c;
         private Drawable b;
 
-        private Sprite sp;
+        sealed class TestSprite : Sprite
+        {
+            public TestSprite(Texture texture) : base(texture)
+            {
+                Anchor = Anchor.Center;
+                Origin = Anchor.Center;
+                Size = new Vector2(100);
+            }
+
+            public override bool MousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
+            {
+                Console.WriteLine("some of this wangs");
+                return true;
+            }
+        }
         
         public TestGame()
         {
@@ -34,57 +49,12 @@ namespace Yasai.TestApp
                     Fill = true,
                     Items = new IDrawable[]
                     {
-                        b = new Sprite(t)
-                        {
-                            Anchor = Anchor.Center, 
-                            Origin = Anchor.Center, 
-                            Size = new Vector2(100),
-                        }
+                        b = new TestSprite(t)
                     }
                 }
             };
 
-            sp = new Sprite(t)
-            {
-                Anchor = Anchor.Center,
-                Origin = Anchor.Center,
-                Size = new Vector2(100),
-            };
-        }
-
-        public override void Load(DependencyContainer dependencies)
-        {
-            base.Load(dependencies);
-            sp.Load(dependencies);
-        }
-
-        public override void Update(FrameEventArgs args)
-        {
-            base.Update(args);
-            //b.Rotation += 0.01f;
-        }
-
-        protected override void Draw(FrameEventArgs args)
-        {
-            base.Draw(args);
-            drawPrimitive(sp);
-        }
-        
-        private void drawPrimitive(Primitive primitive)
-        {
-           //if (!primitive.Enabled || !primitive.Visible)
-           //    return;
-            
-            var shader = primitive.Shader;
-            
-            primitive.Draw();
-            shader.Use();
-            
-            // assuming the drawable uses a vertex shader with model and projection matrices
-            shader.SetMatrix4("model", primitive.ModelTransforms);
-            shader.SetMatrix4("projection", GameBase.Projection);
-            
-            GL.DrawElements(PrimitiveType.Triangles, primitive.Indices.Length, DrawElementsType.UnsignedInt, 0);
+            c.MousePressEvent += (_, _) => Console.WriteLine("wangs");
         }
     }
 }

@@ -1,11 +1,11 @@
 using System;
 using System.Drawing;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using Yasai.Structures.DI;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Graphics.Shaders;
+using Yasai.Input.Mouse;
 using Vector2 = OpenTK.Mathematics.Vector2;
 using Vector3 = OpenTK.Mathematics.Vector3;
 
@@ -169,17 +169,59 @@ namespace Yasai.Graphics
         public static Vector2 AnchorToUnit(int num) => new ((float)num % 3 / 2, (float)Math.Floor((double)num / 3) / 2);
 
         #region input
-        public virtual bool MouseClick(Vector2 position, MouseButtonEventArgs buttonArgs) => true;
-        public virtual bool MouseMove(MouseMoveEventArgs args) => true;
-        public virtual bool MouseEnter() => true;
-        public virtual bool MouseExit() => true;
-        public virtual bool MouseScroll(Vector2 position, MouseWheelEventArgs args) => true;
         
-        public virtual void KeyDown(KeyboardKeyEventArgs args)
-        { }
+        public event Action<Vector2, MouseButtonEventArgs> MouseClickEvent;
+        public event Action<Vector2, MouseButtonEventArgs> MousePressEvent;
+        public event Action<MouseMoveEventArgs> MouseMoveEvent;
+        public event Action MouseEnterEvent;
+        public event Action MouseExitEvent;
+        public event Action<Vector2, MouseWheelEventArgs> MouseScrollEvent;
         
-        public virtual void KeyUp(KeyboardKeyEventArgs args)
-        { }
+        // mouse
+        public virtual bool MouseClick(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            MouseClickEvent?.Invoke(position, buttonArgs);
+            return true;
+        }
+
+        public virtual bool MousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            MousePressEvent?.Invoke(position, buttonArgs);
+            return true;
+        }
+
+        public virtual bool MouseMove(MouseMoveEventArgs args)
+        {
+            MouseMoveEvent?.Invoke(args);
+            return true;
+        }
+
+        public virtual bool MouseEnter()
+        {
+            MouseEnterEvent?.Invoke();
+            return true;
+        }
+
+        public virtual bool MouseExit()
+        {
+            MouseExitEvent?.Invoke();
+            return true;
+        }
+
+        public virtual bool MouseScroll(Vector2 position, MouseWheelEventArgs args)
+        {
+            MouseScrollEvent?.Invoke(position, args);
+            return true;
+        }
+
+        // keyboard
+        
+        public event Action<KeyboardKeyEventArgs> KeyDownEvent;
+        public event Action<KeyboardKeyEventArgs> KeyUpEvent;
+
+        public virtual void KeyDown(KeyboardKeyEventArgs args) => KeyDownEvent?.Invoke(args);
+        public virtual void KeyUp(KeyboardKeyEventArgs args) => KeyUpEvent?.Invoke(args);
+
         #endregion
     }
 }

@@ -179,46 +179,112 @@ namespace Yasai.Graphics.Containers
 
         public int Count => children.Count;
         public bool IsReadOnly => false;
-
-        bool pointInDrawable(Vector2 point, IDrawable d)
-            => point.X >= d.Position.X && point.X <= d.Position.X + d.Size.X && point.Y >= d.Position.Y &&
-               point.Y <= d.Position.Y + d.Size.Y;
+        #endregion
+        
+        #region input
+        
             
+        bool pointInDrawable(Vector2 point, IDrawable d)
+            => point.X >= d.AbsoluteTransform.Position.X && point.X <= d.AbsoluteTransform.Position.X + d.Size.X && point.Y >= d.AbsoluteTransform.Position.Y &&
+               point.Y <= d.AbsoluteTransform.Position.Y + d.Size.Y;
+        
+        // to avoid managing a reversed version of the children list, the input functions will iterate the children list in reverse
+            
+        // mouse
 
         public override bool MouseClick(Vector2 position, MouseButtonEventArgs buttonArgs)
         {
-            foreach (IDrawable d in children)
+            for (int i = 0; i < children.Count; i++)
             {
+                IDrawable d = children[^i];
+                
+                if (!d.Enabled)
+                    continue;
+                
                 if (!pointInDrawable(position, d))
                     continue;
                 
                 var result = d.MouseClick(position, buttonArgs);
-                
+
                 if (!result)
-                    break;
+                    return false;
             }
 
             return base.MouseClick(position, buttonArgs);
         }
-        
+
+        public override bool MousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            for (int i = 0; i < children.Count; i++)
+            {
+                IDrawable d = children[children.Count - i - 1];
+                
+                if (!d.Enabled)
+                    continue;
+
+                if (!pointInDrawable(position, d))
+                    continue;
+
+                var result = d.MousePress(position, buttonArgs);
+
+                if (!result)
+                    return false;
+            }
+
+            return base.MousePress(position, buttonArgs);
+        }
+
         public override bool MouseMove(MouseMoveEventArgs args)
         {
-            foreach (IDrawable d in children)
+            
+            
+            for (int i = 0; i < children.Count; i++)
             {
+                IDrawable d = children[children.Count - i - 1];
+                if (!d.Enabled)
+                    continue;
+                
                 if (!pointInDrawable(args.Position, d))
                     continue;
 
                 var result = d.MouseMove(args);
-                
+
                 if (!result)
-                    break;
+                    return false;
             }
 
             return base.MouseMove(args);
         }
-        
-        // TODO: fuck i'll do this later
 
+        // keyboard
+        
+        public override void KeyDown(KeyboardKeyEventArgs args)
+        {
+            base.KeyDown(args);
+            
+            for (int i = 0; i < children.Count; i++)
+            {
+                IDrawable d = children[children.Count - i - 1];
+                
+                if (d.Enabled)
+                    d.KeyDown(args);
+            }
+        }
+
+        public override void KeyUp(KeyboardKeyEventArgs args)
+        {
+            base.KeyUp(args);
+
+            for (int i = 0; i < children.Count; i++)
+            {
+                IDrawable d = children[children.Count - i - 1];
+                
+                if (d.Enabled)
+                    d.KeyUp(args);
+            }
+
+        }
+        
         #endregion
     }
 }
