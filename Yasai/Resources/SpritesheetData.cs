@@ -23,6 +23,8 @@ namespace Yasai.Resources
             public Tile (int x, int y, int w, int h) 
                 : this (new Rectangle(x, y, w, h))
             { }
+
+            public override string ToString() => $"Spritesheet Tile @[{Rect.X}, {Rect.Y}, {Rect.Width}, {Rect.Height}]";
         }
         
         public Dictionary<string, Tile> SheetData { get; }

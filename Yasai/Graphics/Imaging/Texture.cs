@@ -7,9 +7,16 @@ namespace Yasai.Graphics.Imaging
     public class Texture : Resource
     {
         private readonly IntPtr handle;
-        
-        public Texture(IntPtr handle)
-            => this.handle = handle;
+
+        public int Width { get; }
+        public int Height { get; }
+
+        public Texture(IntPtr handle, int w, int h)
+        {
+            this.handle = handle;
+            Width = w;
+            Height = h;
+        }
 
         // TODO: should Texture0 be specifiable as a parameter
         /// <summary>

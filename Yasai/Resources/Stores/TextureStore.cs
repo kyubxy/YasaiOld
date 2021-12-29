@@ -25,7 +25,7 @@ namespace Yasai.Resources.Stores
                 GameBase.YasaiLogger.LogWarning("ImageLoader does not support args");
             
             Image<Rgba32> image = Image.Load<Rgba32>(path);
-            return new Texture(generateTexture(image));
+            return new Texture(generateTexture(image), image.Width, image.Height);
         }
         
         private IntPtr generateTexture(Image<Rgba32> image)
@@ -69,7 +69,7 @@ namespace Yasai.Resources.Stores
         /// Add a collection of images to the store through a spritesheet
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        public void LoadSpritesheet(string sheetLocation, SpritesheetData sheetData)
+        public void LoadSpritesheet(string sheetLocation, SpritesheetData sheetData, Color? keyColor = null)
         {
             Image<Rgba32> sheet = Image.Load<Rgba32>(Path.Combine(Root, sheetLocation));
             
@@ -86,7 +86,7 @@ namespace Yasai.Resources.Stores
                 );
 
             var handle = generateTexture(ret);
-            Resources[name] = new Texture(handle);
+            Resources[name] = new Texture(handle, (int)area.Width, (int)area.Height);
         }
     }
 }

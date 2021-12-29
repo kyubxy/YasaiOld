@@ -6,6 +6,7 @@ using OpenTK.Windowing.Common;
 using Yasai.Graphics;
 using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
+using Yasai.Graphics.Text;
 using Yasai.Resources;
 using Yasai.Resources.Stores;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
@@ -46,6 +47,11 @@ namespace Yasai.TestApp
                 { "kaos", new SpritesheetData.Tile(348, 495, 469, 327) }
             }));
             Texture kaos = bruh.GetResource("kaos");
+
+            // content stores should stop requiring dependencies
+            FontStore fonts = new FontStore(Dependencies);
+            fonts.LoadResource("font.fnt");
+            SpriteFont font = fonts.GetResource("font");
             
             Children = new IDrawable[]
             {
@@ -78,7 +84,13 @@ namespace Yasai.TestApp
                     Anchor = Anchor.TopRight,
                     Origin = Anchor.TopRight,
                     Size = new Vector2(400),
+                },
+                
+                new SpriteText ("so there are lots of different subjects チンコ you can choose but we just need to know", font)
+                {
+                    Position = new Vector2(10, 300)
                 }
+                
             };
 
             c.MousePressEvent += (_, _) => Console.WriteLine("wangs");

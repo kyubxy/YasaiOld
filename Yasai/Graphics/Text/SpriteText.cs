@@ -52,10 +52,13 @@ namespace Yasai.Graphics.Text
             float accX = 0;
             foreach (char c in chars)
             {
-                Sprite g = new Sprite(Font.GetGlyph(c))
+                var glyph = Font.GetGlyph(c);
+                Sprite g = new Sprite(glyph)
                 {
                     Position = new Vector2(accX, 0),
-                    Colour = Colour,
+                    Origin = Anchor.BottomLeft,
+                    Size = new Vector2(glyph.Width, glyph.Height),
+                    Colour = Color.White
                 };
                 
                 Add(g);
