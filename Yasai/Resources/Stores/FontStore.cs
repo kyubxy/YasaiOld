@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using SharpFNT;
-using SixLabors.ImageSharp.Formats.Bmp;
 using Yasai.Graphics.Text;
 using Yasai.Structures.DI;
 
