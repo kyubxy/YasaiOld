@@ -38,6 +38,7 @@ namespace Yasai
             Window = new GameWindow(gameSettings, nativeSettings);
             Window.Title = title;
 
+            // events
             Window.Load += () => Load(Dependencies);
             Window.Unload += () => Unload(Dependencies);
             Window.UpdateFrame += Update;
@@ -50,7 +51,9 @@ namespace Yasai
             Window.MouseUp += MouseUp;
             Window.MouseWheel += MouseWheel;
 
+            // tests
             GL.Enable(EnableCap.Blend);
+            GL.Enable(EnableCap.ScissorTest);
             
             // Initialise dependencies
             Dependencies = new DependencyContainer();

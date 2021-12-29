@@ -13,12 +13,14 @@ namespace Yasai.Graphics.Text
 {
     public class SpriteFont : Resource
     {
+        #region font locations
         public static string Small => "yasai_fontSmall";
         public static string Normal => "yasai_fontNormal";
         public static string Large => "yasai_fontLarge";
         public static string SymbolFontSmall => "yasai_fontSymbolsSmall";
         public static string SymbolFontNormal => "yasai_fontSymbolsNormal";
         public static string SymbolFontLarge => "yasai_fontSymbolsLarge";
+        #endregion
         
         private TextureStore glyphStore;
         private char[] chars;

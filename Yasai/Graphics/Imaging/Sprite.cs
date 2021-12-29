@@ -13,10 +13,11 @@ namespace Yasai.Graphics.Imaging
         private Texture texture;
         
         public Sprite(Texture texture) => this.texture = texture;
-        
+
         public override void Load(DependencyContainer dep)
         {
             base.Load(dep);
+            
             var shaderStore = dep.Resolve<ShaderStore>();
             
             Shader = shaderStore.GetResource(Shader.TextureShader);
@@ -41,6 +42,7 @@ namespace Yasai.Graphics.Imaging
             GL.BlendFunc(BlendingFactor.One, BlendingFactor.OneMinusSrcAlpha);
             Shader.SetVector3("colour", new Vector3(Colour.R/(float)255, Colour.G/(float)255, Colour.B/(float)255));
             Shader.SetFloat("alpha", Alpha);
+            
             texture.Use();
         }
     }

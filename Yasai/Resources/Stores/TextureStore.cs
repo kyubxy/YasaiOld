@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using OpenTK.Graphics.OpenGL4;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
@@ -24,7 +25,6 @@ namespace Yasai.Resources.Stores
                 GameBase.YasaiLogger.LogWarning("ImageLoader does not support args");
             
             Image<Rgba32> image = Image.Load<Rgba32>(path);
-            image.Save(@"C:\Users\rinka\Desktop\bruh3.png");
             return new Texture(generateTexture(image));
         }
         
@@ -54,8 +54,6 @@ namespace Yasai.Resources.Stores
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, image.Width, image.Height, 0,
                 PixelFormat.Rgba, PixelType.UnsignedByte, pixels.ToArray());
             
-            image.Save(@"C:\Users\rinka\Desktop\bruh.png");
-            
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
@@ -71,19 +69,20 @@ namespace Yasai.Resources.Stores
         /// Add a collection of images to the store through a spritesheet
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        public void LoadSpritesheet(string sheetLocation, Dictionary<string, Rectangle> sheetData)
+        public void LoadSpritesheet(string sheetLocation, SpritesheetData sheetData)
         {
-            Image<Rgba32> sheet = Image.Load<Rgba32>(sheetLocation);
+            Image<Rgba32> sheet = Image.Load<Rgba32>(Path.Combine(Root, sheetLocation));
             
-            foreach (KeyValuePair<string, Rectangle> pair in sheetData)
+            foreach (KeyValuePair<string, SpritesheetData.Tile> pair in sheetData.SheetData)
                 loadSection(sheet, pair.Key, pair.Value);
         }
 
-        private void loadSection(Image<Rgba32> sheet, string name, Rectangle area)
+        private void loadSection(Image<Rgba32> sheet, string name, SpritesheetData.Tile tile)
         {
+            var area = tile.Rect;
+
             var ret = sheet.Clone(x => 
-                    x.Resize(area.Width, area.Height)
-                    .Crop(area)
+                    x.Crop(area.ToImageSharp())
                 );
 
             var handle = generateTexture(ret);

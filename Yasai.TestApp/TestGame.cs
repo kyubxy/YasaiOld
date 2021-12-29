@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
-using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Graphics;
 using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
+using Yasai.Resources;
 using Yasai.Resources.Stores;
-using Yasai.Structures.DI;
+using Rectangle = SixLabors.ImageSharp.Rectangle;
 
 namespace Yasai.TestApp
 {
@@ -38,6 +39,13 @@ namespace Yasai.TestApp
             TextureStore tstore = new TextureStore(Dependencies);
             tstore.LoadResource("school.png", "tex");
             Texture t = tstore.GetResource("tex");
+
+            TextureStore bruh = new TextureStore(Dependencies);
+            bruh.LoadSpritesheet("kaos.jpg", new SpritesheetData(new Dictionary<string, SpritesheetData.Tile>()
+            {
+                { "kaos", new SpritesheetData.Tile(348, 495, 469, 327) }
+            }));
+            Texture kaos = bruh.GetResource("kaos");
             
             Children = new IDrawable[]
             {
@@ -54,15 +62,22 @@ namespace Yasai.TestApp
                         {
                             Anchor = Anchor.Center,
                             Origin = Anchor.Right,
-                            X = 30
+                            X = 30,
                         },
                         new TestSprite(t, "right")
                         {
                             Anchor = Anchor.Center,
                             Origin = Anchor.Left,
                             X = -30
-                        }
+                        },
                     }
+                },
+                
+                new Sprite (kaos)
+                {
+                    Anchor = Anchor.TopRight,
+                    Origin = Anchor.TopRight,
+                    Size = new Vector2(400),
                 }
             };
 
