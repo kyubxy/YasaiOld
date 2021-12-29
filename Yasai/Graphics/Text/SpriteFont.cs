@@ -11,6 +11,9 @@ using num = System.Numerics;
 
 namespace Yasai.Graphics.Text
 {
+    /// <summary>
+    /// Class manifestation of .fnt file
+    /// </summary>
     public class SpriteFont : Resource
     {
         #region font locations
