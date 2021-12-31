@@ -9,7 +9,6 @@ using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Text;
 using Yasai.Resources;
 using Yasai.Resources.Stores;
-using Rectangle = SixLabors.ImageSharp.Rectangle;
 
 namespace Yasai.TestApp
 {
@@ -17,6 +16,9 @@ namespace Yasai.TestApp
     {
         private Container c;
         private Drawable b;
+
+        private int n;
+        private readonly SpriteText text;
 
         sealed class TestSprite : Sprite
         {
@@ -78,21 +80,18 @@ namespace Yasai.TestApp
                         },
                     }
                 },
-                
                 new Sprite (kaos)
                 {
                     Anchor = Anchor.TopRight,
                     Origin = Anchor.TopRight,
                     Size = new Vector2(400),
                 },
-                
-                new SpriteText ("so there are lots of different subjects チンコ you can choose but we just need to know", font)
+                text = new SpriteText ("thick hwan small peepee", font)
                 {
                     Position = new Vector2(10, 300)
                 }
-                
             };
-
+            
             c.MousePressEvent += (_, _) => Console.WriteLine("wangs");
         }
     }

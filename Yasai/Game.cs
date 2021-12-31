@@ -1,15 +1,11 @@
 using System;
-using System.Drawing;
 using System.Reflection;
-using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using Yasai.Graphics;
 using Yasai.Graphics.Containers;
-using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Shaders;
-using Yasai.Graphics.Shapes;
 using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
 
