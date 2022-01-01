@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using SharpFNT;
 using Yasai.Graphics.Text;
-using Yasai.Structures.DI;
 
 namespace Yasai.Resources.Stores
 {
@@ -12,17 +9,13 @@ namespace Yasai.Resources.Stores
         public override string[] FileTypes => new[] { ".fnt" };
         public override IResourceArgs DefaultArgs => new FontArgs(32);
 
-        private DependencyContainer container;
-        
-        public FontStore(DependencyContainer container, string root = "Assets") : base(container, root)
-        {
-            this.container = container;
-        }
+        public FontStore(string root = "Assets") : base(root)
+        { }
 
         protected override SpriteFont AcquireResource(string path, IResourceArgs args)
         {
             // store the glyphs somewhere
-            TextureStore glyphs = new TextureStore(container);
+            TextureStore glyphs = new TextureStore();
 
             // this goes in the spritesheet data 
             var dict = new Dictionary<string, SpritesheetData.Tile>();

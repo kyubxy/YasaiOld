@@ -39,11 +39,11 @@ namespace Yasai.TestApp
         
         public TestGame()
         {
-            TextureStore tstore = new TextureStore(Dependencies);
+            TextureStore tstore = new TextureStore();
             tstore.LoadResource("school.png", "tex");
             Texture t = tstore.GetResource("tex");
 
-            TextureStore bruh = new TextureStore(Dependencies);
+            TextureStore bruh = new TextureStore();
             bruh.LoadSpritesheet("kaos.jpg", new SpritesheetData(new Dictionary<string, SpritesheetData.Tile>()
             {
                 { "kaos", new SpritesheetData.Tile(348, 495, 469, 327) }
@@ -51,7 +51,7 @@ namespace Yasai.TestApp
             Texture kaos = bruh.GetResource("kaos");
 
             // content stores should stop requiring dependencies
-            FontStore fonts = new FontStore(Dependencies);
+            FontStore fonts = new FontStore();
             fonts.LoadResource("font.fnt");
             SpriteFont font = fonts.GetResource("font");
             

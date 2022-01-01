@@ -42,7 +42,7 @@ namespace Yasai
 
             // register font store 
             //Dependencies.Register<FontStore>(fontStore = new FontStore(Dependencies, @"Assets/Fonts"));
-            Dependencies.Register<ShaderStore>(shaderStore = new ShaderStore(Dependencies, @"Assets/Shaders"));
+            Dependencies.Register<ShaderStore>(shaderStore = new ShaderStore(@"Assets/Shaders"));
         }
         #endregion
 

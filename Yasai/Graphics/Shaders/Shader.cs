@@ -8,7 +8,7 @@ using Yasai.Resources;
 
 namespace Yasai.Graphics.Shaders
 {
-    public class Shader : Resource
+    public class Shader : IDisposable
     {
         public static string TextureShader => "yasai_textureShader";
         public static string SolidShader   => "yasai_solidShader";
@@ -119,6 +119,7 @@ namespace Yasai.Graphics.Shaders
         public void Use() => GL.UseProgram(handle);
         
         #region IDisposable pattern
+        
         private bool disposedValue;
         
         private void dispose(bool disposing)
@@ -126,7 +127,6 @@ namespace Yasai.Graphics.Shaders
             if (!disposedValue)
             {
                 GL.DeleteProgram(handle);
-
                 disposedValue = true;
             }
         }
@@ -136,7 +136,7 @@ namespace Yasai.Graphics.Shaders
             GL.DeleteProgram(handle);
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             dispose(true);
             GC.SuppressFinalize(this);

@@ -1,10 +1,9 @@
 using System;
 using OpenTK.Graphics.OpenGL4;
-using Yasai.Resources;
 
 namespace Yasai.Graphics.Imaging
 {
-    public class Texture : Resource
+    public class Texture : IDisposable
     {
         private readonly IntPtr handle;
 
@@ -26,6 +25,11 @@ namespace Yasai.Graphics.Imaging
         {
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, (int)handle);
+        }
+
+        public void Dispose()
+        {
+            GL.DeleteTexture((int)handle);
         }
     }
 }

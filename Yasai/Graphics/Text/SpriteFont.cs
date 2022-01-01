@@ -14,7 +14,7 @@ namespace Yasai.Graphics.Text
     /// <summary>
     /// Class manifestation of .fnt file
     /// </summary>
-    public class SpriteFont : Resource
+    public class SpriteFont : IDisposable
     {
         #region font locations
         public static string Small => "yasai_fontSmall";
@@ -26,12 +26,10 @@ namespace Yasai.Graphics.Text
         #endregion
         
         private TextureStore glyphStore;
-        private char[] chars;
 
-        public SpriteFont(TextureStore store, FontArgs args, string path) : base(path, args)
+        public SpriteFont(TextureStore store)
         {
             glyphStore = store;
-            chars = args.CharacterSet;
         }
 
         /// <summary>
@@ -41,8 +39,13 @@ namespace Yasai.Graphics.Text
         /// <returns></returns>
         public Texture GetGlyph(char c)
         {
-            var ch = chars.Contains(c) ? c.ToString() : "?";
-            return glyphStore.GetResource(ch);
+            // TODO:
+            //var ch = chars.Contains(c) ? c.ToString() : "?";
+            return glyphStore.GetResource(c.ToString());
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

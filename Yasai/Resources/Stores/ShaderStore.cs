@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using Yasai.Graphics.Shaders;
-using Yasai.Structures.DI;
 
 namespace Yasai.Resources.Stores
 {
@@ -10,9 +9,8 @@ namespace Yasai.Resources.Stores
         private readonly string fragPath;
         private readonly string vertPath;
         
-        public ShaderStore(DependencyContainer container, string root = "Assets", string frag = "Fragment",
-            string vert = "Vertex")
-            : base(container, root)
+        public ShaderStore(string root = "Assets", string frag = "Fragment", string vert = "Vertex") 
+            : base(root)
         {
             fragPath = frag;
             vertPath = vert;

@@ -6,14 +6,13 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using Yasai.Graphics.Imaging;
-using Yasai.Structures.DI;
 
 namespace Yasai.Resources.Stores
 {
     public class TextureStore : Store<Texture>
     {
-        public TextureStore(DependencyContainer container, string root = "Assets")
-            : base(container, root)
+        public TextureStore(string root = "Assets")
+            : base(root)
         { }
 
         public override string[] FileTypes => new [] {".png", ".jpg", ".jpeg", ".webp"}; 

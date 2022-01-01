@@ -9,7 +9,7 @@ using System.Linq;
 namespace Yasai.Resources.Stores
 {
     public abstract class Store<T> : IStore 
-        where T : IResource
+        where T : IDisposable
     {
         // filepath root
         public string Root { get; }
@@ -29,12 +29,24 @@ namespace Yasai.Resources.Stores
         /// <summary>
         /// internal resource dictionary
         /// </summary>
-        private readonly Dictionary<string, T> resources;
+        private readonly Dictionary<string, ResourceEntry> resources;
+
+        struct ResourceEntry
+        {
+            public T Resource;
+            public string Path;
+
+            public ResourceEntry(T resource, string path)
+            {
+                Resource = resource;
+                Path = path;
+            }
+        }
         
         public Store(string root = "Assets")
         {
             Root = root;
-            resources = new Dictionary<string, T>();
+            resources = new Dictionary<string, ResourceEntry>();
         }
 
         /// <summary>
@@ -49,7 +61,7 @@ namespace Yasai.Resources.Stores
             if (!resources.ContainsKey(res))
                 throw new DirectoryNotFoundException($"{res} was not loaded into the dictionary. " + 
                                                      $"Ensure you preload it with LoadResource or some similar function");
-            return resources[res];
+            return resources[res].Resource;
         }
         
         /// <summary>
@@ -77,9 +89,11 @@ namespace Yasai.Resources.Stores
                 return;
             }
 
-            // avoid loading duplicates
+            // path relative to working directory
             string loadPath = Path.Combine(Root, path); 
-            if (IsResourceLoaded(loadPath, args ?? DefaultArgs))
+            
+            // avoid loading duplicates
+            if (resources.Values.Any(x => x.Path == loadPath))
                 return;
             
             // check if resource exists
@@ -87,7 +101,7 @@ namespace Yasai.Resources.Stores
                 throw new FileNotFoundException($"no such {loadPath} could be found");
             
             var res = AcquireResource(loadPath, args ?? DefaultArgs);
-            resources[key] = res;
+            resources[key] = new ResourceEntry(res, loadPath);
         }
 
         /// <summary>
@@ -95,31 +109,17 @@ namespace Yasai.Resources.Stores
         /// </summary>
         /// <param name="resource">the resource to add</param>
         /// <param name="key">dictionary key</param>
-        public void AddResource(T resource, string key) => resources[key] = resource;
+        /// <param name="path">path where the resource came from</param>
+        public void AddResource(T resource, string key, string path = null) 
+            => resources[key] = new ResourceEntry(resource, path ?? "none");
 
         /// <summary>
         /// how to acquire the resource given a path
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="args"></param>
+        /// <param name="path">path to load from</param>
+        /// <param name="args">args to load with</param>
         /// <returns></returns>
         protected abstract T AcquireResource(string path, IResourceArgs args);
-
-        /// <summary>
-        /// reads the manager and finds all paths under a container to load from
-        /// </summary>
-        /// <param name="group"></param>
-        public void LoadResources(string group)
-        {
-            // TODO: load resources from files
-            if (Prefs == null)
-            {
-                GameBase.YasaiLogger.LogWarning("Either the manager is empty or it was not loaded when LoadResources was called");
-                return;
-            }
-            
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Loads *all* of the resources in the root.
@@ -146,7 +146,7 @@ namespace Yasai.Resources.Stores
                 GameBase.YasaiLogger.LogWarning($"no such {key} in store");
             else
             {
-                resources[key].Dispose();
+                resources[key].Resource.Dispose();
                 resources[key] = default;
             }
         }
@@ -156,8 +156,8 @@ namespace Yasai.Resources.Stores
         /// </summary>
         public void Dispose()
         {
-            foreach (T x in resources.Values) 
-                x.Dispose();
+            foreach (ResourceEntry x in resources.Values) 
+                x.Resource.Dispose();
         }
 
         /// <summary>
@@ -168,20 +168,21 @@ namespace Yasai.Resources.Stores
         /// </summary>
         public void Write()
             => throw new NotImplementedException();
-        
+
         /// <summary>
-        /// search the resource values for an absolute path and args
+        /// reads the manager and finds all paths under a container to load from
         /// </summary>
-        /// <param name="absPath"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private bool IsResourceLoaded(string absPath, IResourceArgs args)
+        /// <param name="group"></param>
+        public void LoadResources(string group)
         {
-            foreach (T r in resources.Values)
-                if (r.Path == absPath && r.Args == args) 
-                    return true;
+            // TODO: load resources from files
+            if (Prefs == null)
+            {
+                GameBase.YasaiLogger.LogWarning("Either the manager is empty or it was not loaded when LoadResources was called");
+                return;
+            }
             
-            return false;
+            throw new NotImplementedException();
         }
     }
 }
