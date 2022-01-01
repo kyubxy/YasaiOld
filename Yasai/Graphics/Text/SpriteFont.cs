@@ -1,64 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-
-using Yasai.Resources;
-using Yasai.Extensions;
-using Yasai.Graphics.Imaging;
-using Yasai.Graphics.YasaiSDL;
-using Yasai.Resources.Stores;
-
-using static SDL2.SDL;
-using static SDL2.SDL_ttf;
+using num = System.Numerics;
 
 namespace Yasai.Graphics.Text
 {
-    public class SpriteFont : Resource
+    /// <summary>
+    /// Class manifestation of .fnt file
+    /// </summary>
+    public class SpriteFont : IFontData, IDisposable
     {
-        public static string FontTiny => "yasai_fontTiny";
-        public static string SymbolFontTiny => "yasai_fontSymbols";
-
-        private Dictionary<char, Sprite> glyphs = new Dictionary<char, Sprite>();
-
-        private char[] characterSet;
-
-        private Renderer renderer;
+        private Dictionary<char, Glyph> glyphStore;
         
-        public SpriteFont(Renderer ren, IntPtr h, FontArgs args, string path) : base(h, path, args)
+        public bool Bold { get; init; }
+        public bool Italic { get; init; }
+        public int Size { get; init; }
+
+        public SpriteFont(Dictionary<char, Glyph> glyphStore)
         {
-            characterSet = args.CharacterSet;
-            renderer = ren;
+            this.glyphStore = glyphStore;
         }
 
         /// <summary>
-        /// Renders all characters in the character set 
-        /// </summary>
-        public void LoadGlyphs()
-        {
-            foreach (char c in characterSet)
-            {
-                IntPtr t = SDL_CreateTextureFromSurface(renderer.GetPtr(), 
-                    TTF_RenderGlyph_Blended(Handle, c, Color.White.ToSdlColor()));
-                
-                glyphs[c] = new Sprite(new Texture(t));
-            }
-        }
-
-        /// <summary>
-        /// reads the internal dictionary and returns a sprite with the glyph drawn on it
+        /// reads the internal store and returns a sprite with the glyph drawn on it
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public Sprite GetGlyph(char c)
+        public Glyph GetGlyph(char c)
         {
-            return characterSet.Contains(c) ? glyphs[c] : glyphs['?'];
+            var ch = glyphStore.ContainsKey(c) ? c : '?';
+            return glyphStore[ch];
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
-            base.Dispose();
-            TTF_CloseFont(Handle);
+            foreach (var g in glyphStore.Values)
+                g.Dispose();
         }
+        
+        #region font locations
+        public static string Small => "yasai_fontSmall";
+        public static string Normal => "yasai_fontNormal";
+        public static string Large => "yasai_fontLarge";
+        public static string SymbolFontSmall => "yasai_fontSymbolsSmall";
+        public static string SymbolFontNormal => "yasai_fontSymbolsNormal";
+        public static string SymbolFontLarge => "yasai_fontSymbolsLarge";
+        #endregion
     }
 }

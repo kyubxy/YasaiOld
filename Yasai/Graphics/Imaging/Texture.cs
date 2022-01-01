@@ -1,35 +1,35 @@
 using System;
-using System.Numerics;
-
-using Yasai.Resources;
-
-using static SDL2.SDL;
+using OpenTK.Graphics.OpenGL4;
 
 namespace Yasai.Graphics.Imaging
 {
-    public class Texture : Resource
+    public class Texture : IDisposable
     {
-        // texture -> Draw using Handle!! (inherited from Resource)
+        private readonly IntPtr handle;
 
-        public Vector2 Size
+        public int Width { get; }
+        public int Height { get; }
+
+        public Texture(IntPtr handle, int w, int h)
         {
-            get
-            {
-                int w, h;
-                
-                if (SDL_QueryTexture(Handle, out _, out _, out w, out h) != 0)
-                    throw new Exception(SDL_GetError());
-
-                return new Vector2(w, h);
-            }
+            this.handle = handle;
+            Width = w;
+            Height = h;
         }
 
-        public Texture(IntPtr ptr, string path = "") : base(ptr, path, new EmptyResourceArgs())
-        { }
-        
-        public override void Dispose()
+        // TODO: should Texture0 be specifiable as a parameter
+        /// <summary>
+        /// Sets the active texture and binds it 
+        /// </summary>
+        public void Use()
         {
-            SDL_DestroyTexture(Handle);
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureTarget.Texture2D, (int)handle);
+        }
+
+        public void Dispose()
+        {
+            GL.DeleteTexture((int)handle);
         }
     }
 }

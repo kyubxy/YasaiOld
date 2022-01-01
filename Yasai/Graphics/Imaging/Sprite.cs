@@ -1,121 +1,49 @@
 using System;
-using System.Numerics;
-using System.Drawing;
-using Yasai.Extensions;
-using Yasai.Maths;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using Yasai.Graphics.Primitives;
+using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
-using static SDL2.SDL;
+using Yasai.Graphics.Shaders;
 
 namespace Yasai.Graphics.Imaging
 {
-    public enum Flip
+    public class Sprite : Quad
     {
-        None = SDL_RendererFlip.SDL_FLIP_NONE,
-        Horizontal = SDL_RendererFlip.SDL_FLIP_HORIZONTAL,
-        Vertical = SDL_RendererFlip.SDL_FLIP_VERTICAL,
-    }
-    
-    public class Sprite : Drawable
-    {
-        public Texture CurrentTexture { get; protected set; }
+        private Texture texture;
         
-        public override bool Loaded => CurrentTexture?.Handle != IntPtr.Zero && base.Loaded;
+        public Sprite(Texture texture) => this.texture = texture;
 
-        private Vector2 size = new (100);
-        public override Vector2 Size
+        public override void Load(DependencyContainer dep)
         {
-            get => size;
-            set
-            {
-                size = value;
-                
-                if (!Loaded) return;
-                Offset = new Vector2(Size.X / 2, Size.Y / 2);
-            }
-        }
-
-        public Flip Flip = Flip.None;
-        
-        private Color colour = Color.White;
-        public override Color Colour
-        {
-            get => colour;
-            set => colour = value;
-        }
-
-        // VERY temporary
-        private bool setOrigin;
-        private Vector2 origin;
-        public override Vector2 Offset
-        {
-            get => origin;
-            set
-            {
-                origin = value;
-                setOrigin = true;
-            }
-        }
-
-        public Sprite() { }
-
-        public Sprite(Texture tex)
-        {
-            CurrentTexture = tex;
-
-            int w, h;
+            base.Load(dep);
             
-            if (SDL_QueryTexture(CurrentTexture.Handle, out _, out _, out w, out h) != 0)
-                throw new Exception(SDL_GetError());
+            var shaderStore = dep.Resolve<ShaderStore>();
             
-            Size = new Vector2(w, h);
+            Shader = shaderStore.GetResource(Shader.TextureShader);
+            Shader.Use();
+            
+            var vertexLocation = Shader.GetAttribLocation("aPosition");
+            GL.EnableVertexAttribArray(vertexLocation);
+            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
+            
+            var texCoordLocation = Shader.GetAttribLocation("aTexCoord");
+            GL.EnableVertexAttribArray(texCoordLocation);
+            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+            
+            texture.Use();
+            
+            Loaded = true;
         }
 
-        public override void Load(DependencyContainer dependencies)
+        public override void Draw()
         {
-            base.Load(dependencies);
-            if (!setOrigin)
-                CenterToCurrentTex();
-        }
-
-        protected void CenterToCurrentTex()
-        {
-            Size = Size == Vector2.Zero ? CurrentTexture.Size : Size;
-            Offset = new Vector2(Size.X / 2, Size.Y / 2);
-        }
-        
-        public override void Draw(IntPtr renderer)
-        {
-            base.Draw(renderer);
+            base.Draw();
+            GL.BlendFunc(BlendingFactor.One, BlendingFactor.OneMinusSrcAlpha);
+            Shader.SetVector3("colour", new Vector3(Colour.R/(float)255, Colour.G/(float)255, Colour.B/(float)255));
+            Shader.SetFloat("alpha", Alpha);
             
-            if (CurrentTexture != null)
-            {
-                SDL_Rect destRect;
-                destRect.x = (int) Position.X;
-                destRect.y = (int) Position.Y;
-                destRect.w = (int) Size.X;
-                destRect.h = (int) Size.Y;
-
-                SDL_Point _origin = Offset.ToSdlPoint();
-
-                // update colour and alpha
-                var alphares 
-                    = SDL_SetTextureColorMod(CurrentTexture.Handle, (colour.R), (colour.G), (colour.B));
-
-                    
-                var colres 
-                    = SDL_SetTextureAlphaMod(CurrentTexture.Handle, (byte)(Alpha * 255));
-                
-                if (alphares != 0 || colres != 0)
-                    throw new Exception(SDL_GetError());
-            
-                // drawing
-                if (Visible && Enabled)
-                {
-                    SDL_SetTextureBlendMode(CurrentTexture.Handle, SDL_BlendMode.SDL_BLENDMODE_BLEND);
-                    SDL_RenderCopyEx(renderer, CurrentTexture.Handle, IntPtr.Zero, ref destRect, Rotation, ref _origin,
-                        (SDL_RendererFlip)Flip);
-                }
-            }
+            texture.Use();
         }
     }
 }

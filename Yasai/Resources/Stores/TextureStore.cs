@@ -1,22 +1,20 @@
 ﻿using System;
-using Yasai.Debug.Logging;
+using System.Collections.Generic;
+using System.IO;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using Yasai.Graphics.Imaging;
-using Yasai.Graphics.YasaiSDL;
-using Yasai.Structures.DI;
-
-using static SDL2.SDL_image;
-using static SDL2.SDL;
+using Rectangle = Yasai.Graphics.Rectangle;
 
 namespace Yasai.Resources.Stores
 {
-    public class TextureStore : ContentStore<Texture>
+    public class TextureStore : Store<Texture>
     {
-        private Renderer renderer;
+        public TextureStore(string root = "Assets")
+            : base(root)
+        { }
 
-        public TextureStore(DependencyContainer container, string root = "Assets")
-            : base(container, root) => renderer = container.Resolve<Renderer>();
-
-        public override string[] FileTypes => new [] {".png", ".jpg", ".jpeg", ".webp"};
+        public override string[] FileTypes => new [] {".png", ".jpg", ".jpeg", ".webp"}; 
         public override IResourceArgs DefaultArgs => new EmptyResourceArgs();
 
         protected override Texture AcquireResource(string path, IResourceArgs args)
@@ -24,12 +22,23 @@ namespace Yasai.Resources.Stores
             if (args != null)
                 GameBase.YasaiLogger.LogWarning("ImageLoader does not support args");
             
-            IntPtr surface = IMG_Load(path);
+            Image<Rgba32> image = Image.Load<Rgba32>(path);
+            return new Texture(ImageHelpers.GenerateTexture(image), image.Width, image.Height);
+        }
 
-            if (surface == IntPtr.Zero)
-                throw new Exception(SDL_GetError());
-            
-            return new Texture(SDL_CreateTextureFromSurface(renderer.GetPtr(), surface), path);
+        /// <summary>
+        /// Add a collection of images to the store through a spritesheet
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        public void LoadSpritesheet(string sheetLocation, Dictionary<string, Rectangle> spritesheetData, Color? keyColor = null)
+        {
+            Image<Rgba32> sheet = Image.Load<Rgba32>(Path.Combine(Root, sheetLocation));
+
+            foreach (KeyValuePair<string, Rectangle> pair in spritesheetData)
+            {
+                var tex = ImageHelpers.LoadSectionFromTexture(sheet, pair.Value);
+                AddResource(tex, pair.Key);
+            }
         }
     }
 }

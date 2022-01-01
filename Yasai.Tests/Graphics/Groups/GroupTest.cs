@@ -1,6 +1,5 @@
 ﻿using Xunit;
 using Yasai.Graphics;
-using Yasai.Graphics.Containers;
 using Yasai.Structures;
 using Yasai.Structures.DI;
 
@@ -8,6 +7,7 @@ namespace Yasai.Tests.Graphics.Groups
 {
     public class GroupTest
     {
+        /*
         class TestClient : Drawable
         {
             public int Dependency => Dependencies?.Resolve<int>() ?? -1;
@@ -61,5 +61,6 @@ namespace Yasai.Tests.Graphics.Groups
  
              Assert.Equal(69, client.Dependency);           
         }
+    */
     }
 }

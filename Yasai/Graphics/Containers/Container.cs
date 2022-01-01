@@ -3,46 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Numerics;
-using Yasai.Graphics.Primitives;
-using Yasai.Input.Keyboard;
-using Yasai.Input.Mouse;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using Yasai.Graphics.Shapes;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Containers
 {
-    public class Container : Drawable, IContainer, ICollection<IDrawable>
+    public class Container : Drawable, ICollection<IDrawable>
     {
         private readonly List<IDrawable> children;
 
         private readonly Box box;
 
-        public IDrawable[] Items
-        {
-            init => AddAll(value);
-        }
+        private DependencyContainer dependencies;
 
-        private Vector2 size;
-        public override Vector2 Size
-        {
-            get => size;
-            set
-            {
-                size = value;
-                box.Size = value;
-            }
-        }
+        public IDrawable[] Items { init => AddAll(value); }
 
-        private bool fill;
-        public bool Fill
-        {
-            get => fill;
-            set
-            {
-                fill = value;
-                box.Enabled = value;
-            }
-        }
+        public bool Fill { get; set; } 
         
         private Color colour;
         public override Color Colour
@@ -54,16 +33,28 @@ namespace Yasai.Graphics.Containers
                 colour = value;
             }
         }
-
+        
+        private Vector2 size;
+        public override Vector2 Size
+        {
+            get => size;
+            set
+            {
+                size = value;
+                box.Size = value;
+            }
+        }
+        
         #region constructors
         public Container(List<IDrawable> children)
         {
             this.children = new List<IDrawable>();
             AddAll(children.ToArray());
             
-            box = new Box();
-            box.Parent = this;
-            Fill = false;
+            box = new Box()
+            {
+                Parent = this
+            };
         }
 
         public Container() : this (new List<IDrawable>())
@@ -71,41 +62,66 @@ namespace Yasai.Graphics.Containers
 
         public Container(IDrawable[] children) : this(children.ToList())
         { }
+        
         #endregion
 
         #region lifespan
 
-        public override void Load(DependencyContainer dependencies)
+        public override void Load(DependencyContainer dep)
         {
-            base.Load(dependencies);
+            base.Load(dep);
+
+            dependencies = dep;
             
-            box.Load(dependencies);
+            box.Load(dep);
             foreach (IDrawable s in children)
-                s.Load(dependencies);
+                s.Load(dep);
+
+            Loaded = true;
         }
 
-        public override void Update()
+        public override void Update(FrameEventArgs args)
         {
-            base.Update();
+            base.Update(args);
             
             if (Enabled)
                 foreach (IDrawable s in children)
-                    s.Update();
+                    s.Update(args);
         }
 
-        public override void Draw(IntPtr renderer)
+        public override void Draw()
         {
-            base.Draw(renderer);
+           if (Fill) 
+               drawPrimitive(box);
             
-            if (Visible && Enabled)
-            {
-                if (Fill)
-                    box.Draw(renderer);
-
-                foreach (IDrawable s in children) 
-                    s.Draw(renderer);
-            }
+           foreach (IDrawable drawable in children)
+               if (drawable is Container c)
+                   c.Draw();
+               else if (drawable is Primitive p)
+                   drawPrimitive(p);
         }
+        
+        /// <summary>
+        /// Render a single <see cref="Primitive"/> to the screen
+        /// </summary>
+        /// <param name="primitive"></param>
+        private void drawPrimitive(Primitive primitive)
+        {
+           //if (!primitive.Enabled || !primitive.Visible)
+           //    return;
+            
+            var shader = primitive.Shader;
+            
+            primitive.Draw();
+            shader.Use();
+            
+            // assuming the drawable uses a vertex shader with model and projection matrices
+            shader.SetMatrix4("model", primitive.ModelTransforms);
+            shader.SetMatrix4("projection", GameBase.Projection);
+            
+            GL.DrawElements(PrimitiveType.Triangles, primitive.Indices.Length, DrawElementsType.UnsignedInt, 0);
+        }
+        
         #endregion
         
         #region collection stuff
@@ -117,7 +133,7 @@ namespace Yasai.Graphics.Containers
             item.Parent = this;
 
             if (Loaded && !item.Loaded)
-                item.Load(Dependencies);
+                item.Load(dependencies);
             
             children.Add(item);
         }
@@ -163,68 +179,112 @@ namespace Yasai.Graphics.Containers
 
         public int Count => children.Count;
         public bool IsReadOnly => false;
+        #endregion
+        
+        #region input
+        
+            
+        bool pointInDrawable(Vector2 point, IDrawable d)
+            => point.X >= d.AbsoluteTransform.Position.X && point.X <= d.AbsoluteTransform.Position.X + d.Size.X && point.Y >= d.AbsoluteTransform.Position.Y &&
+               point.Y <= d.AbsoluteTransform.Position.Y + d.Size.Y;
+        
+        // to avoid managing a reversed version of the children list, the input functions will iterate the children list in reverse
+            
+        // mouse
+
+        public override bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            for (int i = 0; i < children.Count; i++)
+            {
+                IDrawable d = children[children.Count - i - 1];
+                
+                if (!d.Enabled)
+                    continue;
+                
+                if (!pointInDrawable(position, d))
+                    continue;
+                
+                var result = d.MouseHold(position, buttonArgs);
+
+                if (!result)
+                    return false;
+            }
+
+            return base.MouseHold(position, buttonArgs);
+        }
+
+        public override bool MousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            for (int i = 0; i < children.Count; i++)
+            {
+                IDrawable d = children[children.Count - i - 1];
+                
+                if (!d.Enabled)
+                    continue;
+
+                if (!pointInDrawable(position, d))
+                    continue;
+
+                var result = d.MousePress(position, buttonArgs);
+
+                if (!result)
+                    return false;
+            }
+
+            return base.MousePress(position, buttonArgs);
+        }
+
+        public override bool MouseMove(MouseMoveEventArgs args)
+        {
+            
+            
+            for (int i = 0; i < children.Count; i++)
+            {
+                IDrawable d = children[children.Count - i - 1];
+                if (!d.Enabled)
+                    continue;
+                
+                if (!pointInDrawable(args.Position, d))
+                    continue;
+
+                var result = d.MouseMove(args);
+
+                if (!result)
+                    return false;
+            }
+
+            return base.MouseMove(args);
+        }
+
+        // keyboard
+        
+        public override void KeyDown(KeyboardKeyEventArgs args)
+        {
+            base.KeyDown(args);
+            
+            for (int i = 0; i < children.Count; i++)
+            {
+                IDrawable d = children[children.Count - i - 1];
+                
+                if (d.Enabled)
+                    d.KeyDown(args);
+            }
+        }
+
+        public override void KeyUp(KeyboardKeyEventArgs args)
+        {
+            base.KeyUp(args);
+
+            for (int i = 0; i < children.Count; i++)
+            {
+                IDrawable d = children[children.Count - i - 1];
+                
+                if (d.Enabled)
+                    d.KeyUp(args);
+            }
+
+        }
         
         #endregion
-
-        public override void KeyDown(KeyArgs key)
-        {
-            foreach (IDrawable handler in children)
-            {
-                if (!handler.Enabled)
-                    break;
-                
-                handler.KeyDown(key);
-            }
-        }
-        
-        public override void KeyUp(KeyArgs key)
-        {
-            foreach (IDrawable handler in children)
-            {
-                if (!handler.Enabled)
-                    break;
-                
-                handler.KeyUp(key);
-            }
-        }
-
-        public override void MouseDown(MouseArgs args)
-        {
-            foreach (IDrawable handler in children)
-            {
-                if (!handler.Enabled)
-                    break;
-                
-                handler.MouseDown(args);
-            }
-            
-            base.MouseDown(args);
-        }
-        
-        public override void MouseUp(MouseArgs args)
-        {
-            foreach (IDrawable handler in children)
-            {
-                if (!handler.Enabled)
-                    break;
-                
-                handler.MouseUp(args);
-            }
-            
-            base.MouseUp(args);
-        }
-        
-        public override void MouseMotion(MouseArgs args)
-        {
-            foreach (IDrawable handler in children)
-            {
-                if (!handler.Enabled)
-                    break;
-                
-                handler.MouseMotion(args);
-            }
-            
-            base.MouseMotion(args);
-        }
     }
 }

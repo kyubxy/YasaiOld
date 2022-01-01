@@ -1,49 +1,59 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.IO;
+using OpenTK.Mathematics;
+using SharpFNT;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Text;
-using Yasai.Graphics.YasaiSDL;
-using Yasai.Structures;
-using Yasai.Structures.DI;
-using static SDL2.SDL;
-using static SDL2.SDL_ttf;
+using Rectangle = Yasai.Graphics.Rectangle;
 
 namespace Yasai.Resources.Stores
 {
-    public class FontStore : ContentStore<SpriteFont>
+    public class FontStore : Store<SpriteFont>
     {
-        private Renderer ren;
-        public FontStore(DependencyContainer container, string root = "Assets") : base(container, root) 
-            => ren = container.Resolve<Renderer>();
+        public override string[] FileTypes => new[] { ".fnt" };
+        public override IResourceArgs DefaultArgs => new EmptyResourceArgs();
 
-        public override string[] FileTypes => new [] {".ttf", ".otf"};
-        public override IResourceArgs DefaultArgs => new FontArgs(32);
-        
-        protected override SpriteFont AcquireResource(string path, IResourceArgs largs)
+        public FontStore(string root = "Assets") : base(root)
+        { }
+
+        protected override SpriteFont AcquireResource(string path, IResourceArgs args)
         {
-            FontArgs args = (FontArgs)largs;
+            var glyphStore = new Dictionary<char, Glyph>();
             
-            SpriteFont final = new SpriteFont(ren, TTF_OpenFont(path, args.Size), args, path);
+            // actual file
+            BitmapFont bmfont = BitmapFont.FromFile(path);
 
-            if (final.Handle == IntPtr.Zero)
-                throw new Exception(SDL_GetError());
+            Image<Rgba32>[] pages = new Image<Rgba32>[bmfont.Pages.Count];
+            
+            // load each font sheet first
+            // !! the function already includes the root dir
+            for (int i = 0; i < pages.Length; i++)
+            {
+                var pageLoc = bmfont.Pages[i];
+                pages[i] = Image.Load<Rgba32>(Path.Combine(Root, pageLoc));
+            }
+            
+            // put the glyph data into the dictionary 
+            foreach (var pair in bmfont.Characters)
+            {
+                // location of glyph
+                var glyph = pair.Value;
+                Rectangle area = new Rectangle(glyph.X, glyph.Y, glyph.Width, glyph.Height);
+                
+                // character
+                char glyphName = (char) pair.Key;
 
-            return final;
+                glyphStore[glyphName] = new Glyph(ImageHelpers.LoadSectionFromTexture(pages[glyph.Page], area))
+                {
+                    Offset = new Vector2i(glyph.XOffset, glyph.YOffset),
+                    XAdvance = glyph.XAdvance,
+                };
+            }
+
+            // return the font
+            return new SpriteFont(glyphStore);
         }
-    }
-    
-    public class FontArgs : IResourceArgs
-    {
-        public int Size { get; } = 32;
-        public char[] CharacterSet { get; }
-
-        public FontArgs(int size, char[] cache)
-        {
-            Size = size;
-            CharacterSet = cache;
-        }
-
-        public FontArgs(int size) : this() => Size = size;
-
-        public FontArgs()
-            => CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890<>.?,()+ ".ToCharArray();
     }
 }
