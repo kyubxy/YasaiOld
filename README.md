@@ -21,5 +21,5 @@ Later, the framework will move towards using NuGet packages. Currently your most
 
 - OpenGL 4+ 
 - .NET 6
-- [un4seen Bass](https://www.un4seen.com/)
+- [Un4seen Bass](https://www.un4seen.com/)
 
