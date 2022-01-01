@@ -1,65 +1,59 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using OpenTK.Mathematics;
 using SharpFNT;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Text;
+using Rectangle = Yasai.Graphics.Rectangle;
 
 namespace Yasai.Resources.Stores
 {
     public class FontStore : Store<SpriteFont>
     {
         public override string[] FileTypes => new[] { ".fnt" };
-        public override IResourceArgs DefaultArgs => new FontArgs(32);
+        public override IResourceArgs DefaultArgs => new EmptyResourceArgs();
 
         public FontStore(string root = "Assets") : base(root)
         { }
 
         protected override SpriteFont AcquireResource(string path, IResourceArgs args)
         {
-            // store the glyphs somewhere
-            TextureStore glyphs = new TextureStore();
-
-            // this goes in the spritesheet data 
-            var dict = new Dictionary<string, SpritesheetData.Tile>();
-
+            var glyphStore = new Dictionary<char, Glyph>();
+            
             // actual file
             BitmapFont bmfont = BitmapFont.FromFile(path);
 
+            Image<Rgba32>[] pages = new Image<Rgba32>[bmfont.Pages.Count];
+            
+            // load each font sheet first
+            // !! the function already includes the root dir
+            for (int i = 0; i < pages.Length; i++)
+            {
+                var pageLoc = bmfont.Pages[i];
+                pages[i] = Image.Load<Rgba32>(Path.Combine(Root, pageLoc));
+            }
+            
             // put the glyph data into the dictionary 
             foreach (var pair in bmfont.Characters)
             {
-                var glyphBox = pair.Value;
-                var tile = new SpritesheetData.Tile(glyphBox.X, glyphBox.Y, glyphBox.Width, glyphBox.Height);
-                var glyphName = ((char) pair.Key).ToString();
-                dict[glyphName] = tile;
+                // location of glyph
+                var glyph = pair.Value;
+                Rectangle area = new Rectangle(glyph.X, glyph.Y, glyph.Width, glyph.Height);
+                
+                // character
+                char glyphName = (char) pair.Key;
+
+                glyphStore[glyphName] = new Glyph(ImageHelpers.LoadSectionFromTexture(pages[glyph.Page], area))
+                {
+                    Offset = new Vector2i(glyph.XOffset, glyph.YOffset),
+                    XAdvance = glyph.XAdvance,
+                };
             }
 
-            // put the dictionary into the sheet data
-            SpritesheetData sheetData = new SpritesheetData(dict);
-
-            // load each page 
-            // !! the function already includes the root dir
-            foreach (var page in bmfont.Pages.Values)
-                glyphs.LoadSpritesheet(page, sheetData);
-
             // return the font
-            return new SpriteFont(glyphs, (FontArgs)DefaultArgs, path);
+            return new SpriteFont(glyphStore);
         }
-    }
-    
-    // might not need args
-    public class FontArgs : IResourceArgs
-    {
-        public int Size { get; } = 32;
-        public char[] CharacterSet { get; }
-
-        public FontArgs(int size, char[] cache)
-        {
-            Size = size;
-            CharacterSet = cache;
-        }
-
-        public FontArgs(int size) : this() => Size = size;
-
-        public FontArgs()
-            => CharacterSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567889<>.?,()+ ".ToCharArray();
     }
 }

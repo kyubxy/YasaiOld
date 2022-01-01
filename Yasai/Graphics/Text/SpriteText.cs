@@ -9,6 +9,8 @@ namespace Yasai.Graphics.Text
 {
     public class SpriteText : Container
     {
+        public int Spacing { get; set; } = 7;
+        
         public string Text
         {
             get => BindableText.Value;
@@ -52,17 +54,24 @@ namespace Yasai.Graphics.Text
             float accX = 0;
             foreach (char c in chars)
             {
-                var glyph = Font.GetGlyph(c);
-                Sprite g = new Sprite(glyph)
+                if (c == ' ')
                 {
-                    Position = new Vector2(accX, 0),
-                    Origin = Anchor.BottomLeft,
-                    Size = new Vector2(glyph.Width, glyph.Height),
-                    Colour = Color.White
-                };
-                
-                Add(g);
-                accX += g.Size.X;
+                    accX += 20;
+                }
+                else
+                {
+                    var glyph = Font.GetGlyph(c);
+                    var glyphTex = glyph.Texture;
+                    Sprite g = new Sprite(glyphTex)
+                    {
+                        Position = new Vector2(accX, glyph.Offset.Y),
+                        Size = new Vector2(glyphTex.Width, glyphTex.Height),
+                        Colour = Color.Black
+                    };
+
+                    Add(g);
+                    accX += g.Size.X;
+                }
             }
         }
     }

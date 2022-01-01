@@ -9,6 +9,7 @@ using Yasai.Graphics.Imaging;
 using Yasai.Graphics.Text;
 using Yasai.Resources;
 using Yasai.Resources.Stores;
+using Rectangle = Yasai.Graphics.Rectangle;
 
 namespace Yasai.TestApp
 {
@@ -44,13 +45,13 @@ namespace Yasai.TestApp
             Texture t = tstore.GetResource("tex");
 
             TextureStore bruh = new TextureStore();
-            bruh.LoadSpritesheet("kaos.jpg", new SpritesheetData(new Dictionary<string, SpritesheetData.Tile>()
+            bruh.LoadSpritesheet("school.png", new Dictionary<string, Rectangle>()
             {
-                { "kaos", new SpritesheetData.Tile(348, 495, 469, 327) }
-            }));
+                //{ "kaos", new Rectangle(348, 495, 469, 327) }
+                { "kaos", new Rectangle(180, 150, 51, 41) }
+            });
             Texture kaos = bruh.GetResource("kaos");
 
-            // content stores should stop requiring dependencies
             FontStore fonts = new FontStore();
             fonts.LoadResource("font.fnt");
             SpriteFont font = fonts.GetResource("font");
@@ -86,7 +87,7 @@ namespace Yasai.TestApp
                     Origin = Anchor.TopRight,
                     Size = new Vector2(400),
                 },
-                text = new SpriteText ("thick hwan small peepee", font)
+                text = new SpriteText ("thic hwan small peepee え", font)
                 {
                     Position = new Vector2(10, 300)
                 }
