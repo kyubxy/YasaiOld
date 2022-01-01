@@ -7,7 +7,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.Resources.Stores
 {
-    public class FontStore : ContentStore<SpriteFont>
+    public class FontStore : Store<SpriteFont>
     {
         public override string[] FileTypes => new[] { ".fnt" };
         public override IResourceArgs DefaultArgs => new FontArgs(32);

@@ -10,7 +10,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.Resources.Stores
 {
-    public class TextureStore : ContentStore<Texture>
+    public class TextureStore : Store<Texture>
     {
         public TextureStore(DependencyContainer container, string root = "Assets")
             : base(container, root)
@@ -86,7 +86,9 @@ namespace Yasai.Resources.Stores
                 );
 
             var handle = generateTexture(ret);
-            Resources[name] = new Texture(handle, (int)area.Width, (int)area.Height);
+            var tex = new Texture(handle, (int)area.Width, (int)area.Height);
+            
+            AddResource(tex, name);
         }
     }
 }

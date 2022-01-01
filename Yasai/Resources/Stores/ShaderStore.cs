@@ -5,7 +5,7 @@ using Yasai.Structures.DI;
 
 namespace Yasai.Resources.Stores
 {
-    public class ShaderStore : ContentStore<Shader>
+    public class ShaderStore : Store<Shader>
     {
         private readonly string fragPath;
         private readonly string vertPath;

@@ -1,60 +1,62 @@
+// Some of the code in this file was also written by caveguy427 (https://github.com/caveguy427)
+// Renaming the class has removed previous authorship information on the github repo
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Yasai.Structures.DI;
 
-namespace Yasai.Resources
+namespace Yasai.Resources.Stores
 {
-    public interface IContentStore 
-    {
-        string Root { get; }
-        ContentPrefs Prefs { get; }
-        string[] FileTypes { get; }
-        IResourceArgs DefaultArgs { get; }
-    }
-    
-    public abstract class ContentStore<T> : IContentStore 
+    public abstract class Store<T> : IStore 
         where T : IResource
     {
         // filepath root
         public string Root { get; }
 
-        public ContentPrefs Prefs => throw new NotImplementedException();
+        public StorePrefs Prefs => throw new NotImplementedException();
         
+        /// <summary>
+        /// valid file types for the store type
+        /// </summary>
         public abstract string[] FileTypes { get; }
+        
+        /// <summary>
+        /// default resource arguments for the resource to be loaded
+        /// </summary>
         public abstract IResourceArgs DefaultArgs { get; }
 
-        protected Dictionary<string, T> Resources;
-
-        private DependencyContainer dependencies;
+        /// <summary>
+        /// internal resource dictionary
+        /// </summary>
+        private readonly Dictionary<string, T> resources;
         
-        public ContentStore(DependencyContainer container, string root = "Assets")
+        public Store(string root = "Assets")
         {
             Root = root;
-            dependencies = container;
-            Resources = new Dictionary<string, T>();
+            resources = new Dictionary<string, T>();
         }
 
-        // TODO: look into whether we need to clone resources everytime or not
         /// <summary>
-        /// get a *preloaded* resource from the internal dictionary
+        /// get a *preloaded* resource from the internal dictionary.
         /// </summary>
         /// <param name="res">the resource key to look for</param>
         /// <typeparam name="T">the expected resource type</typeparam>
         /// <returns>the resource</returns>
         /// <exception cref="DirectoryNotFoundException">thrown if the key was not present in the dictionary</exception>
-        public virtual T GetResource(string res) 
+        public virtual T GetResource(string res)
         {
-            if (!Resources.ContainsKey(res))
-            {
+            if (!resources.ContainsKey(res))
                 throw new DirectoryNotFoundException($"{res} was not loaded into the dictionary. " + 
                                                      $"Ensure you preload it with LoadResource or some similar function");
-            }
-
-            return Resources[res];
+            return resources[res];
         }
         
+        /// <summary>
+        /// Loads a single resource from the path and adds it to the internal dictionary
+        /// the key is set to the extensionless name of the resource
+        /// </summary>
+        /// <param name="path">path to resource</param>
         public void LoadResource (string path) => LoadResource(path, Path.ChangeExtension(path, null));
 
         /// <summary>
@@ -84,9 +86,16 @@ namespace Yasai.Resources
             if (!File.Exists(loadPath))
                 throw new FileNotFoundException($"no such {loadPath} could be found");
             
-            var res = AcquireResource(loadPath, args);
-            Resources[key] = res;
+            var res = AcquireResource(loadPath, args ?? DefaultArgs);
+            resources[key] = res;
         }
+
+        /// <summary>
+        /// Add a resource directly to the internal dictionary
+        /// </summary>
+        /// <param name="resource">the resource to add</param>
+        /// <param name="key">dictionary key</param>
+        public void AddResource(T resource, string key) => resources[key] = resource;
 
         /// <summary>
         /// how to acquire the resource given a path
@@ -97,7 +106,7 @@ namespace Yasai.Resources
         protected abstract T AcquireResource(string path, IResourceArgs args);
 
         /// <summary>
-        ///  reads the manager and finds all paths under a container to load from
+        /// reads the manager and finds all paths under a container to load from
         /// </summary>
         /// <param name="group"></param>
         public void LoadResources(string group)
@@ -116,7 +125,6 @@ namespace Yasai.Resources
         /// Loads *all* of the resources in the root.
         /// Use this only for smaller projects, otherwise, avoid this at all costs and use functions like
         /// <see cref="LoadResources"/> to load in larger amounts of assets at once or <see cref="LoadResource"/>
-        /// <param name="readManager">whether it should read the manager.txt for all resources</param>
         /// </summary>
         public void LoadAll()
         {
@@ -134,12 +142,12 @@ namespace Yasai.Resources
         /// <param name="key"></param>
         public void Unload(string key)
         {
-            if (!Resources.ContainsKey(key))
+            if (!resources.ContainsKey(key))
                 GameBase.YasaiLogger.LogWarning($"no such {key} in store");
             else
             {
-                Resources[key].Dispose();
-                Resources[key] = default;
+                resources[key].Dispose();
+                resources[key] = default;
             }
         }
 
@@ -148,13 +156,8 @@ namespace Yasai.Resources
         /// </summary>
         public void Dispose()
         {
-            foreach (T x in Resources.Values) 
+            foreach (T x in resources.Values) 
                 x.Dispose();
-        }
-
-        public void LoadPrefs()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -164,13 +167,17 @@ namespace Yasai.Resources
         /// Will not write an empty manager
         /// </summary>
         public void Write()
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
         
+        /// <summary>
+        /// search the resource values for an absolute path and args
+        /// </summary>
+        /// <param name="absPath"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         private bool IsResourceLoaded(string absPath, IResourceArgs args)
         {
-            foreach (T r in Resources.Values)
+            foreach (T r in resources.Values)
                 if (r.Path == absPath && r.Args == args) 
                     return true;
             
