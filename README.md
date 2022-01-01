@@ -14,12 +14,12 @@ This framework features an awful mismatch of imperative and declerative programm
 I like writing code that does nothing impressive.
 
 # Contribution
-**Although the code is open source, the general development process will be largely kept to myself**.
-See [this document](https://docs.google.com/document/d/1iS57Z2sUqg6D1YusFn45NSafXYUQtsQ1NACNWx0kiN0/edit?usp=sharing) for potential tasks. Feel free to raise issues about information regarding a task you wish to complete. 
+**Although the code is open source, the general development process will be largely kept to myself**. Feel free to raise issues about information regarding a task you wish to complete. 
 
 # Getting started
 Later, the framework will move towards using NuGet packages. Currently your most viable option is to either submodule the framework and use the code directly or wait a little longer for things to settle. Ensure you have the following:
 
-- OpenGL 4+ (literally every GPU made after 2010 should have this)
+- OpenGL 4+ 
 - .NET 6
+- [un4seen Bass](https://www.un4seen.com/)
 
