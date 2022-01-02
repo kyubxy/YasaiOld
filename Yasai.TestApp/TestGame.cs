@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using Yasai.Audio;
 using Yasai.Graphics;
 using Yasai.Graphics.Containers;
@@ -64,22 +65,42 @@ namespace Yasai.TestApp
             {
                 sm = new ScreenManager(new Screen1())
             };
+            
+            sm.KeyDownEvent += args =>
+            {
+                if (args.Key == Keys.Space)
+                {
+                    Console.WriteLine("space");
+                    sm.PushScreen(new Screen2());
+                } 
+                else if (args.Key == Keys.N)
+                {
+                    Console.WriteLine("n");
+                    sm.PushScreen(new Screen1());
+                }
+            };
         }
 
         public override void Load(DependencyContainer dependencies)
         {
+            base.Load(dependencies);
+            
             FontStore fonts = new FontStore();
             fonts.LoadResource("font.fnt", SpriteFont.Normal);
             dependencies.Register<FontStore>(fonts);
-            
-            base.Load(dependencies);
+
+            TextureStore textures = new TextureStore();
+            textures.LoadResource("kaos.jpg");
+            dependencies.Register<TextureStore>(textures);
         }
     }
 
     class Screen1 : Screen
     {
-        public override void Load(DependencyContainer container)
+        public override void LoadComplete(DependencyContainer container)
         {
+            base.LoadComplete(container);
+            
             var fonts = container.Resolve<FontStore>();
 
             Items = new IDrawable[]
@@ -89,13 +110,44 @@ namespace Yasai.TestApp
                     Anchor = Anchor.Center 
                 }
             };
-            
-            base.Load(container);
         }
     }
 
-    class Screen2
+    class Screen2 : Screen
     {
+        private Texture tex;
         
+        public override void Load(DependencyContainer container)
+        {
+            base.Load(container);
+
+            var texStore = container.Resolve<TextureStore>();
+
+            tex = texStore.GetResource("kaos");
+        }
+
+        public override void LoadComplete(DependencyContainer container)
+        {
+            base.LoadComplete(container);
+            
+            var fonts = container.Resolve<FontStore>();
+
+            Items = new IDrawable[]
+            {
+                new SpriteText("screen 2", fonts.GetResource(SpriteFont.Normal))
+                {
+                    Anchor = Anchor.Center 
+                },
+            };
+
+            for (int i = 0; i < 169; i++)
+            {
+                Add(new Sprite(tex)
+                {
+                    Position = new Vector2(i, i),
+                    Size = new Vector2(200)
+                });
+            }
+        }
     }
 }

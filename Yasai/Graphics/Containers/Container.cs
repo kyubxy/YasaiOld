@@ -90,6 +90,15 @@ namespace Yasai.Graphics.Containers
 
             Loaded = true;
         }
+        
+        public override void LoadComplete(DependencyContainer container)
+        {
+            base.LoadComplete(container);
+
+            box.LoadComplete(container);
+            foreach (IDrawable s in children)
+                s.LoadComplete(container);
+        }
 
         public override void Update(FrameEventArgs args)
         {
@@ -106,12 +115,10 @@ namespace Yasai.Graphics.Containers
                drawPrimitive(box);
             
            foreach (IDrawable drawable in children)
-               if (drawable is Container c)
-                   c.Draw();
-               else if (drawable is ScreenManager s)
-                   s.Draw();
-               else if (drawable is Primitive p)
+               if (drawable is Primitive p)
                    drawPrimitive(p);
+               else if (drawable is Drawable d)
+                   d.Draw();
         }
         
         /// <summary>

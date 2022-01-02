@@ -19,9 +19,6 @@ namespace Yasai.Resources.Stores
 
         protected override Texture AcquireResource(string path, IResourceArgs args)
         {
-            if (args != null)
-                GameBase.YasaiLogger.LogWarning("ImageLoader does not support args");
-            
             Image<Rgba32> image = Image.Load<Rgba32>(path);
             return new Texture(ImageHelpers.GenerateTexture(image), image.Width, image.Height);
         }

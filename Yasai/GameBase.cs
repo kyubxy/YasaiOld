@@ -43,7 +43,11 @@ namespace Yasai
             Window.Title = title;
 
             // events
-            Window.Load += () => Load(Dependencies);
+            Window.Load += () =>
+            {
+                Load(Dependencies);
+                LoadComplete(Dependencies);
+            };
             Window.Unload += () => Unload(Dependencies);
             Window.UpdateFrame += Update;
             Window.RenderFrame += draw;
@@ -82,6 +86,11 @@ namespace Yasai
             // VertexArrayObject
             VertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(VertexArrayObject);
+        }
+
+        public virtual void LoadComplete(DependencyContainer container)
+        {
+            
         }
 
         public virtual void Update(FrameEventArgs args)

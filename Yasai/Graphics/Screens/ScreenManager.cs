@@ -39,12 +39,29 @@ namespace Yasai.Graphics.Screens
 
             var window = container.Resolve<GameWindow>();
             Size = window.Size;
+            
+            Loaded = true;
         }
 
+        public override void LoadComplete(DependencyContainer container)
+        {
+            base.LoadComplete(container);
+            CurrentScreen.LoadComplete(container);
+        }
+
+        // appears to be a memory leak when pushing new screens
+        // this still seems insignificant ..
         public void PushScreen(Screen s)
         {
             if (Loaded)
+            {
                 s.Load(dependencies);
+                s.LoadComplete(dependencies);
+            }
+
+            s.Size = Size;
+
+            CurrentScreen.Dispose();
 
             CurrentScreen = s;
             OnScreenChange?.Invoke(this, new ScreenArgs(s));
