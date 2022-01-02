@@ -146,6 +146,9 @@ namespace Yasai.Graphics.Containers
 
         public void Clear()
         {
+            foreach (var c in children)
+                c.Dispose();
+            
             children.Clear();
         }
 

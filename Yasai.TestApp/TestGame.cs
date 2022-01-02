@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net.Mime;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Audio;
@@ -57,12 +58,6 @@ namespace Yasai.TestApp
             fonts.LoadResource("font.fnt");
             SpriteFont font = fonts.GetResource("font");
 
-            AudioStore audioStore = new AudioStore();
-            audioStore.LoadResource("nami.mp3");
-
-            Channel ch = new Channel(audioStore.GetResource("nami"));
-            ch.Play();
-            
             Children = new IDrawable[]
             {
                 c = new Container
@@ -103,10 +98,13 @@ namespace Yasai.TestApp
             c.MousePressEvent += (_, _) => Console.WriteLine("wangs");
         }
 
+        private int i = 0;
+        
         public override void Update(FrameEventArgs args)
         {
             base.Update(args);
-            c.X += 0.1f;
+            text.Text = (new Random().Next()).ToString();
+            //i++;
         }
     }
 }

@@ -10,9 +10,9 @@ namespace Yasai.Graphics.Imaging
 {
     public class Sprite : Quad
     {
-        private Texture texture;
+        public Texture Texture { get; }
         
-        public Sprite(Texture texture) => this.texture = texture;
+        public Sprite(Texture texture) => Texture = texture;
 
         public override void Load(DependencyContainer dep)
         {
@@ -31,7 +31,7 @@ namespace Yasai.Graphics.Imaging
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
             
-            texture.Use();
+            Texture.Use();
             
             Loaded = true;
         }
@@ -43,7 +43,7 @@ namespace Yasai.Graphics.Imaging
             Shader.SetVector3("colour", new Vector3(Colour.R/(float)255, Colour.G/(float)255, Colour.B/(float)255));
             Shader.SetFloat("alpha", Alpha);
             
-            texture.Use();
+            Texture.Use();
         }
     }
 }

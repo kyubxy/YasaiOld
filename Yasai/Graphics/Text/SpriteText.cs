@@ -2,6 +2,7 @@
 using OpenTK.Mathematics;
 using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
+using Yasai.Resources.Stores;
 using Yasai.Structures;
 using Yasai.Structures.DI;
 
