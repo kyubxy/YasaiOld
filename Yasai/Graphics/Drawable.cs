@@ -150,7 +150,7 @@ namespace Yasai.Graphics
 
         public virtual bool Loaded { get; protected set; }
 
-        public virtual void Load(DependencyContainer dep) 
+        public virtual void Load(DependencyContainer container) 
         { }
 
         public virtual void Update(FrameEventArgs args)

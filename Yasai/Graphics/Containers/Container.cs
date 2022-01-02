@@ -6,6 +6,7 @@ using System.Linq;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using Yasai.Graphics.Screens;
 using Yasai.Graphics.Shapes;
 using Yasai.Structures.DI;
 
@@ -19,7 +20,17 @@ namespace Yasai.Graphics.Containers
 
         private DependencyContainer dependencies;
 
-        public IDrawable[] Items { init => AddAll(value); }
+        private IDrawable[] items;
+        public IDrawable[] Items
+        {
+            get => items;
+            set
+            {
+                items = value;
+                Clear();
+                AddAll(items);
+            }
+        }
 
         public bool Fill { get; set; } 
         
@@ -67,15 +78,15 @@ namespace Yasai.Graphics.Containers
 
         #region lifespan
 
-        public override void Load(DependencyContainer dep)
+        public override void Load(DependencyContainer container)
         {
-            base.Load(dep);
+            base.Load(container);
 
-            dependencies = dep;
+            dependencies = container;
             
-            box.Load(dep);
+            box.Load(container);
             foreach (IDrawable s in children)
-                s.Load(dep);
+                s.Load(container);
 
             Loaded = true;
         }
@@ -97,6 +108,8 @@ namespace Yasai.Graphics.Containers
            foreach (IDrawable drawable in children)
                if (drawable is Container c)
                    c.Draw();
+               else if (drawable is ScreenManager s)
+                   s.Draw();
                else if (drawable is Primitive p)
                    drawPrimitive(p);
         }

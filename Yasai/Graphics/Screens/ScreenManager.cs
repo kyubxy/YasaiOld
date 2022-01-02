@@ -1,5 +1,7 @@
 ﻿using System;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Screens
@@ -10,6 +12,16 @@ namespace Yasai.Graphics.Screens
 
         public event EventHandler OnScreenChange;
 
+        public override Vector2 Size
+        {
+            get => base.Size;
+            set
+            {
+                base.Size = value;
+                CurrentScreen.Size = value;
+            }
+        }
+
         public ScreenManager(Screen s)
         {
             CurrentScreen = s;
@@ -19,11 +31,14 @@ namespace Yasai.Graphics.Screens
 
         private DependencyContainer dependencies;
         
-        public override void Load(DependencyContainer dependencies)
+        public override void Load(DependencyContainer container)
         {
-            base.Load(dependencies);
-            CurrentScreen.Load(dependencies);
-            this.dependencies = dependencies;
+            base.Load(container);
+            CurrentScreen.Load(container);
+            dependencies = container;
+
+            var window = container.Resolve<GameWindow>();
+            Size = window.Size;
         }
 
         public void PushScreen(Screen s)

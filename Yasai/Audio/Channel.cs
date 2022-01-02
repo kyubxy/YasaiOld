@@ -1,4 +1,5 @@
-﻿using ManagedBass;
+﻿using System;
+using ManagedBass;
 
 namespace Yasai.Audio
 {

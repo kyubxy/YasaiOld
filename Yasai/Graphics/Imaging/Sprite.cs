@@ -14,11 +14,11 @@ namespace Yasai.Graphics.Imaging
         
         public Sprite(Texture texture) => Texture = texture;
 
-        public override void Load(DependencyContainer dep)
+        public override void Load(DependencyContainer container)
         {
-            base.Load(dep);
+            base.Load(container);
             
-            var shaderStore = dep.Resolve<ShaderStore>();
+            var shaderStore = container.Resolve<ShaderStore>();
             
             Shader = shaderStore.GetResource(Shader.TextureShader);
             Shader.Use();

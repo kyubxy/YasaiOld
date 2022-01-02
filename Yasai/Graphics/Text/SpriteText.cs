@@ -36,9 +36,9 @@ namespace Yasai.Graphics.Text
             BindableText.OnChanged += s => updateText();
         }
 
-        public override void Load(DependencyContainer dependencies)
+        public override void Load(DependencyContainer container)
         {
-           base.Load(dependencies);
+           base.Load(container);
            updateText();
         }
 

@@ -10,9 +10,11 @@ namespace Yasai.Resources.Stores
         public override IResourceArgs DefaultArgs => new AudioArgs(0);
         protected override AudioStream AcquireResource(string path, IResourceArgs args)
         {
-            int stream = Bass.CreateStream(path);
+            AudioArgs aargs = (AudioArgs)args;
+            
+            int stream = Bass.CreateStream(path, aargs.Offset);
             if (stream == 0)
-                throw new Exception("could not open stream");
+                throw new Exception($"could not open stream, {Bass.LastError}");
 
             return new AudioStream(stream);
         }

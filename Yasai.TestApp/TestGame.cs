@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Net.Mime;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Audio;
 using Yasai.Graphics;
 using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
+using Yasai.Graphics.Screens;
 using Yasai.Graphics.Text;
-using Yasai.Resources;
 using Yasai.Resources.Stores;
-using Rectangle = Yasai.Graphics.Rectangle;
+using Yasai.Structures.DI;
 
 namespace Yasai.TestApp
 {
@@ -39,6 +37,8 @@ namespace Yasai.TestApp
                 return false;
             }
         }
+
+        private ScreenManager sm;
         
         public TestGame()
         {
@@ -54,57 +54,48 @@ namespace Yasai.TestApp
             });
             Texture kaos = bruh.GetResource("kaos");
 
-            FontStore fonts = new FontStore();
-            fonts.LoadResource("font.fnt");
-            SpriteFont font = fonts.GetResource("font");
+
+            AudioStore audioStore = new AudioStore();
+            audioStore.LoadResource(@"sakura_02.wav");
+            Channel ch = new Channel(audioStore.GetResource("sakura_02"));
+            ch.Play();
 
             Children = new IDrawable[]
             {
-                c = new Container
+                sm = new ScreenManager(new Screen1())
+            };
+        }
+
+        public override void Load(DependencyContainer dependencies)
+        {
+            FontStore fonts = new FontStore();
+            fonts.LoadResource("font.fnt", SpriteFont.Normal);
+            dependencies.Register<FontStore>(fonts);
+            
+            base.Load(dependencies);
+        }
+    }
+
+    class Screen1 : Screen
+    {
+        public override void Load(DependencyContainer container)
+        {
+            var fonts = container.Resolve<FontStore>();
+
+            Items = new IDrawable[]
+            {
+                new SpriteText("screen 1", fonts.GetResource(SpriteFont.Normal))
                 {
-                    Anchor = Anchor.Center, 
-                    Origin = Anchor.Center, 
-                    Size = new Vector2(400),
-                    Colour = Color.Red,
-                    Fill = true,
-                    Items = new IDrawable[]
-                    {
-                        b = new TestSprite(t, "left")
-                        {
-                            Anchor = Anchor.Center,
-                            Origin = Anchor.Right,
-                            X = 30,
-                        },
-                        new TestSprite(t, "right")
-                        {
-                            Anchor = Anchor.Center,
-                            Origin = Anchor.Left,
-                            X = -30
-                        },
-                    }
-                },
-                new Sprite (kaos)
-                {
-                    Anchor = Anchor.TopRight,
-                    Origin = Anchor.TopRight,
-                    Size = new Vector2(400),
-                },
-                text = new SpriteText ("thic hwan small peepee え", font)
-                {
-                    Position = new Vector2(10, 300)
+                    Anchor = Anchor.Center 
                 }
             };
             
-            c.MousePressEvent += (_, _) => Console.WriteLine("wangs");
+            base.Load(container);
         }
+    }
 
-        private int i = 0;
+    class Screen2
+    {
         
-        public override void Update(FrameEventArgs args)
-        {
-            base.Update(args);
-            text.Text = (new Random().Next()).ToString();
-            //i++;
-        }
     }
 }

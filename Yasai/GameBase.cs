@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using ManagedBass;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -34,6 +35,9 @@ namespace Yasai
 
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
+            // initialise audio engine
+            Bass.Init();
+            
             // Window
             Window = new GameWindow(gameSettings, nativeSettings);
             Window.Title = title;
@@ -130,6 +134,7 @@ namespace Yasai
         public void Dispose()
         {
             // TODO: dispose disposable dependencies
+            Bass.Free();
             YasaiLogger.LogInfo("Disposed of resources and exited successfully");
         }
     }

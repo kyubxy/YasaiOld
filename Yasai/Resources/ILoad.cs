@@ -11,7 +11,7 @@ namespace Yasai.Resources
         /// <summary>
         /// Called on resource load
         /// </summary>
-        /// <param name="dep"></param>
-        void Load(DependencyContainer dep);
+        /// <param name="container"></param>
+        void Load(DependencyContainer container);
     }
 }
