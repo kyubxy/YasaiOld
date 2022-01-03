@@ -161,9 +161,9 @@ namespace Yasai.Resources.Stores
         }
 
         /// <summary>
-        /// Write the manager to the resource path.
-        /// Will overwrite the previous written manager.
-        /// Will not overwrite the current manager.
+        /// Write the current resource entries to some manager file at the root path.
+        /// Will overwrite the file if it has been previously written to.
+        /// Will not overwrite the main manager.
         /// Will not write an empty manager
         /// </summary>
         public void Write()
