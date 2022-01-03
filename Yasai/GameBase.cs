@@ -7,13 +7,6 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using Yasai.Debug.Logging;
 using Yasai.Structures.DI;
-using Yasai.Graphics;
-using Yasai.Graphics.Containers;
-using Yasai.Graphics.Imaging;
-using Yasai.Graphics.Shapes;
-using Yasai.Input.Keyboard;
-using Yasai.Input.Mouse;
-using Yasai.Resources.Stores;
 
 namespace Yasai
 {
@@ -32,6 +25,17 @@ namespace Yasai
         //protected Container Children;
 
         internal static readonly Logger YasaiLogger = new ("yasai.log");
+
+        private Color bgCol = Color.CornflowerBlue;
+        public Color BackgroundColour
+        {
+            get => bgCol;
+            set
+            {
+                bgCol = value;
+                GL.ClearColor(bgCol);
+            }
+        }
 
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
@@ -81,7 +85,7 @@ namespace Yasai
         
         public virtual void Load(DependencyContainer dependencies)
         { 
-            GL.ClearColor(Color.CornflowerBlue);
+            GL.ClearColor(BackgroundColour);
             
             // VertexArrayObject
             VertexArrayObject = GL.GenVertexArray();
@@ -99,6 +103,7 @@ namespace Yasai
 
         void draw(FrameEventArgs args)
         {
+            GL.ClearColor(BackgroundColour);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.BindVertexArray(VertexArrayObject);
 
