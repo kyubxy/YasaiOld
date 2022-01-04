@@ -13,6 +13,26 @@ namespace Yasai.Input.Mouse
         /// </summary>
         /// <param name="position"></param>
         /// <param name="buttonArgs"></param>
+        void GlobalMouseHold(Vector2 position, MouseButtonEventArgs buttonArgs);
+        
+        /// <summary>
+        /// When the user clicks the mouse, fires once, waits and then fires continually
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="buttonArgs"></param>
+        void GlobalMousePress(Vector2 position, MouseButtonEventArgs buttonArgs);
+        
+        /// <summary>
+        /// When the user moves the mouse
+        /// </summary>
+        /// <param name="args"></param>
+        void GlobalMouseMove(MouseMoveEventArgs args);
+        
+        /// <summary>
+        /// When the user depresses the mouse button
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="buttonArgs"></param>
         /// <returns></returns>
         bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs);
         
@@ -50,6 +70,7 @@ namespace Yasai.Input.Mouse
         /// <param name="args"></param>
         /// <returns></returns>
         bool MouseScroll(Vector2 position, MouseWheelEventArgs args);
+        
         
         event Action<Vector2, MouseButtonEventArgs> MouseClickEvent;
         event Action<Vector2, MouseButtonEventArgs> MousePressEvent;

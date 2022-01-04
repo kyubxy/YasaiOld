@@ -1,12 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
-using Yasai.Graphics.Screens;
 using Yasai.Graphics.Shapes;
 using Yasai.Structures.DI;
 
@@ -215,6 +214,27 @@ namespace Yasai.Graphics.Containers
             
         // mouse
 
+        public override void GlobalMouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            base.GlobalMouseHold(position, buttonArgs);
+            foreach (var child in children)
+                child.GlobalMouseHold(position, buttonArgs);
+        }
+
+        public override void GlobalMouseMove(MouseMoveEventArgs args)
+        {
+            base.GlobalMouseMove(args);
+            foreach (var child in children)
+                child.GlobalMouseMove(args);
+        }
+
+        public override void GlobalMousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            base.GlobalMousePress(position, buttonArgs);
+            foreach (var child in children)
+                child.GlobalMousePress(position, buttonArgs);
+        }
+
         public override bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
         {
             for (int i = 0; i < children.Count; i++)
@@ -259,8 +279,6 @@ namespace Yasai.Graphics.Containers
 
         public override bool MouseMove(MouseMoveEventArgs args)
         {
-            
-            
             for (int i = 0; i < children.Count; i++)
             {
                 IDrawable d = children[children.Count - i - 1];
@@ -280,6 +298,9 @@ namespace Yasai.Graphics.Containers
         }
 
         // keyboard
+        
+        // keyboard events for all drawables in the scenegraph are processed
+        // this might affect performance
         
         public override void KeyDown(KeyboardKeyEventArgs args)
         {
@@ -305,7 +326,6 @@ namespace Yasai.Graphics.Containers
                 if (d.Enabled)
                     d.KeyUp(args);
             }
-
         }
         
         #endregion

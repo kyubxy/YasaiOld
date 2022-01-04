@@ -5,7 +5,6 @@ using Yasai.Structures.DI;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Graphics.Shaders;
-using Yasai.Input.Mouse;
 using Vector2 = OpenTK.Mathematics.Vector2;
 using Vector3 = OpenTK.Mathematics.Vector3;
 
@@ -181,6 +180,18 @@ namespace Yasai.Graphics
         public event Action<Vector2, MouseWheelEventArgs> MouseScrollEvent;
         
         // mouse
+        public virtual void GlobalMouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+        }
+
+        public virtual void GlobalMousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+        }
+
+        public virtual void GlobalMouseMove(MouseMoveEventArgs args)
+        {
+        }
+
         public virtual bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
         {
             MouseClickEvent?.Invoke(position, buttonArgs);

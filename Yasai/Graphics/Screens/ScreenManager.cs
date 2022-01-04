@@ -82,6 +82,74 @@ namespace Yasai.Graphics.Screens
             if (Enabled && Visible)
                 CurrentScreen.Draw();
         }
+        
+        // input
+        
+        public override void GlobalMouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            base.GlobalMouseHold(position, buttonArgs);
+            CurrentScreen.GlobalMouseHold(position, buttonArgs);
+        }
+
+        public override void GlobalMouseMove(MouseMoveEventArgs args)
+        {
+            base.GlobalMouseMove(args);
+            CurrentScreen.GlobalMouseMove(args);
+        }
+
+        public override void GlobalMousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            base.GlobalMousePress(position, buttonArgs);
+            CurrentScreen.GlobalMousePress(position, buttonArgs);
+        }
+
+        public override bool MouseMove(MouseMoveEventArgs args)
+        {
+            CurrentScreen.MouseMove(args);
+            return base.MouseMove(args);
+        }
+
+        public override bool MousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            CurrentScreen.MousePress(position, buttonArgs);
+            return base.MousePress(position, buttonArgs);
+        }
+
+        public override bool MouseEnter()
+        {
+            CurrentScreen.MouseEnter();
+            return base.MouseEnter();
+        }
+
+        public override bool MouseExit()
+        {
+            CurrentScreen.MouseExit();
+            return base.MouseExit();
+        }
+
+        public override bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
+        {
+            CurrentScreen.MouseHold(position, buttonArgs);
+            return base.MouseHold(position, buttonArgs);
+        }
+
+        public override bool MouseScroll(Vector2 position, MouseWheelEventArgs args)
+        {
+            CurrentScreen.MouseScroll(position, args);
+            return base.MouseScroll(position, args);
+        }
+
+        public override void KeyDown(KeyboardKeyEventArgs args)
+        {
+            CurrentScreen.KeyDown(args);
+            base.KeyDown(args);
+        }
+
+        public override void KeyUp(KeyboardKeyEventArgs args)
+        {
+            CurrentScreen.KeyUp(args);
+            base.KeyUp(args);
+        }
 
         // screenmanagers can only handle one screen at a time
         // thus, they all ignore the hierarchy

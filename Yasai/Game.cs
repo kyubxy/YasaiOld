@@ -122,12 +122,14 @@ namespace Yasai
         {
             base.MouseDown(args);
             Root.MousePress(mousePosition, args);
+            Root.GlobalMousePress(mousePosition, args);
         }
 
         protected override void MouseMove(MouseMoveEventArgs args)
         {
             base.MouseMove(args);
             Root.MouseMove(args);
+            Root.GlobalMouseMove(args);
             mousePosition = args.Position;
         }
         
