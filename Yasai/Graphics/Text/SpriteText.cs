@@ -12,6 +12,7 @@ namespace Yasai.Graphics.Text
     {
         public int Spacing { get; set; } = 7;
         
+        private string oldText;
         public string Text
         {
             get => BindableText.Value;
@@ -30,19 +31,24 @@ namespace Yasai.Graphics.Text
         
         public SpriteText(string text, SpriteFont font)
         {
+            oldText = "";
             Text = text;
             Font = font;
 
-            BindableText.OnChanged += s => updateText();
+            BindableText.OnChanged += s =>
+            {
+                redrawText();
+                oldText = s;
+            };
         }
 
         public override void Load(DependencyContainer container)
         {
            base.Load(container);
-           updateText();
+           redrawText();
         }
 
-        private void updateText()
+        private void redrawText()
         {
             if (!Loaded)
                 return;
@@ -63,7 +69,7 @@ namespace Yasai.Graphics.Text
                 {
                     var glyph = Font.GetGlyph(c);
                     var glyphTex = glyph.Texture;
-                    Sprite g = new Sprite(glyphTex)
+                    var g = new Sprite(glyphTex)
                     {
                         Position = new Vector2(accX, glyph.Offset.Y),
                         Size = new Vector2(glyphTex.Width, glyphTex.Height),
