@@ -33,23 +33,23 @@ namespace Yasai.Graphics.Text
             Text = text;
             Font = font;
 
-            BindableText.OnChanged += s => updateText();
+            BindableText.OnChanged += s => redrawText();
         }
 
         public override void Load(DependencyContainer container)
         {
            base.Load(container);
-           updateText();
+           redrawText();
         }
 
-        private void updateText()
+        private void redrawText()
         {
             if (!Loaded)
                 return;
             
             char[] chars = Text.ToCharArray();
             
-            // TODO: only change the changed characters
+            // TODO: only change the changed characters?
             Clear();
 
             float accX = 0;
@@ -63,7 +63,7 @@ namespace Yasai.Graphics.Text
                 {
                     var glyph = Font.GetGlyph(c);
                     var glyphTex = glyph.Texture;
-                    Sprite g = new Sprite(glyphTex)
+                    var g = new Sprite(glyphTex)
                     {
                         Position = new Vector2(accX, glyph.Offset.Y),
                         Size = new Vector2(glyphTex.Width, glyphTex.Height),
