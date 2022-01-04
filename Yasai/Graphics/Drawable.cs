@@ -180,9 +180,6 @@ namespace Yasai.Graphics
         public event Action<Vector2, MouseWheelEventArgs> MouseScrollEvent;
         
         // mouse
-        public virtual void GlobalMouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
-        {
-        }
 
         public virtual void GlobalMousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
         {
@@ -190,12 +187,6 @@ namespace Yasai.Graphics
 
         public virtual void GlobalMouseMove(MouseMoveEventArgs args)
         {
-        }
-
-        public virtual bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
-        {
-            MouseClickEvent?.Invoke(position, buttonArgs);
-            return true;
         }
 
         public virtual bool MousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
@@ -209,9 +200,6 @@ namespace Yasai.Graphics
             MouseMoveEvent?.Invoke(args);
             return true;
         }
-
-        public virtual bool MouseEnter() => throw new NotImplementedException();
-        public virtual bool MouseExit() => throw new NotImplementedException();
 
         public virtual bool MouseScroll(Vector2 position, MouseWheelEventArgs args)
         {

@@ -84,12 +84,6 @@ namespace Yasai.Graphics.Screens
         }
         
         // input
-        
-        public override void GlobalMouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
-        {
-            base.GlobalMouseHold(position, buttonArgs);
-            CurrentScreen.GlobalMouseHold(position, buttonArgs);
-        }
 
         public override void GlobalMouseMove(MouseMoveEventArgs args)
         {
@@ -113,24 +107,6 @@ namespace Yasai.Graphics.Screens
         {
             CurrentScreen.MousePress(position, buttonArgs);
             return base.MousePress(position, buttonArgs);
-        }
-
-        public override bool MouseEnter()
-        {
-            CurrentScreen.MouseEnter();
-            return base.MouseEnter();
-        }
-
-        public override bool MouseExit()
-        {
-            CurrentScreen.MouseExit();
-            return base.MouseExit();
-        }
-
-        public override bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
-        {
-            CurrentScreen.MouseHold(position, buttonArgs);
-            return base.MouseHold(position, buttonArgs);
         }
 
         public override bool MouseScroll(Vector2 position, MouseWheelEventArgs args)

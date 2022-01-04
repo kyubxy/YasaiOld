@@ -214,13 +214,6 @@ namespace Yasai.Graphics.Containers
             
         // mouse
 
-        public override void GlobalMouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
-        {
-            base.GlobalMouseHold(position, buttonArgs);
-            foreach (var child in children)
-                child.GlobalMouseHold(position, buttonArgs);
-        }
-
         public override void GlobalMouseMove(MouseMoveEventArgs args)
         {
             base.GlobalMouseMove(args);
@@ -235,26 +228,6 @@ namespace Yasai.Graphics.Containers
                 child.GlobalMousePress(position, buttonArgs);
         }
 
-        public override bool MouseHold(Vector2 position, MouseButtonEventArgs buttonArgs)
-        {
-            for (int i = 0; i < children.Count; i++)
-            {
-                IDrawable d = children[children.Count - i - 1];
-                
-                if (!d.Enabled)
-                    continue;
-                
-                if (!pointInDrawable(position, d))
-                    continue;
-                
-                var result = d.MouseHold(position, buttonArgs);
-
-                if (!result)
-                    return false;
-            }
-
-            return base.MouseHold(position, buttonArgs);
-        }
 
         public override bool MousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
         {
@@ -276,7 +249,7 @@ namespace Yasai.Graphics.Containers
 
             return base.MousePress(position, buttonArgs);
         }
-
+        
         public override bool MouseMove(MouseMoveEventArgs args)
         {
             for (int i = 0; i < children.Count; i++)
@@ -295,6 +268,26 @@ namespace Yasai.Graphics.Containers
             }
 
             return base.MouseMove(args);
+        }
+
+        public override bool MouseScroll(Vector2 position, MouseWheelEventArgs args)
+        {
+            for (int i = 0; i < children.Count; i++)
+            {
+                IDrawable d = children[children.Count - i - 1];
+                if (!d.Enabled)
+                    continue;
+                
+                if (!pointInDrawable(Position, d))
+                    continue;
+
+                var result = d.MouseScroll(position, args);
+
+                if (!result)
+                    return false;
+            }
+
+            return base.MouseScroll(position, args);
         }
 
         // keyboard
