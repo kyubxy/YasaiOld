@@ -12,7 +12,6 @@ namespace Yasai.Graphics.Text
     {
         public int Spacing { get; set; } = 7;
         
-        private string oldText;
         public string Text
         {
             get => BindableText.Value;
@@ -31,15 +30,10 @@ namespace Yasai.Graphics.Text
         
         public SpriteText(string text, SpriteFont font)
         {
-            oldText = "";
             Text = text;
             Font = font;
 
-            BindableText.OnChanged += s =>
-            {
-                redrawText();
-                oldText = s;
-            };
+            BindableText.OnChanged += s => redrawText();
         }
 
         public override void Load(DependencyContainer container)
@@ -55,7 +49,7 @@ namespace Yasai.Graphics.Text
             
             char[] chars = Text.ToCharArray();
             
-            // TODO: only change the changed characters
+            // TODO: only change the changed characters?
             Clear();
 
             float accX = 0;
