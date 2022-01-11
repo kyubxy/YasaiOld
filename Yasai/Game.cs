@@ -67,12 +67,6 @@ namespace Yasai
             Root.Load(dependencies);
         }
 
-        public override void LoadComplete(DependencyContainer container)
-        {
-            base.LoadComplete(container);
-            Root.LoadComplete(container);
-        }
-
         public override void Resize(ResizeEventArgs obj)
         {
             base.Resize(obj);

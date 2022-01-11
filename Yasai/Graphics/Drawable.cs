@@ -152,9 +152,6 @@ namespace Yasai.Graphics
         public virtual void Load(DependencyContainer container) 
         { }
 
-        public virtual void LoadComplete(DependencyContainer container)
-        { }
-
         public virtual void Update(FrameEventArgs args)
         { }
 

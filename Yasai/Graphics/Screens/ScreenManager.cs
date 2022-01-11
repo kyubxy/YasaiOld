@@ -43,12 +43,6 @@ namespace Yasai.Graphics.Screens
             Loaded = true;
         }
 
-        public override void LoadComplete(DependencyContainer container)
-        {
-            base.LoadComplete(container);
-            CurrentScreen.LoadComplete(container);
-        }
-
         // appears to be a memory leak when pushing new screens
         // this still seems insignificant ..
         public void PushScreen(Screen s)
@@ -56,7 +50,6 @@ namespace Yasai.Graphics.Screens
             if (Loaded)
             {
                 s.Load(dependencies);
-                s.LoadComplete(dependencies);
             }
 
             s.Size = Size;

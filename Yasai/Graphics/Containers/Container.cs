@@ -89,15 +89,6 @@ namespace Yasai.Graphics.Containers
 
             Loaded = true;
         }
-        
-        public override void LoadComplete(DependencyContainer container)
-        {
-            base.LoadComplete(container);
-
-            box.LoadComplete(container);
-            foreach (IDrawable s in children)
-                s.LoadComplete(container);
-        }
 
         public override void Update(FrameEventArgs args)
         {

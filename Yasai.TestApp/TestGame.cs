@@ -79,27 +79,22 @@ namespace Yasai.TestApp
                     sm.PushScreen(new Screen1());
                 }
             };
-        }
-
-        public override void Load(DependencyContainer dependencies)
-        {
-            base.Load(dependencies);
             
             FontStore fonts = new FontStore();
             fonts.LoadResource("font.fnt", SpriteFont.Normal);
-            dependencies.Register<FontStore>(fonts);
+            Dependencies.Register<FontStore>(fonts);
 
             TextureStore textures = new TextureStore();
             textures.LoadResource("kaos.jpg");
-            dependencies.Register<TextureStore>(textures);
+            Dependencies.Register<TextureStore>(textures);
         }
     }
 
     class Screen1 : Screen
     {
-        public override void LoadComplete(DependencyContainer container)
+        public override void Load(DependencyContainer container)
         {
-            base.LoadComplete(container);
+            base.Load(container);
             
             var fonts = container.Resolve<FontStore>();
 
@@ -124,11 +119,6 @@ namespace Yasai.TestApp
             var texStore = container.Resolve<TextureStore>();
 
             tex = texStore.GetResource("kaos");
-        }
-
-        public override void LoadComplete(DependencyContainer container)
-        {
-            base.LoadComplete(container);
             
             var fonts = container.Resolve<FontStore>();
 

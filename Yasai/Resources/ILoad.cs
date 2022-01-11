@@ -13,10 +13,5 @@ namespace Yasai.Resources
         /// </summary>
         /// <param name="container"></param>
         void Load(DependencyContainer container);
-
-        /// <summary>
-        /// Called after all resources are loaded
-        /// </summary>
-        void LoadComplete(DependencyContainer container);
     }
 }

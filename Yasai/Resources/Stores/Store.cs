@@ -96,10 +96,6 @@ namespace Yasai.Resources.Stores
             if (resources.Values.Any(x => x.Path == loadPath))
                 return;
             
-            // check if resource exists
-            if (!File.Exists(loadPath))
-                throw new FileNotFoundException($"no such {loadPath} could be found");
-            
             var res = AcquireResource(loadPath, args ?? DefaultArgs);
             resources[key] = new ResourceEntry(res, loadPath);
         }
