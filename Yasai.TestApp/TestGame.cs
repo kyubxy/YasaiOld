@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using OpenTK.Mathematics;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using Yasai.Audio;
+﻿using System.Drawing;
 using Yasai.Graphics;
-using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
-using Yasai.Graphics.Screens;
 using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
