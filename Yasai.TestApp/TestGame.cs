@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -16,128 +17,28 @@ namespace Yasai.TestApp
 {
     public class TestGame : Game
     {
-        private Container c;
-        private Drawable b;
-
-        private int n;
-        private readonly SpriteText text;
-
-        sealed class TestSprite : Sprite
+        public override void Load(DependencyContainer dependencies)
         {
-            private string k;
+            base.Load(dependencies);
+            TextureStore texStore = new TextureStore();
+            texStore.LoadResource("bruh.png");
+            texStore.LoadResource(@"Fonts/segoe_0.png", "school");
+
+            Texture bruh = texStore.GetResource("bruh");
+            Texture school = texStore.GetResource("school");
+
+            FontStore fonts = Dependencies.Resolve<FontStore>();
             
-            public TestSprite(Texture texture, string k) : base(texture)
+            Root.AddAll(new IDrawable[]
             {
-                Size = new Vector2(100);
-                this.k = k;
-            }
-
-            public override bool MousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
-            {
-                Console.WriteLine("some of this wangs " + k);
-                return false;
-            }
-        }
-
-        private ScreenManager sm;
-        
-        public TestGame()
-        {
-            TextureStore tstore = new TextureStore();
-            tstore.LoadResource("school.png", "tex");
-            Texture t = tstore.GetResource("tex");
-
-            TextureStore bruh = new TextureStore();
-            bruh.LoadSpritesheet("school.png", new Dictionary<string, Rectangle>()
-            {
-                //{ "kaos", new Rectangle(348, 495, 469, 327) }
-                { "kaos", new Rectangle(180, 150, 51, 41) }
-            });
-            Texture kaos = bruh.GetResource("kaos");
-
-
-            AudioStore audioStore = new AudioStore();
-            audioStore.LoadResource(@"sakura_02.wav");
-            Channel ch = new Channel(audioStore.GetResource("sakura_02"));
-            ch.Play();
-
-            Children = new IDrawable[]
-            {
-                sm = new ScreenManager(new Screen1())
-            };
-            
-            sm.KeyDownEvent += args =>
-            {
-                if (args.Key == Keys.Space)
+                new SpriteText("big wangs",  fonts.GetResource(SpriteFont.Segoe))
                 {
-                    Console.WriteLine("space");
-                    sm.PushScreen(new Screen2());
-                } 
-                else if (args.Key == Keys.N)
-                {
-                    Console.WriteLine("n");
-                    sm.PushScreen(new Screen1());
-                }
-            };
-            
-            FontStore fonts = new FontStore();
-            fonts.LoadResource("font.fnt", SpriteFont.Normal);
-            Dependencies.Register<FontStore>(fonts);
-
-            TextureStore textures = new TextureStore();
-            textures.LoadResource("kaos.jpg");
-            Dependencies.Register<TextureStore>(textures);
-        }
-    }
-
-    class Screen1 : Screen
-    {
-        public override void Load(DependencyContainer container)
-        {
-            base.Load(container);
-            
-            var fonts = container.Resolve<FontStore>();
-
-            Items = new IDrawable[]
-            {
-                new SpriteText("screen 1", fonts.GetResource(SpriteFont.Normal))
-                {
-                    Anchor = Anchor.Center 
-                }
-            };
-        }
-    }
-
-    class Screen2 : Screen
-    {
-        private Texture tex;
-        
-        public override void Load(DependencyContainer container)
-        {
-            base.Load(container);
-
-            var texStore = container.Resolve<TextureStore>();
-
-            tex = texStore.GetResource("kaos");
-            
-            var fonts = container.Resolve<FontStore>();
-
-            Items = new IDrawable[]
-            {
-                new SpriteText("screen 2", fonts.GetResource(SpriteFont.Normal))
-                {
-                    Anchor = Anchor.Center 
+                    Anchor = Anchor.Right,
+                    Origin = Anchor.Right,
+                    Colour = Color.Navy,
+                    TextAlign = Align.Right
                 },
-            };
-
-            for (int i = 0; i < 169; i++)
-            {
-                Add(new Sprite(tex)
-                {
-                    Position = new Vector2(i, i),
-                    Size = new Vector2(200)
-                });
-            }
+            });
         }
     }
 }

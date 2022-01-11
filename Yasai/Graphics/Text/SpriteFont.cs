@@ -38,12 +38,7 @@ namespace Yasai.Graphics.Text
         }
         
         #region font locations
-        public static string Small => "yasai_fontSmall";
-        public static string Normal => "yasai_fontNormal";
-        public static string Large => "yasai_fontLarge";
-        public static string SymbolFontSmall => "yasai_fontSymbolsSmall";
-        public static string SymbolFontNormal => "yasai_fontSymbolsNormal";
-        public static string SymbolFontLarge => "yasai_fontSymbolsLarge";
+        public static string Segoe => "yasai_fontSegoe";
         #endregion
     }
 }

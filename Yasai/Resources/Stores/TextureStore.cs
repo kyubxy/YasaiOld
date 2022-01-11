@@ -27,7 +27,7 @@ namespace Yasai.Resources.Stores
         /// Add a collection of images to the store through a spritesheet
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        public void LoadSpritesheet(string sheetLocation, Dictionary<string, Rectangle> spritesheetData, Color? keyColor = null)
+        public void LoadSpritesheet(string sheetLocation, Dictionary<string, Rectangle> spritesheetData)
         {
             Image<Rgba32> sheet = Image.Load<Rgba32>(Path.Combine(Root, sheetLocation));
 

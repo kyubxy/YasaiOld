@@ -6,6 +6,7 @@ using OpenTK.Windowing.Desktop;
 using Yasai.Graphics;
 using Yasai.Graphics.Containers;
 using Yasai.Graphics.Shaders;
+using Yasai.Graphics.Text;
 using Yasai.Resources.Stores;
 using Yasai.Structures.DI;
 
@@ -21,9 +22,9 @@ namespace Yasai
         // you can only set this before Load()
         protected IDrawable[] Children = Array.Empty<IDrawable>();
 
-        //private FontStore fontStore;
+        private FontStore fontStore;
         private ShaderStore shaderStore;
-
+        
         private static readonly string DEFAULT_NAME = $"Yasai running {Assembly.GetEntryAssembly()?.GetName().Name}";
 
         #region constructors
@@ -40,8 +41,7 @@ namespace Yasai
                 Size = nativeWindowSettings.Size
             };
 
-            // register font store 
-            //Dependencies.Register<FontStore>(fontStore = new FontStore(Dependencies, @"Assets/Fonts"));
+            Dependencies.Register<FontStore>(fontStore = new FontStore(@"Assets/Fonts"));
             Dependencies.Register<ShaderStore>(shaderStore = new ShaderStore(@"Assets/Shaders"));
         }
         #endregion
@@ -52,9 +52,9 @@ namespace Yasai
         private void yasaiLoad()
         {
             // fonts
-           //fontStore.LoadResource(@"OpenSans-Regular.ttf", SpriteFont.FontTiny, new FontArgs(14));
-           //fontStore.LoadResource(@"LigatureSymbols.ttf", SpriteFont.SymbolFontTiny, new FontArgs(14));
+            fontStore.LoadResource("segoe.fnt", SpriteFont.Segoe);
            
+            // shaders
             shaderStore.LoadResource("texture.sh", Shader.TextureShader);
             shaderStore.LoadResource("solid.sh", Shader.SolidShader);
         }

@@ -1,8 +1,9 @@
 // produces a texture
 
 #version 330
-out vec4 outputColor;
 in vec2 texCoord;
+
+out vec4 outputColor;
 
 uniform vec3 colour;
 uniform float alpha;

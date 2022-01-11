@@ -1,17 +1,18 @@
-﻿using System.Drawing;
-using OpenTK.Mathematics;
+﻿using OpenTK.Mathematics;
 using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
-using Yasai.Resources.Stores;
 using Yasai.Structures;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Text
 {
-    public class SpriteText : Container
+    public class SpriteText : Container, IText
     {
-        public int Spacing { get; set; } = 7;
-        
+        public int WordSpacing { get; set; } = 20;
+        public int Spacing { get; set; } = 0;
+        public float CharScale { get; set; } = 1f;
+        public Align TextAlign { get; set; } = Align.Left;
+
         public string Text
         {
             get => BindableText.Value;
@@ -42,6 +43,24 @@ namespace Yasai.Graphics.Text
            redrawText();
         }
 
+        public float TextWidth
+        {
+            get
+            {
+                float ret = 0;
+                
+                foreach (char c in Text)
+                {
+                    if (c == ' ')
+                        ret += WordSpacing + Spacing;
+                    else
+                        ret += Font.GetGlyph(c).Texture.Width * CharScale + Spacing;
+                }
+
+                return ret;
+            }
+        }
+        
         private void redrawText()
         {
             if (!Loaded)
@@ -49,15 +68,14 @@ namespace Yasai.Graphics.Text
             
             char[] chars = Text.ToCharArray();
             
-            // TODO: only change the changed characters?
             Clear();
-
+            
             float accX = 0;
             foreach (char c in chars)
             {
                 if (c == ' ')
                 {
-                    accX += 20;
+                    accX += WordSpacing + Spacing;
                 }
                 else
                 {
@@ -65,13 +83,13 @@ namespace Yasai.Graphics.Text
                     var glyphTex = glyph.Texture;
                     var g = new Sprite(glyphTex)
                     {
-                        Position = new Vector2(accX, glyph.Offset.Y),
-                        Size = new Vector2(glyphTex.Width, glyphTex.Height),
-                        Colour = Color.Black
+                        Position = new Vector2(accX - TextWidth * ((int)TextAlign / 2f), glyph.Offset.Y * CharScale),
+                        Size = new Vector2(glyphTex.Width * CharScale, glyphTex.Height * CharScale),
+                        Colour = Colour
                     };
 
                     Add(g);
-                    accX += g.Size.X;
+                    accX += g.Size.X + Spacing;
                 }
             }
         }
