@@ -8,7 +8,7 @@ using Yasai.Graphics.Shaders;
 
 namespace Yasai.Graphics.Imaging
 {
-    public class Sprite : Quad
+    public class Sprite : Square
     {
         public Texture Texture { get; }
         

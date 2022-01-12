@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL4;
+﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Yasai.Graphics.Primitives;
 using Yasai.Resources.Stores;
@@ -7,7 +7,7 @@ using Yasai.Graphics.Shaders;
 
 namespace Yasai.Graphics.Shapes
 {
-    public class Box : Square
+    public class Line : PLine
     {
         public override void Load(DependencyContainer container)
         {

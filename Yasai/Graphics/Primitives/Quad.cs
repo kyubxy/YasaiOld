@@ -1,14 +1,21 @@
+using OpenTK.Mathematics;
+
 namespace Yasai.Graphics.Primitives
 {
-    public class Quad : Primitive
+    public abstract class Quad : Primitive
     {
+        protected abstract Vector2 TopRightVertex { get; }
+        protected abstract Vector2 TopLeftVertex { get; }
+        protected abstract Vector2 BottomRightVertex { get; }
+        protected abstract Vector2 BottomLeftVertex { get; }
+        
         protected sealed override float[] Vertices => new []
         {
-            // Position         Texture
-             1.0f,  1.0f, 0.0f, 1.0f, 0.0f, // top right
-             1.0f, -1.0f, 0.0f, 1.0f, 1.0f, // bottom right
-            -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, // bottom left
-            -1.0f,  1.0f, 0.0f, 0.0f, 0.0f  // top left
+            // Position                                Texture
+            TopRightVertex.X,  TopRightVertex.Y,       0.0f, 1.0f, 0.0f, // top right
+            BottomRightVertex.X, BottomRightVertex.Y,  0.0f, 1.0f, 1.0f, // bottom right
+            BottomLeftVertex.X, BottomLeftVertex.Y,    0.0f, 0.0f, 1.0f, // bottom left
+            TopLeftVertex.X, TopLeftVertex.Y,          0.0f, 0.0f, 0.0f  // top left
         };
     
         public sealed override uint[] Indices => new uint[]

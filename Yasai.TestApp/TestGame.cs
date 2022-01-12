@@ -1,8 +1,6 @@
-﻿using System.Drawing;
+﻿using OpenTK.Mathematics;
 using Yasai.Graphics;
-using Yasai.Graphics.Imaging;
-using Yasai.Graphics.Text;
-using Yasai.Resources.Stores;
+using Yasai.Graphics.Shapes;
 using Yasai.Structures.DI;
 
 namespace Yasai.TestApp
@@ -12,24 +10,15 @@ namespace Yasai.TestApp
         public override void Load(DependencyContainer dependencies)
         {
             base.Load(dependencies);
-            TextureStore texStore = new TextureStore();
-            texStore.LoadResource("bruh.png");
-            texStore.LoadResource(@"Fonts/segoe_0.png", "school");
-
-            Texture bruh = texStore.GetResource("bruh");
-            Texture school = texStore.GetResource("school");
-
-            FontStore fonts = Dependencies.Resolve<FontStore>();
-            
             Root.AddAll(new IDrawable[]
             {
-                new SpriteText("big wangs",  fonts.GetResource(SpriteFont.Segoe))
+                new Line()
                 {
-                    Anchor = Anchor.Right,
-                    Origin = Anchor.Right,
-                    Colour = Color.Navy,
-                    TextAlign = Align.Right
-                },
+                    Point1 = new Vector2(1),
+                    Point2 = new Vector2(-5),
+                    Outline = 0.1f,
+                    Size = new Vector2(500)
+                }
             });
         }
     }
