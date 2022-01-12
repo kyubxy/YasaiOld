@@ -17,7 +17,6 @@ namespace Yasai.TestApp
                     Point1 = new Vector2(1),
                     Point2 = new Vector2(-5),
                     Outline = 0.1f,
-                    Size = new Vector2(500)
                 }
             });
         }

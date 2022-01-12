@@ -40,8 +40,9 @@ namespace Yasai
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
             // initialise audio engine
+            YasaiLogger.LogInfo("initialising audio engine...");
             Bass.Init();
-            
+
             // Window
             Window = new GameWindow(gameSettings, nativeSettings);
             Window.Title = title;
@@ -60,15 +61,17 @@ namespace Yasai
             Window.MouseWheel += MouseWheel;
 
             // tests
+            YasaiLogger.LogInfo("enabling opengl tests...");
             GL.Enable(EnableCap.Blend);
             GL.Enable(EnableCap.ScissorTest);
             
             // Initialise dependencies
+            YasaiLogger.LogInfo("setting up dependencies...");
             Dependencies = new DependencyContainer();
             Dependencies.Register<GameWindow>(Window);
-            Projection = Matrix4.CreateOrthographicOffCenter(0, Window.Size.X, Window.Size.Y, 0, -1, 1); 
+            Projection = Matrix4.CreateOrthographicOffCenter(0, Window.Size.X, Window.Size.Y, 0, -1, 1);
 
-            //Children = new Container();
+            YasaiLogger.LogInfo("Splash! (ﾉ´ヮ`)ﾉ*: ･ﾟ ");
         }
 
         public virtual void Resize(ResizeEventArgs args)
