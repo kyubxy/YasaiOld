@@ -1,6 +1,6 @@
 namespace Yasai.Graphics
 {
-    public enum RelativeAxes
+    public enum Axes
     {
         X,
         Y,

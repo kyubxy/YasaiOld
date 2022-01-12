@@ -1,7 +1,7 @@
 ﻿using OpenTK.Mathematics;
 using Yasai.Graphics.Containers;
 using Yasai.Graphics.Imaging;
-using Yasai.Structures;
+using Yasai.Structures.Bindables;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Text
@@ -19,7 +19,7 @@ namespace Yasai.Graphics.Text
             set => BindableText.Value = value;
         }
 
-        public readonly Bindable<string> BindableText = new ();
+        public readonly BindableString BindableText = new ();
 
         public SpriteFont Font { get; protected set; }
 

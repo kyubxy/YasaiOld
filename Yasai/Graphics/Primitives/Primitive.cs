@@ -1,7 +1,7 @@
 using OpenTK.Graphics.OpenGL4;
 using Yasai.Structures.DI;
 
-namespace Yasai.Graphics
+namespace Yasai.Graphics.Primitives
 {
     public abstract class Primitive : Drawable
     {

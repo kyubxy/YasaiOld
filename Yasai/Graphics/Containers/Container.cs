@@ -6,6 +6,7 @@ using System.Reflection.Metadata.Ecma335;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Shapes;
 using Yasai.Structures.DI;
 

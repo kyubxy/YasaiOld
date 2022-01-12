@@ -29,7 +29,7 @@ namespace Yasai.Graphics
         public virtual float Rotation { get; set; } = 0;
 
         public virtual Vector2 Size { get; set; } = new(100);
-        public virtual RelativeAxes RelativeAxes { get; set; } = RelativeAxes.None;
+        public virtual Axes RelativeAxes { get; set; } = Axes.None;
 
         public virtual bool Visible { get; set; } = true;
         public virtual bool Enabled { get; set; } = true;
@@ -104,16 +104,16 @@ namespace Yasai.Graphics
                 
                 switch (RelativeAxes)
                 {
-                    case RelativeAxes.None:
+                    case Axes.None:
                         ret = originalSize;
                         break;
-                    case RelativeAxes.Both:
+                    case Axes.Both:
                         ret = parentTransform.Size * originalSize;
                         break;
-                    case RelativeAxes.X:
+                    case Axes.X:
                         ret = new Vector2(parentTransform.Size.X * originalSize.X, originalSize.Y);
                         break;
-                    case RelativeAxes.Y:
+                    case Axes.Y:
                         ret = new Vector2(originalSize.X, parentTransform.Size.Y * originalSize.Y);
                         break;
                     default:

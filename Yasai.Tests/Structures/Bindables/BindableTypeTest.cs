@@ -1,11 +1,28 @@
 ﻿using System;
 using Xunit;
 using Yasai.Structures;
+using Yasai.Structures.Bindables;
 
 namespace Yasai.Tests.Structures.Bindables
 {
     public class BindableTypeTest
     {
+        //[Fact]
+        void testBindStringToInt()
+        {
+            BindableString str = new BindableString();
+            BindableInt n = new BindableInt(4);
+
+            str.BindTo(n);
+
+            Assert.Equal("4", str.Value);
+
+            n.Value = 69;
+            
+            Assert.Equal("69", str.Value);
+        }
+        
+        /*
         [Fact]
         void testBindableInt()
         {
@@ -58,5 +75,6 @@ namespace Yasai.Tests.Structures.Bindables
             Assert.Equal(200, x.Value);
             Assert.Equal(200, y.Value);
         }
+        */
     }
 }
