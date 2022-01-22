@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Linq;
 using ManagedBass;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -36,12 +37,25 @@ namespace Yasai
                 GL.ClearColor(bgCol);
             }
         }
-
+        
+        public bool EnableAudio { get; private set; }
+        
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
+            // hacky solution for now
+            if (args != null)
+                EnableAudio = args.Contains("--no-audio");
+            
             // initialise audio engine
-            YasaiLogger.LogInfo("initialising audio engine...");
-            Bass.Init();
+            if (EnableAudio)
+            {
+                YasaiLogger.LogInfo("initialising audio engine...");
+                Bass.Init();
+            }
+            else
+            {
+                YasaiLogger.LogInfo("--no-audio flag detected, skipping audio engine initialisation");
+            }
 
             // Window
             Window = new GameWindow(gameSettings, nativeSettings);
@@ -77,7 +91,8 @@ namespace Yasai
         public virtual void Resize(ResizeEventArgs args)
         {
             GL.Viewport(0,0,args.Width, args.Height);
-            Projection = Matrix4.CreateOrthographicOffCenter(0, Window.Size.X, Window.Size.Y, 0, -1, 1);
+            Projection = Matrix4.CreateOrthographicOffCenter(0, args.Width, args.Height, 0, -1, 1);
+            YasaiLogger.LogInfo($"Window resized to: {(args.Width, args.Height)}");
         }
 
         protected int VertexArrayObject;
@@ -142,8 +157,11 @@ namespace Yasai
         public void Dispose()
         {
             // TODO: dispose disposable dependencies
-            Bass.Free();
-            YasaiLogger.LogInfo("Disposed of resources and exited successfully");
+            if (EnableAudio)
+            {
+                Bass.Free();
+                YasaiLogger.LogInfo("Disposed of resources and exited successfully");
+            }
         }
     }
 }

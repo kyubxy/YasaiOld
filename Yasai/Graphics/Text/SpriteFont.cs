@@ -18,6 +18,7 @@ namespace Yasai.Graphics.Text
         public SpriteFont(Dictionary<char, Glyph> glyphStore)
         {
             this.glyphStore = glyphStore;
+            
         }
 
         /// <summary>
