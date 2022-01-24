@@ -31,20 +31,8 @@ namespace Yasai
         
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
-            // hacky solution for now
-            if (args != null)
-                EnableAudio = args.Contains("--no-audio");
-            
-            // initialise audio engine
-            if (EnableAudio)
-            {
-                YasaiLogger.LogInfo("initialising audio engine...");
-                Bass.Init();
-            }
-            else
-            {
-                YasaiLogger.LogInfo("--no-audio flag detected, skipping audio engine initialisation");
-            }
+            YasaiLogger.LogInfo("initialising audio engine...");
+            Bass.Init();
 
             // Window
             Window = new GameWindow(gameSettings, nativeSettings);
