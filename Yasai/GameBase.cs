@@ -27,17 +27,6 @@ namespace Yasai
 
         internal static readonly Logger YasaiLogger = new ("yasai.log");
 
-        private Color bgCol = Color.CornflowerBlue;
-        public Color BackgroundColour
-        {
-            get => bgCol;
-            set
-            {
-                bgCol = value;
-                GL.ClearColor(bgCol);
-            }
-        }
-        
         public bool EnableAudio { get; private set; }
         
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
@@ -99,8 +88,6 @@ namespace Yasai
         
         public virtual void Load(DependencyContainer dependencies)
         { 
-            GL.ClearColor(BackgroundColour);
-            
             // VertexArrayObject
             VertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(VertexArrayObject);
@@ -112,7 +99,6 @@ namespace Yasai
 
         void draw(FrameEventArgs args)
         {
-            GL.ClearColor(BackgroundColour);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.BindVertexArray(VertexArrayObject);
 
