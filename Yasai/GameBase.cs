@@ -26,8 +26,6 @@ namespace Yasai
         //protected Container Children;
 
         internal static readonly Logger YasaiLogger = new ("yasai.log");
-
-        public bool EnableAudio { get; private set; }
         
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
@@ -131,11 +129,8 @@ namespace Yasai
         public void Dispose()
         {
             // TODO: dispose disposable dependencies
-            if (EnableAudio)
-            {
-                Bass.Free();
-                YasaiLogger.LogInfo("Disposed of resources and exited successfully");
-            }
+            Bass.Free();
+            YasaiLogger.LogInfo("Disposed of resources and exited successfully");
         }
     }
 }
