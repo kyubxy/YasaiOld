@@ -120,17 +120,19 @@ namespace Yasai.Graphics.Containers
         {
            //if (!primitive.Enabled || !primitive.Visible)
            //    return;
+           if (!primitive.Visible)
+               return;
             
-            var shader = primitive.Shader;
+           var shader = primitive.Shader;
             
-            primitive.Draw();
-            shader.Use();
+           primitive.Draw();
+           shader.Use();
             
-            // assuming the drawable uses a vertex shader with model and projection matrices
-            shader.SetMatrix4("model", primitive.ModelTransforms);
-            shader.SetMatrix4("projection", GameBase.Projection);
-            
-            GL.DrawElements(PrimitiveType.Triangles, primitive.Indices.Length, DrawElementsType.UnsignedInt, 0);
+           // assuming the drawable uses a vertex shader with model and projection matrices
+           shader.SetMatrix4("model", primitive.ModelTransforms);
+           shader.SetMatrix4("projection", GameBase.Projection);
+           
+           GL.DrawElements(PrimitiveType.Triangles, primitive.Indices.Length, DrawElementsType.UnsignedInt, 0);
         }
         
         #endregion

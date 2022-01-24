@@ -1,6 +1,4 @@
 using System;
-using System.Drawing;
-using System.Linq;
 using ManagedBass;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
