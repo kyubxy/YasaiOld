@@ -53,6 +53,7 @@ namespace Yasai
         {
             // fonts
             fontStore.LoadResource("segoe.fnt", SpriteFont.Segoe);
+            fontStore.LoadResource("segoe_small.fnt", SpriteFont.Segoe_Small);
            
             // shaders
             shaderStore.LoadResource("texture.sh", Shader.TextureShader);
@@ -87,7 +88,7 @@ namespace Yasai
 
         #region input
 
-        private Vector2 mousePosition;
+        protected Vector2 MousePosition;
         
         protected override void KeyDown(KeyboardKeyEventArgs args)
         {
@@ -104,7 +105,7 @@ namespace Yasai
         protected override void MouseWheel(MouseWheelEventArgs args)
         {
             base.MouseWheel(args);
-            Root.MouseScroll(mousePosition, args);
+            Root.MouseScroll(MousePosition, args);
         }
 
         protected override void MouseUp(MouseButtonEventArgs args)
@@ -115,8 +116,8 @@ namespace Yasai
         protected override void MouseDown(MouseButtonEventArgs args)
         {
             base.MouseDown(args);
-            Root.MousePress(mousePosition, args);
-            Root.GlobalMousePress(mousePosition, args);
+            Root.MousePress(MousePosition, args);
+            Root.GlobalMousePress(MousePosition, args);
         }
 
         protected override void MouseMove(MouseMoveEventArgs args)
@@ -124,7 +125,7 @@ namespace Yasai
             base.MouseMove(args);
             Root.MouseMove(args);
             Root.GlobalMouseMove(args);
-            mousePosition = args.Position;
+            MousePosition = args.Position;
         }
         
         #endregion

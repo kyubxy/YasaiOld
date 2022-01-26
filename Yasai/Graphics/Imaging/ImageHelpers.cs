@@ -9,17 +9,18 @@ namespace Yasai.Graphics.Imaging
 {
     internal static class ImageHelpers
     {
-        internal static Texture LoadSectionFromTexture(Image<Rgba32> sheet, Rectangle area)
+        internal static Texture LoadSectionFromTexture(Image<Rgba32> sheet, Rectangle area, TextureMinFilter minFilter, TextureMagFilter magFilter)
         {
             var ret = sheet.Clone(x => 
                     x.Crop(area.ToImageSharp())
                 );
 
-            var handle = GenerateTexture(ret);
+            var handle = GenerateTexture(ret, minFilter, magFilter);
             return new Texture(handle, (int)area.Width, (int)area.Height);
         }
         
-        internal static IntPtr GenerateTexture(Image<Rgba32> image)
+        internal static IntPtr GenerateTexture
+            (Image<Rgba32> image, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
         {
             IntPtr handle = (IntPtr)GL.GenTexture();
             GL.ActiveTexture(TextureUnit.Texture0);
@@ -45,12 +46,12 @@ namespace Yasai.Graphics.Imaging
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, image.Width, image.Height, 0,
                 PixelFormat.Rgba, PixelType.UnsignedByte, pixels.ToArray());
             
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)minFilter);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)magFilter);
 
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
             return handle;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using OpenTK.Graphics.OpenGL4;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Yasai.Graphics.Imaging;
@@ -14,13 +15,15 @@ namespace Yasai.Resources.Stores
             : base(root)
         { }
 
-        public override string[] FileTypes => new [] {".png", ".jpg", ".jpeg", ".webp"}; 
-        public override IResourceArgs DefaultArgs => new EmptyResourceArgs();
+        public override string[] FileTypes => new [] {".png", ".jpg", ".jpeg", ".webp"};
+        public override IResourceArgs DefaultArgs => new TextureArgs(TextureMinFilter.Linear, TextureMagFilter.Linear);
 
         protected override Texture AcquireResource(string path, IResourceArgs args)
         {
+            TextureArgs targs = (TextureArgs)args;
+            
             Image<Rgba32> image = Image.Load<Rgba32>(path);
-            return new Texture(ImageHelpers.GenerateTexture(image), image.Width, image.Height);
+            return new Texture(ImageHelpers.GenerateTexture(image, targs.MinFilter, targs.MagFilter), image.Width, image.Height);
         }
 
         /// <summary>
@@ -33,9 +36,22 @@ namespace Yasai.Resources.Stores
 
             foreach (KeyValuePair<string, Rectangle> pair in spritesheetData)
             {
-                var tex = ImageHelpers.LoadSectionFromTexture(sheet, pair.Value);
+                // TODO: might need to pick another filter or expose this 
+                var tex = ImageHelpers.LoadSectionFromTexture(sheet, pair.Value, TextureMinFilter.Linear, TextureMagFilter.Linear);
                 AddResource(tex, pair.Key);
             }
+        }
+    }
+
+    public class TextureArgs : IResourceArgs
+    {
+        public TextureMinFilter MinFilter;
+        public TextureMagFilter MagFilter;
+
+        public TextureArgs(TextureMinFilter min, TextureMagFilter mag)
+        {
+            MinFilter = min;
+            MagFilter = mag;
         }
     }
 }

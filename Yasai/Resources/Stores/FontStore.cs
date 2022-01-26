@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using SharpFNT;
 using SixLabors.ImageSharp;
@@ -45,7 +46,7 @@ namespace Yasai.Resources.Stores
                 // character
                 char glyphName = (char) pair.Key;
 
-                glyphStore[glyphName] = new Glyph(ImageHelpers.LoadSectionFromTexture(pages[glyph.Page], area))
+                glyphStore[glyphName] = new Glyph(ImageHelpers.LoadSectionFromTexture(pages[glyph.Page], area, TextureMinFilter.Nearest, TextureMagFilter.Nearest))
                 {
                     Offset = new Vector2i(glyph.XOffset, glyph.YOffset),
                     XAdvance = glyph.XAdvance,
