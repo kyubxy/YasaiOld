@@ -3,7 +3,7 @@ using OpenTK.Windowing.Common;
 
 namespace Yasai.Input.Keyboard
 {
-    public interface IKeyboardHandler
+    public interface IKeyboardHandler : IInputHandler
     {
         void KeyDown(KeyboardKeyEventArgs args);
         void KeyUp(KeyboardKeyEventArgs args);

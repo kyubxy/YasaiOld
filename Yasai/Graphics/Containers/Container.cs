@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,6 +9,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Graphics.Primitives;
 using Yasai.Graphics.Shapes;
+using Yasai.Input;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Containers
@@ -196,11 +198,16 @@ namespace Yasai.Graphics.Containers
         #endregion
         
         #region input
-        
             
         bool pointInDrawable(Vector2 point, IDrawable d)
             => point.X >= d.AbsoluteTransform.Position.X && point.X <= d.AbsoluteTransform.Position.X + d.Size.X && point.Y >= d.AbsoluteTransform.Position.Y &&
                point.Y <= d.AbsoluteTransform.Position.Y + d.Size.Y;
+
+        bool isConsuming(IInputHandler handler, IDrawable d)
+        {
+            var consumeAttribute = (InputConsumer)Attribute.GetCustomAttribute(d.GetType(), typeof(InputConsumer));
+            return consumeAttribute != null && consumeAttribute.Handlers.Contains(handler);
+        }
         
         // to avoid managing a reversed version of the children list, the input functions will iterate the children list in reverse
             
@@ -209,6 +216,7 @@ namespace Yasai.Graphics.Containers
         public override void GlobalMouseMove(MouseMoveEventArgs args)
         {
             base.GlobalMouseMove(args);
+            
             foreach (var child in children)
                 child.GlobalMouseMove(args);
         }

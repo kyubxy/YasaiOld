@@ -4,7 +4,7 @@ using OpenTK.Windowing.Common;
 
 namespace Yasai.Input.Mouse
 {
-    public interface IMouseHandler
+    public interface IMouseHandler : IInputHandler
     {
         // false to block, true to not block
         
