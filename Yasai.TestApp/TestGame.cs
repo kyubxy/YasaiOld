@@ -27,7 +27,7 @@ namespace Yasai.TestApp
             store.LoadResource("eyecatch.mp3", "audio");
             AudioStream audio = store.GetResource("audio");
             channel = new Channel(audio);
-            channel.Play();
+            //channel.Play();
         }
 
         public override void Update(FrameEventArgs args)

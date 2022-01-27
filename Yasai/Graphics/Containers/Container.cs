@@ -118,8 +118,6 @@ namespace Yasai.Graphics.Containers
         /// <param name="primitive"></param>
         private void drawPrimitive(Primitive primitive)
         {
-           //if (!primitive.Enabled || !primitive.Visible)
-           //    return;
            if (!primitive.Visible)
                return;
             

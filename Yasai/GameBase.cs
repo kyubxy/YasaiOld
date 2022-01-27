@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using ManagedBass;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -24,6 +25,17 @@ namespace Yasai
         //protected Container Children;
 
         internal static readonly Logger YasaiLogger = new ("yasai.log");
+
+        private Color col;
+        public Color BackgroundColor
+        {
+            get => col;
+            set
+            {
+                col = value;
+                GL.ClearColor(col);
+            }
+        }
         
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
@@ -50,7 +62,6 @@ namespace Yasai
             // tests
             YasaiLogger.LogInfo("enabling opengl tests...");
             GL.Enable(EnableCap.Blend);
-            GL.Enable(EnableCap.ScissorTest);
             
             // Initialise dependencies
             YasaiLogger.LogInfo("setting up dependencies...");
@@ -75,6 +86,8 @@ namespace Yasai
             // VertexArrayObject
             VertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(VertexArrayObject);
+            
+            BackgroundColor = Color.CornflowerBlue;
         }
 
         public virtual void Update(FrameEventArgs args)
@@ -83,7 +96,8 @@ namespace Yasai
 
         void draw(FrameEventArgs args)
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+            
             GL.BindVertexArray(VertexArrayObject);
 
             Draw(args);
