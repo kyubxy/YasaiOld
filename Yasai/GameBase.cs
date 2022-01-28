@@ -6,6 +6,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using Yasai.Debug.Logging;
+using Yasai.Graphics.Text;
 using Yasai.Structures.DI;
 
 namespace Yasai
@@ -39,15 +40,16 @@ namespace Yasai
         
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
+            // TODO: actually allow modifying of arguments
             YasaiArgs = new YasaiArgs()
             {
-                UseAudioEngine = true,
-                UseInput = true
+                EnableAudio = true,
+                EnableInput = true
             };
             
             YasaiLogger.LogInfo(YasaiArgs.ToString());
 
-            if (YasaiArgs.UseAudioEngine)
+            if (YasaiArgs.EnableAudio)
             {
                 YasaiLogger.LogInfo("initialising audio engine...");
                 Bass.Init();
@@ -66,7 +68,7 @@ namespace Yasai
             
             // TODO: need a way to specify which input systems can run
             // flags are preferable
-            if (YasaiArgs.UseInput)
+            if (YasaiArgs.EnableInput)
             {
                 Window.KeyDown += KeyDown;
                 Window.KeyUp += KeyUp;
@@ -158,7 +160,7 @@ namespace Yasai
         public void Dispose()
         {
             // TODO: dispose disposable dependencies
-            if (YasaiArgs.UseAudioEngine)
+            if (YasaiArgs.EnableAudio)
                 Bass.Free();
             YasaiLogger.LogInfo("Disposed of resources and exited successfully");
         }

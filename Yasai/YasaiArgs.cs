@@ -9,17 +9,17 @@ namespace Yasai
         /// Whether the bass audio engine should be initialised and disposed of
         /// Setting to false will remove all audio
         /// </summary>
-        bool UseAudioEngine { init; get; }
+        bool EnableAudio { get; }
         
         /// <summary>
         /// Whether the program should process input
         /// </summary>
-        bool UseInput { init; get; }
+        bool EnableInput { get; }
     }
     
     public struct YasaiArgs : IYasaiArgs
     {
-        public bool UseAudioEngine { init; get; }
-        public bool UseInput { init; get; }
+        public bool EnableAudio { init; get; }
+        public bool EnableInput { init; get; }
     }
 }

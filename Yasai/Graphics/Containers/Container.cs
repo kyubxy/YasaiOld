@@ -24,6 +24,17 @@ namespace Yasai.Graphics.Containers
 
         private DependencyContainer dependencies;
 
+        public override bool Visible
+        {
+            get => base.Visible;
+            set
+            {
+                base.Visible = value;
+                foreach (IDrawable d in children)
+                    d.Visible = value;
+            }
+        }
+
         private IDrawable[] items;
         public IDrawable[] Items
         {

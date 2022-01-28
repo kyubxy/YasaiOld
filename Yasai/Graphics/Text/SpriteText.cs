@@ -34,7 +34,7 @@ namespace Yasai.Graphics.Text
             Text = text;
             Font = font;
 
-            BindableText.OnChanged += s => redrawText();
+            BindableText.OnSet += _ => redrawText();
         }
 
         public override void Load(DependencyContainer container)
