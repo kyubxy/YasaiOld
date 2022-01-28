@@ -27,6 +27,7 @@ namespace Yasai
         
         private static readonly string DEFAULT_NAME = $"Yasai running {Assembly.GetEntryAssembly()?.GetName().Name}";
 
+
         #region constructors
         
         public Game(string title=null, int w=1366, int h=768, string[] args = null) 

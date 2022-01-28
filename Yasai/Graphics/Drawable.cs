@@ -178,6 +178,12 @@ namespace Yasai.Graphics
         
         // mouse
 
+        public bool EnableGlobalMousePress { get; set; }
+        public bool EnableGlobalMouseMove { get; set; }
+        public bool EnableMousePress { get; set; }
+        public bool EnableMouseMove { get; set; }
+        public bool EnableMouseScroll { get; set; }
+
         public virtual void GlobalMousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
         {
         }
@@ -209,6 +215,8 @@ namespace Yasai.Graphics
         public event Action<KeyboardKeyEventArgs> KeyDownEvent;
         public event Action<KeyboardKeyEventArgs> KeyUpEvent;
 
+        public bool EnableKeyDown { get; set; }
+        public bool EnableKeyUp { get; set; }
         public virtual void KeyDown(KeyboardKeyEventArgs args) => KeyDownEvent?.Invoke(args);
         public virtual void KeyUp(KeyboardKeyEventArgs args) => KeyUpEvent?.Invoke(args);
 

@@ -22,7 +22,7 @@ namespace Yasai
 
         public DependencyContainer Dependencies { get; }
         
-        //protected Container Children;
+        protected IYasaiArgs YasaiArgs;
 
         internal static readonly Logger YasaiLogger = new ("yasai.log");
 
@@ -39,8 +39,19 @@ namespace Yasai
         
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
-            YasaiLogger.LogInfo("initialising audio engine...");
-            Bass.Init();
+            YasaiArgs = new YasaiArgs()
+            {
+                UseAudioEngine = true,
+                UseInput = true
+            };
+            
+            YasaiLogger.LogInfo(YasaiArgs.ToString());
+
+            if (YasaiArgs.UseAudioEngine)
+            {
+                YasaiLogger.LogInfo("initialising audio engine...");
+                Bass.Init();
+            }
 
             // Window
             Window = new GameWindow(gameSettings, nativeSettings);
@@ -52,12 +63,18 @@ namespace Yasai
             Window.UpdateFrame += Update;
             Window.RenderFrame += draw;
             Window.Resize += Resize;
-            Window.KeyDown += KeyDown;
-            Window.KeyUp += KeyUp;
-            Window.MouseMove += MouseMove;
-            Window.MouseDown += MouseDown;
-            Window.MouseUp += MouseUp;
-            Window.MouseWheel += MouseWheel;
+            
+            // TODO: need a way to specify which input systems can run
+            // flags are preferable
+            if (YasaiArgs.UseInput)
+            {
+                Window.KeyDown += KeyDown;
+                Window.KeyUp += KeyUp;
+                Window.MouseMove += MouseMove;
+                Window.MouseDown += MouseDown;
+                Window.MouseUp += MouseUp;
+                Window.MouseWheel += MouseWheel;
+            }
 
             // tests
             YasaiLogger.LogInfo("enabling opengl tests...");
@@ -141,7 +158,8 @@ namespace Yasai
         public void Dispose()
         {
             // TODO: dispose disposable dependencies
-            Bass.Free();
+            if (YasaiArgs.UseAudioEngine)
+                Bass.Free();
             YasaiLogger.LogInfo("Disposed of resources and exited successfully");
         }
     }

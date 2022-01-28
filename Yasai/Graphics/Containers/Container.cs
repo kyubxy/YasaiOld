@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -202,13 +204,14 @@ namespace Yasai.Graphics.Containers
         bool pointInDrawable(Vector2 point, IDrawable d)
             => point.X >= d.AbsoluteTransform.Position.X && point.X <= d.AbsoluteTransform.Position.X + d.Size.X && point.Y >= d.AbsoluteTransform.Position.Y &&
                point.Y <= d.AbsoluteTransform.Position.Y + d.Size.Y;
-
-        bool isConsuming(IInputHandler handler, IDrawable d)
-        {
-            var consumeAttribute = (InputConsumer)Attribute.GetCustomAttribute(d.GetType(), typeof(InputConsumer));
-            return consumeAttribute != null && consumeAttribute.Handlers.Contains(handler);
-        }
         
+        // accessing attributes from methods
+        private static MethodInfo MethodOf( Expression<System.Action> expression )
+        {
+            MethodCallExpression body = (MethodCallExpression)expression.Body;
+            return body.Method;
+        }
+
         // to avoid managing a reversed version of the children list, the input functions will iterate the children list in reverse
             
         // mouse
@@ -216,16 +219,24 @@ namespace Yasai.Graphics.Containers
         public override void GlobalMouseMove(MouseMoveEventArgs args)
         {
             base.GlobalMouseMove(args);
-            
+
             foreach (var child in children)
+            {
+                if (!child.Enabled || !child.EnableGlobalMouseMove)
+                    continue;
                 child.GlobalMouseMove(args);
+            }
         }
 
         public override void GlobalMousePress(Vector2 position, MouseButtonEventArgs buttonArgs)
         {
             base.GlobalMousePress(position, buttonArgs);
             foreach (var child in children)
+            {
+                if (!child.Enabled || !child.EnableGlobalMousePress)
+                    continue;
                 child.GlobalMousePress(position, buttonArgs);
+            }
         }
 
 
@@ -236,6 +247,9 @@ namespace Yasai.Graphics.Containers
                 IDrawable d = children[children.Count - i - 1];
                 
                 if (!d.Enabled)
+                    continue;
+
+                if (!d.EnableMousePress)
                     continue;
 
                 if (!pointInDrawable(position, d))
@@ -258,6 +272,9 @@ namespace Yasai.Graphics.Containers
                 if (!d.Enabled)
                     continue;
                 
+                if (!d.EnableMousePress)
+                    continue;
+                
                 if (!pointInDrawable(args.Position, d))
                     continue;
 
@@ -276,6 +293,9 @@ namespace Yasai.Graphics.Containers
             {
                 IDrawable d = children[children.Count - i - 1];
                 if (!d.Enabled)
+                    continue;
+
+                if (!d.EnableMouseScroll)
                     continue;
                 
                 if (!pointInDrawable(Position, d))
@@ -302,6 +322,9 @@ namespace Yasai.Graphics.Containers
             for (int i = 0; i < children.Count; i++)
             {
                 IDrawable d = children[children.Count - i - 1];
+
+                if (!d.EnableKeyDown)
+                    continue;
                 
                 if (d.Enabled)
                     d.KeyDown(args);
@@ -315,6 +338,9 @@ namespace Yasai.Graphics.Containers
             for (int i = 0; i < children.Count; i++)
             {
                 IDrawable d = children[children.Count - i - 1];
+                
+                if (!d.EnableKeyUp)
+                    continue;
                 
                 if (d.Enabled)
                     d.KeyUp(args);

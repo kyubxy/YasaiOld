@@ -4,9 +4,16 @@ using OpenTK.Windowing.Common;
 
 namespace Yasai.Input.Mouse
 {
-    public interface IMouseHandler : IInputHandler
+    public interface IMouseHandler 
     {
         // false to block, true to not block
+        
+        // TODO: need a better way of optimising input
+        bool EnableGlobalMousePress { get; set; }
+        bool EnableGlobalMouseMove { get; set; }
+        bool EnableMousePress { get; set; }
+        bool EnableMouseMove { get; set; }
+        bool EnableMouseScroll { get; set; }
         
         /// <summary>
         /// When the user clicks the mouse, fires once, waits and then fires continually
