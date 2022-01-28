@@ -40,7 +40,7 @@ namespace Yasai.Graphics.Text
         
         #region font locations
         public static string Segoe => "yasai_fontSegoe";
-        public static string Segoe_Small => "yasai_fontSegoeSmall";
+        public static string SegoeSmall => "yasai_fontSegoeSmall";
         #endregion
     }
 }

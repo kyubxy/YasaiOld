@@ -54,7 +54,7 @@ namespace Yasai
         {
             // fonts
             fontStore.LoadResource("segoe.fnt", SpriteFont.Segoe);
-            fontStore.LoadResource("segoe_small.fnt", SpriteFont.Segoe_Small);
+            fontStore.LoadResource("segoe_small.fnt", SpriteFont.SegoeSmall);
            
             // shaders
             shaderStore.LoadResource("texture.sh", Shader.TextureShader);
