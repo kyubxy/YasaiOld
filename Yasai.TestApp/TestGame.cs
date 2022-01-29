@@ -12,6 +12,10 @@ namespace Yasai.TestApp
     {
         private Box box;
         private Channel channel;
+
+        public TestGame()
+        {
+        }
         
         public override void Load(DependencyContainer dependencies)
         {

@@ -1,5 +1,8 @@
+using System;
+
 namespace Yasai.Debug.Logging
 {
+    [Flags]
     public enum LogLevel
     {
         // debugging, will not be included in final product

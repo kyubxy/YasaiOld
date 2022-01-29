@@ -46,8 +46,6 @@ namespace Yasai
                 EnableAudio = true,
                 EnableInput = true
             };
-            
-            YasaiLogger.LogInfo(YasaiArgs.ToString());
 
             if (YasaiArgs.EnableAudio)
             {
@@ -95,7 +93,7 @@ namespace Yasai
         {
             GL.Viewport(0,0,args.Width, args.Height);
             Projection = Matrix4.CreateOrthographicOffCenter(0, args.Width, args.Height, 0, -1, 1);
-            YasaiLogger.LogInfo($"Window resized to: {(args.Width, args.Height)}");
+            YasaiLogger.LogDebug($"Window resized to: {(args.Width, args.Height)}");
         }
 
         protected int VertexArrayObject;
