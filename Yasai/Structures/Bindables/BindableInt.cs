@@ -20,7 +20,7 @@
             RaiseSet(Value--);
         }
 
-        public BindableString ToBindableString()
+        public override BindableString ToBindableString()
         {
             BindableString ret = new BindableString();
             OnSet += i => ret.Value = i.ToString();

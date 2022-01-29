@@ -8,6 +8,7 @@ namespace Yasai.Tests.Structures.Bindables
     public class BindableTypeTest
     {
         //[Fact]
+        /*
         void testBindStringToInt()
         {
             BindableString str = new BindableString();
@@ -21,6 +22,7 @@ namespace Yasai.Tests.Structures.Bindables
             
             Assert.Equal("69", str.Value);
         }
+        */
         
         /*
         [Fact]

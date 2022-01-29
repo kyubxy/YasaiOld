@@ -95,5 +95,10 @@ namespace Yasai.Structures.Bindables
         protected void RaiseGet() => OnGet?.Invoke();
         protected void RaiseSet(T t) => OnSet?.Invoke(t);
         protected void RaiseChanged(T t) => OnChanged?.Invoke(t);
+
+        public virtual IBindable<String> ToBindableString()
+        {
+            return new BindableString();
+        }
     }
 }

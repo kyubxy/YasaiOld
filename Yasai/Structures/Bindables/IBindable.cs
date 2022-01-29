@@ -27,6 +27,8 @@ namespace Yasai.Structures.Bindables
         /// </summary>
         /// <param name="master">the bindable to read values from</param>
         void BindTo(IBindable<T> master);
+
+        IBindable<String> ToBindableString();
         
         /// <summary>
         /// Unbind this bindable from all other bindables, this is implicitly called

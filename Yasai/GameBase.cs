@@ -40,6 +40,9 @@ namespace Yasai
         
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
+            // disclaimers
+            YasaiLogger.LogInfo("Yasai is and always will be free and open source software");
+            
             // TODO: actually allow modifying of arguments
             YasaiArgs = new YasaiArgs()
             {
@@ -48,10 +51,11 @@ namespace Yasai
             };
 
             // Window
-            YasaiLogger.LogInfo("opening window");
+            YasaiLogger.LogInfo("opening window...");
             Window = new GameWindow(gameSettings, nativeSettings);
             Window.Title = title;
 
+            // info dump
             YasaiLogger.LogInfo("-- Hardware --");
             YasaiLogger.LogInfo($"Version:    {GL.GetString(StringName.Version)}");
             YasaiLogger.LogInfo($"Vendor:     {GL.GetString(StringName.Vendor)}");
@@ -87,6 +91,9 @@ namespace Yasai
             if (YasaiArgs.EnableAudio)
             {
                 YasaiLogger.LogInfo("initialising audio engine...");
+                YasaiLogger.LogDebug("Yasai uses the audio library Bass by un4seen which is a proprietary engine, " +
+                                     "ensure you have the correct licenses for its use. " +
+                                     "Please see the licensing page at https://www.un4seen.com/");
                 Bass.Init();
             }
             
@@ -124,11 +131,8 @@ namespace Yasai
         void draw(FrameEventArgs args)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            
             GL.BindVertexArray(VertexArrayObject);
-
             Draw(args);
-            
             Window.SwapBuffers();
         }
         

@@ -5,9 +5,9 @@ using Yasai.Resources;
 
 namespace Yasai.Debug.Logging
 {
-    public sealed class Logger
+    public class Logger
     {
-        private const int MAX_FILE_LENGTH = 1000;
+        private const int MAX_FILE_LENGTH = 9001;
         
         private string logPath => Path.Combine (PrefHelper.HomeDirectory, logName);
         private string logName;
@@ -27,7 +27,7 @@ namespace Yasai.Debug.Logging
                 File.CreateText(logPath).Close();
 
             fileLength = (int)(new FileInfo(logPath).Length);
-            performCull();
+            performCull(true);
         }
         
         public void Log(string message, LogLevel level)
@@ -47,11 +47,12 @@ namespace Yasai.Debug.Logging
         }
 
         /// <summary>
-        /// prevent files from getting too large
+        /// Prevent files from getting too large
         /// </summary>
-        void performCull()
+        /// <param name="justCull">whether to just unconditionally cull the logs</param>
+        protected void performCull(bool justCull = false)
         {
-            if (fileLength > MAX_FILE_LENGTH)
+            if (fileLength > MAX_FILE_LENGTH || justCull)
             {
                 var amountToCull = fileLength - MAX_FILE_LENGTH;
                 var file = File.ReadAllLines(logPath);

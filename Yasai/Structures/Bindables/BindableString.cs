@@ -2,6 +2,6 @@
 {
     public class BindableString : Bindable<string>
     {
-        public virtual void BindTo(BindableInt master) => BindTo(master.ToBindableString());
+        public virtual void BindToBruh(IBindable<string> master) => BindTo(master.ToBindableString());
     }
 }
