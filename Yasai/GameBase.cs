@@ -47,15 +47,18 @@ namespace Yasai
                 EnableInput = true
             };
 
-            if (YasaiArgs.EnableAudio)
-            {
-                YasaiLogger.LogInfo("initialising audio engine...");
-                Bass.Init();
-            }
-
             // Window
+            YasaiLogger.LogInfo("opening window");
             Window = new GameWindow(gameSettings, nativeSettings);
             Window.Title = title;
+
+            YasaiLogger.LogInfo("-- Hardware --");
+            YasaiLogger.LogInfo($"Version:    {GL.GetString(StringName.Version)}");
+            YasaiLogger.LogInfo($"Vendor:     {GL.GetString(StringName.Vendor)}");
+            YasaiLogger.LogInfo($"Renderer:   {GL.GetString(StringName.Renderer)}");
+            YasaiLogger.LogInfo($"SL Version: {GL.GetString(StringName.ShadingLanguageVersion)}");
+            YasaiLogger.LogInfo($"Extensions: {GL.GetString(StringName.Extensions)}");
+            YasaiLogger.LogInfo("----");
 
             // events
             Window.Load += () => Load(Dependencies);
@@ -80,12 +83,19 @@ namespace Yasai
             YasaiLogger.LogInfo("enabling opengl tests...");
             GL.Enable(EnableCap.Blend);
             
+            // audio
+            if (YasaiArgs.EnableAudio)
+            {
+                YasaiLogger.LogInfo("initialising audio engine...");
+                Bass.Init();
+            }
+            
             // Initialise dependencies
             YasaiLogger.LogInfo("setting up dependencies...");
             Dependencies = new DependencyContainer();
             Dependencies.Register<GameWindow>(Window);
             Projection = Matrix4.CreateOrthographicOffCenter(0, Window.Size.X, Window.Size.Y, 0, -1, 1);
-
+            
             YasaiLogger.LogInfo("Splash! (ﾉ´ヮ`)ﾉ*: ･ﾟ ");
         }
 
