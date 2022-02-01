@@ -129,32 +129,11 @@ namespace Yasai.Graphics
         // TODO: make this not suck
         // how to actually draw
         // i have no idea what im doing
+        // fuck
+        
         public Matrix4 ModelTransforms {
             get
             {
-                /*
-                var ret =  
-                    // origin
-                    Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)) *
-
-                    // parent rotation
-                    Matrix4.CreateRotationZ(p.ExtractRotation().Z) *
-
-                    // local rotation
-                    Matrix4.CreateRotationZ(Rotation) *
-
-                    // scale
-                    Matrix4.CreateScale(new Vector3(sizing)) *
-
-                    // parent position
-                    Matrix4.CreateTranslation(p.ExtractTranslation()) *
-
-                    // local position
-                    Matrix4.CreateTranslation(new Vector3(Position)) *
-
-                    Matrix4.Identity;
-                    */
-
                 Matrix4 ret;
 
                 if (p == Matrix4.Identity)
@@ -175,7 +154,9 @@ namespace Yasai.Graphics
                     Matrix4.Identity;
                 }
                 else
-                { 
+                {
+                    Console.WriteLine(new Vector3(-AnchorToUnit(Origin) * 2 + new Vector2(1)));
+                    
                     ret = 
                         // origin
                         Matrix4.CreateTranslation(new Vector3(-AnchorToUnit(Origin) * 2 + new Vector2(1))) *
@@ -204,27 +185,6 @@ namespace Yasai.Graphics
             }
         }
 
-    /*
-    // origin
-    Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)) *
-    
-    // rotation
-    Matrix4.CreateRotationZ(AbsoluteTransform.Rotation) *
-    
-    // undo origin
-    Matrix4.Invert(Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1))) *
-    
-    // move back to top left
-    Matrix4.CreateTranslation(1, 1, 0) *
-    
-    // scale
-    Matrix4.CreateScale(new Vector3(sizing)) *
-    
-    // position
-    Matrix4.CreateTranslation(new Vector3(AbsoluteTransform.Position)) *
-    Matrix4.Identity;
-    */
-
         public virtual bool Loaded { get; protected set; }
 
         public virtual void Load(DependencyContainer container) 
@@ -242,6 +202,7 @@ namespace Yasai.Graphics
             //Shader?.Dispose();
         }
         
+        // i wish i knew what this thing did
         public static Vector2 AnchorToUnit(Anchor anchor) => AnchorToUnit((int)anchor);
         public static Vector2 AnchorToUnit(int num) => new ((float)num % 3 / 2, (float)Math.Floor((double)num / 3) / 2);
 
