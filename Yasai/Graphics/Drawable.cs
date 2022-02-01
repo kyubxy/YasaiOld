@@ -167,7 +167,7 @@ namespace Yasai.Graphics
                     Matrix4.CreateRotationZ(Rotation) *
 
                     // scale
-                    Matrix4.CreateScale(new Vector3(sizing)) *
+                    Matrix4.CreateScale(new Vector3(Size/2)) *
 
                     // local position
                     Matrix4.CreateTranslation(new Vector3(Position)) *
@@ -175,15 +175,27 @@ namespace Yasai.Graphics
                     Matrix4.Identity;
                 }
                 else
-                {
-                   //Console.WriteLine(
-                   //    Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)).ExtractTranslation());
-                                         ret = 
-                          Matrix4.CreateTranslation(new Vector3(-AnchorToUnit(Origin) * 2 + new Vector2(1))) *
-                          Matrix4.CreateRotationZ(Rotation) *
-                          Matrix4.CreateTranslation(new Vector3(Position)) *
-                          p*
-                          Matrix4.Identity;
+                { 
+                    ret = 
+                        // origin
+                        Matrix4.CreateTranslation(new Vector3(-AnchorToUnit(Origin) * 2 + new Vector2(1))) *
+                        
+                        // rotation
+                        Matrix4.CreateRotationZ(Rotation) *
+                        
+                        // scale
+                        Matrix4.CreateScale(new Vector3(Size/2)) *
+                        
+                        // position
+                        Matrix4.CreateTranslation(new Vector3(Position)) *
+                        
+                        // undo parent scale
+                        Matrix4.Invert(Matrix4.CreateScale(p.ExtractScale())) *
+                        
+                        // parent transforms
+                        p*
+                        
+                        Matrix4.Identity;
 
                 }
 

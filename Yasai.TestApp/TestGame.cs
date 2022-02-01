@@ -27,8 +27,9 @@ namespace Yasai.TestApp
             Root.Add(child = new Box
             {
                 Colour = Color.Red,
-                Position = new Vector2(0.25f),
+                Position = new Vector2(1),
                 Origin = Anchor.Right,
+                Size = new Vector2(200),
             });
         }
 
@@ -39,11 +40,11 @@ namespace Yasai.TestApp
             s += 0.01f;
 
             child.Rotation = s;
+            child.X += 2f;
             
             child.p =
                 Matrix4.CreateTranslation(1,1,0) * 
                 Matrix4.CreateRotationZ(s) *
-                Matrix4.CreateScale(new Vector3(80)) *
                 Matrix4.CreateTranslation(300,300,0) *
                 Matrix4.Identity;
 
