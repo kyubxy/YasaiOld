@@ -176,7 +176,10 @@ namespace Yasai.Graphics
                 }
                 else
                 {
-                    ret = 
+                   //Console.WriteLine(
+                   //    Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)).ExtractTranslation());
+                                         ret = 
+                          Matrix4.CreateTranslation(new Vector3(-AnchorToUnit(Origin) * 2 + new Vector2(1))) *
                           Matrix4.CreateRotationZ(Rotation) *
                           Matrix4.CreateTranslation(new Vector3(Position)) *
                           p*

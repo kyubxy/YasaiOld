@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using Yasai.Graphics;
@@ -28,7 +27,8 @@ namespace Yasai.TestApp
             Root.Add(child = new Box
             {
                 Colour = Color.Red,
-                Position = new Vector2(0.25f)
+                Position = new Vector2(0.25f),
+                Origin = Anchor.Right,
             });
         }
 
@@ -39,7 +39,6 @@ namespace Yasai.TestApp
             s += 0.01f;
 
             child.Rotation = s;
-            child.X += 0.01f;
             
             child.p =
                 Matrix4.CreateTranslation(1,1,0) * 
