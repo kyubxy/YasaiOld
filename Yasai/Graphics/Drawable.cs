@@ -101,7 +101,7 @@ namespace Yasai.Graphics
                 var originalSize = AbsoluteTransform.Size / 2;
 
                 Vector2 ret;
-                
+
                 switch (RelativeAxes)
                 {
                     case Axes.None:
@@ -117,35 +117,98 @@ namespace Yasai.Graphics
                         ret = new Vector2(originalSize.X, parentTransform.Size.Y * originalSize.Y);
                         break;
                     default:
-                        throw new SwitchExpressionException(); 
+                        throw new SwitchExpressionException();
                 }
 
                 return ret;
             }
         }
 
+        public Matrix4 p = Matrix4.Identity;
+
         // TODO: make this not suck
         // how to actually draw
         // i have no idea what im doing
-        public Matrix4 ModelTransforms =>
-            // origin
-            Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)) *
-            
-            // rotation
-            Matrix4.CreateRotationZ(AbsoluteTransform.Rotation) *
-            
-            // undo origin
-            Matrix4.Invert(Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1))) *
-            
-            // move back to top left
-            Matrix4.CreateTranslation(1, 1, 0) *
-            
-            // scale
-            Matrix4.CreateScale(new Vector3(sizing)) *
-            
-            // position
-            Matrix4.CreateTranslation(new Vector3(AbsoluteTransform.Position)) *
-            Matrix4.Identity;
+        public Matrix4 ModelTransforms {
+            get
+            {
+                /*
+                var ret =  
+                    // origin
+                    Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)) *
+
+                    // parent rotation
+                    Matrix4.CreateRotationZ(p.ExtractRotation().Z) *
+
+                    // local rotation
+                    Matrix4.CreateRotationZ(Rotation) *
+
+                    // scale
+                    Matrix4.CreateScale(new Vector3(sizing)) *
+
+                    // parent position
+                    Matrix4.CreateTranslation(p.ExtractTranslation()) *
+
+                    // local position
+                    Matrix4.CreateTranslation(new Vector3(Position)) *
+
+                    Matrix4.Identity;
+                    */
+
+                Matrix4 ret;
+
+                if (p == Matrix4.Identity)
+                {
+                    ret = 
+                    // origin
+                    Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)) *
+
+                    // local rotation
+                    Matrix4.CreateRotationZ(Rotation) *
+
+                    // scale
+                    Matrix4.CreateScale(new Vector3(sizing)) *
+
+                    // local position
+                    Matrix4.CreateTranslation(new Vector3(Position)) *
+
+                    Matrix4.Identity;
+                }
+                else
+                {
+                    ret = 
+                          Matrix4.CreateRotationZ(Rotation) *
+                          Matrix4.CreateTranslation(new Vector3(Position)) *
+                          p*
+                          Matrix4.Identity;
+
+                }
+
+
+                return ret;
+            }
+        }
+
+    /*
+    // origin
+    Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1)) *
+    
+    // rotation
+    Matrix4.CreateRotationZ(AbsoluteTransform.Rotation) *
+    
+    // undo origin
+    Matrix4.Invert(Matrix4.CreateTranslation(-new Vector3(AnchorToUnit(Origin)) * 2 + new Vector3(1))) *
+    
+    // move back to top left
+    Matrix4.CreateTranslation(1, 1, 0) *
+    
+    // scale
+    Matrix4.CreateScale(new Vector3(sizing)) *
+    
+    // position
+    Matrix4.CreateTranslation(new Vector3(AbsoluteTransform.Position)) *
+    Matrix4.Identity;
+    */
 
         public virtual bool Loaded { get; protected set; }
 

@@ -40,8 +40,7 @@ namespace Yasai
         
         public GameBase(string title, GameWindowSettings gameSettings, NativeWindowSettings nativeSettings, string[] args = null)
         {
-            // disclaimers
-            YasaiLogger.LogInfo("Yasai is and always will be free and open source software");
+            YasaiLogger.LogInfo("we're in!");
             
             // TODO: actually allow modifying of arguments
             YasaiArgs = new YasaiArgs()
@@ -54,16 +53,7 @@ namespace Yasai
             YasaiLogger.LogInfo("opening window...");
             Window = new GameWindow(gameSettings, nativeSettings);
             Window.Title = title;
-
-            // info dump
-            YasaiLogger.LogInfo("-- Hardware --");
-            YasaiLogger.LogInfo($"Version:    {GL.GetString(StringName.Version)}");
-            YasaiLogger.LogInfo($"Vendor:     {GL.GetString(StringName.Vendor)}");
-            YasaiLogger.LogInfo($"Renderer:   {GL.GetString(StringName.Renderer)}");
-            YasaiLogger.LogInfo($"SL Version: {GL.GetString(StringName.ShadingLanguageVersion)}");
-            YasaiLogger.LogInfo($"Extensions: {GL.GetString(StringName.Extensions)}");
-            YasaiLogger.LogInfo("----");
-
+            
             // events
             Window.Load += () => Load(Dependencies);
             Window.Unload += () => Unload(Dependencies);
@@ -96,6 +86,23 @@ namespace Yasai
                                      "Please see the licensing page at https://www.un4seen.com/");
                 Bass.Init();
             }
+
+            // info dump
+            YasaiLogger.LogInfo("-- Info --");
+            YasaiLogger.LogInfo("OpenGL");
+            YasaiLogger.LogInfo($"OpenGL Version:    {GL.GetString(StringName.Version)}");
+            YasaiLogger.LogInfo($"Vendor:            {GL.GetString(StringName.Vendor)}");
+            YasaiLogger.LogInfo($"Renderer:          {GL.GetString(StringName.Renderer)}");
+            YasaiLogger.LogInfo($"SL Version:        {GL.GetString(StringName.ShadingLanguageVersion)}");
+            YasaiLogger.LogInfo($"Extensions:        {GL.GetString(StringName.Extensions)}");
+            YasaiLogger.LogInfo("Bass");
+            YasaiLogger.LogInfo($"Bass Version:         {Bass.Version}");
+            YasaiLogger.LogInfo($"Certified driver:     {Bass.Info.IsCertified}");
+            YasaiLogger.LogInfo($"Direct sound version: {Bass.Info.DSVersion}");
+            YasaiLogger.LogInfo($"Speaker count:        {Bass.Info.SpeakerCount}");
+            YasaiLogger.LogInfo($"Sample rate:          {Bass.Info.SampleRate}");
+            YasaiLogger.LogInfo($"Init flags:           {Bass.Info.InitFlags}");
+            YasaiLogger.LogInfo("----");
             
             // Initialise dependencies
             YasaiLogger.LogInfo("setting up dependencies...");
