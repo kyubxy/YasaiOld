@@ -1,4 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.Common;
 using Yasai.Structures.DI;
 
 namespace Yasai.Graphics.Primitives
@@ -22,6 +23,15 @@ namespace Yasai.Graphics.Primitives
             // ElementBufferObject
             elementBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, Indices.Length * sizeof(uint), Indices, BufferUsageHint.StaticDraw);
+        }
+
+        public override void Draw()
+        {
+            base.Draw();
+            
+            // this has truly turned into a true shitshow
+            GL.BufferData(BufferTarget.ArrayBuffer, Vertices.Length * sizeof(float), Vertices, BufferUsageHint.StaticDraw);
             GL.BufferData(BufferTarget.ElementArrayBuffer, Indices.Length * sizeof(uint), Indices, BufferUsageHint.StaticDraw);
         }
 

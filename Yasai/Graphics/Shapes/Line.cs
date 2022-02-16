@@ -9,6 +9,8 @@ namespace Yasai.Graphics.Shapes
 {
     public class Line : PLine
     {
+        public override Vector2 Size => new(1);
+
         public override void Load(DependencyContainer container)
         {
             base.Load(container);
